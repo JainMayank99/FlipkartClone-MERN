@@ -1,6 +1,6 @@
 var mongoose = require("mongoose");
 const crypto = require("crypto");
-const uuidv1 = require("uuid/v1");
+const uuidv1 = require("uuid/v1")
 const { ObjectId } = mongoose.Schema;
 
 var userSchema = new mongoose.Schema(
@@ -13,7 +13,7 @@ var userSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: true,
+      // required: true,
       unique: true,
     },
     role: {
@@ -24,8 +24,16 @@ var userSchema = new mongoose.Schema(
     phone: {
       type: Number,
       default: 0,
+      required: true,
+      unique: true
     },
-    address: String,
+    address: {
+      defaultAddress: {
+        default: "",
+        type: String
+      },
+      addressess: [String]
+    },
     password: {
       salt: String,
       encryPass: {
@@ -33,35 +41,33 @@ var userSchema = new mongoose.Schema(
         required: true,
       },
     },
-    previousOrders: [
-      {
-        product: {
-          type: ObjectId,
-          ref: "Product",
-        },
+    wishListItems: [ProductSchema],
+    Cart: [{
+      Product: ProductSchema,
+      Quantity: {
+        type: Number,
+        default: 1,
       },
-    ],
-    wishlistItems: [
-      {
-        product: {
-          type: ObjectId,
-          ref: "Product",
-        },
-      },
-    ],
+      isSavedForLater: {
+        type: Boolean,
+        default: false
+      }
+    }],
+    Suggestion: [CategorySchema],
+    MyProducts: [ProductSchema]//For Role 1 only (Sellers)
   },
   { timestamps: true }
 );
 
 userSchema
-  .virtual("password")
+  .path("password")
   .set(function (password) {
-    this._password = password;
+    this._pass = password;
     this.password.salt = uuidv1();
     this.password.encryPass = this.securePassword(password);
   })
   .get(function () {
-    return this._password;
+    return this._pass;
   });
 
 userSchema.methods = {
@@ -82,4 +88,4 @@ userSchema.methods = {
   },
 };
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model("UserSchema", userSchema);
