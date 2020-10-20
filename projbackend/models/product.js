@@ -1,7 +1,7 @@
 var mongoose = require("mongoose");
+const { ObjectId } = mongoose.Schema
 
-
-var productSchema = new mongoose.Schema({
+const productSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -29,30 +29,38 @@ var productSchema = new mongoose.Schema({
     stock: {
         type: Number,
         default: 0,
-        required: true,
+        required: true
     },
     price: {
         amount: {
             type: Number,
-            required: true
+            required: true,
+            default: 0
         }, discount: {
             type: Number,
             required: true,
             default: 0
         }
     },
-    category: CategorySchema,
+    category: {
+        type: ObjectId,
+        ref: "CategorySchema"
+    },
     Reviews: [{
-        user: UserSchema,
+        user: {
+            type: ObjectId,
+            ref: "UserSchema"
+        },
         starCount: {
             type: Number,
             default: 0,
         },
         reviewText: {
             type: String,
+            maxlength: 100
         }
     }],
-    updateTimer: {
+    updateTimer: {//in Minutes
         processing: {
             type: Number
         },
@@ -63,7 +71,10 @@ var productSchema = new mongoose.Schema({
             type: Number
         },
     },
-    sellerDetails: UserSchema
+    sellerDetails: {
+        type: ObjectId,
+        ref: "UserSchema"
+    }
 }, { timestamps: true })
 
 

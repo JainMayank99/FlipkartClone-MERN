@@ -1,7 +1,7 @@
 var mongoose = require("mongoose");
 const crypto = require("crypto");
-const uuidv1 = require("uuid/v1")
-const { ObjectId } = mongoose.Schema;
+const { v1: uuidv1 } = require('uuid');
+const { ObjectId } = mongoose.Schema
 
 var userSchema = new mongoose.Schema(
   {
@@ -9,17 +9,19 @@ var userSchema = new mongoose.Schema(
       type: String,
       required: true,
       maxlength: 32,
-      trim: true,
+      trim: true
     },
     email: {
       type: String,
       // required: true,
       unique: true,
+      default: ""
     },
     role: {
       type: Number,
       default: 0,
       required: true,
+      trim: true
     },
     phone: {
       type: Number,
@@ -34,16 +36,20 @@ var userSchema = new mongoose.Schema(
       },
       addressess: [String]
     },
-    password: {
-      salt: String,
-      encryPass: {
-        type: String,
-        required: true,
-      },
+    encry_password: {
+      type: String,
+      required: true,
     },
-    wishListItems: [ProductSchema],
+    salt: String,
+    wishListItems: [{
+      type: ObjectId,
+      ref: "ProductSchema"
+    }],
     Cart: [{
-      Product: ProductSchema,
+      Product: {
+        type: ObjectId,
+        ref: "ProductSchema"
+      },
       Quantity: {
         type: Number,
         default: 1,
@@ -53,25 +59,32 @@ var userSchema = new mongoose.Schema(
         default: false
       }
     }],
-    Suggestion: [CategorySchema],
-    MyProducts: [ProductSchema]//For Role 1 only (Sellers)
+    Suggestion: [{
+      type: ObjectId,
+      ref: "CategorySchema"
+    }],
+    MyProducts: [{
+      type: ObjectId,
+      ref: "ProductSchema"
+    }]//For Role 1 only (Sellers)
   },
   { timestamps: true }
 );
 
 userSchema
-  .path("password")
+  .virtual("password")
   .set(function (password) {
-    this._pass = password;
-    this.password.salt = uuidv1();
-    this.password.encryPass = this.securePassword(password);
+    this._password = password
+    this.salt = uuidv1()
+    this.encry_password = this.securePassword(password);
   })
   .get(function () {
-    return this._pass;
+    return this._password
   });
 
+
 userSchema.methods = {
-  autheticate: function (plainpassword) {
+  authenticate: function (plainpassword) {
     return this.securePassword(plainpassword) === this.encry_password;
   },
 
