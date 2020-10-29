@@ -9,11 +9,14 @@ const cors = require("cors")
 
 // //My Routes
 const authRoutes = require("./routes/auth");
-// const userRoutes = require("./routes/user");
-// const sellerRoutes = require("./routes/seller");
-// const adminRoutes = require("./routes/admin");
+const userRoutes = require("./routes/user");
+
 // const productRoutes = require("./routes/product");
 // const orderRoutes = require("./routes/order");
+
+// const sellerRoutes = require("./routes/seller");
+// const adminRoutes = require("./routes/admin");
+
 // const homeScreenRoutes = require("./routes/homeScreen");
 // const productSearchRoutes = require("./routes/productSearch");
 
@@ -41,11 +44,14 @@ app.use(cors());
 
 // //Routes
 app.use("/api", authRoutes);
-// app.use("/api", userRoutes);
-// app.use("/api", sellerRoutes);
-// app.use("/api", adminRoutes);
+app.use("/api", userRoutes);
+
 // app.use("/api", productRoutes);
 // app.use("/api", orderRoutes);
+
+// app.use("/api", sellerRoutes);
+// app.use("/api", adminRoutes);
+
 // app.use("/api", homeScreenRoutes);
 // app.use("/api", productSearchRoutes);
 

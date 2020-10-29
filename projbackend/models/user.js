@@ -1,6 +1,7 @@
 var mongoose = require("mongoose");
 const crypto = require("crypto");
 const { v1: uuidv1 } = require('uuid');
+const { kMaxLength } = require("buffer");
 const { ObjectId } = mongoose.Schema
 
 var userSchema = new mongoose.Schema(
@@ -66,7 +67,12 @@ var userSchema = new mongoose.Schema(
     MyProducts: [{
       type: ObjectId,
       ref: "ProductSchema"
-    }]//For Role 1 only (Sellers)
+    }],//For Role 1 only (Sellers)
+    AddharNo: {
+      type: String,
+      maxLength: 12
+    }
+    //otp object
   },
   { timestamps: true }
 );
