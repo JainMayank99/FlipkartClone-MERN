@@ -24,8 +24,8 @@ const productSchema = new mongoose.Schema({
             type: String,
             required: true,
             default: ""
-        }
-    }],
+        },
+    }],//from frontend only take 4
     stock: {
         type: Number,
         default: 0,
@@ -41,10 +41,6 @@ const productSchema = new mongoose.Schema({
             required: true,
             default: 0
         }
-    },
-    category: {
-        type: ObjectId,
-        ref: "CategorySchema"
     },
     Reviews: [{
         user: {
@@ -70,6 +66,10 @@ const productSchema = new mongoose.Schema({
         delivery: {
             type: Number
         },
+    },
+    category: {
+        type: ObjectId,
+        ref: "CategorySchema"
     },
     sellerDetails: {
         type: ObjectId,

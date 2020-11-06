@@ -169,3 +169,23 @@ exports.isAuthenticated = (req, res, next) => {
     }
     next();
 };
+
+// exports.isSeller = (req, res, next) => {
+//     console.log(req.profile);
+//     if (req.profile.role != 1) {
+//         return res.status(400).json({
+//             error: "User not a seller"
+//         })
+//     }
+//     next();
+// }
+
+// exports.isAdmin = (req, res, next) => {
+//     if (req.profile.role != 2) {
+//         return res.status(400).json({
+//             error: "User not a admin"
+//         })
+//     }
+//     next();
+// }
+
