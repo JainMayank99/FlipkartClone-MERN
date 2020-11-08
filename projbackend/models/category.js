@@ -10,9 +10,8 @@ const categorySchema = new mongoose.Schema(
       unique: true,
     },
     SubCategoryName: {
-      type: String,
-      trim: true,
-      required: true,
+      type: [String],
+      default: [],
       maxlength: 32,
     }
   },

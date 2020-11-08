@@ -14,19 +14,6 @@ exports.getUserById = (req, res, next, id) => {
 }
 
 
-
-exports.isAuthorized = (req, res, next) => {
-    // console.log(req.profile);
-    if (req.profile.role == 1 || req.profile.role == 2) {
-        next();
-    }
-    else {
-        return res.status(400).json({
-            error: "User not a seller"
-        })
-    }
-}
-
 exports.getUserDetails = (req, res) => {
     const id = req.profile._id;
     UserSchema.findById(id).exec((err, user) => {

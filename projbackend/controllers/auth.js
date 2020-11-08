@@ -158,9 +158,12 @@ exports.isSignedIn = expressJwt({
 });
 
 //custom MiddleWares
-//req.profile is set up by frontend and also by getUserById controller
+//req.profile is set up by getUserById  controller
 exports.isAuthenticated = (req, res, next) => {
     let checker = req.profile && req.auth && req.profile._id == req.auth._id;
+
+    // console.log(req.profile);
+    // console.log(req.auth);
 
     if (!checker) {
         return res.status(403).json({
@@ -170,22 +173,35 @@ exports.isAuthenticated = (req, res, next) => {
     next();
 };
 
-// exports.isSeller = (req, res, next) => {
-//     console.log(req.profile);
-//     if (req.profile.role != 1) {
-//         return res.status(400).json({
-//             error: "User not a seller"
-//         })
-//     }
-//     next();
-// }
+exports.isSeller = (req, res, next) => {
+    // console.log(req.profile);
+    if (req.profile.role != 1) {
+        return res.status(400).json({
+            error: "User not a Seller"
+        })
+    }
+    next();
+}
 
-// exports.isAdmin = (req, res, next) => {
-//     if (req.profile.role != 2) {
-//         return res.status(400).json({
-//             error: "User not a admin"
-//         })
-//     }
-//     next();
-// }
+exports.isAdmin = (req, res, next) => {
+    if (req.profile.role != 2) {
+        return res.status(400).json({
+            error: "User not an Admin"
+        })
+    }
+    next();
+}
 
+
+//middle ware to check if user is seller or admin
+exports.isAuthorized = (req, res, next) => {
+    // console.log(req.profile);
+    if (req.profile.role == 1 || req.profile.role == 2) {
+        next();
+    }
+    else {
+        return res.status(400).json({
+            error: "User not a Authorized"
+        })
+    }
+}

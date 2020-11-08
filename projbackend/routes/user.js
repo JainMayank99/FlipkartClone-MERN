@@ -8,9 +8,6 @@ const { isSignedIn, isAuthenticated } = require("../controllers/auth")
 //parameter extractor
 router.param("userId", getUserById)
 
-//to check if role==1||2
-router.param("userId", isAuthorized)
-
 //getUserDetails
 router.get("/getUserDetails/:userId", isSignedIn, isAuthenticated, getUserDetails)
 
