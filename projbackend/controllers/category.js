@@ -57,7 +57,65 @@ exports.removeCategory = (req, res) => {
         (err, cate) => {
             if (err || !cate) {
                 return res.status(400).json({
-                    err: 'DB error or category not updated',
+                    err: 'DB Error or Category not Deleted',
+                });
+            }
+            return res.json(cate)
+        }
+    )
+}
+
+exports.addSubCategory = (req, res) => {
+    const subCate = new CategorySchema();
+    subCate.CategoryName = req.body.SubCategoryName
+    subCate.parentId = req.category._id;
+
+    subCate.save((err, cate) => {
+        if (err) {
+            return res.status(400).json({
+                err: 'NOT able to save Category in DB !',
+            });
+        }
+        return res.json(cate)
+    })
+}
+
+exports.getAllSubCategoryToACategory = (req, res) => {
+    CategorySchema.find({ parentId: req.category },
+        (err, cate) => {
+            if (err || !cate) {
+                return res.status(400).json({
+                    err: 'DB error or No SubCategory found',
+                });
+            }
+
+            return res.json(cate)
+        })
+}
+
+exports.updateSubCategory = (req, res) => {
+    // const CategoryName = req.body.SubCategoryName
+    CategorySchema.findByIdAndUpdate(
+        { _id: req.category._id },
+        { CategoryName: req.body.SubCategoryName },
+        { new: true, useFindAndModify: false },
+        (err, cate) => {
+            if (err || !cate) {
+                return res.status(400).json({
+                    err: 'DB error or Subcategory not updated',
+                });
+            }
+            return res.json(cate)
+        })
+}
+
+exports.removeSubCategory = (req, res) => {
+    CategorySchema.findByIdAndDelete(
+        { _id: req.category._id },
+        (err, cate) => {
+            if (err || !cate) {
+                return res.status(400).json({
+                    err: 'DB error or Subcategory not Deleted',
                 });
             }
             return res.json(cate)
