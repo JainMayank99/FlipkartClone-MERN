@@ -26,7 +26,7 @@ exports.addCategory = (req, res) => {
 }
 
 exports.getAllCategory = (req, res) => {
-    CategorySchema.find((err, cate) => {
+    CategorySchema.find({ parentId: null }, (err, cate) => {
         if (err || !cate) {
             return res.status(400).json({
                 err: 'DB error or No category found',

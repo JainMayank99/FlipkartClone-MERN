@@ -12,4 +12,6 @@ exports.getProductById = (req, res, next, id) => {
     })
 }
 
+exports.addProduct = (req, res) => {
 
+}

@@ -173,6 +173,8 @@ exports.isAuthenticated = (req, res, next) => {
     next();
 };
 
+
+//middleware for checking user is seller or not
 exports.isSeller = (req, res, next) => {
     // console.log(req.profile);
     if (req.profile.role != 1) {
@@ -183,6 +185,7 @@ exports.isSeller = (req, res, next) => {
     next();
 }
 
+//middleware for checking user is admin or not
 exports.isAdmin = (req, res, next) => {
     if (req.profile.role != 2) {
         return res.status(400).json({
