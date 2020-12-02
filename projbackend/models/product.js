@@ -32,15 +32,14 @@ const productSchema = new mongoose.Schema({
         required: true
     },
     price: {
-        amount: {
-            type: Number,
-            required: true,
-            default: 0
-        }, discount: {
-            type: Number,
-            required: true,
-            default: 0
-        }
+        type: Number,
+        required: true,
+        default: 0
+    },
+    discount: {
+        type: Number,
+        required: true,
+        default: 0
     },
     Reviews: [{
         user: {
@@ -56,17 +55,17 @@ const productSchema = new mongoose.Schema({
             maxlength: 100
         }
     }],
-    updateTimer: {//in Minutes
-        processing: {
-            type: Number
-        },
-        shipping: {
-            type: Number
-        },
-        delivery: {
-            type: Number
-        },
-    },
+    // updateTimer: {//in Minutes
+    //     processing: {
+    //         type: Number
+    //     },
+    //     shipping: {
+    //         type: Number
+    //     },
+    //     delivery: {
+    //         type: Number
+    //     },
+    // },
     category: {
         type: ObjectId,
         ref: "CategorySchema"

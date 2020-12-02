@@ -7,18 +7,15 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors")
 
-// //My Routes
-const authRoutes = require("./routes/auth");
-const userRoutes = require("./routes/user");
+const cloudinary = require('cloudinary');
 
 
-const categoryRoutes = require("./routes/category");
-// const productRoutes = require("./routes/product");
-// const orderRoutes = require("./routes/order");
-
-// const homeScreenRoutes = require("./routes/homeScreen");
-// const productSearchRoutes = require("./routes/productSearch");
-
+cloudinary
+    .config({
+        cloud_name: process.env.CLOUDNAME,
+        api_key: process.env.CLOUDINARYAPIKEY,
+        api_secret: process.env.CLOUDINARYAPISECRET,
+    });
 
 
 //DB Connection
@@ -32,8 +29,20 @@ mongoose
     .then(() => {
         console.log("DB CONNECTED");
     }).catch(() => {
-        console.log("Error with DB Connection");
+        console.log("Error in DB Connection");
     });
+
+
+//My Routes
+const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/user");
+
+const categoryRoutes = require("./routes/category");
+const productRoutes = require("./routes/product");
+// const orderRoutes = require("./routes/order");
+
+// const homeScreenRoutes = require("./routes/homeScreen");
+// const productSearchRoutes = require("./routes/productSearch");
 
 
 //Middlewares
@@ -46,7 +55,7 @@ app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 
 app.use("/api", categoryRoutes);
-// app.use("/api", productRoutes);
+app.use("/api", productRoutes);
 // app.use("/api", orderRoutes);
 
 // app.use("/api", homeScreenRoutes);
