@@ -39,21 +39,12 @@ const productSchema = new mongoose.Schema({
     discount: {
         type: Number,
         required: true,
-        default: 0
+        default: 0,
+        max: 99
     },
     Reviews: [{
-        user: {
-            type: ObjectId,
-            ref: "UserSchema"
-        },
-        starCount: {
-            type: Number,
-            default: 0,
-        },
-        reviewText: {
-            type: String,
-            maxlength: 100
-        }
+        type: ObjectId,
+        ref: "ReviewSchema"
     }],
     // updateTimer: {//in Minutes
     //     processing: {

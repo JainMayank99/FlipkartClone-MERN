@@ -20,7 +20,7 @@ cloudinary
 
 //DB Connection
 mongoose
-    .connect('mongodb://localhost:27017/FlipClone', {
+    .connect(process.env.DATABASE, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useCreateIndex: true,
