@@ -11,12 +11,12 @@ var userSchema = new mongoose.Schema(
       maxlength: 32,
       trim: true
     },
-    email: {
-      type: String,
-      // required: true,
-      unique: true,
-      default: ""
-    },
+    // email: {
+    //   type: String,
+    //   // required: true,
+    //   unique: true,
+    //   default: ""
+    // },
     role: {
       type: Number,
       default: 0,
@@ -41,32 +41,28 @@ var userSchema = new mongoose.Schema(
       required: true,
     },
     salt: String,
-    wishListItems: [{
-      type: ObjectId,
-      ref: "ProductSchema"
-    }],
-    Cart: [{
-      Product: {
-        type: ObjectId,
-        ref: "ProductSchema"
-      },
-      Quantity: {
-        type: Number,
-        default: 1,
-      },
-      isSavedForLater: {
-        type: Boolean,
-        default: false
-      }
-    }],
+    // Cart: [{
+    //   Product: {
+    //     type: ObjectId,
+    //     ref: "ProductSchema"
+    //   },
+    //   Quantity: {
+    //     type: Number,
+    //     default: 1,
+    //   },
+    //   isSavedForLater: {
+    //     type: Boolean,
+    //     default: false
+    //   }
+    // }],
     Suggestion: [{
       type: ObjectId,
       ref: "CategorySchema"
     }],
-    MyProducts: [{
-      type: ObjectId,
-      ref: "ProductSchema"
-    }],//For Role 1 only (Sellers)
+    // MyProducts: [{
+    //   type: ObjectId,
+    //   ref: "ProductSchema"
+    // }],//For Role 1 only (Sellers)
     AddharNo: {
       type: String,
       maxLength: 12

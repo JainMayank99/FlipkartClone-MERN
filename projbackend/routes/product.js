@@ -7,6 +7,7 @@ const {
     isSeller,
     isAuthorized
 } = require("../controllers/auth")
+
 const { getUserById } = require("../controllers/user")
 const { getCategoryById, } = require("../controllers/category")
 const {
@@ -18,7 +19,6 @@ const {
     updateProduct,
     removeProduct
 } = require("../controllers/product")
-
 
 //parameter extractor
 router.param("userId", getUserById)

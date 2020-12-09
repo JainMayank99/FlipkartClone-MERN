@@ -39,6 +39,7 @@ const userRoutes = require("./routes/user");
 
 const categoryRoutes = require("./routes/category");
 const productRoutes = require("./routes/product");
+const wishListRoutes = require("./routes/wishlist");
 // const orderRoutes = require("./routes/order");
 
 // const homeScreenRoutes = require("./routes/homeScreen");
@@ -56,6 +57,7 @@ app.use("/api", userRoutes);
 
 app.use("/api", categoryRoutes);
 app.use("/api", productRoutes);
+app.use("/api", wishListRoutes);
 // app.use("/api", orderRoutes);
 
 // app.use("/api", homeScreenRoutes);

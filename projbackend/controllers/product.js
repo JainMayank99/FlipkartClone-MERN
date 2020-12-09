@@ -290,9 +290,10 @@ exports.removeProduct = (req, res) => {
                 error: "Failed to delete the product"
             });
         }
-        res.json({
+        return res.json({
             message: "Deletion was a success",
             deletedProduct
         });
     });
 }
+
