@@ -9,14 +9,12 @@ const cors = require("cors")
 
 const cloudinary = require('cloudinary');
 
-
 cloudinary
     .config({
         cloud_name: process.env.CLOUDNAME,
         api_key: process.env.CLOUDINARYAPIKEY,
         api_secret: process.env.CLOUDINARYAPISECRET,
     });
-
 
 //DB Connection
 mongoose
@@ -36,7 +34,7 @@ mongoose
 //My Routes
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
-
+const addressRoutes = require("./routes/address");
 const categoryRoutes = require("./routes/category");
 const productRoutes = require("./routes/product");
 const wishListRoutes = require("./routes/wishlist");
@@ -55,7 +53,7 @@ app.use(cors());
 // //Routes
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
-
+app.use("/api", addressRoutes)
 app.use("/api", categoryRoutes);
 app.use("/api", productRoutes);
 app.use("/api", wishListRoutes);

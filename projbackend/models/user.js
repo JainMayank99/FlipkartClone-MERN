@@ -32,9 +32,10 @@ var userSchema = new mongoose.Schema(
     address: {
       defaultAddress: {
         default: "",
-        type: String
+        type: String,
+        maxLength: 100
       },
-      addressess: [String]
+      addresses: [String]
     },
     encry_password: {
       type: String,
