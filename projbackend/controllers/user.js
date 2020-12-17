@@ -9,6 +9,10 @@ exports.getUserById = (req, res, next, id) => {
             })
         }
         req.profile = user;
+        req.profile.salt = undefined;
+        req.profile.encry_password = undefined;
+        req.profile.createdAt = undefined;
+        req.profile.updatedAt = undefined;
         next();
     })
 }

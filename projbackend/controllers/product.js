@@ -18,6 +18,7 @@ exports.getProductById = (req, res, next, id) => {
         })
 }
 
+//Note: later change the map to for with await
 exports.addProduct = (req, res) => {
     let form = new formidable
         .IncomingForm({

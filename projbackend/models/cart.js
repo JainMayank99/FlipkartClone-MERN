@@ -13,14 +13,14 @@ var cartSchema = new mongoose.Schema({
     Quantity: {
         type: Number,
         default: 1,
+        required: true,
     },
     isSavedForLater: {
         type: Boolean,
-        default: false
+        default: false,
+        required: true,
     }
 })
-
-
 
 
 module.exports = mongoose.model("CartSchema", cartSchema);

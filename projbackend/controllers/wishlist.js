@@ -1,7 +1,4 @@
-const ProductSchema = require('../models/product')
-const UserSchema = require('../models/user')
 const WishListSchema = require('../models/wishlist')
-
 
 exports.addProductToWishList = async (req, res) => {
 
@@ -33,7 +30,7 @@ exports.addProductToWishList = async (req, res) => {
 
 exports.getAllWishListItemsByUserId = async (req, res) => {
     await WishListSchema.find({ user: req.profile._id })
-        .populate("product", "_id name image")
+        .populate("product", "_id name image stock price discount")
         .exec((err, wishlist) => {
             if (err || !wishlist) {
                 return res.status(400).json({
