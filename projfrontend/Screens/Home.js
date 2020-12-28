@@ -24,6 +24,7 @@ import TopPicks from '../components/TopPicks';
 import FeaturedCategories from '../components/FeaturedCategories';
 import DealOfTheDay from '../components/DealOfTheDay';
 import MiniTextBox from '../components/MiniTextBox';
+import PopularTribes from '../components/PopularTribes';
 
 const Home = () => {
     const { width, height } = Dimensions.get('window');
@@ -156,7 +157,7 @@ const Home = () => {
 
                 <DealOfTheDay />
                 <MiniTextBox data={minData} />
-
+                <PopularTribes />
                 <ScrollView>
                     <View style={{ padding: 20 }}>
                         <Text style={{ fontSize: 22, fontWeight: 'bold' }}>

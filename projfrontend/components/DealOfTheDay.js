@@ -64,7 +64,7 @@ const DealOfTheDay = () => {
                     }}
                 />
                 <Text style={styles.text}>Deals Of The Day</Text>
-                <Text style={styles.view}>View All</Text>
+                {/* <Text style={styles.view}>View All</Text>
                 <Image
                     source={imageChevron.uri}
                     style={{
@@ -75,7 +75,7 @@ const DealOfTheDay = () => {
                         height: 20,
                         bottom: 15,
                     }}
-                />
+                /> */}
             </View>
 
             <FlatList
