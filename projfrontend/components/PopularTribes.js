@@ -17,38 +17,43 @@ const PopularTribes = () => {
             key: '1',
             desc:
                 'After Thanos, an intergalactic warlord, disintegrates half of the universe, the Avengers must reunite and assemble again to reinvigorate their trounced allies and restore balance.',
+            location: 'Bangalore',
         },
         {
-            image: require('../assets/states/bangalore.png'),
+            image: require('../assets/states/rajasthan.png'),
             title: 'Frozen II',
             released: '2019 ‧ Animation/Musical ‧ 1h 43m',
             key: '2',
             desc:
                 'Elsa the Snow Queen has an extraordinary gift -- the power to create ice and snow. But no matter how happy she is to be surrounded by the people of Arendelle, Elsa finds herself strangely unsettled.',
+            location: 'Rajasthan',
         },
         {
-            image: require('../assets/states/bangalore.png'),
+            image: require('../assets/states/gujarat.png'),
             title: 'Alita: Battle Angel',
             released: '2019 ‧ Action/Sci-fi ‧ 2h 2m',
             key: '3',
             desc:
                 'Alita, a battle cyborg, is revived by Ido, a doctor, who realises that she actually has the soul of a teenager. Alita then sets out to learn about her past and find her true identity.',
+            location: 'Gujarat',
         },
         {
-            image: require('../assets/states/bangalore.png'),
+            image: require('../assets/states/westbengal.png'),
             title: 'The Irish Man',
             released: '2019 ‧ Crime/Drama ‧ 3h 30m',
             key: '4',
             desc:
                 'In the 1950s, truck driver Frank Sheeran gets involved with Russell Bufalino and his Pennsylvania crime family. As Sheeran climbs the ranks to become a top hit man, he also goes to work for Jimmy Hoffa.',
+            location: 'WestBengal',
         },
         {
-            image: require('../assets/states/bangalore.png'),
-            title: 'John Wick Chapter 3',
-            released: '2019 ‧ Action/Thriller ‧ 2h 10m',
-            key: '5',
+            image: require('../assets/states/westbengal.png'),
+            title: 'The Irish Man',
+            released: '2019 ‧ Crime/Drama ‧ 3h 30m',
+            key: '65',
             desc:
-                'John Wick is declared excommunicado and a hefty bounty is set on him after he murders an international crime lord. He sets out to seek help to save himself from ruthless hitmen and bounty hunters.',
+                'In the 1950s, truck driver Frank Sheeran gets involved with Russell Bufalino and his Pennsylvania crime family. As Sheeran climbs the ranks to become a top hit man, he also goes to work for Jimmy Hoffa.',
+            location: 'WestBengal',
         },
     ]);
 
@@ -84,10 +89,17 @@ const PopularTribes = () => {
                         <View
                             style={{
                                 marginLeft: 8,
-                                paddingBottom: 16,
+                                paddingBottom: 42,
                                 paddingHorizontal: 8,
                             }}>
-                            <TouchableOpacity>
+                            <TouchableOpacity
+                                style={{
+                                    width: 80,
+                                    height: 80,
+                                    borderRadius: 40,
+                                    borderWidth: 0.25,
+                                    borderColor: '#f7f7f7',
+                                }}>
                                 <Image
                                     source={item.image}
                                     style={{
@@ -97,11 +109,14 @@ const PopularTribes = () => {
                                         resizeMode: 'cover',
                                     }}
                                 />
-                                {/* <View style={styles.discountBox}>
+                                <View style={styles.discountBox}>
                                     <Text style={styles.textDiscount}>
-                                        50% OFF
+                                        Tribes
                                     </Text>
-                                </View> */}
+                                    <Text style={styles.textDiscount}>
+                                        {item.location}
+                                    </Text>
+                                </View>
                             </TouchableOpacity>
                         </View>
                     );
@@ -128,19 +143,15 @@ const styles = StyleSheet.create({
         marginLeft: 3,
     },
     discountBox: {
-        position: 'absolute',
-        bottom: -10,
-        left: 6.25,
         alignItems: 'center',
-        backgroundColor: '#FC8019',
-        width: 75.5,
+        width: 90,
         borderRadius: 5,
         padding: 2,
     },
     textDiscount: {
         fontFamily: 'popins-bold',
         fontSize: 14,
-        color: 'white',
+        color: 'black',
     },
 });
 export default PopularTribes;
