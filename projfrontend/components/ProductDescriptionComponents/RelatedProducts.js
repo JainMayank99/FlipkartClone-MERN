@@ -7,9 +7,8 @@ import {
     Image,
     TouchableOpacity,
 } from 'react-native';
-import { Feather } from '@expo/vector-icons';
 
-const TopRated = () => {
+const RelatedProducts = () => {
     const [gallery, setgallery] = useState([
         {
             image:
@@ -59,7 +58,7 @@ const TopRated = () => {
     ]);
 
     const image = {
-        uri: require('../assets/catIcons/star.png'),
+        uri: require('../../assets/catIcons/thumbs-up.png'),
     };
     return (
         <View
@@ -77,7 +76,7 @@ const TopRated = () => {
                         height: 24,
                     }}
                 />
-                <Text style={styles.text}>Top Rated</Text>
+                <Text style={styles.text}>Related Products</Text>
             </View>
 
             <FlatList
@@ -105,12 +104,7 @@ const TopRated = () => {
                                 />
                                 <View style={styles.discountBox}>
                                     <Text style={styles.textDiscount}>
-                                        <Feather
-                                            name='star'
-                                            size={18}
-                                            style={styles.icon}
-                                        />
-                                        <Text>4.5</Text>/5
+                                        50% OFF
                                     </Text>
                                 </View>
                             </TouchableOpacity>
@@ -128,7 +122,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        padding: 12,
+        padding: 8,
         paddingHorizontal: 16,
     },
     text: {
@@ -149,12 +143,9 @@ const styles = StyleSheet.create({
         padding: 2,
     },
     textDiscount: {
-        fontFamily: 'popins-semibold',
+        fontFamily: 'popins-bold',
         fontSize: 14,
         color: 'white',
     },
-    icon: {
-        color: 'white',
-    },
 });
-export default TopRated;
+export default RelatedProducts;

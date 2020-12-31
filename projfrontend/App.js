@@ -5,6 +5,7 @@ import { AppLoading } from 'expo';
 import HomeScreen from './Screens/HomeScreen';
 import Home from './Screens/Home';
 import Categories from './components/Categories';
+import ProductDescScreen from './Screens/ProductDescScreen';
 
 export default function App() {
     const getFonts = () => {
@@ -12,13 +13,14 @@ export default function App() {
             'popins-reg': require('./assets/fonts/Poppins-Regular.ttf'),
             'popins-med': require('./assets/fonts/Poppins-Medium.ttf'),
             'popins-bold': require('./assets/fonts/Poppins-Bold.ttf'),
+            'popins-semibold': require('./assets/fonts/Poppins-SemiBold.ttf'),
         });
     };
 
     const [fontsLoaded, setFontsLoaded] = useState(false);
 
     if (fontsLoaded) {
-        return <Home />;
+        return <ProductDescScreen />;
     } else {
         return (
             <AppLoading

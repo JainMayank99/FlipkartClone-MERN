@@ -27,6 +27,9 @@ import MiniTextBox from '../components/MiniTextBox';
 import PopularTribes from '../components/PopularTribes';
 import NewlyArrived from '../components/NewlyArrived';
 import InTheSpotlight from '../components/InTheSpotlight';
+import TopRated from '../components/TopRated';
+import BestSellingInCat from '../components/BestSellingInCat';
+import Sell from '../components/Sell';
 
 const Home = () => {
     const { width, height } = Dimensions.get('window');
@@ -159,10 +162,18 @@ const Home = () => {
 
                 <DealOfTheDay />
                 <MiniTextBox data={minData} />
+                <BestSellingInCat />
                 <PopularTribes />
+
                 <NewlyArrived />
                 <InTheSpotlight />
-                <ScrollView>
+
+                <BestSellingInCat />
+                <TopRated />
+                <Sell />
+                <BestSellingInCat />
+
+                {/* <ScrollView>
                     <View style={{ padding: 20 }}>
                         <Text style={{ fontSize: 22, fontWeight: 'bold' }}>
                             Top Trending
@@ -208,7 +219,7 @@ const Home = () => {
                             }}
                         />
                     </View>
-                </ScrollView>
+                </ScrollView> */}
                 {/* 
                 <ScrollView>
                     <View style={styles.carouselContentContainer}>

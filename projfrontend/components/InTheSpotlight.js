@@ -18,6 +18,9 @@ import { Feather } from '@expo/vector-icons';
 const image = {
     uri: require('../assets/catIcons/camera.png'),
 };
+const imageChevron = {
+    uri: require('../assets/catIcons/chevron-right.png'),
+};
 
 const InTheSpotlight = () => {
     const { width, height } = Dimensions.get('window');
@@ -101,6 +104,18 @@ const InTheSpotlight = () => {
                     }}
                 />
                 <Text style={styles.text}>In The Spotlight</Text>
+                <Text style={styles.view}>View All</Text>
+                <Image
+                    source={imageChevron.uri}
+                    style={{
+                        position: 'absolute',
+                        right: 6,
+                        width: 24,
+                        marginRight: 8,
+                        height: 20,
+                        bottom: 19,
+                    }}
+                />
             </View>
             <ScrollView>
                 <View style={styles.carouselContentContainer}>
@@ -137,6 +152,14 @@ const styles = StyleSheet.create({
         color: '#20263e',
         paddingTop: 10,
         marginLeft: 3,
+    },
+    view: {
+        fontFamily: 'popins-bold',
+        fontSize: 18,
+        color: '#20263e',
+        paddingTop: 8,
+        position: 'absolute',
+        right: Dimensions.get('screen').width * 0.10714,
     },
     discountBox: {
         position: 'absolute',

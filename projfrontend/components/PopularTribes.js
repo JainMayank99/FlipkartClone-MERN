@@ -89,7 +89,7 @@ const PopularTribes = () => {
                         <View
                             style={{
                                 marginLeft: 8,
-                                paddingBottom: 42,
+                                paddingBottom: 24,
                                 paddingHorizontal: 8,
                             }}>
                             <TouchableOpacity
@@ -110,9 +110,9 @@ const PopularTribes = () => {
                                     }}
                                 />
                                 <View style={styles.discountBox}>
-                                    <Text style={styles.textDiscount}>
+                                    {/* <Text style={styles.textDiscount}>
                                         Tribes
-                                    </Text>
+                                    </Text> */}
                                     <Text style={styles.textDiscount}>
                                         {item.location}
                                     </Text>
