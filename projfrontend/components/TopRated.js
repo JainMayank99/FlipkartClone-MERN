@@ -12,8 +12,8 @@ import { Feather } from '@expo/vector-icons';
 const TopRated = () => {
     const [gallery, setgallery] = useState([
         {
-            image:
-                'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQA_-tL18_rj9zEcjN6n41NEaJm-kRNF9UeOtvksZ4z_OW6jRA9',
+            image: require('../assets/main/bsj1.jpg'),
+            rating: '4.7',
             title: 'Avengers: End Game',
             released: '2019 ‧ Action/Sci-fi ‧ 3h 2m',
             key: '1',
@@ -21,38 +21,42 @@ const TopRated = () => {
                 'After Thanos, an intergalactic warlord, disintegrates half of the universe, the Avengers must reunite and assemble again to reinvigorate their trounced allies and restore balance.',
         },
         {
-            image:
-                'https://www.spotlightstheatre.co.uk/wordpress/wp-content/uploads/2019/11/f_frozen2_header_mobile_18432_d258f93f.jpeg',
+            image: require('../assets/main/bsc3.jpg'),
             title: 'Frozen II',
             released: '2019 ‧ Animation/Musical ‧ 1h 43m',
+            rating: '4.5',
+
             key: '2',
             desc:
                 'Elsa the Snow Queen has an extraordinary gift -- the power to create ice and snow. But no matter how happy she is to be surrounded by the people of Arendelle, Elsa finds herself strangely unsettled.',
         },
         {
-            image:
-                'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSxo7Naxu0tjuSEZ9_faYL--aWjx8V5TKr4q2YeenYKXXik-T5P',
+            image: require('../assets/main/deal5.webp'),
             title: 'Alita: Battle Angel',
             released: '2019 ‧ Action/Sci-fi ‧ 2h 2m',
+            rating: '4.2',
+
             key: '3',
             desc:
                 'Alita, a battle cyborg, is revived by Ido, a doctor, who realises that she actually has the soul of a teenager. Alita then sets out to learn about her past and find her true identity.',
         },
         {
-            image:
-                'https://www.gstatic.com/tv/thumb/v22vodart/15879807/p15879807_v_v8_aa.jpg',
+            image: require('../assets/main/spot1.webp'),
             title: 'The Irish Man',
             released: '2019 ‧ Crime/Drama ‧ 3h 30m',
+            rating: '4.7',
+
             key: '4',
             desc:
                 'In the 1950s, truck driver Frank Sheeran gets involved with Russell Bufalino and his Pennsylvania crime family. As Sheeran climbs the ranks to become a top hit man, he also goes to work for Jimmy Hoffa.',
         },
         {
-            image:
-                'https://i.pinimg.com/originals/99/03/9a/99039a6afb682e42c9a12556071b38c9.jpg',
+            image: require('../assets/main/deal4.webp'),
             title: 'John Wick Chapter 3',
             released: '2019 ‧ Action/Thriller ‧ 2h 10m',
             key: '5',
+            rating: '5',
+
             desc:
                 'John Wick is declared excommunicado and a hefty bounty is set on him after he murders an international crime lord. He sets out to seek help to save himself from ruthless hitmen and bounty hunters.',
         },
@@ -95,7 +99,7 @@ const TopRated = () => {
                             }}>
                             <TouchableOpacity>
                                 <Image
-                                    source={{ uri: item.image }}
+                                    source={item.image}
                                     style={{
                                         width: 87.5,
                                         height: 105,
@@ -110,7 +114,7 @@ const TopRated = () => {
                                             size={18}
                                             style={styles.icon}
                                         />
-                                        <Text>4.5</Text>/5
+                                        <Text>{item.rating}</Text>/5
                                     </Text>
                                 </View>
                             </TouchableOpacity>

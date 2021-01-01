@@ -11,52 +11,55 @@ import {
 const RelatedProducts = () => {
     const [gallery, setgallery] = useState([
         {
-            image:
-                'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQA_-tL18_rj9zEcjN6n41NEaJm-kRNF9UeOtvksZ4z_OW6jRA9',
-            title: 'Avengers: End Game',
-            released: '2019 ‧ Action/Sci-fi ‧ 3h 2m',
+            image: require('../../assets/main/bsj1.jpg'),
+            title: 'Handcrafted Jewellery Set',
+            cost: '4,500',
             key: '1',
-            desc:
-                'After Thanos, an intergalactic warlord, disintegrates half of the universe, the Avengers must reunite and assemble again to reinvigorate their trounced allies and restore balance.',
+            desc: 'Tribes Karnataka',
+            discount: '30% off',
         },
         {
-            image:
-                'https://www.spotlightstheatre.co.uk/wordpress/wp-content/uploads/2019/11/f_frozen2_header_mobile_18432_d258f93f.jpeg',
-            title: 'Frozen II',
-            released: '2019 ‧ Animation/Musical ‧ 1h 43m',
+            image: require('../../assets/main/bsj2.jpg'),
+            title: 'Temple Jewellery Set',
+            cost: '3,500',
             key: '2',
-            desc:
-                'Elsa the Snow Queen has an extraordinary gift -- the power to create ice and snow. But no matter how happy she is to be surrounded by the people of Arendelle, Elsa finds herself strangely unsettled.',
+            desc: 'Tribes Karnataka',
+            discount: '50% off',
         },
         {
-            image:
-                'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSxo7Naxu0tjuSEZ9_faYL--aWjx8V5TKr4q2YeenYKXXik-T5P',
-            title: 'Alita: Battle Angel',
-            released: '2019 ‧ Action/Sci-fi ‧ 2h 2m',
+            image: require('../../assets/main/bsj3.webp'),
+            title: 'Dome Shaped Studs',
+            cost: '2,750',
             key: '3',
-            desc:
-                'Alita, a battle cyborg, is revived by Ido, a doctor, who realises that she actually has the soul of a teenager. Alita then sets out to learn about her past and find her true identity.',
+            desc: 'Tribes Karnataka',
+            discount: '10% off',
         },
+
         {
-            image:
-                'https://www.gstatic.com/tv/thumb/v22vodart/15879807/p15879807_v_v8_aa.jpg',
-            title: 'The Irish Man',
-            released: '2019 ‧ Crime/Drama ‧ 3h 30m',
+            image: require('../../assets/main/bsj4.jpg'),
+            title: 'Gold Plated Mang Teeka',
+            cost: '1,500',
             key: '4',
-            desc:
-                'In the 1950s, truck driver Frank Sheeran gets involved with Russell Bufalino and his Pennsylvania crime family. As Sheeran climbs the ranks to become a top hit man, he also goes to work for Jimmy Hoffa.',
+            desc: 'Tribes Karnataka',
+            discount: '25% off',
         },
         {
-            image:
-                'https://i.pinimg.com/originals/99/03/9a/99039a6afb682e42c9a12556071b38c9.jpg',
-            title: 'John Wick Chapter 3',
-            released: '2019 ‧ Action/Thriller ‧ 2h 10m',
+            image: require('../../assets/main/bsj5.jpg'),
+            title: 'Gold Plated ring',
+            cost: '2,500',
             key: '5',
-            desc:
-                'John Wick is declared excommunicado and a hefty bounty is set on him after he murders an international crime lord. He sets out to seek help to save himself from ruthless hitmen and bounty hunters.',
+            desc: 'Tribes Karnataka',
+            discount: '20% off',
+        },
+        {
+            image: require('../../assets/main/bsj6.webp'),
+            title: 'Gold Plated Nosepin',
+            cost: '3,700',
+            key: '6',
+            desc: 'Tribes Karnataka',
+            discount: '40% off',
         },
     ]);
-
     const image = {
         uri: require('../../assets/catIcons/thumbs-up.png'),
     };
@@ -94,7 +97,7 @@ const RelatedProducts = () => {
                             }}>
                             <TouchableOpacity>
                                 <Image
-                                    source={{ uri: item.image }}
+                                    source={item.image}
                                     style={{
                                         width: 87.5,
                                         height: 105,
@@ -122,7 +125,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        padding: 8,
+        padding: 4,
         paddingHorizontal: 16,
     },
     text: {

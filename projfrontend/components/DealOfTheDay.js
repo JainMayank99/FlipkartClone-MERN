@@ -13,27 +13,51 @@ const DealOfTheDay = () => {
     const width = Dimensions.get('screen').width;
     const [gallery, setgallery] = useState([
         {
-            image:
-                'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQA_-tL18_rj9zEcjN6n41NEaJm-kRNF9UeOtvksZ4z_OW6jRA9',
-            title: 'Avengers',
+            image: require('../assets/main/deal1.webp'),
+            title: 'Nehru Jackets',
             released: '2019 ‧ Action/Sci-fi ‧ 3h 2m',
             key: '1',
             desc:
                 'After Thanos, an intergalactic warlord, disintegrates half of the universe, the Avengers must reunite and assemble again to reinvigorate their trounced allies and restore balance.',
         },
         {
-            image:
-                'https://www.spotlightstheatre.co.uk/wordpress/wp-content/uploads/2019/11/f_frozen2_header_mobile_18432_d258f93f.jpeg',
-            title: 'Frozen II',
+            image: require('../assets/main/deal2.webp'),
+            title: 'Mitera',
             released: '2019 ‧ Animation/Musical ‧ 1h 43m',
             key: '2',
             desc:
                 'Elsa the Snow Queen has an extraordinary gift -- the power to create ice and snow. But no matter how happy she is to be surrounded by the people of Arendelle, Elsa finds herself strangely unsettled.',
         },
         {
-            image:
-                'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSxo7Naxu0tjuSEZ9_faYL--aWjx8V5TKr4q2YeenYKXXik-T5P',
-            title: 'Alita',
+            image: require('../assets/main/deal3.jpg'),
+            title: 'Priyaasi',
+            released: '2019 ‧ Action/Sci-fi ‧ 2h 2m',
+            key: '3',
+            desc:
+                'Alita, a battle cyborg, is revived by Ido, a doctor, who realises that she actually has the soul of a teenager. Alita then sets out to learn about her past and find her true identity.',
+        },
+    ]);
+
+    const [gallery2, setgallery2] = useState([
+        {
+            image: require('../assets/main/deal4.webp'),
+            title: 'Craft Vatika',
+            released: '2019 ‧ Action/Sci-fi ‧ 3h 2m',
+            key: '1',
+            desc:
+                'After Thanos, an intergalactic warlord, disintegrates half of the universe, the Avengers must reunite and assemble again to reinvigorate their trounced allies and restore balance.',
+        },
+        {
+            image: require('../assets/main/deal5.webp'),
+            title: 'Fog Lighting',
+            released: '2019 ‧ Animation/Musical ‧ 1h 43m',
+            key: '2',
+            desc:
+                'Elsa the Snow Queen has an extraordinary gift -- the power to create ice and snow. But no matter how happy she is to be surrounded by the people of Arendelle, Elsa finds herself strangely unsettled.',
+        },
+        {
+            image: require('../assets/main/deal6.webp'),
+            title: 'Cortina',
             released: '2019 ‧ Action/Sci-fi ‧ 2h 2m',
             key: '3',
             desc:
@@ -95,7 +119,7 @@ const DealOfTheDay = () => {
                             }}>
                             <TouchableOpacity>
                                 <Image
-                                    source={{ uri: item.image }}
+                                    source={item.image}
                                     style={{
                                         width: width * 0.26785,
                                         height: 130,
@@ -118,7 +142,7 @@ const DealOfTheDay = () => {
             <FlatList
                 horizontal
                 horizontal={true}
-                data={gallery}
+                data={gallery2}
                 showsHorizontalScrollIndicator={false}
                 renderItem={({ item }) => {
                     return (
@@ -133,7 +157,7 @@ const DealOfTheDay = () => {
                             }}>
                             <TouchableOpacity>
                                 <Image
-                                    source={{ uri: item.image }}
+                                    source={item.image}
                                     style={{
                                         width: width * 0.26785,
                                         height: 130,

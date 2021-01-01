@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
-import { dummyData } from '../data/Data';
+import { dummyData } from '../data/prodData';
 import ProductInfo from '../components/ProductDescriptionComponents/ProductInfo';
 import ProductCarousel from '../components/ProductDescriptionComponents/ProductCarousel';
 import ProductReturnPolicy from '../components/ProductDescriptionComponents/ProductReturnPolicy';

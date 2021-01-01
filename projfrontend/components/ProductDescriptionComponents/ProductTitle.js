@@ -10,11 +10,13 @@ const ProductTitle = () => {
                 borderBottomWidth: 8,
                 borderColor: '#edeeef',
             }}>
-            <Text style={styles.title}>Product Name</Text>
+            <Text style={styles.title}>
+                Gold-Plated Ruby Peacock Jewellery Set
+            </Text>
             <View style={styles.body}>
-                <Text style={styles.cost}>₹489</Text>
-                <Text style={styles.initialCost}>₹999</Text>
-                <Text style={styles.discount}>( 50% discount )</Text>
+                <Text style={styles.cost}>₹540</Text>
+                <Text style={styles.initialCost}>₹1,680</Text>
+                <Text style={styles.discount}>( 70% discount )</Text>
             </View>
 
             <Text style={styles.taxes}>inclusive of all taxes</Text>
@@ -24,8 +26,8 @@ const ProductTitle = () => {
 
 const styles = StyleSheet.create({
     title: {
-        fontFamily: 'popins-bold',
-        fontSize: 28,
+        fontFamily: 'popins-semibold',
+        fontSize: 24,
         color: '#1a2228',
     },
     body: {

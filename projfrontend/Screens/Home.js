@@ -30,6 +30,7 @@ import InTheSpotlight from '../components/InTheSpotlight';
 import TopRated from '../components/TopRated';
 import BestSellingInCat from '../components/BestSellingInCat';
 import Sell from '../components/Sell';
+import BestSellingInJew from '../components/BestSellingInJew';
 
 const Home = () => {
     const { width, height } = Dimensions.get('window');
@@ -171,7 +172,7 @@ const Home = () => {
                 <BestSellingInCat />
                 <TopRated />
                 <Sell />
-                <BestSellingInCat />
+                <BestSellingInJew />
 
                 {/* <ScrollView>
                     <View style={{ padding: 20 }}>

@@ -10,28 +10,28 @@ import {
 import { Dimensions } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
-const BestSellingInCat = () => {
+const BestSellingInJew = () => {
     const width = Dimensions.get('screen').width;
     const [gallery, setgallery] = useState([
         {
-            image: require('../assets/main/bsc1.webp'),
-            title: 'Solid State Kurta',
+            image: require('../assets/main/bsj1.jpg'),
+            title: 'Handcrafted Jewellery Set',
             cost: '4,500',
             key: '1',
             desc: 'Tribes Karnataka',
             discount: '30% off',
         },
         {
-            image: require('../assets/main/bsc2.jpg'),
-            title: 'Solid Sherwani Set',
+            image: require('../assets/main/bsj2.jpg'),
+            title: 'Temple Jewellery Set',
             cost: '3,500',
             key: '2',
             desc: 'Tribes Karnataka',
             discount: '50% off',
         },
         {
-            image: require('../assets/main/bsc3.jpg'),
-            title: 'Printed Kurta With Skirt',
+            image: require('../assets/main/bsj3.webp'),
+            title: 'Dome Shaped Studs',
             cost: '2,750',
             key: '3',
             desc: 'Tribes Karnataka',
@@ -41,24 +41,24 @@ const BestSellingInCat = () => {
 
     const [gallery2, setgallery2] = useState([
         {
-            image: require('../assets/main/bsc4.webp'),
-            title: 'Solid Saree',
+            image: require('../assets/main/bsj4.jpg'),
+            title: 'Gold Plated Mang Teeka',
             cost: '1,500',
             key: '1',
             desc: 'Tribes Karnataka',
             discount: '25% off',
         },
         {
-            image: require('../assets/main/bsc5.webp'),
-            title: 'Semi Stitched Lehenga',
+            image: require('../assets/main/bsj5.jpg'),
+            title: 'Gold Plated ring',
             cost: '2,500',
             key: '2',
             desc: 'Tribes Karnataka',
             discount: '20% off',
         },
         {
-            image: require('../assets/main/basc6.webp'),
-            title: 'Wooven Nehru Jacket',
+            image: require('../assets/main/bsj6.webp'),
+            title: 'Gold Plated Nosepin',
             cost: '3,700',
             key: '3',
             desc: 'Tribes Karnataka',
@@ -88,19 +88,7 @@ const BestSellingInCat = () => {
                         height: 24,
                     }}
                 />
-                <Text style={styles.text}>Best Selling In Clothings</Text>
-                {/* <Text style={styles.view}>View All</Text>
-                <Image
-                    source={imageChevron.uri}
-                    style={{
-                        position: 'absolute',
-                        right: 6,
-                        width: 24,
-                        marginRight: 8,
-                        height: 20,
-                        bottom: 15,
-                    }}
-                /> */}
+                <Text style={styles.text}>Best Selling In Jewellery</Text>
             </View>
 
             <FlatList
@@ -331,4 +319,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default BestSellingInCat;
+export default BestSellingInJew;

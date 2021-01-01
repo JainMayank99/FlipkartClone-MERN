@@ -6,7 +6,7 @@ const { width, height } = Dimensions.get('window');
 const ProductCarouselItem = ({ item }) => {
     return (
         <View style={styles.cardView}>
-            <Image style={styles.image} source={{ uri: item.url }} />
+            <Image style={styles.image} source={item.url} />
         </View>
     );
 };

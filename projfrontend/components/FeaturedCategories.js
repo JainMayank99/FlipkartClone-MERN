@@ -13,18 +13,16 @@ const FeaturedCategories = () => {
     const width = Dimensions.get('screen').width;
     const [gallery, setgallery] = useState([
         {
-            image:
-                'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQA_-tL18_rj9zEcjN6n41NEaJm-kRNF9UeOtvksZ4z_OW6jRA9',
-            title: 'Avengers',
+            image: require('../assets/main/cat1.webp'),
+            title: 'Home  & Living',
             released: '2019 ‧ Action/Sci-fi ‧ 3h 2m',
             key: '1',
             desc:
                 'After Thanos, an intergalactic warlord, disintegrates half of the universe, the Avengers must reunite and assemble again to reinvigorate their trounced allies and restore balance.',
         },
         {
-            image:
-                'https://www.spotlightstheatre.co.uk/wordpress/wp-content/uploads/2019/11/f_frozen2_header_mobile_18432_d258f93f.jpeg',
-            title: 'Frozen II',
+            image: require('../assets/main/cat2.png'),
+            title: 'Clothing',
             released: '2019 ‧ Animation/Musical ‧ 1h 43m',
             key: '2',
             desc:
@@ -67,7 +65,7 @@ const FeaturedCategories = () => {
                             }}>
                             <TouchableOpacity>
                                 <Image
-                                    source={{ uri: item.image }}
+                                    source={item.image}
                                     style={{
                                         width: width * 0.43366,
                                         height: 220,

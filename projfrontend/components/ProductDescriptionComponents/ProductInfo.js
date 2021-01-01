@@ -13,12 +13,10 @@ const ProductInfo = () => {
             <Text style={styles.title}>Description</Text>
 
             <Text style={styles.subTitle}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Suspendisse at lacus ut neque suscipit aliquet eget sed purus.
-                Interdum et malesuada fames ac ante ipsum primis in faucibus.
-                Nulla interdum placerat dignissim. Nunc ultrices leo blandit
-                rhoncus bibendum. In convallis lectus non orci rhoncus
-                imperdiet.
+                This jewellery set consists of a necklace and earrings Pink
+                gold-plated ruby-studded traditional necklace, intricate peacock
+                design and pearl droplets, secured with an S-Hook closure Pair
+                of matching drop earrings secured with post and back closure .
             </Text>
         </View>
     );
