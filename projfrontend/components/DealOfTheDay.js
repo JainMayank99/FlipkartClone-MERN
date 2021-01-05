@@ -8,20 +8,8 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import { Dimensions } from 'react-native';
-import * as Localization from 'expo-localization';
-import i18n from 'i18n-js';
 
-// Set the key-value pairs for the different languages you want to support.
-i18n.translations = {
-    en: { x: 'Deals Of The Day' },
-    hi: { x: 'दिन के सौदे' },
-};
-// Set the locale once at the beginning of your app.
-i18n.locale = Localization.locale;
-// When a value is missing from a language it'll fallback to another language with the key present.
-i18n.fallbacks = true;
-
-const DealOfTheDay = () => {
+const DealOfTheDay = ({ language }) => {
     const width = Dimensions.get('screen').width;
     const [gallery, setgallery] = useState([
         {
@@ -99,19 +87,17 @@ const DealOfTheDay = () => {
                         height: 24,
                     }}
                 />
-                <Text style={styles.text}>{i18n.t('x')}</Text>
-                {/* <Text style={styles.view}>View All</Text>
-                <Image
-                    source={imageChevron.uri}
-                    style={{
-                        position: 'absolute',
-                        right: 6,
-                        width: 24,
-                        marginRight: 8,
-                        height: 20,
-                        bottom: 15,
-                    }}
-                /> */}
+                <Text style={styles.text}>
+                    {language === 'en'
+                        ? 'Deals Of The Day'
+                        : language === 'hi'
+                        ? 'दिन के सौदे'
+                        : language === 'ka'
+                        ? 'ದಿನದ ವ್ಯವಹಾರಗಳು'
+                        : language === 'ta'
+                        ? 'நாள் ஒப்பந்தங்கள்'
+                        : 'రోజు ఒప్పందాలు'}
+                </Text>
             </View>
 
             <FlatList

@@ -8,7 +8,7 @@ import {
     TouchableOpacity,
 } from 'react-native';
 
-const TopPicks = () => {
+const TopPicks = ({ language }) => {
     const [gallery, setgallery] = useState([
         {
             image: require('../assets/main/d4.webp'),
@@ -71,7 +71,17 @@ const TopPicks = () => {
                         height: 24,
                     }}
                 />
-                <Text style={styles.text}>Top Picks For You</Text>
+                <Text style={styles.text}>
+                    {language === 'en'
+                        ? 'Top Picks For You'
+                        : language === 'hi'
+                        ? 'आप के लिए शीर्ष की पसंद'
+                        : language === 'ka'
+                        ? 'ನಿಮಗಾಗಿ ಉನ್ನತ ಆಯ್ಕೆಗಳು'
+                        : language === 'ta'
+                        ? 'உங்களுக்கான சிறந்த தேர்வுகள்'
+                        : 'మీ కోసం అగ్ర ఎంపికలు'}
+                </Text>
             </View>
 
             <FlatList
@@ -99,7 +109,16 @@ const TopPicks = () => {
                                 />
                                 <View style={styles.discountBox}>
                                     <Text style={styles.textDiscount}>
-                                        50% OFF
+                                        50%
+                                        {language === 'en'
+                                            ? 'off'
+                                            : language === 'hi'
+                                            ? 'छूट'
+                                            : language === 'ka'
+                                            ? 'ರಿಯಾಯಿತಿ'
+                                            : language === 'ta'
+                                            ? 'தள்ளுபடி'
+                                            : 'తగ్గింపు'}
                                     </Text>
                                 </View>
                             </TouchableOpacity>

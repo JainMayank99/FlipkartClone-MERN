@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useMemo } from 'react';
 import {
     View,
     Text,
@@ -11,12 +11,10 @@ import {
     StyleSheet,
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
-import Carousel from 'react-native-anchor-carousel';
-import { Dimensions } from 'react-native';
+import LottieView from 'lottie-react-native';
 
 import { dummyData } from '../data/Data';
 import { minData } from '../data/MiniData';
-
 import Header from '../components/Header';
 import AppCarousel from '../components/AppCarousel';
 import Categories from '../components/Categories';
@@ -31,11 +29,22 @@ import TopRated from '../components/TopRated';
 import BestSellingInCat from '../components/BestSellingInCat';
 import Sell from '../components/Sell';
 import BestSellingInJew from '../components/BestSellingInJew';
+import ActivityIndicator from '../components/ActivityIndicator';
 
 const Home = () => {
-    const { width, height } = Dimensions.get('window');
+    const [language, setLanguage] = useState('en');
+    const [loading, setLoading] = useState(false);
     const carouselRef = useRef(null);
-
+    const mainWork = (lang) => {
+        setLanguage(lang);
+        setLoading(false);
+    };
+    const changeLanguage = (lang) => {
+        setLoading(true);
+        setTimeout(() => {
+            mainWork(lang);
+        }, 500);
+    };
     const [background, setBackground] = useState({
         uri:
             'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQA_-tL18_rj9zEcjN6n41NEaJm-kRNF9UeOtvksZ4z_OW6jRA9',
@@ -151,94 +160,78 @@ const Home = () => {
 
     return (
         <View>
-            <Header />
-            <ScrollView
-                style={{
-                    marginTop: 105,
-                }}>
-                <Categories />
-                <AppCarousel data={dummyData} />
-                <TopPicks />
-                <FeaturedCategories />
+            {loading === true ? (
+                <View style={styles.overlay}>
+                    <LottieView
+                        style={styles.lottie}
+                        autoPlay
+                        loop
+                        source={require('../assets/animations/loader.json')}
+                    />
 
-                <DealOfTheDay />
-                <MiniTextBox data={minData} />
-                <BestSellingInCat />
-                <PopularTribes />
-
-                <NewlyArrived />
-                <InTheSpotlight />
-
-                <BestSellingInCat />
-                <TopRated />
-                <Sell />
-                <BestSellingInJew />
-
-                {/* <ScrollView>
-                    <View style={{ padding: 20 }}>
-                        <Text style={{ fontSize: 22, fontWeight: 'bold' }}>
-                            Top Trending
-                        </Text>
-                    </View>
-                    <View style={{ paddingVertical: 16 }}>
-                        <FlatList
-                            horizontal={true}
-                            data={gallery}
-                            renderItem={({ item }) => {
-                                return (
-                                    <View
-                                        style={{
-                                            paddingVertical: 20,
-                                            paddingLeft: 16,
-                                        }}>
-                                        <TouchableOpacity>
-                                            <Image
-                                                source={{ uri: item.image }}
-                                                style={{
-                                                    width: 150,
-                                                    marginRight: 8,
-                                                    height: 250,
-                                                    borderRadius: 10,
-                                                }}
-                                            />
-                                            <View style={styles.imageOverlay}>
-                                                <Feather
-                                                    name='heart'
-                                                    size={16}
-                                                    color='white'
-                                                    style={
-                                                        styles.imageLocationIcon
-                                                    }
-                                                />
-                                                <Text style={styles.imageText}>
-                                                    {item.title}
-                                                </Text>
-                                            </View>
-                                        </TouchableOpacity>
-                                    </View>
-                                );
-                            }}
+                    <Header
+                        language={language}
+                        changeLanguage={changeLanguage}
+                    />
+                    <ScrollView
+                        style={{
+                            marginTop: 105,
+                        }}>
+                        <Categories
+                            language={language}
+                            changeLanguage={changeLanguage}
                         />
-                    </View>
-                </ScrollView> */}
-                {/* 
-                <ScrollView>
-                    <View style={styles.carouselContentContainer}>
-                        <View style={styles.carouselContainerView}>
-                            <Carousel
-                                style={styles.carousel}
-                                data={gallery}
-                                renderItem={renderItem}
-                                itemWidth={200}
-                                containerWidth={width - 20}
-                                seperatorWidth={0}
-                                ref={carouselRef}
-                                inActiveOpacity={0.4}
-                            />
-                        </View>
-                    </View>
-                </ScrollView> */}
-            </ScrollView>
+                        <AppCarousel data={dummyData} />
+                        <TopPicks language={language} />
+                        <FeaturedCategories language={language} />
+
+                        <DealOfTheDay language={language} />
+                        <MiniTextBox data={minData} />
+                        <BestSellingInCat />
+                        <PopularTribes />
+
+                        <NewlyArrived />
+                        <InTheSpotlight />
+
+                        <BestSellingInCat />
+                        <TopRated />
+                        <Sell />
+                        <BestSellingInJew />
+                    </ScrollView>
+                </View>
+            ) : (
+                <View>
+                    <Header
+                        language={language}
+                        changeLanguage={changeLanguage}
+                    />
+                    <ScrollView
+                        style={{
+                            marginTop: 105,
+                        }}>
+                        <Categories
+                            language={language}
+                            changeLanguage={changeLanguage}
+                        />
+                        <AppCarousel data={dummyData} />
+                        <TopPicks language={language} />
+                        <FeaturedCategories language={language} />
+
+                        <DealOfTheDay language={language} />
+                        <MiniTextBox data={minData} />
+                        <BestSellingInCat />
+                        <PopularTribes />
+
+                        <NewlyArrived />
+                        <InTheSpotlight />
+
+                        <BestSellingInCat />
+                        <TopRated />
+                        <Sell />
+                        <BestSellingInJew />
+                    </ScrollView>
+                </View>
+            )}
         </View>
     );
 };
@@ -249,6 +242,19 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    overlay: {
+        position: 'relative',
+        height: '100%',
+        width: '100%',
+        zIndex: 10,
+    },
+    lottie: {
+        position: 'absolute',
+        backgroundColor: 'rgba(255,255,255,0.5)',
+        height: '100%',
+        width: '100%',
+        zIndex: 10,
     },
 
     ImageOverlay: {

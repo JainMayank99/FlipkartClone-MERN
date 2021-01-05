@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { Dimensions } from 'react-native';
 
-const FeaturedCategories = () => {
+const FeaturedCategories = ({ language }) => {
     const width = Dimensions.get('screen').width;
     const [gallery, setgallery] = useState([
         {
@@ -48,7 +48,18 @@ const FeaturedCategories = () => {
                         height: 24,
                     }}
                 />
-                <Text style={styles.text}>Featured Categories</Text>
+                <Text style={styles.text}>
+                    {' '}
+                    {language === 'en'
+                        ? 'Featured Categories'
+                        : language === 'hi'
+                        ? 'विशेष रुप से प्रदर्शित श्रेणियाँ'
+                        : language === 'ka'
+                        ? 'ವೈಶಿಷ್ಟ್ಯಗೊಳಿಸಿದ ವರ್ಗಗಳು'
+                        : language === 'ta'
+                        ? 'சிறப்பு வகைகள்'
+                        : 'ఫీచర్ చేసిన వర్గాలు'}
+                </Text>
             </View>
             <FlatList
                 horizontal

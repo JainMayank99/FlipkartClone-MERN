@@ -8,85 +8,60 @@ import {
     StyleSheet,
 } from 'react-native';
 
-const Categories = ({ language }) => {
-    //Categories In Different Languages
-    const titleEng = [
-        'Clothing ',
-        'Stationery',
-        'Jewellery',
-        'Bags',
-        'Home',
-        'Covid',
-        'Essentials',
-    ];
-    const titleHin = [
-        'कपड़े',
-        'लेखन',
-        'आभूषण',
-        'बैग',
-        'घर',
-        'कोविड',
-        'अनिवार्य',
-    ];
-    const titleKan = [
-        'ಉಡುಪು',
-        'ಸ್ಟೇಷನರಿ',
-        'ಜ್ಯುವೆಲ್ಲರಿ',
-        'ಚೀಲಗಳು',
-        'ಮನೆ',
-        'ಕೋವಿಡ್',
-        'ಎಸೆನ್ಷಿಯಲ್ಸ್य',
-    ];
-    const titleTam = ['ஆங்கிலம்', 'இந்தி', 'கன்னடம்', 'தமிழ்', 'தெலுங்கு'];
-    const titleTel = ['ఇంగ్లీష్', 'హిందీ', 'కన్నడ', 'తమిళం', 'తెలుగు'];
-
-    const checkLanguage = (language, key) => {
-        if (language === 'en') {
-            return titleEng[key];
-        } else if (language === 'hi') {
-            return titleHin[key];
-        } else if (language === 'ka') {
-            return titleKan[key];
-        } else if (language === 'ta') {
-            return titleTam[key];
-        } else {
-            return titleTel[key];
-        }
-    };
-
+const SelectLanguage = ({ language, changeLanguage }) => {
     const [gallery, setgallery] = useState([
         {
-            image: require('../assets/catIcons/dress.png'),
-            key: '0',
+            image: require('../assets/catIcons/english.png'),
+            title: 'English',
+            released: '2019 ‧ Action/Sci-fi ‧ 3h 2m',
+            key: '9',
+            desc:
+                'After Thanos, an intergalactic warlord, disintegrates half of the universe, the Avengers must reunite and assemble again to reinvigorate their trounced allies and restore balance.',
+            language: 'en',
         },
         {
-            image: require('../assets/catIcons/book.png'),
-            key: '1',
-        },
-        {
-            image: require('../assets/catIcons/jewellery.png'),
+            image: require('../assets/catIcons/hindi.png'),
+            title: 'हिंदी',
+            released: '2019 ‧ Animation/Musical ‧ 1h 43m',
             key: '2',
+            desc:
+                'Elsa the Snow Queen has an extraordinary gift -- the power to create ice and snow. But no matter how happy she is to be surrounded by the people of Arendelle, Elsa finds herself strangely unsettled.',
+            language: 'hi',
         },
         {
-            image: require('../assets/catIcons/bag.png'),
+            image: require('../assets/catIcons/kanada.png'),
+            title: 'ಕನ್ನಡ',
+            released: '2019 ‧ Action/Sci-fi ‧ 2h 2m',
             key: '3',
+            desc:
+                'Alita, a battle cyborg, is revived by Ido, a doctor, who realises that she actually has the soul of a teenager. Alita then sets out to learn about her past and find her true identity.',
+            language: 'ka',
         },
         {
-            image: require('../assets/catIcons/home.png'),
+            image: require('../assets/catIcons/tamil.png'),
+            title: 'தமிழ்',
+            released: '2019 ‧ Crime/Drama ‧ 3h 30m',
             key: '4',
+            desc:
+                'In the 1950s, truck driver Frank Sheeran gets involved with Russell Bufalino and his Pennsylvania crime family. As Sheeran climbs the ranks to become a top hit man, he also goes to work for Jimmy Hoffa.',
+            language: 'ta',
         },
         {
-            image: require('../assets/catIcons/doctor.png'),
+            image: require('../assets/catIcons/telugu.png'),
+            title: 'తెలుగు',
+            released: '2019 ‧ Action/Thriller ‧ 2h 10m',
             key: '5',
-        },
-        {
-            image: require('../assets/catIcons/food.png'),
-            key: '6',
+            desc:
+                'John Wick is declared excommunicado and a hefty bounty is set on him after he murders an international crime lord. He sets out to seek help to save himself from ruthless hitmen and bounty hunters.',
+            language: 'te',
         },
     ]);
-
     return (
-        <View>
+        <View
+            style={{
+                paddingVertical: 8,
+            }}>
+            {/* {console.log(language, title)} */}
             <FlatList
                 horizontal={true}
                 data={gallery}
@@ -105,6 +80,7 @@ const Categories = ({ language }) => {
                                 paddingLeft: 12,
                             }}>
                             <TouchableOpacity
+                                onPress={() => changeLanguage(item.language)}
                                 style={{
                                     height: 65,
                                     width: 65,
@@ -127,12 +103,11 @@ const Categories = ({ language }) => {
                                         style={{
                                             height: 24,
                                             width: 24,
+                                            resizeMode: 'contain',
                                         }}
                                     />
                                 </View>
-                                <Text style={styles.text}>
-                                    {checkLanguage(language, item.key)}
-                                </Text>
+                                <Text style={styles.text}>{item.title}</Text>
                             </TouchableOpacity>
                         </View>
                     );
@@ -154,5 +129,11 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: '#20263e',
     },
+    title: {
+        marginTop: 5,
+        fontFamily: 'popins-reg',
+        fontSize: 10,
+        color: '#20263e',
+    },
 });
-export default Categories;
+export default SelectLanguage;
