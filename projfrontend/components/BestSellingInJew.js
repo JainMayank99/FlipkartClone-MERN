@@ -75,7 +75,7 @@ const BestSellingInJew = () => {
     return (
         <View
             style={{
-                paddingBottom: 8,
+                paddingBottom: 32,
                 borderBottomWidth: 10,
                 borderColor: '#edeeef',
             }}>

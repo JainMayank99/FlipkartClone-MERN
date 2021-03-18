@@ -89,18 +89,6 @@ const BestSellingInCat = () => {
                     }}
                 />
                 <Text style={styles.text}>Best Selling In Clothings</Text>
-                {/* <Text style={styles.view}>View All</Text>
-                <Image
-                    source={imageChevron.uri}
-                    style={{
-                        position: 'absolute',
-                        right: 6,
-                        width: 24,
-                        marginRight: 8,
-                        height: 20,
-                        bottom: 15,
-                    }}
-                /> */}
             </View>
 
             <FlatList
