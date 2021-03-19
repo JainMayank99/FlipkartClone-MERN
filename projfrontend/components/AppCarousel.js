@@ -80,7 +80,7 @@ const Carousel = ({ data }) => {
                                     opacity,
                                     height: 10,
                                     width: 10,
-                                    backgroundColor: 'orange',
+                                    backgroundColor: '#fc8019',
                                     margin: 8,
                                     borderRadius: 5,
                                 }}

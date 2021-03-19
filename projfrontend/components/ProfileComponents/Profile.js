@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     edit: {
         fontFamily: 'popins-med',
         fontSize: 18,
-        color: 'orange',
+        color: '#fc8019',
     },
     image: {
         height: 30,

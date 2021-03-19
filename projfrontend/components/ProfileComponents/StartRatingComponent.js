@@ -43,7 +43,7 @@ function StartRatingComponent() {
                     maxStars={5}
                     rating={rating}
                     selectedStar={(rating) => onRatingChange(rating)}
-                    fullStarColor={'orange'}
+                    fullStarColor={'#fc8019'}
                     starSize={30}
                     animation={'tada'}
                 />

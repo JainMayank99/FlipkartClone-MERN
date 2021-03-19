@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
         paddingVertical: 2,
         borderWidth: 2,
         borderColor: 'transparent',
-        borderBottomColor: 'orange',
+        borderBottomColor: '#fc8019',
         borderRadius: 2.5,
     },
     textInputName: {
@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
         paddingVertical: 2,
         borderWidth: 2,
         borderColor: 'transparent',
-        borderBottomColor: 'orange',
+        borderBottomColor: '#fc8019',
         borderRadius: 2.5,
     },
     buttonlight: {
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
         padding: 8,
     },
     button: {
-        backgroundColor: 'orange',
+        backgroundColor: '#fc8019',
         borderRadius: 5,
         justifyContent: 'center',
         alignItems: 'center',

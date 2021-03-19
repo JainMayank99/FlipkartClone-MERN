@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
 import HomeScreen from './Screens/HomeScreen';
 import Home from './Screens/Home';
 import Categories from './components/Categories';
@@ -16,8 +19,11 @@ import EditProfile from './components/ProfileComponents/EditProfile';
 import ChangePassword from './components/ProfileComponents/ChangePassword';
 import StarRatingComponent from './components/ProfileComponents/StartRatingComponent';
 import Orders from './Screens/Orders';
+import LoginScreen from './components/LoginScreen';
 import PhoneVerificationScreen from './components/PhoneVerificationScreen';
+import SignUpScreen from './components/SignUpScreen';
 
+const AuthStack = createStackNavigator();
 export default function App() {
     const getFonts = () => {
         return Font.loadAsync({
@@ -34,7 +40,25 @@ export default function App() {
     const [fontsLoaded, setFontsLoaded] = useState(false);
 
     if (fontsLoaded) {
-        return <PhoneVerificationScreen />;
+        return (
+            <NavigationContainer>
+                <AuthStack.Navigator
+                    initialRouteName='Login'
+                    screenOptions={{
+                        headerShown: false,
+                    }}>
+                    <AuthStack.Screen name='Login' component={LoginScreen} />
+                    <AuthStack.Screen
+                        name='Verification'
+                        component={PhoneVerificationScreen}
+                    />
+                    <AuthStack.Screen
+                        name='Register'
+                        component={SignUpScreen}
+                    />
+                </AuthStack.Navigator>
+            </NavigationContainer>
+        );
     } else {
         return (
             <AppLoading

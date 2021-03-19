@@ -8,6 +8,9 @@ import {
     TouchableOpacity,
     Platform,
     processColor,
+    Dimensions,
+    TouchableWithoutFeedback,
+    Keyboard,
 } from 'react-native';
 import {
     FirebaseRecaptchaVerifierModal,
@@ -36,7 +39,7 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-export default function PhoneVerificationScreen() {
+const PhoneVerificationScreen = ({ navigation }) => {
     const recaptchaVerifier = React.useRef(null);
     const [phoneNumber, setPhoneNumber] = React.useState();
     const [verificationId, setVerificationId] = React.useState();
@@ -55,98 +58,181 @@ export default function PhoneVerificationScreen() {
     const attemptInvisibleVerification = false;
 
     return (
-        <View style={{ padding: 20, marginTop: 50 }}>
-            <FirebaseRecaptchaVerifierModal
-                ref={recaptchaVerifier}
-                firebaseConfig={firebaseConfig}
-                attemptInvisibleVerification={attemptInvisibleVerification}
-            />
-            <Text style={{ marginTop: 20 }}>Enter phone number</Text>
-            <TextInput
-                style={{ marginVertical: 10, fontSize: 17 }}
-                placeholder='+91 '
-                autoFocus
-                autoCompleteType='tel'
-                keyboardType='phone-pad'
-                textContentType='telephoneNumber'
-                onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
-            />
-            <Button
-                title='Send Verification Code'
-                disabled={!phoneNumber}
-                onPress={async () => {
-                    // The FirebaseRecaptchaVerifierModal ref implements the
-                    // FirebaseAuthApplicationVerifier interface and can be
-                    // passed directly to `verifyPhoneNumber`.
-                    try {
-                        const phoneProvider = new firebase.auth.PhoneAuthProvider();
-                        const verificationId = await phoneProvider.verifyPhoneNumber(
-                            '+91' + phoneNumber,
-                            recaptchaVerifier.current
-                        );
-                        setVerificationId(verificationId);
-                        showMessage({
-                            text:
-                                'Verification code has been sent to your phone.',
-                        });
-                    } catch (err) {
-                        showMessage({
-                            text: `Error: ${err.message}`,
-                            color: 'red',
-                        });
-                    }
-                }}
-            />
-            <Text style={{ marginTop: 20 }}>Enter Verification code</Text>
-            <TextInput
-                style={{ marginVertical: 10, fontSize: 17 }}
-                editable={!!verificationId}
-                placeholder='123456'
-                onChangeText={setVerificationCode}
-            />
-            <Button
-                title='Confirm Verification Code'
-                disabled={!verificationId}
-                onPress={async () => {
-                    try {
-                        const credential = firebase.auth.PhoneAuthProvider.credential(
-                            verificationId,
-                            verificationCode
-                        );
-                        await firebase.auth().signInWithCredential(credential);
-                        showMessage({
-                            text: 'Phone authentication successful 👍',
-                        });
-                    } catch (err) {
-                        showMessage({
-                            text: `Error: ${err.message}`,
-                            color: 'red',
-                        });
-                    }
-                }}
-            />
-            {message ? (
-                <TouchableOpacity
-                    style={[
-                        StyleSheet.absoluteFill,
-                        {
-                            backgroundColor: 0xffffffee,
-                            justifyContent: 'center',
-                        },
-                    ]}
-                    onPress={() => showMessage(undefined)}>
-                    <Text
+        <View
+            style={{
+                padding: 20,
+                marginVertical: 50,
+                flex: 1,
+                justifyContent: 'center',
+            }}>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <View>
+                    <Text style={styles.heading}>Sign Up</Text>
+                    <FirebaseRecaptchaVerifierModal
+                        ref={recaptchaVerifier}
+                        firebaseConfig={firebaseConfig}
+                        attemptInvisibleVerification={
+                            attemptInvisibleVerification
+                        }
+                        title='Prove you are human!'
+                        cancelLabel='Close'
+                        style={{ fontFamily: 'zilla-med' }}
+                    />
+                    <Text style={styles.phone}>Enter phone number</Text>
+                    <TextInput
+                        style={styles.textInput}
+                        placeholder='+91 '
+                        autoFocus
+                        autoCompleteType='tel'
+                        keyboardType='phone-pad'
+                        textContentType='telephoneNumber'
+                        onChangeText={(phoneNumber) =>
+                            setPhoneNumber(phoneNumber)
+                        }
+                    />
+
+                    <TouchableOpacity
+                        disabled={!phoneNumber}
+                        onPress={async () => {
+                            try {
+                                const phoneProvider = new firebase.auth.PhoneAuthProvider();
+                                const verificationId = await phoneProvider.verifyPhoneNumber(
+                                    '+91' + phoneNumber,
+                                    recaptchaVerifier.current
+                                );
+                                setVerificationId(verificationId);
+                                showMessage({
+                                    text:
+                                        'Verification code has been sent to your phone.',
+                                });
+                            } catch (err) {
+                                showMessage({
+                                    text: `Error: ${err.message}`,
+                                    color: 'red',
+                                });
+                            }
+                        }}
                         style={{
-                            color: message.color || 'blue',
-                            fontSize: 17,
-                            textAlign: 'center',
-                            margin: 20,
+                            marginVertical: 10,
                         }}>
-                        {message.text}
-                    </Text>
-                </TouchableOpacity>
-            ) : undefined}
-            {attemptInvisibleVerification && <FirebaseRecaptchaBanner />}
+                        <View style={styles.button}>
+                            <Text style={styles.submit}>
+                                Send Verification Code
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+
+                    <Text style={styles.phone}>Enter Verification code</Text>
+                    <TextInput
+                        style={styles.textInput}
+                        editable={!!verificationId}
+                        placeholder='Enter the OTP'
+                        onChangeText={setVerificationCode}
+                    />
+
+                    <TouchableOpacity
+                        disabled={!verificationId}
+                        onPress={async () => {
+                            try {
+                                const credential = firebase.auth.PhoneAuthProvider.credential(
+                                    verificationId,
+                                    verificationCode
+                                );
+                                await firebase
+                                    .auth()
+                                    .signInWithCredential(credential);
+                                showMessage({
+                                    text: 'Phone authentication successful 👍',
+                                });
+                                navigation.push('Register', {
+                                    phoneNumber: phoneNumber,
+                                });
+                            } catch (err) {
+                                showMessage({
+                                    text: `Error: ${err.message}`,
+                                    color: 'red',
+                                });
+                            }
+                        }}
+                        style={{
+                            marginVertical: 10,
+                        }}>
+                        <View style={styles.button}>
+                            <Text style={styles.submit}>
+                                Confirm Verification Code
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+
+                    {message ? (
+                        <TouchableOpacity
+                            style={[
+                                StyleSheet.absoluteFill,
+                                {
+                                    backgroundColor: 0xffffffee,
+                                    justifyContent: 'center',
+                                    height:
+                                        Dimensions.get('window').height * 0.75,
+                                },
+                            ]}
+                            onPress={() => showMessage(undefined)}>
+                            <Text
+                                style={{
+                                    color: message.color || 'blue',
+                                    fontSize: 20,
+                                    textAlign: 'center',
+                                    fontFamily: 'zilla-med',
+                                }}>
+                                {message.text}
+                            </Text>
+                        </TouchableOpacity>
+                    ) : undefined}
+                    {attemptInvisibleVerification && (
+                        <FirebaseRecaptchaBanner
+                            textStyle={styles.captchaText}
+                            linkStyle={{ fontWeight: 'bold' }}
+                        />
+                    )}
+                </View>
+            </TouchableWithoutFeedback>
         </View>
     );
-}
+};
+
+const styles = StyleSheet.create({
+    heading: {
+        fontFamily: 'zilla-bold',
+        fontSize: 28,
+        paddingVertical: 16,
+    },
+    phone: {
+        fontFamily: 'zilla-bold',
+        fontSize: 24,
+        paddingVertical: 8,
+    },
+    textInput: {
+        fontFamily: 'zilla-reg',
+        fontSize: 20,
+        color: '#bdbdbd',
+        paddingVertical: 2,
+    },
+    button: {
+        backgroundColor: '#fc8019',
+        borderRadius: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 8,
+    },
+    submit: {
+        fontFamily: 'zilla-reg',
+        fontSize: 20,
+        color: 'white',
+    },
+    captchaText: {
+        fontFamily: 'zilla-reg',
+        fontSize: 20,
+        opacity: 1,
+    },
+});
+
+export default PhoneVerificationScreen;
