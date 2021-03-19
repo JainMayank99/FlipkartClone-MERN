@@ -17,7 +17,8 @@ import {BACKEND_URL} from '@env';
 //     });
 // };
 
-export const signUpWithEmail = ({ phoneNumber, name, email, password }) => {
+export const signUpWithEmail = ( phoneNumber, name, email, password ) => {
+    // console.log("backend called");
     return axios({
         method: 'post',
         url: `${BACKEND_URL}/signup`,
@@ -35,7 +36,7 @@ export const signUpWithEmail = ({ phoneNumber, name, email, password }) => {
 };
 
 
-export const signUpWithoutEmail = ({ phoneNumber, name, password }) => {
+export const signUpWithoutEmail = ( phoneNumber, name, password ) => {
     return axios({
         method: 'post',
         url: `${BACKEND_URL}/signup`,

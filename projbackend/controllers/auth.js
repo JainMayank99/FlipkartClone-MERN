@@ -4,9 +4,11 @@ var jwt = require('jsonwebtoken');
 var expressJwt = require('express-jwt');
 
 exports.signup = (req, res) => {
+    // console.log("came to backend");
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
+        console.log("sign up error",errors);
         return res.status(422).json({
             error: errors.array()[0].msg,
             param: errors.array()[0].param,

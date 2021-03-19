@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
     TextInput,
-    ActivityIndicator,
     Text,
     View,
     StyleSheet,
@@ -14,7 +13,9 @@ import {
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import Screen from '../../components/Screen';
-import { AppLoading } from 'expo';
+
+import LottieView from 'lottie-react-native';
+import { signUpWithEmail,signUpWithoutEmail } from './AuthAPICalls/authCalls';
 
 const validationSchema = yup.object().shape({
     email: yup.string().label('Email').email('Must be a valid email'),
@@ -44,7 +45,8 @@ const validationSchema = yup.object().shape({
 });
 
 const SignUpScreen = ({ route, navigation }) => {
-    const  {phoneNumber}  = 1235467890//route.params;
+    // const { phoneNumber } = 1235467890; //route.params;
+    const phoneNumber =1235467890
     const [focusName, setFocusName] = useState(false);
     const [focusEmail, setFocusEmail] = useState(false);
     const [focusNewPassword, setFocusNewPassword] = useState(false);
@@ -77,269 +79,714 @@ const SignUpScreen = ({ route, navigation }) => {
         setFocusEmail(false);
     };
 
+    const apicall=(values)=>{
+        const {email,userName,newPassword}=values
+        // console.log(userName,values.userName);
+        if(email.length==0){
+            // console.log("W/O email");
+            signUpWithoutEmail(phoneNumber,userName,newPassword)
+            .then((res) => {
+
+            }
+            .catch((err) => {
+
+            }
+        }else{
+            // console.log("With email");
+            signUpWithEmail(phoneNumber,userName,email,newPassword)
+            .then((res) => {
+
+            }
+            .catch((err) => {
+                
+            }
+        }
+    }
+
     return (
-        <Screen>
-            <KeyboardAvoidingView
-                behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
-                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                    <ScrollView>
-                        <View style={styles.screen}>
-                            <Text style={styles.heading}>
-                                Create Your Account
-                            </Text>
-                            <Formik
-                                style={{ flex: 1 }}
-                                initialValues={{ email: '', password: '' }}
-                                onSubmit={(values, actions) => {
-                                    // alert(JSON.stringify(values));
-                                    setLoading(false)
-                                    setTimeout(() => {
-                                        actions.setSubmitting(false);
-                                    }, 1000);
-                                }}
-                                validationSchema={validationSchema}>
-                                {(formikProps) => (
-                                    <React.Fragment>
-                                        <View
-                                            style={{
-                                                marginHorizontal: 8,
-                                                marginTop: 24,
-                                                marginBottom: 4,
-                                            }}>
-                                            <Text style={styles.label}>
-                                                USERNAME
-                                            </Text>
-                                            <TextInput
-                                                underlineColorAndroid='transparent'
-                                                onFocus={onFocusNameChange}
-                                                placeholder='Username'
-                                                autoCorrect={false}
-                                                style={
-                                                    focusName === false
-                                                        ? styles.textInput
-                                                        : styles.textInputName
-                                                }
-                                                onChangeText={formikProps.handleChange(
-                                                    'userName'
-                                                )}
-                                                onBlur={onBlurNameChange}
-                                            />
-                                            <View
-                                                style={
-                                                    formikProps.errors.userName
-                                                        ? styles.redCircle
-                                                        : styles.greenCircle
-                                                }></View>
-                                            <Text
-                                                style={
-                                                    formikProps.errors.userName
-                                                        ? styles.errMsg
-                                                        : null
-                                                }>
-                                                {formikProps.errors.userName}
-                                            </Text>
-                                        </View>
-                                        <View
-                                            style={{
-                                                marginHorizontal: 8,
-                                                marginVertical: 4,
-                                            }}>
-                                            <Text style={styles.label}>
-                                                PHONE NUMBER
-                                            </Text>
-                                            <TextInput
-                                                underlineColorAndroid='transparent'
-                                                placeholder={phoneNumber}
-                                                autoCorrect={false}
-                                                style={styles.textInput}
-                                                editable={false}
-                                            />
-                                            <View
-                                                style={
-                                                    styles.greenCircle
-                                                }></View>
-                                            <Text></Text>
-                                        </View>
-                                        <View
-                                            style={{
-                                                marginHorizontal: 8,
-                                                marginVertical: 4,
-                                            }}>
-                                            <Text style={styles.label}>
-                                                EMAIL
-                                            </Text>
-                                            <TextInput
-                                                underlineColorAndroid='transparent'
-                                                placeholder='johndoe@example.com'
-                                                onFocus={onFocusEmailChange}
-                                                autoCorrect={false}
-                                                style={
-                                                    focusEmail === false
-                                                        ? styles.textInput
-                                                        : styles.textInputEmail
-                                                }
-                                                onChangeText={formikProps.handleChange(
-                                                    'email'
-                                                )}
-                                                onBlur={onBlurEmailChange}
-                                            />
-                                            <View
-                                                style={
-                                                    formikProps.errors.email
-                                                        ? styles.redCircle
-                                                        : styles.greenCircle
-                                                }></View>
-                                            <Text
-                                                style={
-                                                    formikProps.errors.email
-                                                        ? styles.errMsg
-                                                        : null
-                                                }>
-                                                {formikProps.errors.email}
-                                            </Text>
-                                        </View>
+        <View style={{ flex: 1 }}>
+            {loading === true ? (
+                <View style={styles.overlay}>
+                    <LottieView
+                        style={styles.lottie}
+                        autoPlay
+                        loop
+                        source={require('../../assets/animations/loader.json')}
+                    />
+                    <Screen>
+                        <KeyboardAvoidingView
+                            behavior={
+                                Platform.OS == 'ios' ? 'padding' : 'height'
+                            }>
+                            <TouchableWithoutFeedback
+                                onPress={Keyboard.dismiss}>
+                                <ScrollView>
+                                    <View style={styles.screen}>
+                                        <Text style={styles.heading}>
+                                            Create Your Account
+                                        </Text>
+                                        <Formik
+                                            style={{ flex: 1 }}
+                                            initialValues={{
+                                                email: '',
+                                                password: '',
+                                            }}
+                                            onSubmit={(values, actions) => {
+                                                // alert(JSON.stringify(values));
+                                                setLoading(true);
 
-                                        <View
-                                            style={{
-                                                marginHorizontal: 8,
-                                                marginVertical: 4,
-                                            }}>
-                                            <Text style={styles.label}>
-                                                NEW PASSWORD
-                                            </Text>
-                                            <TextInput
-                                                underlineColorAndroid='transparent'
-                                                placeholder='Enter new password'
-                                                onFocus={
-                                                    onFocusNewPasswordChange
-                                                }
-                                                autoCorrect={false}
-                                                secureTextEntry={true}
-                                                style={
-                                                    focusNewPassword === false
-                                                        ? styles.textInput
-                                                        : styles.textNewPassword
-                                                }
-                                                onChangeText={formikProps.handleChange(
-                                                    'newPassword'
-                                                )}
-                                                onBlur={onBlurNewPasswordChange}
-                                            />
-                                            <View
-                                                style={
-                                                    formikProps.errors
-                                                        .newPassword
-                                                        ? styles.redCircle
-                                                        : styles.greenCircle
-                                                }></View>
-                                            <ScrollView
-                                                horizontal={true}
-                                                showsHorizontalScrollIndicator={
-                                                    false
-                                                }>
-                                                <Text
-                                                    style={
-                                                        formikProps.errors
-                                                            .newPassword
-                                                            ? styles.errMsg
-                                                            : null
-                                                    }>
-                                                    {
-                                                        formikProps.errors
-                                                            .newPassword
-                                                    }
-                                                </Text>
-                                            </ScrollView>
-                                        </View>
+                                                apicall(values);
 
-                                        <View
-                                            style={{
-                                                marginHorizontal: 8,
-                                                marginVertical: 4,
-                                            }}>
-                                            <Text style={styles.label}>
-                                                CONFIRM PASSWORD
-                                            </Text>
-                                            <TextInput
-                                                underlineColorAndroid='transparent'
-                                                placeholder='Confirm new password'
-                                                onFocus={
-                                                    onFocusConfirmPasswordChange
-                                                }
-                                                autoCorrect={false}
-                                                secureTextEntry={true}
-                                                style={
-                                                    focusConfirmPassword ===
-                                                    false
-                                                        ? styles.textInput
-                                                        : styles.textConfirmPassword
-                                                }
-                                                onChangeText={formikProps.handleChange(
-                                                    'confirmPassword'
-                                                )}
-                                                onBlur={
-                                                    onBlurConfirmPasswordChange
-                                                }
-                                            />
-                                            <View
-                                                style={
-                                                    formikProps.errors
-                                                        .confirmPassword
-                                                        ? styles.redCircle
-                                                        : styles.greenCircle
-                                                }></View>
-                                            <Text
-                                                style={
-                                                    formikProps.errors
-                                                        .confirmPassword
-                                                        ? styles.errMsg
-                                                        : null
-                                                }>
-                                                {
-                                                    formikProps.errors
-                                                        .confirmPassword
-                                                }
-                                            </Text>
-                                        </View>
+                                                // setTimeout(() => {
+                                                //     actions.setSubmitting(
+                                                //         false
+                                                //     );
+                                                // }, 1000);
+                                            }}
+                                            validationSchema={validationSchema}>
+                                            {(formikProps) => (
+                                                <React.Fragment>
+                                                    <View
+                                                        style={{
+                                                            marginHorizontal: 8,
+                                                            marginTop: 24,
+                                                            marginBottom: 4,
+                                                        }}>
+                                                        <Text
+                                                            style={
+                                                                styles.label
+                                                            }>
+                                                            USERNAME
+                                                        </Text>
+                                                        <TextInput
+                                                            underlineColorAndroid='transparent'
+                                                            onFocus={
+                                                                onFocusNameChange
+                                                            }
+                                                            placeholder='Username'
+                                                            autoCorrect={false}
+                                                            style={
+                                                                focusName ===
+                                                                false
+                                                                    ? styles.textInput
+                                                                    : styles.textInputName
+                                                            }
+                                                            onChangeText={formikProps.handleChange(
+                                                                'userName'
+                                                            )}
+                                                            onBlur={
+                                                                onBlurNameChange
+                                                            }
+                                                        />
+                                                        <View
+                                                            style={
+                                                                formikProps
+                                                                    .errors
+                                                                    .userName
+                                                                    ? styles.redCircle
+                                                                    : styles.greenCircle
+                                                            }></View>
+                                                        <Text
+                                                            style={
+                                                                formikProps
+                                                                    .errors
+                                                                    .userName
+                                                                    ? styles.errMsg
+                                                                    : null
+                                                            }>
+                                                            {
+                                                                formikProps
+                                                                    .errors
+                                                                    .userName
+                                                            }
+                                                        </Text>
+                                                    </View>
+                                                    <View
+                                                        style={{
+                                                            marginHorizontal: 8,
+                                                            marginVertical: 4,
+                                                        }}>
+                                                        <Text
+                                                            style={
+                                                                styles.label
+                                                            }>
+                                                            PHONE NUMBER
+                                                        </Text>
+                                                        <TextInput
+                                                            underlineColorAndroid='transparent'
+                                                            placeholder=
+                                                                "phoneNumber"
+                                                            
+                                                            autoCorrect={false}
+                                                            style={
+                                                                styles.textInput
+                                                            }
+                                                            editable={false}
+                                                        />
+                                                        <View
+                                                            style={
+                                                                styles.greenCircle
+                                                            }></View>
+                                                        <Text></Text>
+                                                    </View>
+                                                    <View
+                                                        style={{
+                                                            marginHorizontal: 8,
+                                                            marginVertical: 4,
+                                                        }}>
+                                                        <Text
+                                                            style={
+                                                                styles.label
+                                                            }>
+                                                            EMAIL
+                                                        </Text>
+                                                        <TextInput
+                                                            underlineColorAndroid='transparent'
+                                                            placeholder='johndoe@example.com'
+                                                            onFocus={
+                                                                onFocusEmailChange
+                                                            }
+                                                            autoCorrect={false}
+                                                            style={
+                                                                focusEmail ===
+                                                                false
+                                                                    ? styles.textInput
+                                                                    : styles.textInputEmail
+                                                            }
+                                                            onChangeText={formikProps.handleChange(
+                                                                'email'
+                                                            )}
+                                                            onBlur={
+                                                                onBlurEmailChange
+                                                            }
+                                                        />
+                                                        <View
+                                                            style={
+                                                                formikProps
+                                                                    .errors
+                                                                    .email
+                                                                    ? styles.redCircle
+                                                                    : styles.greenCircle
+                                                            }></View>
+                                                        <Text
+                                                            style={
+                                                                formikProps
+                                                                    .errors
+                                                                    .email
+                                                                    ? styles.errMsg
+                                                                    : null
+                                                            }>
+                                                            {
+                                                                formikProps
+                                                                    .errors
+                                                                    .email
+                                                            }
+                                                        </Text>
+                                                    </View>
 
-                                        {formikProps.isSubmitting ? (
-                                            <ActivityIndicator />
-                                        ) : (
-                                            <TouchableOpacity
-                                                onPress={
-                                                    formikProps.handleSubmit
-                                                }
-                                                style={{
-                                                    marginHorizontal: 8,
-                                                    marginVertical: 40,
-                                                }}>
-                                                <View
-                                                    style={
-                                                        formikProps.errors
-                                                            .email ||
-                                                        formikProps.errors
-                                                            .userName ||
-                                                        formikProps.errors
-                                                            .newPassword ||
-                                                        formikProps.errors
-                                                            .confirmPassword
-                                                            ? styles.buttonlight
-                                                            : styles.button
-                                                    }>
-                                                    <Text style={styles.submit}>
-                                                        Register
-                                                    </Text>
-                                                </View>
-                                            </TouchableOpacity>
-                                        )}
-                                    </React.Fragment>
-                                )}
-                            </Formik>
-                        </View>
-                    </ScrollView>
-                </TouchableWithoutFeedback>
-            </KeyboardAvoidingView>
-        </Screen>
+                                                    <View
+                                                        style={{
+                                                            marginHorizontal: 8,
+                                                            marginVertical: 4,
+                                                        }}>
+                                                        <Text
+                                                            style={
+                                                                styles.label
+                                                            }>
+                                                            NEW PASSWORD
+                                                        </Text>
+                                                        <TextInput
+                                                            underlineColorAndroid='transparent'
+                                                            placeholder='Enter new password'
+                                                            onFocus={
+                                                                onFocusNewPasswordChange
+                                                            }
+                                                            autoCorrect={false}
+                                                            secureTextEntry={
+                                                                true
+                                                            }
+                                                            style={
+                                                                focusNewPassword ===
+                                                                false
+                                                                    ? styles.textInput
+                                                                    : styles.textNewPassword
+                                                            }
+                                                            onChangeText={formikProps.handleChange(
+                                                                'newPassword'
+                                                            )}
+                                                            onBlur={
+                                                                onBlurNewPasswordChange
+                                                            }
+                                                        />
+                                                        <View
+                                                            style={
+                                                                formikProps
+                                                                    .errors
+                                                                    .newPassword
+                                                                    ? styles.redCircle
+                                                                    : styles.greenCircle
+                                                            }></View>
+                                                        <ScrollView
+                                                            horizontal={true}
+                                                            showsHorizontalScrollIndicator={
+                                                                false
+                                                            }>
+                                                            <Text
+                                                                style={
+                                                                    formikProps
+                                                                        .errors
+                                                                        .newPassword
+                                                                        ? styles.errMsg
+                                                                        : null
+                                                                }>
+                                                                {
+                                                                    formikProps
+                                                                        .errors
+                                                                        .newPassword
+                                                                }
+                                                            </Text>
+                                                        </ScrollView>
+                                                    </View>
+
+                                                    <View
+                                                        style={{
+                                                            marginHorizontal: 8,
+                                                            marginVertical: 4,
+                                                        }}>
+                                                        <Text
+                                                            style={
+                                                                styles.label
+                                                            }>
+                                                            CONFIRM PASSWORD
+                                                        </Text>
+                                                        <TextInput
+                                                            underlineColorAndroid='transparent'
+                                                            placeholder='Confirm new password'
+                                                            onFocus={
+                                                                onFocusConfirmPasswordChange
+                                                            }
+                                                            autoCorrect={false}
+                                                            secureTextEntry={
+                                                                true
+                                                            }
+                                                            style={
+                                                                focusConfirmPassword ===
+                                                                false
+                                                                    ? styles.textInput
+                                                                    : styles.textConfirmPassword
+                                                            }
+                                                            onChangeText={formikProps.handleChange(
+                                                                'confirmPassword'
+                                                            )}
+                                                            onBlur={
+                                                                onBlurConfirmPasswordChange
+                                                            }
+                                                        />
+                                                        <View
+                                                            style={
+                                                                formikProps
+                                                                    .errors
+                                                                    .confirmPassword
+                                                                    ? styles.redCircle
+                                                                    : styles.greenCircle
+                                                            }></View>
+                                                        <Text
+                                                            style={
+                                                                formikProps
+                                                                    .errors
+                                                                    .confirmPassword
+                                                                    ? styles.errMsg
+                                                                    : null
+                                                            }>
+                                                            {
+                                                                formikProps
+                                                                    .errors
+                                                                    .confirmPassword
+                                                            }
+                                                        </Text>
+                                                    </View>
+
+                                                    <TouchableOpacity
+                                                        onPress={
+                                                            formikProps.handleSubmit
+                                                        }
+                                                        style={{
+                                                            marginHorizontal: 8,
+                                                            marginVertical: 40,
+                                                        }}>
+                                                        <View
+                                                            style={
+                                                                formikProps
+                                                                    .errors
+                                                                    .email ||
+                                                                formikProps
+                                                                    .errors
+                                                                    .userName ||
+                                                                formikProps
+                                                                    .errors
+                                                                    .newPassword ||
+                                                                formikProps
+                                                                    .errors
+                                                                    .confirmPassword
+                                                                    ? styles.buttonlight
+                                                                    : styles.button
+                                                            }>
+                                                            <Text
+                                                                style={
+                                                                    styles.submit
+                                                                }>
+                                                                Register
+                                                            </Text>
+                                                        </View>
+                                                    </TouchableOpacity>
+                                                </React.Fragment>
+                                            )}
+                                        </Formik>
+                                    </View>
+                                </ScrollView>
+                            </TouchableWithoutFeedback>
+                        </KeyboardAvoidingView>
+                    </Screen>
+                </View>
+            ) : (
+                <View style={{ flex: 1 }}>
+                    <Screen>
+                        <KeyboardAvoidingView
+                            behavior={
+                                Platform.OS == 'ios' ? 'padding' : 'height'
+                            }>
+                            <TouchableWithoutFeedback
+                                onPress={Keyboard.dismiss}>
+                                <ScrollView>
+                                    <View style={styles.screen}>
+                                        <Text style={styles.heading}>
+                                            Create Your Account
+                                        </Text>
+                                        <Formik
+                                            style={{ flex: 1 }}
+                                            initialValues={{
+                                                email: '',
+                                                password: '',
+                                            }}
+                                            onSubmit={(values, actions) => {
+                                                // alert(JSON.stringify(values));
+                                                setLoading(true);
+
+                                                apicall(values);
+
+                                                // setTimeout(() => {
+                                                //     actions.setSubmitting(
+                                                //         false
+                                                //     );
+                                                // }, 1000);
+                                            }}
+                                            validationSchema={validationSchema}>
+                                            {(formikProps) => (
+                                                <React.Fragment>
+                                                    <View
+                                                        style={{
+                                                            marginHorizontal: 8,
+                                                            marginTop: 24,
+                                                            marginBottom: 4,
+                                                        }}>
+                                                        <Text
+                                                            style={
+                                                                styles.label
+                                                            }>
+                                                            USERNAME
+                                                        </Text>
+                                                        <TextInput
+                                                            underlineColorAndroid='transparent'
+                                                            onFocus={
+                                                                onFocusNameChange
+                                                            }
+                                                            placeholder='Username'
+                                                            autoCorrect={false}
+                                                            style={
+                                                                focusName ===
+                                                                false
+                                                                    ? styles.textInput
+                                                                    : styles.textInputName
+                                                            }
+                                                            onChangeText={formikProps.handleChange(
+                                                                'userName'
+                                                            )}
+                                                            onBlur={
+                                                                onBlurNameChange
+                                                            }
+                                                        />
+                                                        <View
+                                                            style={
+                                                                formikProps
+                                                                    .errors
+                                                                    .userName
+                                                                    ? styles.redCircle
+                                                                    : styles.greenCircle
+                                                            }></View>
+                                                        <Text
+                                                            style={
+                                                                formikProps
+                                                                    .errors
+                                                                    .userName
+                                                                    ? styles.errMsg
+                                                                    : null
+                                                            }>
+                                                            {
+                                                                formikProps
+                                                                    .errors
+                                                                    .userName
+                                                            }
+                                                        </Text>
+                                                    </View>
+                                                    <View
+                                                        style={{
+                                                            marginHorizontal: 8,
+                                                            marginVertical: 4,
+                                                        }}>
+                                                        <Text
+                                                            style={
+                                                                styles.label
+                                                            }>
+                                                            PHONE NUMBER
+                                                        </Text>
+                                                        <TextInput
+                                                            underlineColorAndroid='transparent'
+                                                            placeholder=
+                                                                "phoneNumber"
+                                                            
+                                                            autoCorrect={false}
+                                                            style={
+                                                                styles.textInput
+                                                            }
+                                                            editable={false}
+                                                        />
+                                                        <View
+                                                            style={
+                                                                styles.greenCircle
+                                                            }></View>
+                                                        <Text></Text>
+                                                    </View>
+                                                    <View
+                                                        style={{
+                                                            marginHorizontal: 8,
+                                                            marginVertical: 4,
+                                                        }}>
+                                                        <Text
+                                                            style={
+                                                                styles.label
+                                                            }>
+                                                            EMAIL
+                                                        </Text>
+                                                        <TextInput
+                                                            underlineColorAndroid='transparent'
+                                                            placeholder='johndoe@example.com'
+                                                            onFocus={
+                                                                onFocusEmailChange
+                                                            }
+                                                            autoCorrect={false}
+                                                            style={
+                                                                focusEmail ===
+                                                                false
+                                                                    ? styles.textInput
+                                                                    : styles.textInputEmail
+                                                            }
+                                                            onChangeText={formikProps.handleChange(
+                                                                'email'
+                                                            )}
+                                                            onBlur={
+                                                                onBlurEmailChange
+                                                            }
+                                                        />
+                                                        <View
+                                                            style={
+                                                                formikProps
+                                                                    .errors
+                                                                    .email
+                                                                    ? styles.redCircle
+                                                                    : styles.greenCircle
+                                                            }></View>
+                                                        <Text
+                                                            style={
+                                                                formikProps
+                                                                    .errors
+                                                                    .email
+                                                                    ? styles.errMsg
+                                                                    : null
+                                                            }>
+                                                            {
+                                                                formikProps
+                                                                    .errors
+                                                                    .email
+                                                            }
+                                                        </Text>
+                                                    </View>
+
+                                                    <View
+                                                        style={{
+                                                            marginHorizontal: 8,
+                                                            marginVertical: 4,
+                                                        }}>
+                                                        <Text
+                                                            style={
+                                                                styles.label
+                                                            }>
+                                                            NEW PASSWORD
+                                                        </Text>
+                                                        <TextInput
+                                                            underlineColorAndroid='transparent'
+                                                            placeholder='Enter new password'
+                                                            onFocus={
+                                                                onFocusNewPasswordChange
+                                                            }
+                                                            autoCorrect={false}
+                                                            secureTextEntry={
+                                                                true
+                                                            }
+                                                            style={
+                                                                focusNewPassword ===
+                                                                false
+                                                                    ? styles.textInput
+                                                                    : styles.textNewPassword
+                                                            }
+                                                            onChangeText={formikProps.handleChange(
+                                                                'newPassword'
+                                                            )}
+                                                            onBlur={
+                                                                onBlurNewPasswordChange
+                                                            }
+                                                        />
+                                                        <View
+                                                            style={
+                                                                formikProps
+                                                                    .errors
+                                                                    .newPassword
+                                                                    ? styles.redCircle
+                                                                    : styles.greenCircle
+                                                            }></View>
+                                                        <ScrollView
+                                                            horizontal={true}
+                                                            showsHorizontalScrollIndicator={
+                                                                false
+                                                            }>
+                                                            <Text
+                                                                style={
+                                                                    formikProps
+                                                                        .errors
+                                                                        .newPassword
+                                                                        ? styles.errMsg
+                                                                        : null
+                                                                }>
+                                                                {
+                                                                    formikProps
+                                                                        .errors
+                                                                        .newPassword
+                                                                }
+                                                            </Text>
+                                                        </ScrollView>
+                                                    </View>
+
+                                                    <View
+                                                        style={{
+                                                            marginHorizontal: 8,
+                                                            marginVertical: 4,
+                                                        }}>
+                                                        <Text
+                                                            style={
+                                                                styles.label
+                                                            }>
+                                                            CONFIRM PASSWORD
+                                                        </Text>
+                                                        <TextInput
+                                                            underlineColorAndroid='transparent'
+                                                            placeholder='Confirm new password'
+                                                            onFocus={
+                                                                onFocusConfirmPasswordChange
+                                                            }
+                                                            autoCorrect={false}
+                                                            secureTextEntry={
+                                                                true
+                                                            }
+                                                            style={
+                                                                focusConfirmPassword ===
+                                                                false
+                                                                    ? styles.textInput
+                                                                    : styles.textConfirmPassword
+                                                            }
+                                                            onChangeText={formikProps.handleChange(
+                                                                'confirmPassword'
+                                                            )}
+                                                            onBlur={
+                                                                onBlurConfirmPasswordChange
+                                                            }
+                                                        />
+                                                        <View
+                                                            style={
+                                                                formikProps
+                                                                    .errors
+                                                                    .confirmPassword
+                                                                    ? styles.redCircle
+                                                                    : styles.greenCircle
+                                                            }></View>
+                                                        <Text
+                                                            style={
+                                                                formikProps
+                                                                    .errors
+                                                                    .confirmPassword
+                                                                    ? styles.errMsg
+                                                                    : null
+                                                            }>
+                                                            {
+                                                                formikProps
+                                                                    .errors
+                                                                    .confirmPassword
+                                                            }
+                                                        </Text>
+                                                    </View>
+
+                                                    <TouchableOpacity
+                                                        onPress={
+                                                            formikProps.handleSubmit
+                                                        }
+                                                        style={{
+                                                            marginHorizontal: 8,
+                                                            marginVertical: 40,
+                                                        }}>
+                                                        <View
+                                                            style={
+                                                                formikProps
+                                                                    .errors
+                                                                    .email ||
+                                                                formikProps
+                                                                    .errors
+                                                                    .userName ||
+                                                                formikProps
+                                                                    .errors
+                                                                    .newPassword ||
+                                                                formikProps
+                                                                    .errors
+                                                                    .confirmPassword
+                                                                    ? styles.buttonlight
+                                                                    : styles.button
+                                                            }>
+                                                            <Text
+                                                                style={
+                                                                    styles.submit
+                                                                }>
+                                                                Register
+                                                            </Text>
+                                                        </View>
+                                                    </TouchableOpacity>
+                                                </React.Fragment>
+                                            )}
+                                        </Formik>
+                                    </View>
+                                </ScrollView>
+                            </TouchableWithoutFeedback>
+                        </KeyboardAvoidingView>
+                    </Screen>
+                </View>
+            )}
+        </View>
     );
 };
 
@@ -347,6 +794,19 @@ const styles = StyleSheet.create({
     screen: {
         padding: 16,
         flex: 1,
+    },
+    overlay: {
+        position: 'relative',
+        height: '100%',
+        width: '100%',
+        zIndex: 10,
+    },
+    lottie: {
+        position: 'absolute',
+        backgroundColor: 'rgba(255,255,255,0.5)',
+        height: '100%',
+        width: '100%',
+        zIndex: 10,
     },
     heading: {
         fontFamily: 'zilla-bold',
@@ -476,3 +936,4 @@ const styles = StyleSheet.create({
 });
 
 export default SignUpScreen;
+
