@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { Formik } from 'formik';
 
-import Screen from './Screen';
+import Screen from '../../components/Screen';
 
 const LoginScreen = ({ navigation }) => {
     const [focusName, setFocusName] = useState(false);

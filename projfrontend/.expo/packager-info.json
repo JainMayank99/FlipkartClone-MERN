@@ -1,10 +1,10 @@
 {
   "packagerPort": 19001,
-  "packagerPid": 11368,
+  "packagerPid": 16328,
   "expoServerPort": 19000,
-  "expoServerNgrokUrl": "https://me-epq.rsbanoula.projfrontend.exp.direct",
-  "packagerNgrokUrl": "https://packager.me-epq.rsbanoula.projfrontend.exp.direct",
-  "ngrokPid": 1516,
+  "expoServerNgrokUrl": "https://zu-uas.anonymous.projfrontend.exp.direct",
+  "packagerNgrokUrl": "https://packager.zu-uas.anonymous.projfrontend.exp.direct",
+  "ngrokPid": 1856,
   "webpackServerPort": null,
   "devToolsPort": 19002
 }

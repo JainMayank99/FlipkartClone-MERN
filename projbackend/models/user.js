@@ -11,12 +11,12 @@ var userSchema = new mongoose.Schema(
       maxlength: 32,
       trim: true
     },
-    // email: {
-    //   type: String,
-    //   // required: true,
-    //   unique: true,
-    //   default: ""
-    // },
+    email: {
+      type: String,
+      // required: true,
+      unique: true,
+      default: ""
+    },
     role: {
       type: Number,
       default: 0,

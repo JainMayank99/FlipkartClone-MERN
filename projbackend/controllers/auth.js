@@ -21,7 +21,7 @@ exports.signup = (req, res) => {
                 err: 'NOT able to save user in DB !',
             });
         }
-        res.json({
+        return res.status(200).json({
             id: user._id,
             name: user.name,
             email: user.email,

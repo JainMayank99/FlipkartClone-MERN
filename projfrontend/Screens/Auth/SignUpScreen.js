@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import {
-    SafeAreaView,
     TextInput,
-    Button,
     ActivityIndicator,
     Text,
     View,
@@ -13,10 +11,10 @@ import {
     Keyboard,
     TouchableWithoutFeedback,
 } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import Screen from './Screen';
+import Screen from '../../components/Screen';
+import { AppLoading } from 'expo';
 
 const validationSchema = yup.object().shape({
     email: yup.string().label('Email').email('Must be a valid email'),
@@ -46,11 +44,12 @@ const validationSchema = yup.object().shape({
 });
 
 const SignUpScreen = ({ route, navigation }) => {
-    const { phoneNumber } = route.params;
+    const  {phoneNumber}  = 1235467890//route.params;
     const [focusName, setFocusName] = useState(false);
     const [focusEmail, setFocusEmail] = useState(false);
     const [focusNewPassword, setFocusNewPassword] = useState(false);
     const [focusConfirmPassword, setFocusConfirmPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const onFocusNewPasswordChange = () => {
         setFocusNewPassword(true);
@@ -92,7 +91,8 @@ const SignUpScreen = ({ route, navigation }) => {
                                 style={{ flex: 1 }}
                                 initialValues={{ email: '', password: '' }}
                                 onSubmit={(values, actions) => {
-                                    alert(JSON.stringify(values));
+                                    // alert(JSON.stringify(values));
+                                    setLoading(false)
                                     setTimeout(() => {
                                         actions.setSubmitting(false);
                                     }, 1000);

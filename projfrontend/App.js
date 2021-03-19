@@ -19,9 +19,10 @@ import EditProfile from './components/ProfileComponents/EditProfile';
 import ChangePassword from './components/ProfileComponents/ChangePassword';
 import StarRatingComponent from './components/ProfileComponents/StartRatingComponent';
 import Orders from './Screens/Orders';
-import LoginScreen from './components/LoginScreen';
-import PhoneVerificationScreen from './components/PhoneVerificationScreen';
-import SignUpScreen from './components/SignUpScreen';
+
+import LoginScreen from './Screens/Auth/LoginScreen';
+import PhoneVerificationScreen from './Screens/Auth/PhoneVerificationScreen';
+import SignUpScreen from './Screens/Auth/SignUpScreen';
 
 const AuthStack = createStackNavigator();
 export default function App() {
@@ -41,23 +42,24 @@ export default function App() {
 
     if (fontsLoaded) {
         return (
-            <NavigationContainer>
-                <AuthStack.Navigator
-                    initialRouteName='Login'
-                    screenOptions={{
-                        headerShown: false,
-                    }}>
-                    <AuthStack.Screen name='Login' component={LoginScreen} />
-                    <AuthStack.Screen
-                        name='Verification'
-                        component={PhoneVerificationScreen}
-                    />
-                    <AuthStack.Screen
-                        name='Register'
-                        component={SignUpScreen}
-                    />
-                </AuthStack.Navigator>
-            </NavigationContainer>
+            // <NavigationContainer>
+            //     <AuthStack.Navigator
+            //         initialRouteName='Login'
+            //         screenOptions={{
+            //             headerShown: false,
+            //         }}>
+            //         <AuthStack.Screen name='Login' component={LoginScreen} />
+            //         <AuthStack.Screen
+            //             name='Verification'
+            //             component={PhoneVerificationScreen}
+            //         />
+            //         <AuthStack.Screen
+            //             name='Register'
+            //             component={SignUpScreen}
+            //         />
+            //     </AuthStack.Navigator>
+            // </NavigationContainer>
+            <SignUpScreen/>
         );
     } else {
         return (
