@@ -13,6 +13,8 @@ import { Formik } from 'formik';
 
 import Screen from '../../components/Screen';
 
+import { signIn,authenticate } from './AuthAPICalls/authCalls';
+
 const LoginScreen = ({ navigation }) => {
     const [focusName, setFocusName] = useState(false);
     const [focusConfirmPassword, setFocusConfirmPassword] = useState(false);
@@ -30,6 +32,21 @@ const LoginScreen = ({ navigation }) => {
         setFocusConfirmPassword(false);
     };
 
+    const apicall=(values)=>{
+        console.log(values);
+        const {phoneNumber,confirmPassword}=values
+        signIn(phoneNumber,confirmPassword)
+        .then((res) => {
+            // console.log(res);
+            authenticate(res.data, () => {
+                navigation.navigate('Home');
+            })
+        })
+        .catch((err) => {
+            alert(err);
+        })
+    }
+
     return (
         <Screen>
             <View style={styles.screen}>
@@ -37,12 +54,13 @@ const LoginScreen = ({ navigation }) => {
                     <View>
                         <Text style={styles.heading}>Login</Text>
                         <Formik
-                            initialValues={{ email: '', password: '' }}
+                            initialValues={{ phoneNumber: '', confirmPassword: '' }}
                             onSubmit={(values, actions) => {
-                                alert(JSON.stringify(values));
-                                setTimeout(() => {
-                                    actions.setSubmitting(false);
-                                }, 1000);
+                                // alert(JSON.stringify(values));
+                                apicall(values)
+                                // setTimeout(() => {
+                                //     actions.setSubmitting(false);
+                                // }, 1000);
                             }}>
                             {(formikProps) => (
                                 <React.Fragment>

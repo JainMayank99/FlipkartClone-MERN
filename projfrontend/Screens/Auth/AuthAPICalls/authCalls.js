@@ -1,29 +1,29 @@
 const axios = require('axios');
 import {BACKEND_URL} from '@env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
+export const signIn = ( phone, password ) => {
+    return axios({
+        method: 'post',
+        url: `${BACKEND_URL}/signin`,
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        data: {
+            phone,
+            password,
+        },
+    });
+};
 
-// export const signIn = ({ email, password }) => {
-//     return axios({
-//         method: 'post',
-//         url: `${BACKEND_URL}/signin`,
-//         headers: {
-//             Accept: 'application/json',
-//             'Content-Type': 'application/json',
-//         },
-//         data: {
-//             email,
-//             password,
-//         },
-//     });
-// };
-
-export const signUpWithEmail = ( phoneNumber, name, email, password ) => {
+export const signUpWithEmail = ( phone, name, email, password ) => {
     // console.log("backend called");
     return axios({
         method: 'post',
         url: `${BACKEND_URL}/signup`,
         data: {
-            phoneNumber,
+            phone,
             name,
             email,
             password,
@@ -36,12 +36,12 @@ export const signUpWithEmail = ( phoneNumber, name, email, password ) => {
 };
 
 
-export const signUpWithoutEmail = ( phoneNumber, name, password ) => {
+export const signUpWithoutEmail = ( phone, name, password ) => {
     return axios({
         method: 'post',
         url: `${BACKEND_URL}/signup`,
         data: {
-            phoneNumber,
+            phone,
             name,
             password,
         },
@@ -52,32 +52,32 @@ export const signUpWithoutEmail = ( phoneNumber, name, password ) => {
     });
 };
 
-// export const signout = (next) => {
-//     if (typeof window !== 'undefined') {
-//         localStorage.removeItem('jwt');
-//         next();
+export const signout = async(next) => {
+    if (typeof window !== 'undefined') {
+        await AsyncStorage.removeItem('jwt');
+        next();
 
-//         return axios({
-//             method: 'get',
-//             url: `${BackendUrl}/signout`,
-//         });
-//     }
-// };
+        return axios({
+            method: 'get',
+            url: `${BackendUrl}/signout`,
+        });
+    }
+};
 
-// export const authenticate = (data, next) => {
-//     if (typeof window !== 'undefined') {
-//         localStorage.setItem('jwt', JSON.stringify(data));
-//         next();
-//     }
-// };
+export const authenticate = async (data, next) => {
+    if (typeof window !== 'undefined') {
+        await AsyncStorage.setItem('jwt', JSON.stringify(data));
+        next();
+    }
+};
 
-// export const isAuthenticated = () => {
-//     if (typeof window == 'undefined') {
-//         return false;
-//     }
-//     if (localStorage.getItem('jwt')) {
-//         return JSON.parse(localStorage.getItem('jwt'));
-//     } else {
-//         return false;
-//     }
-// };
+export const isAuthenticated = async () => {
+    if (typeof window == 'undefined') {
+        return false;
+    }
+    if (await AsyncStorage.getItem('jwt')) {
+        return JSON.parse(await AsyncStorage.getItem('jwt'));
+    } else {
+        return false;
+    }
+};

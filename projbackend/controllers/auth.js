@@ -20,7 +20,7 @@ exports.signup = (req, res) => {
     user.save((err, user) => {
         if (err) {
             return res.status(400).json({
-                err: 'NOT able to save user in DB !',
+                msg: 'NOT able to save user in DB !',
             });
         }
         return res.status(200).json({
@@ -33,12 +33,13 @@ exports.signup = (req, res) => {
 };
 
 exports.signin = (req, res) => {
-    const { phone, email, password } = req.body;
+    console.log("SignIn Backend hit");
+    const { phone,  password } = req.body;
     const errors = validationResult(req);
 
-    if (email != null && phone != null && email.length === 0 && phone.toString().length === 0) {
+    if ( phone != null && phone.toString().length === 0) {
         return res.status(401).json({
-            msg: 'Enter Your Email or Phone',
+            msg: 'Enter Your Phone Number',
         });
     }
 
@@ -52,13 +53,13 @@ exports.signin = (req, res) => {
     if (phone.length != 0) {
         UserSchema.findOne({ phone }, (err, user) => {
             if (err) {
-                return res.status(400).json({
+                return res.status(400).send({
                     msg: 'DB Error !',
                 });
             }
 
             if (!user) {
-                return res.status(400).json({
+                return res.status(400).send({
                     msg: 'User phone number not found !',
                 });
             }

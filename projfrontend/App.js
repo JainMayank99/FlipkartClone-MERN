@@ -25,6 +25,8 @@ import PhoneVerificationScreen from './Screens/Auth/PhoneVerificationScreen';
 import SignUpScreen from './Screens/Auth/SignUpScreen';
 
 const AuthStack = createStackNavigator();
+
+
 export default function App() {
     const getFonts = () => {
         return Font.loadAsync({
@@ -59,7 +61,7 @@ export default function App() {
             //         />
             //     </AuthStack.Navigator>
             // </NavigationContainer>
-            <SignUpScreen/>
+            <Home/>
         );
     } else {
         return (

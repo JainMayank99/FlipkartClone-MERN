@@ -45,7 +45,7 @@ const validationSchema = yup.object().shape({
 });
 
 const SignUpScreen = ({ route, navigation }) => {
-    // const { phoneNumber } = 1235467890; //route.params;
+    // const { phoneNumber } = route.params;
     const phoneNumber =1235467890
     const [focusName, setFocusName] = useState(false);
     const [focusEmail, setFocusEmail] = useState(false);
@@ -86,20 +86,20 @@ const SignUpScreen = ({ route, navigation }) => {
             // console.log("W/O email");
             signUpWithoutEmail(phoneNumber,userName,newPassword)
             .then((res) => {
-
-            }
+                navigation.navigate('Home');
+            })
             .catch((err) => {
-
-            }
+                alert(err);
+            })
         }else{
             // console.log("With email");
             signUpWithEmail(phoneNumber,userName,email,newPassword)
             .then((res) => {
-
-            }
+                navigation.navigate('Home');
+            })
             .catch((err) => {
-                
-            }
+                alert(err);
+            })
         }
     }
 
