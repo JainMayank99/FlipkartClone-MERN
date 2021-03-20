@@ -33,7 +33,7 @@ exports.signup = (req, res) => {
 };
 
 exports.signin = (req, res) => {
-    console.log("SignIn Backend hit");
+    // console.log("SignIn Backend hit");
     const { phone,  password } = req.body;
     const errors = validationResult(req);
 
