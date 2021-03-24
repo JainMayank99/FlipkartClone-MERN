@@ -40,9 +40,10 @@ const productRoutes = require("./routes/product");
 const wishListRoutes = require("./routes/wishlist");
 const cartRoutes = require("./routes/cart");
 // const orderRoutes = require("./routes/order");
+// const reviewRoutes = require("./routes/review");
 
-// const homeScreenRoutes = require("./routes/homeScreen");
-// const productSearchRoutes = require("./routes/productSearch");
+const homeScreenRoutes = require("./routes/homeScreen");
+const productSearchRoutes = require("./routes/productSearch");
 
 
 //Middlewares
@@ -59,9 +60,10 @@ app.use("/api", productRoutes);
 app.use("/api", wishListRoutes);
 app.use("/api", cartRoutes);
 // app.use("/api", orderRoutes);
+// app.use("/api", reviewRoutes);
 
-// app.use("/api", homeScreenRoutes);
-// app.use("/api", productSearchRoutes);
+app.use("/api", homeScreenRoutes);
+app.use("/api", productSearchRoutes);
 
 //Port
 const port = process.env.PORT || 8000;
