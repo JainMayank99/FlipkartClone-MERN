@@ -45,7 +45,7 @@ const validationSchema = yup.object().shape({
 });
 
 const SignUpScreen = ({ route, navigation }) => {
-    // const { phoneNumber } = route.params;
+  
     const phoneNumber =1235467890
     const [focusName, setFocusName] = useState(false);
     const [focusEmail, setFocusEmail] = useState(false);
@@ -81,9 +81,7 @@ const SignUpScreen = ({ route, navigation }) => {
 
     const apicall=(values)=>{
         const {email,userName,newPassword}=values
-        // console.log(userName,values.userName);
         if(email.length==0){
-            // console.log("W/O email");
             signUpWithoutEmail(phoneNumber,userName,newPassword)
             .then((res) => {
                 navigation.navigate('Home');
@@ -92,7 +90,6 @@ const SignUpScreen = ({ route, navigation }) => {
                 alert(err);
             })
         }else{
-            // console.log("With email");
             signUpWithEmail(phoneNumber,userName,email,newPassword)
             .then((res) => {
                 navigation.navigate('Home');
@@ -131,17 +128,9 @@ const SignUpScreen = ({ route, navigation }) => {
                                                 email: '',
                                                 password: '',
                                             }}
-                                            onSubmit={(values, actions) => {
-                                                // alert(JSON.stringify(values));
-                                                setLoading(true);
-
+                                            onSubmit={(values, actions) => {  
+                                                setLoading(true)
                                                 apicall(values);
-
-                                                // setTimeout(() => {
-                                                //     actions.setSubmitting(
-                                                //         false
-                                                //     );
-                                                // }, 1000);
                                             }}
                                             validationSchema={validationSchema}>
                                             {(formikProps) => (
@@ -469,16 +458,8 @@ const SignUpScreen = ({ route, navigation }) => {
                                                 password: '',
                                             }}
                                             onSubmit={(values, actions) => {
-                                                // alert(JSON.stringify(values));
                                                 setLoading(true);
-
                                                 apicall(values);
-
-                                                // setTimeout(() => {
-                                                //     actions.setSubmitting(
-                                                //         false
-                                                //     );
-                                                // }, 1000);
                                             }}
                                             validationSchema={validationSchema}>
                                             {(formikProps) => (

@@ -61,7 +61,7 @@ export default function App() {
             //         />
             //     </AuthStack.Navigator>
             // </NavigationContainer>
-            <Home/>
+            <PhoneVerificationScreen/>
         );
     } else {
         return (
