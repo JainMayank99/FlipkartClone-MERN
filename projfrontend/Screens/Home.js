@@ -325,4 +325,5 @@ const styles = StyleSheet.create({
         overflow: 'visible',
     },
 });
+
 export default Home;

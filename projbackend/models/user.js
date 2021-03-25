@@ -19,7 +19,7 @@ var userSchema = new mongoose.Schema(
     },
     role: {
       type: Number,
-      default: 0,
+      default: 0,//seller:1 admin:2
       required: true,
       trim: true
     },
