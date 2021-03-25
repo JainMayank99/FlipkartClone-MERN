@@ -24,7 +24,7 @@ exports.addProduct = (req, res) => {
         .IncomingForm({
             multiples: true,
             keepExtensions: true,
-            maxFileSize: 2 * 1024 * 1024
+            maxFileSize: 10 * 1024 * 1024
         });
 
     //fields to contain name,description
@@ -79,7 +79,7 @@ exports.addProduct = (req, res) => {
                                     error: "Saving product in DB failed"
                                 });
                             }
-                            return res.status(202).json(product);
+                            return res.status(202).send(product);
                         });
                     }
                 }

@@ -3,6 +3,6 @@ const router = express.Router()
 
 const { getRandomProducts } = require("../controllers/homeScreen")
 
-router.get("/getRandomProducts",getRandomProducts)
+router.post("/getRandomProducts",getRandomProducts)
 
 module.exports = router

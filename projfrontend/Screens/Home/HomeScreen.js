@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import Screen from '../components/Screen';
-import HeaderIcon from '../components/HeaderIcon';
-import SearchBar from '../components/SearchBar';
+import Screen from '../../components/Screen';
+import HeaderIcon from '../../components/HeaderIcon';
+import SearchBar from '../../components/SearchBar';
 
 const HomeScreen = () => {
     return (

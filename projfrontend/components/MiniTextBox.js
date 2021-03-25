@@ -40,7 +40,7 @@ const MiniTextBox = () => {
                 borderBottomWidth: 10,
                 borderColor: '#edeeef',
             }}>
-            {console.log(Dimensions.get('screen').width)}
+            {/* {console.log(Dimensions.get('screen').width)} */}
             <FlatList
                 horizontal
                 horizontal={true}

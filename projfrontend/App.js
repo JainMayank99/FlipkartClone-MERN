@@ -5,8 +5,6 @@ import { AppLoading } from 'expo';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import HomeScreen from './Screens/HomeScreen';
-import Home from './Screens/Home';
 import Categories from './components/Categories';
 import ProductDescScreen from './Screens/ProductDescScreen';
 import ProductListings from './Screens/ProductListings';
@@ -23,6 +21,7 @@ import Orders from './Screens/Orders';
 import LoginScreen from './Screens/Auth/LoginScreen';
 import PhoneVerificationScreen from './Screens/Auth/PhoneVerificationScreen';
 import SignUpScreen from './Screens/Auth/SignUpScreen';
+import Home from './Screens/Home/Home';
 
 const AuthStack = createStackNavigator();
 
@@ -61,7 +60,7 @@ export default function App() {
             //         />
             //     </AuthStack.Navigator>
             // </NavigationContainer>
-            <PhoneVerificationScreen/>
+            <Home/>
         );
     } else {
         return (
