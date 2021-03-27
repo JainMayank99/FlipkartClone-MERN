@@ -40,7 +40,7 @@ const productRoutes = require("./routes/product");
 const wishListRoutes = require("./routes/wishlist");
 const cartRoutes = require("./routes/cart");
 // const orderRoutes = require("./routes/order");
-// const reviewRoutes = require("./routes/review");
+const reviewRoutes = require("./routes/review");
 
 const homeScreenRoutes = require("./routes/homeScreen");
 const productSearchRoutes = require("./routes/productSearch");
@@ -60,7 +60,7 @@ app.use("/api", productRoutes);
 app.use("/api", wishListRoutes);
 app.use("/api", cartRoutes);
 // app.use("/api", orderRoutes);
-// app.use("/api", reviewRoutes);
+app.use("/api", reviewRoutes);
 
 app.use("/api", homeScreenRoutes);
 app.use("/api", productSearchRoutes);
