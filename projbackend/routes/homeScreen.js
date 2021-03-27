@@ -1,8 +1,24 @@
-const express = require("express")
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 
-const { getRandomProducts } = require("../controllers/homeScreen")
+const {
+	getRandomProducts,
+	getTopRatedProducts,
+	getTopRatedProductsBasedOnCategoryId,
+} = require("../controllers/homeScreen");
 
-router.post("/getRandomProducts",getRandomProducts)
+const { getCategoryById } = require("../controllers/category");
 
-module.exports = router
+//paramneter extractor
+router.param("categoryId", getCategoryById);
+
+router.post("/getRandomProducts", getRandomProducts);
+
+router.get("/getTopRatedProducts", getTopRatedProducts);
+
+router.get(
+	"/getTopRatedProductsBasedOnCategoryId/:categoryId",
+	getTopRatedProductsBasedOnCategoryId
+);
+
+module.exports = router;
