@@ -37,6 +37,7 @@ export default function App() {
             'zilla-reg': require('./assets/fonts/ZillaSlab-Regular.ttf'),
             'zilla-med': require('./assets/fonts/ZillaSlab-Medium.ttf'),
             'zilla-bold': require('./assets/fonts/ZillaSlab-Bold.ttf'),
+            'zilla-semibold': require('./assets/fonts/ZillaSlab-SemiBold.ttf')
         });
     };
 
@@ -61,7 +62,7 @@ export default function App() {
             //         />
             //     </AuthStack.Navigator>
             // </NavigationContainer>
-            <PhoneVerificationScreen/>
+            <ProductListings/>
         );
     } else {
         return (

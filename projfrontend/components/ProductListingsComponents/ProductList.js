@@ -4,59 +4,41 @@ import {
     Text,
     StyleSheet,
     FlatList,
-    Image,
     TouchableOpacity,
-    TouchableWithoutFeedback,
 } from 'react-native';
 import { Dimensions } from 'react-native';
 import { Feather } from '@expo/vector-icons';
+import LottieView from 'lottie-react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
-
-import HeaderIcon from '../HeaderIcon';
-import SelectLanguage from '../SelectLanguage';
 import SelectSort from '../SelectSort';
 import ProductDetails from './ProductDetails';
 
-const ProductList = () => {
+const ProductList = ({data}) => {
+
     const refRBSheet = useRef();
     const width = Dimensions.get('screen').width;
-    const [gallery, setgallery] = useState([
-        {
-            image: require('../../assets/main/bsc2.jpg'),
-            title: 'Solid State Kurta',
-            cost: '4,500',
-            key: '1',
-            desc: 'Tribes Karnataka',
-            discount: '30% off',
-        },
-        {
-            image: require('../../assets/main/cat2.png'),
-            title: 'Something',
-            cost: '2,500',
-            key: '2',
-            desc: 'Tribes Karnataka',
-            discount: '50% off',
-        },
+    const height = Dimensions.get('screen').height;
+    const [sortBy,setSortBy] = useState('');
+    const compare=(a,b,key)=>{
+        if(sortBy==='2')
+        return b.cost-a.cost
 
-        {
-            image: require('../../assets/main/bsc3.jpg'),
-            title: 'Printed Kurta With Skirt ',
-            cost: '2,750',
-            key: '5',
-            desc: 'Tribes Karnataka',
-            discount: '10% off',
-        },
-    ]);
-
+        if(sortBy==='3'){
+            return a.cost-b.cost
+        }
+    }
+    const onClickSortBy = (key) =>{
+        setSortBy(key);
+        data.sort(compare)
+    
+    }
     return (
         <View
             style={{
-                paddingBottom: 200,
-                borderBottomWidth: 10,
-                borderColor: '#edeeef',
+                paddingBottom: 207.5,
             }}>
             <View style={styles.body}>
-                <Text style={styles.text}>Clothings</Text>
+                <Text style={styles.text}>Search Results</Text>
 
                 <TouchableOpacity
                     onPress={() => refRBSheet.current.open()}
@@ -65,7 +47,7 @@ const ProductList = () => {
                 </TouchableOpacity>
             </View>
             <RBSheet
-                height={250}
+                height={225}
                 animation={'fade'}
                 ref={refRBSheet}
                 openDuration={250}
@@ -73,21 +55,36 @@ const ProductList = () => {
                 closeOnPressMask={false}
                 customStyles={{
                     wrapper: {
-                        backgroundColor: 'transparent',
+                        backgroundColor: 'rgba(240, 245, 241,0.45)',
                         alignItems: 'center',
                         justifyContent: 'center',
+                        
                     },
                     draggableIcon: {
-                        backgroundColor: '#000',
+                        backgroundColor: '#FC8019',
                     },
                 }}>
                 <View style={styles.bottomTab}>
                     <Text style={styles.heading}>Sort By :</Text>
                 </View>
-                <SelectSort onPress={() => refRBSheet.current.open()} />
+                <SelectSort onPress={() => refRBSheet.current.open()} onClickSortBy={onClickSortBy} sortBy={sortBy}/>
             </RBSheet>
+          
+            {data.length===0?<View style={{ justifyContent: 'center',alignItems: 'center'
+        ,height:height*0.6}}>
+           
+             
+            <LottieView
+                    style={styles.lottie}
+                    autoPlay
+                    loop
+                    source={require('../../assets/animations/loader.json')}
+                />
+                
+                <Text style={styles.text}>No Result Found !</Text>
+            </View>:null}
             <FlatList
-                data={gallery}
+                data={data}
                 showsHorizontalScrollIndicator={false}
                 renderItem={({ item }) => {
                     return <ProductDetails item={item} />;
@@ -108,14 +105,14 @@ const styles = StyleSheet.create({
         marginBottom: 16,
     },
     text: {
-        fontFamily: 'popins-bold',
-        fontSize: 20,
+        fontFamily: 'zilla-med',
+        fontSize: 24,
         color: '#20263e',
         paddingVertical: 10,
         marginLeft: 3,
     },
     view: {
-        fontFamily: 'popins-bold',
+        fontFamily: 'zilla-med',
         fontSize: 18,
         color: '#20263e',
         paddingTop: 10,
@@ -133,12 +130,26 @@ const styles = StyleSheet.create({
         padding: 2,
     },
     heading: {
-        fontFamily: 'popins-med',
+        fontFamily: 'zilla-med',
         fontSize: 20,
         color: '#20263e',
         paddingHorizontal: 8,
         letterSpacing: 0.5,
         textAlign: 'left',
+    },
+    overlay: {
+        position: 'relative',
+        height: '100%',
+        width: '100%',
+        zIndex: 10,
+    },
+    lottie: {
+        position: 'absolute',
+        backgroundColor: 'white',
+        height: '100%',
+        width: '100%',
+        zIndex: 10,
+      
     },
 });
 

@@ -15,6 +15,19 @@ const ProductDetails = (item) => {
         uri: require('../../assets/catIcons/like.png'),
     };
     const width = Dimensions.get('screen').width;
+    const text_truncate = function(str, length, ending) {
+        if (length == null) {
+          length = 100;
+        }
+        if (ending == null) {
+          ending = ' ...';
+        }
+        if (str.length > length) {
+          return str.substring(0, length - ending.length) + ending;
+        } else {
+          return str;
+        }
+      };
     return (
         <View
             style={{
@@ -60,7 +73,7 @@ const ProductDetails = (item) => {
                     </View>
                     <View style={styles.detailsBox}>
                         <Text style={styles.textDetails}>
-                            {item.item.title}
+                            {text_truncate(item.item.title,22)}
                         </Text>
                         <Text style={styles.tribeDetails}>
                             {item.item.desc}
@@ -94,8 +107,8 @@ const ProductDetails = (item) => {
 };
 const styles = StyleSheet.create({
     view: {
-        fontFamily: 'popins-bold',
-        fontSize: 18,
+        fontFamily: 'zilla-bold',
+        fontSize: 24,
         color: '#20263e',
         paddingTop: 10,
         position: 'absolute',
@@ -122,8 +135,8 @@ const styles = StyleSheet.create({
         padding: 2,
     },
     textDiscount: {
-        fontFamily: 'popins-bold',
-        fontSize: 14,
+        fontFamily: 'zilla-bold',
+        fontSize: 16,
         color: 'white',
     },
     detailsBox: {
@@ -132,28 +145,30 @@ const styles = StyleSheet.create({
         width: 200,
     },
     textDetails: {
-        fontFamily: 'popins-bold',
-        fontSize: 18,
+        fontFamily: 'zilla-semibold',
+        fontSize: 22.5,
         color: 'black',
         paddingVertical: 2,
     },
     tribeDetails: {
-        fontFamily: 'popins-semibold',
-        fontSize: 17,
+        fontFamily: 'zilla-med',
+        fontSize: 20,
         color: '#4d4b50',
-        paddingVertical: 2,
+        paddingVertical: 8,
     },
     rating: {
-        fontFamily: 'popins-semibold',
-        fontSize: 16,
+        fontFamily: 'zilla-med',
+        fontSize: 19,
         color: '#4d4b50',
         paddingVertical: 4,
+       
     },
     price: {
-        fontFamily: 'popins-semibold',
-        fontSize: 16,
+        fontFamily: 'zilla-med',
+        fontSize: 19,
         color: '#4d4b50',
     },
+    
 });
 
 export default ProductDetails;
