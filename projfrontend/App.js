@@ -1,27 +1,11 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet} from 'react-native';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
-import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import Categories from './components/Categories';
-import ProductDescScreen from './Screens/ProductDescScreen';
 import ProductListings from './Screens/ProductListings';
-import WishList from './Screens/WishList';
-import Cart from './Screens/Cart';
-import Profile from './components/ProfileComponents/Profile';
-import AddressBook from './components/ProfileComponents/AddressBook';
-import AddAddress from './components/ProfileComponents/AddAddress';
-import EditProfile from './components/ProfileComponents/EditProfile';
-import ChangePassword from './components/ProfileComponents/ChangePassword';
-import StarRatingComponent from './components/ProfileComponents/StartRatingComponent';
-import Orders from './Screens/Orders';
 
-import LoginScreen from './Screens/Auth/LoginScreen';
-import PhoneVerificationScreen from './Screens/Auth/PhoneVerificationScreen';
-import SignUpScreen from './Screens/Auth/SignUpScreen';
-import Home from './Screens/Home/Home';
 
 const AuthStack = createStackNavigator();
 

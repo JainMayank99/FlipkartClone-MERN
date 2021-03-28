@@ -1,13 +1,16 @@
 import React from 'react';
-import { View, StyleSheet, TextInput } from 'react-native';
+import { View, StyleSheet, TextInput,TouchableWithoutFeedback,Keyboard } from 'react-native';
 import { Dimensions } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
 const Search = ({query,handleSearch}) => {
     return (
         <View style={styles.container}>
+           
+            
             <TextInput
                 style={styles.formField}
+                underlineColorAndroid='transparent'
                 placeholder='Search here!'
                 placeholderTextColor='#7e85a1'
                 placeholderTextWeight='bold'
@@ -24,7 +27,9 @@ const Search = ({query,handleSearch}) => {
                     top: 12.5,
                 }}
             />
-        </View>
+            </View>
+            
+        
     );
 };
 
@@ -40,7 +45,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderColor: '#f7f7f7',
         backgroundColor: '#f7f7f7',
-        fontSize: 21,
+        fontSize: 22.5,
         fontFamily: 'zilla-med',
         height: 50,
     },
