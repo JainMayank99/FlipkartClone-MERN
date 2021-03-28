@@ -1,50 +1,68 @@
-const express = require("express")
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 
 const {
-    isSignedIn,
-    isAuthenticated,
-    isSeller,
-    isAuthorized
-} = require("../controllers/auth")
+	isSignedIn,
+	isAuthenticated,
+	isSeller,
+	isAuthorized,
+} = require("../controllers/auth");
 
-const { getUserById } = require("../controllers/user")
-const { getCategoryById, } = require("../controllers/category")
+const { getUserById } = require("../controllers/user");
+const { getCategoryById } = require("../controllers/category");
 const {
-    getProductById,
-    addProduct,
-    getAllProducts,
-    getProductsByUserId,
-    getProductsByCategoryId,
-    updateProduct,
-    removeProduct
-} = require("../controllers/product")
+	getProductById,
+	addProduct,
+	getAllProducts,
+	getProductsByUserId,
+	getProductsByCategoryId,
+	updateProduct,
+	removeProduct,
+} = require("../controllers/product");
 
 //parameter extractor
-router.param("userId", getUserById)
+router.param("userId", getUserById);
 
 //paramneter extractor
-router.param("categoryId", getCategoryById)
+router.param("categoryId", getCategoryById);
 
 //parameter extractor
-router.param("productId", getProductById)
+router.param("productId", getProductById);
 
 //to add product
-router.post("/addProduct/:userId/:categoryId", isSignedIn, isAuthenticated, isSeller, addProduct)
+router.post(
+	"/addProduct/:userId/:categoryId",
+	isSignedIn,
+	isAuthenticated,
+	isSeller,
+	addProduct
+);
 
 // //to get all products
 // router.get("/getAllProducts", getAllProducts)
 
 //to get products of a seller
-router.get("/getProductsByUserId/:userId", getProductsByUserId)
+router.get("/getProductsByUserId/:userId", getProductsByUserId);
 
 //to get products of a category
-router.get("/getProductsByCategoryId/:categoryId", getProductsByCategoryId)
+router.get("/getProductsByCategoryId/:categoryId", getProductsByCategoryId);
 
 //to update a product
-router.put("/updateProduct/:userId/:productId", isSignedIn, isAuthenticated, isSeller, updateProduct)
+router.put(
+	"/updateProduct/:userId/:productId",
+	isSignedIn,
+	isAuthenticated,
+	isSeller,
+	updateProduct
+);
 
 //to remove a product
-router.delete("/removeProduct/:userId/:productId", isSignedIn, isAuthenticated, isSeller, removeProduct)
+router.delete(
+	"/removeProduct/:userId/:productId",
+	isSignedIn,
+	isAuthenticated,
+	isSeller,
+	removeProduct
+);
 
-module.exports = router
+module.exports = router;

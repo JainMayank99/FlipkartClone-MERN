@@ -46,6 +46,11 @@ const productSchema = new mongoose.Schema({
         type: ObjectId,
         ref: "ReviewSchema"
     }],
+    avgRating:{
+        type: Number,
+        required: true,
+        default:0
+    },
     // updateTimer: {//in Minutes
     //     processing: {
     //         type: Number

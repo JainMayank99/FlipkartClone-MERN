@@ -1,35 +1,31 @@
-import React, { useRef, useState, useMemo } from 'react';
+import React, { useRef, useState } from 'react';
 import {
     View,
     Text,
     Image,
-    ImageBackground,
     ScrollView,
     TouchableOpacity,
-    FlatList,
-    TextInput,
     StyleSheet,
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import LottieView from 'lottie-react-native';
 
-import { dummyData } from '../data/Data';
-import { minData } from '../data/MiniData';
-import Header from '../components/Header';
-import AppCarousel from '../components/AppCarousel';
-import Categories from '../components/Categories';
-import TopPicks from '../components/TopPicks';
-import FeaturedCategories from '../components/FeaturedCategories';
-import DealOfTheDay from '../components/DealOfTheDay';
-import MiniTextBox from '../components/MiniTextBox';
-import PopularTribes from '../components/PopularTribes';
-import NewlyArrived from '../components/NewlyArrived';
-import InTheSpotlight from '../components/InTheSpotlight';
-import TopRated from '../components/TopRated';
-import BestSellingInCat from '../components/BestSellingInCat';
-import Sell from '../components/Sell';
-import BestSellingInJew from '../components/BestSellingInJew';
-import ActivityIndicator from '../components/ActivityIndicator';
+import { dummyData } from '../../data/Data';
+import { minData } from '../../data/MiniData';
+import Header from '../../components/Header';
+import AppCarousel from '../../components/AppCarousel';
+import Categories from '../../components/Categories';
+import TopPicks from './Component/TopPicks';
+import FeaturedCategories from '../../components/FeaturedCategories';
+import DealOfTheDay from './Component/DealOfTheDay';
+import MiniTextBox from '../../components/MiniTextBox';
+import PopularTribes from '../../components/PopularTribes';
+import NewlyArrived from '../../components/NewlyArrived';
+import InTheSpotlight from './Component/InTheSpotlight';
+import TopRated from '../../components/TopRated';
+import BestSellingInCat from '../../components/BestSellingInCat';
+import Sell from '../../components/Sell';
+import BestSellingInJew from '../../components/BestSellingInJew';
 
 const Home = () => {
     const [language, setLanguage] = useState('en');
@@ -166,7 +162,7 @@ const Home = () => {
                         style={styles.lottie}
                         autoPlay
                         loop
-                        source={require('../assets/animations/loader.json')}
+                        source={require('../../assets/animations/loader.json')}
                     />
 
                     <Header
