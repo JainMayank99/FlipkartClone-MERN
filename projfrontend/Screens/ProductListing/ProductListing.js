@@ -5,8 +5,11 @@ import LottieView from "lottie-react-native";
 import ProductList from "./ProductListingsComponents/ProductList";
 import Header_custom from "./ProductListingsComponents/Header_custom";
 import { productSearch } from "./APICall/productSearchAPI";
+import { productsByCategoryId } from "./APICall/categoryProductApi";
 
-const ProductListings = () => {
+const MayankListing = ({ category }) => {
+	// console.log("Category ID", category);
+
 	const [language, setLanguage] = useState("en");
 	const [loading, setLoading] = useState(false);
 	const [query, setQuery] = useState("");
@@ -23,51 +26,17 @@ const ProductListings = () => {
 			.catch((err) => {
 				console.log("Product Search Screen error", err);
 			});
+		if (category !== undefined) {
+			productsByCategoryId(category)
+				.then((res) => {
+					setData(res.data);
+					// console.log(res.data);
+				})
+				.catch((err) => {
+					console.log("Category Product Search Screen error", err);
+				});
+		}
 	}, []);
-
-	// const [gallery, setgallery] = useState([
-	// 	{
-	// 		image: require("../../assets/main/bsc2.jpg"),
-	// 		title: "Solid State Kurta",
-	// 		cost: 4500,
-	// 		key: "10",
-	// 		desc: "Tribes Karnataka",
-	// 		discount: "30% off",
-	// 	},
-	// 	{
-	// 		image: require("../../assets/main/cat2.png"),
-	// 		title: "Something",
-	// 		cost: 2500,
-	// 		key: "2",
-	// 		desc: "Tribes Karnataka",
-	// 		discount: "50% off",
-	// 	},
-
-	// 	{
-	// 		image: require("../../assets/main/bsc3.jpg"),
-	// 		title: "Printed Kurta With Skirt ",
-	// 		cost: 2750,
-	// 		key: "5",
-	// 		desc: "Tribes Karnataka",
-	// 		discount: "10% off",
-	// 	},
-	// 	{
-	// 		image: require("../../assets/main/bsc3.jpg"),
-	// 		title: "Printed Kurta With Skirt ",
-	// 		cost: 2750,
-	// 		key: "6",
-	// 		desc: "Tribes Karnataka",
-	// 		discount: "10% off",
-	// 	},
-	// 	{
-	// 		image: require("../../assets/main/bsc3.jpg"),
-	// 		title: "Printed Kurta With Skirt ",
-	// 		cost: 2750,
-	// 		key: "7",
-	// 		desc: "Tribes Karnataka",
-	// 		discount: "10% off",
-	// 	},
-	// ]);
 
 	const mainWork = (lang) => {
 		setLanguage(lang);
@@ -82,6 +51,7 @@ const ProductListings = () => {
 
 	const handleSearch = (queryText) => {
 		setQuery(queryText);
+
 		const tempData = gallery.filter((item) =>
 			// queryText.length > 2 &&
 			item.name.toLowerCase().startsWith(queryText.toLowerCase())
@@ -226,4 +196,4 @@ const styles = StyleSheet.create({
 		overflow: "visible",
 	},
 });
-export default ProductListings;
+export default MayankListing;

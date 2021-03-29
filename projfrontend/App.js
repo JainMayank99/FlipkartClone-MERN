@@ -4,7 +4,9 @@ import * as Font from "expo-font";
 import { AppLoading } from "expo";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import ProductListings from "./Screens/ProductListing/ProductListings";
+import CatProductsListing from "./Screens/ProductListing/CatProductsListing";
+import ProductListing from "./Screens/ProductListing/ProductListing";
+import MayankListing from "./Screens/ProductListing/ProductListing";
 import Home from "./Screens/Home/Home";
 
 const AuthStack = createStackNavigator();
@@ -44,7 +46,29 @@ export default function App() {
 			//         />
 			//     </AuthStack.Navigator>
 			// </NavigationContainer>
-			<ProductListings />
+			// <CatProductsListing category="6056e7146e98663c74f5b84a" />
+			// <ProductListing />
+			// <MayankListing category="6061c5689cc9850b18fb1d39" />
+			// <MayankListing />
+
+
+			// <NavigationContainer>
+		    //  <AuthStack.Navigator
+			//         initialRouteName='ProductListing'
+			//         screenOptions={{
+			//             headerShown: false,
+			//         }}>
+			//         <AuthStack.Screen name='ProductListing' component={ProductListing} />
+			//         {/* <AuthStack.Screen
+			//             name='Verification'
+			//             component={PhoneVerificationScreen}
+			//         /> */}
+			//         <AuthStack.Screen
+			//             name='Register'
+			//             component={SignUpScreen}
+			//         />
+			//     </AuthStack.Navigator>
+			// </NavigationContainer>
 		);
 	} else {
 		return (
