@@ -13,7 +13,7 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import SelectSort from "./SelectSort";
 import ProductDetails from "./ProductDetails";
 
-const ProductList = ({ data, query }) => {
+const ProductList = ({ data, query, navigation }) => {
 	const refRBSheet = useRef();
 	const width = Dimensions.get("screen").width;
 	const height = Dimensions.get("screen").height;
@@ -113,7 +113,7 @@ const ProductList = ({ data, query }) => {
 				keyExtractor={(item) => item._id}
 				renderItem={({ item }) => {
 					// console.log("item", item);
-					return <ProductDetails item={item} />;
+					return <ProductDetails item={item} navigation={navigation} />;
 				}}
 			/>
 		</View>

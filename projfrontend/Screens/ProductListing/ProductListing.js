@@ -7,7 +7,7 @@ import Header_custom from "./ProductListingsComponents/Header_custom";
 import { productSearch } from "./APICall/productSearchAPI";
 import { productsByCategoryId } from "./APICall/categoryProductApi";
 
-const MayankListing = ({ category }) => {
+const ProductListing = ({ category, navigation }) => {
 	// console.log("Category ID", category);
 
 	const [language, setLanguage] = useState("en");
@@ -83,7 +83,7 @@ const MayankListing = ({ category }) => {
 							marginTop: 105,
 						}}
 					>
-						<ProductList data={data} query={query} />
+						<ProductList data={data} query={query} navigation={navigation} />
 					</View>
 				</View>
 			) : (
@@ -99,7 +99,7 @@ const MayankListing = ({ category }) => {
 							marginTop: 105,
 						}}
 					>
-						<ProductList data={data} query={query} />
+						<ProductList data={data} query={query} navigation={navigation} />
 					</View>
 				</View>
 			)}
@@ -196,4 +196,4 @@ const styles = StyleSheet.create({
 		overflow: "visible",
 	},
 });
-export default MayankListing;
+export default ProductListing;

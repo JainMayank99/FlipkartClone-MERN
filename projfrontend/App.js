@@ -3,10 +3,10 @@ import { StyleSheet } from "react-native";
 import * as Font from "expo-font";
 import { AppLoading } from "expo";
 import { createStackNavigator } from "@react-navigation/stack";
+import { NavigationContainer } from "@react-navigation/native";
 
-import CatProductsListing from "./Screens/ProductListing/CatProductsListing";
 import ProductListing from "./Screens/ProductListing/ProductListing";
-import MayankListing from "./Screens/ProductListing/ProductListing";
+import ProductDescription from "./Screens/ProductDescription/ProductDescription";
 import Home from "./Screens/Home/Home";
 
 const AuthStack = createStackNavigator();
@@ -51,24 +51,21 @@ export default function App() {
 			// <MayankListing category="6061c5689cc9850b18fb1d39" />
 			// <MayankListing />
 
+			<NavigationContainer>
+				<AuthStack.Navigator
+					initialRouteName="ProductListing"
+					screenOptions={{
+						headerShown: false,
+					}}
+				>
+					<AuthStack.Screen name="ProductListing" component={ProductListing} />
 
-			// <NavigationContainer>
-		    //  <AuthStack.Navigator
-			//         initialRouteName='ProductListing'
-			//         screenOptions={{
-			//             headerShown: false,
-			//         }}>
-			//         <AuthStack.Screen name='ProductListing' component={ProductListing} />
-			//         {/* <AuthStack.Screen
-			//             name='Verification'
-			//             component={PhoneVerificationScreen}
-			//         /> */}
-			//         <AuthStack.Screen
-			//             name='Register'
-			//             component={SignUpScreen}
-			//         />
-			//     </AuthStack.Navigator>
-			// </NavigationContainer>
+					<AuthStack.Screen
+						name="ProductDescription"
+						component={ProductDescription}
+					/>
+				</AuthStack.Navigator>
+			</NavigationContainer>
 		);
 	} else {
 		return (
