@@ -3,8 +3,10 @@ import { StyleSheet } from "react-native";
 import * as Font from "expo-font";
 import { AppLoading } from "expo";
 import { createStackNavigator } from "@react-navigation/stack";
+import { NavigationContainer } from "@react-navigation/native";
 
-import ProductListings from "./Screens/ProductListing/ProductListings";
+import ProductListing from "./Screens/ProductListing/ProductListing";
+import ProductDescription from "./Screens/ProductDescription/ProductDescription";
 import Home from "./Screens/Home/Home";
 import { PaymentScreen } from "./Screens/PaymentScreen";
 import Cart from './Screens/Cart';

@@ -64,11 +64,6 @@ router.get(
 );
 
 //to get review based on productId
-router.get(
-	"/getReviewByProductId/:userId/:productId",
-	isSignedIn,
-	isAuthenticated,
-	getReviewByProductId
-);
+router.post("/getReviewByProductId/:productId", getReviewByProductId);
 
 module.exports = router;

@@ -11,7 +11,7 @@ import {
 import { Feather } from "@expo/vector-icons";
 import { Image as ExpoImage } from "react-native-expo-image-cache";
 
-const ProductDetails = (item) => {
+const ProductDetails = ({ item, route, navigation }) => {
 	// console.log("ProductDetail", item);
 	const image = {
 		uri: require("../../../assets/catIcons/like.png"),
@@ -52,32 +52,38 @@ const ProductDetails = (item) => {
 					}}
 				/>
 			</View>
-			<TouchableWithoutFeedback>
+			<TouchableOpacity
+				onPress={() => {
+					// console.log("clicked");
+					navigation.navigate("ProductDescription", {
+						item,
+					});
+				}}
+			>
 				<View style={{ flex: 1, flexDirection: "row" }}>
 					<View
 						style={{
 							marginLeft: Dimensions.get("screen").width * 0.02041,
 						}}
 					>
-						<TouchableOpacity>
-							<ExpoImage
-								style={{
-									width: width * 0.26785,
-									height: 130,
-									borderTopLeftRadius: 5,
-									borderTopRightRadius: 5,
-									resizeMode: "cover",
-								}}
-								preview={{
-									uri: item.item.image[0].url
-										.slice(0, 48)
-										.concat("t_media_lib_thumb/")
-										.concat(item.item.image[0].url.slice(48)),
-								}}
-								uri={item.item.image[0].url}
-							/>
-							{/* <Image
-								source={item.item.image[0].url}
+						<ExpoImage
+							style={{
+								width: width * 0.26785,
+								height: 130,
+								borderTopLeftRadius: 5,
+								borderTopRightRadius: 5,
+								resizeMode: "cover",
+							}}
+							preview={{
+								uri: item.image[0].url
+									.slice(0, 48)
+									.concat("t_media_lib_thumb/")
+									.concat(item.image[0].url.slice(48)),
+							}}
+							uri={item.image[0].url}
+						/>
+						{/* <Image
+								source={item.image[0].url}
 								style={{
 									width: width * 0.26785,
 									height: 130,
@@ -85,16 +91,16 @@ const ProductDetails = (item) => {
 									resizeMode: "cover",
 								}}
 							/> */}
-						</TouchableOpacity>
+
 						<View style={styles.discountBox}>
-							<Text style={styles.textDiscount}>{item.item.discount}% off</Text>
+							<Text style={styles.textDiscount}>{item.discount}% off</Text>
 						</View>
 					</View>
 					<View style={styles.detailsBox}>
 						<Text style={styles.textDetails}>
-							{text_truncate(item.item.name, 22)}
+							{text_truncate(item.name, 22)}
 						</Text>
-						<Text style={styles.tribeDetails}>{item.item.description}</Text>
+						<Text style={styles.tribeDetails}>{item.description}</Text>
 						<View
 							style={{
 								flex: 1,
@@ -105,17 +111,17 @@ const ProductDetails = (item) => {
 						>
 							<Text style={styles.rating}>
 								<Feather name="star" size={22} style={styles.icon} />
-								<Text>{item.item.avgRating}</Text>
+								<Text>{item.avgRating}</Text>
 								<Text>/5</Text>
 							</Text>
 							<Text style={styles.price}>
 								<Text style={{ fontSize: 22 }}>₹</Text>
-								<Text>{item.item.price}</Text>
+								<Text>{item.price}</Text>
 							</Text>
 						</View>
 					</View>
 				</View>
-			</TouchableWithoutFeedback>
+			</TouchableOpacity>
 		</View>
 	);
 };

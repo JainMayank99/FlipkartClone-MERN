@@ -44,8 +44,8 @@ router.post(
 //to get products of a seller
 router.get("/getProductsByUserId/:userId", getProductsByUserId);
 
-//to get products of a category
-router.get("/getProductsByCategoryId/:categoryId", getProductsByCategoryId);
+//to get products of a category id
+router.post("/getProductsByCategoryId/:categoryId", getProductsByCategoryId);
 
 //to update a product
 router.put(
