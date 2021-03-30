@@ -6,6 +6,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import ProductListings from "./Screens/ProductListing/ProductListings";
 import Home from "./Screens/Home/Home";
+import { PaymentScreen } from "./Screens/PaymentScreen";
+import Cart from './Screens/Cart';
 
 const AuthStack = createStackNavigator();
 
@@ -23,6 +25,7 @@ export default function App() {
 		});
 	};
 
+	
 	const [fontsLoaded, setFontsLoaded] = useState(false);
 
 	if (fontsLoaded) {
@@ -44,7 +47,7 @@ export default function App() {
 			//         />
 			//     </AuthStack.Navigator>
 			// </NavigationContainer>
-			<ProductListings />
+			<Cart/>
 		);
 	} else {
 		return (
