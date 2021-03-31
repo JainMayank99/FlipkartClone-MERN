@@ -10,6 +10,8 @@ import ProductDescription from "./Screens/ProductDescription/ProductDescription"
 import Home from "./Screens/Home/Home";
 import { PaymentScreen } from "./Screens/PaymentScreen";
 import Cart from './Screens/Cart';
+import ProductReviews from "./Screens/ProductDescription/Components/ProductReviews";
+import AddAddress from './components/ProfileComponents/AddAddress';
 
 const AuthStack = createStackNavigator();
 
@@ -49,7 +51,7 @@ export default function App() {
 			//         />
 			//     </AuthStack.Navigator>
 			// </NavigationContainer>
-			<Cart/>
+			<AddAddress/>
 		);
 	} else {
 		return (

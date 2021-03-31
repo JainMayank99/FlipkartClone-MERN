@@ -5,126 +5,144 @@ import { getReviewByProductId } from "../APICalls/productReview";
 
 const width = Dimensions.get("screen").width;
 const ProductReviews = ({ id, avgRating }) => {
-	const [reviews, setReviews] = useState([]);
+  const [reviews, setReviews] = useState([
+    {
+      _id: " 1",
+      starCount: 5.7,
+      reviewText: "Test Review 1",
+      user: "Rajender",
+      product: "Charger",
+    },
+    {
+      _id: "2",
+      starCount: 4.5,
+      reviewText: "Test Review 2",
+      user: "Mayank",
+      product: "Dildo",
+    },
+    {
+      _id: " 3",
+      starCount: 5.7,
+      reviewText: "Test Review 1",
+      user: "Rajender",
+      product: "Charger",
+    },
+    {
+      _id: "4",
+      starCount: 4.5,
+      reviewText: "Test Review 2",
+      user: "Mayank",
+      product: "Dildo",
+    },
+  ]);
 
-	useEffect(() => {
-		getReviewByProductId(id)
-			.then((res) => {
-				setReviews(res.data);
-				console.log(res.data);
-			})
-			.catch((err) => {
-				console.log("Error in getting review of product", err);
-			});
-	}, []);
+  // useEffect(() => {
+  // 	getReviewByProductId(id)
+  // 		.then((res) => {
+  // 			setReviews(res.data);
+  // 			console.log(res.data);
+  // 		})
+  // 		.catch((err) => {
+  // 			console.log("Error in getting review of product", err);
+  // 		});
+  // }, []);
 
-	return (
-		<View>
-			<View
-				style={{
-					paddingVertical: 8,
-					paddingHorizontal: 16,
-					borderBottomWidth: 8,
-					borderColor: "#edeeef",
-				}}
-			>
-				<Text style={styles.title}>Ratings & Reviews</Text>
-
-				<View style={styles.subTitle}>
-					<Text style={styles.textRating}>
-						<Feather name="star" size={22} style={styles.icon} />
-						<Text> {avgRating}</Text> out of 5
-					</Text>
-					<Text style={styles.text}>
-						<Feather name="user" size={22} style={styles.icon} />
-						<Text> {reviews.length} Reviews .</Text>
-					</Text>
-				</View>
-			</View>
-			<View
-				style={{
-					paddingVertical: 8,
-					paddingHorizontal: 16,
-					borderBottomWidth: 8,
-					borderColor: "#edeeef",
-				}}
-			>
-				<Text style={styles.title}>Customer Reviews</Text>
-				<View>
-					<FlatList
-						data={reviews}
-						showsHorizontalScrollIndicator={true}
-						keyExtractor={(item) => item._id}
-						renderItem={({ item }) => {
-							// console.log("item", item);
-							<View style={styles.customerReview}>
-								<Text style={styles.text}>
-									<Feather name="star" size={22} style={styles.icon} />
-									<Text> {item.starCount} out of 5</Text>
-								</Text>
-								<Text style={styles.review}>
-									{item.reviewText}
-									{/* The pendant is really nice but the chain is not of that gud quality. */}
-								</Text>
-								{/* <Text style={styles.user}>Ayushi</Text> */}
-							</View>;
-						}}
-					/>
-				</View>
-
-				{/* <View style={styles.customerReview}>
-					<Text style={styles.text}>
-						<Feather name="star" size={22} style={styles.icon} />
-						<Text> 4.5 out of 5</Text>
-					</Text>
-					<Text style={styles.review}>
-						This piece is so stunning and also it looks classy.
-					</Text>
-					<Text style={styles.user}>Shikha Gupta</Text>
-				</View> */}
-			</View>
-		</View>
-	);
+  return (
+    <View
+      style={{
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        borderBottomWidth: 8,
+        borderColor: "#edeeef",
+      }}
+    >
+      <View style={styles.header}>
+        <Text style={styles.title}>Ratings & Reviews</Text>
+        <Text style={styles.viewAll}>View All {">"}</Text>
+      </View>
+      <View>
+        <FlatList
+		  style={{maxHeight:175}}
+          data={reviews}
+          showsHorizontalScrollIndicator={true}
+          keyExtractor={(item) => item._id}
+          renderItem={({ item }) => {
+            return (
+              <View style={styles.customerReview}>
+                <View style={styles.starRating}>
+                  <Text style={styles.starCount}> {item.starCount}</Text>
+                  <Feather name="star" size={20} style={styles.icon} />
+                </View>
+                <Text style={styles.review}>{item.reviewText}</Text>
+                <Text style={styles.user}>{item.user}</Text>
+              </View>
+            );
+          }}
+        />
+      </View>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
-	title: {
-		fontFamily: "popins-bold",
-		fontSize: 20,
-		color: "#1a2228",
-	},
-	subTitle: {
-		fontFamily: "popins-semibold",
-		fontSize: 16,
-		color: "#444d56",
-	},
-	textRating: {
-		fontFamily: "popins-semibold",
-		fontSize: 16,
-		color: "black",
-	},
-	icon: {
-		color: "#FC8019",
-	},
-	text: {
-		fontFamily: "popins-semibold",
-		fontSize: 16,
-		color: "black",
-	},
-	review: {
-		fontFamily: "popins-semibold",
-		fontSize: 16,
-		color: "black",
-		paddingHorizontal: 4,
-	},
-	user: {
-		fontFamily: "popins-semibold",
-		fontSize: 16,
-		color: "black",
-		paddingHorizontal: 4,
-	},
-	customerReview: {
-		paddingVertical: 8,
-	},
+  header: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  title: {
+    fontFamily: "zilla-semibold",
+    fontSize: 22.5,
+    color: "#1a2228",
+  },
+  viewAll: {
+    fontFamily: "zilla-semibold",
+    fontSize: 16.5,
+    color: "#FC8019",
+  },
+  subTitle: {
+    fontFamily: "zilla-semibold",
+    fontSize: 16,
+    color: "#444d56",
+  },
+  textRating: {
+    fontFamily: "zilla-semibold",
+    fontSize: 16,
+    color: "black",
+  },
+  icon: {
+    color: "#FC8019",
+    marginLeft: 2.5,
+  },
+  starRating: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    fontFamily: "zilla-semibold",
+    fontSize: 18,
+    color: "black",
+    paddingVertical: 4,
+  },
+  starCount: {
+    fontFamily: "zilla-semibold",
+    fontSize: 18,
+    color: "black",
+  },
+  review: {
+    fontFamily: "zilla-semibold",
+    fontSize: 18,
+    color: "black",
+    marginLeft: 8,
+  },
+  user: {
+    fontFamily: "zilla-semibold",
+    fontSize: 18,
+    color: "black",
+    marginLeft: 8,
+  },
+  customerReview: {
+    paddingVertical: 8,
+  },
 });
 export default ProductReviews;
