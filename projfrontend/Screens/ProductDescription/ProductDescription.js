@@ -11,7 +11,7 @@ import RelatedProducts from "./Components/RelatedProducts";
 
 const ProductDescScreen = ({ route, navigation }) => {
 	const { item } = route.params;
-	console.log(item);
+	// console.log(item);
 	return (
 		<>
 			<ProductCarousel data={item.image} />
@@ -26,7 +26,7 @@ const ProductDescScreen = ({ route, navigation }) => {
 				<ProductReturnPolicy />
 				{/* <ProductRating /> */}
 				<ProductReviews id={item._id} avgRating={item.avgRating} />
-				<RelatedProducts />
+				<RelatedProducts categoryId={item.category} navigation={navigation} />
 			</ScrollView>
 		</>
 	);

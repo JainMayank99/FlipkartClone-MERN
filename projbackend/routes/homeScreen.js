@@ -16,7 +16,7 @@ router.post("/getRandomProducts", getRandomProducts);
 
 router.get("/getTopRatedProducts", getTopRatedProducts);
 
-router.get(
+router.post(
 	"/getTopRatedProductsBasedOnCategoryId/:categoryId",
 	getTopRatedProductsBasedOnCategoryId
 );

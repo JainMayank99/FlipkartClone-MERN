@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	View,
 	Text,
@@ -7,59 +7,25 @@ import {
 	Image,
 	TouchableOpacity,
 } from "react-native";
+import { Image as ExpoImage } from "react-native-expo-image-cache";
 
-const RelatedProducts = () => {
-	const [gallery, setgallery] = useState([
-		{
-			image: require("../../../assets/main/bsj1.jpg"),
-			title: "Handcrafted Jewellery Set",
-			cost: "4,500",
-			key: "1",
-			desc: "Tribes Karnataka",
-			discount: "30% off",
-		},
-		{
-			image: require("../../../assets/main/bsj2.jpg"),
-			title: "Temple Jewellery Set",
-			cost: "3,500",
-			key: "2",
-			desc: "Tribes Karnataka",
-			discount: "50% off",
-		},
-		{
-			image: require("../../../assets/main/bsj3.webp"),
-			title: "Dome Shaped Studs",
-			cost: "2,750",
-			key: "3",
-			desc: "Tribes Karnataka",
-			discount: "10% off",
-		},
+import { getRelatedProduct } from "../APICalls/relatedProduct";
 
-		{
-			image: require("../../../assets/main/bsj4.jpg"),
-			title: "Gold Plated Mang Teeka",
-			cost: "1,500",
-			key: "4",
-			desc: "Tribes Karnataka",
-			discount: "25% off",
-		},
-		{
-			image: require("../../../assets/main/bsj5.jpg"),
-			title: "Gold Plated ring",
-			cost: "2,500",
-			key: "5",
-			desc: "Tribes Karnataka",
-			discount: "20% off",
-		},
-		{
-			image: require("../../../assets/main/bsj6.webp"),
-			title: "Gold Plated Nosepin",
-			cost: "3,700",
-			key: "6",
-			desc: "Tribes Karnataka",
-			discount: "40% off",
-		},
-	]);
+const RelatedProducts = ({ categoryId, navigation }) => {
+	// console.log("categoryId", categoryId);
+	const [gallery, setGallery] = useState([]);
+
+	useEffect(() => {
+		getRelatedProduct(categoryId)
+			.then((res) => {
+				setGallery(res.data);
+				// console.log(res.data);
+			})
+			.catch((err) => {
+				console.log("Error in getting related products", err);
+			});
+	}, []);
+
 	const image = {
 		uri: require("../../../assets/catIcons/thumbs-up.png"),
 	};
@@ -88,6 +54,7 @@ const RelatedProducts = () => {
 				horizontal={true}
 				data={gallery}
 				showsHorizontalScrollIndicator={false}
+				keyExtractor={(item) => item._id}
 				renderItem={({ item }) => {
 					return (
 						<View
@@ -97,8 +64,30 @@ const RelatedProducts = () => {
 								paddingHorizontal: 8,
 							}}
 						>
-							<TouchableOpacity>
-								<Image
+							<TouchableOpacity
+								onPress={() => {
+									navigation.navigate("ProductDescription", {
+										item,
+									});
+								}}
+							>
+								<ExpoImage
+									style={{
+										width: 87.5,
+										height: 105,
+										borderRadius: 5,
+										resizeMode: "cover",
+									}}
+									preview={{
+										uri: item.image[0].url
+											.slice(0, 48)
+											.concat("t_media_lib_thumb/")
+											.concat(item.image[0].url.slice(48)),
+									}}
+									uri={item.image[0].url}
+								/>
+
+								{/* <Image
 									source={item.image}
 									style={{
 										width: 87.5,
@@ -106,9 +95,9 @@ const RelatedProducts = () => {
 										borderRadius: 5,
 										resizeMode: "cover",
 									}}
-								/>
+								/> */}
 								<View style={styles.discountBox}>
-									<Text style={styles.textDiscount}>50% OFF</Text>
+									<Text style={styles.textDiscount}>{item.discount}% OFF</Text>
 								</View>
 							</TouchableOpacity>
 						</View>
