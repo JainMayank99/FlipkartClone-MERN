@@ -12,7 +12,7 @@ import ProductListing from "./Screens/ProductListing/ProductListing";
 import ProductDescription from "./Screens/ProductDescription/ProductDescription";
 import Home from "./Screens/Home/Home";
 import { PaymentScreen } from "./Screens/PaymentScreen";
-import Cart from "./Screens/Cart";
+import Cart from "./Screens/Cart/Cart";
 import ProductReviews from "./Screens/ProductDescription/Components/ProductReviews";
 import AddAddress from "./components/ProfileComponents/AddAddress";
 
@@ -38,7 +38,7 @@ export default function App() {
 		return (
 			<NavigationContainer>
 				<AuthStack.Navigator
-					initialRouteName="Home"
+					initialRouteName="Cart"
 					screenOptions={{
 						headerShown: false,
 					}}
