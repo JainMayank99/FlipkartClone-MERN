@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet,Text } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 import LottieView from "lottie-react-native";
 import Header from "../../components/Header";
@@ -7,7 +7,7 @@ import CartItem from "./Components/CartItem";
 import CartList from "./Components/CartList";
 import { isAuthenticated } from "../Auth/AuthAPICalls/authCalls";
 
-const Cart = () => {
+const Cart = ({ routes, navigation }) => {
 	const [language, setLanguage] = useState("en");
 	const [loading, setLoading] = useState(false);
 
@@ -24,26 +24,32 @@ const Cart = () => {
 
 	return (
 		<View>
-			
-				<View style={loading === true ? (styles.overlay):null}>
-				{loading === true ? <LottieView
+			<View style={loading === true ? styles.overlay : null}>
+				{loading === true ? (
+					<LottieView
 						style={styles.lottie}
 						autoPlay
 						loop
 						source={require("../../assets/animations/loader.json")}
-					/>:null}
-					<Header language={language} changeLanguage={changeLanguage} />
-					<View
-						style={{
-							marginTop: 105,
-						}}
-					>
-						{isAuthenticated!==false? <CartList />:<View style={styles.login}>
-							<Text style={styles.loginText}>Login to continue {">>"}</Text>
-						</View>}
-					</View>
+					/>
+				) : null}
+				<Header language={language} changeLanguage={changeLanguage} />
+				<View
+					style={{
+						marginTop: 105,
+					}}
+				>
+					{!isAuthenticated() ? (
+						<CartList />
+					) : (
+						<View style={styles.login}>
+							<TouchableOpacity onPress={() => navigation.navigate("Login")}>
+								<Text style={styles.loginText}>Login to continue {">>"}</Text>
+							</TouchableOpacity>
+						</View>
+					)}
 				</View>
-			
+			</View>
 		</View>
 	);
 };
@@ -63,15 +69,15 @@ const styles = StyleSheet.create({
 		zIndex: 10,
 	},
 	login: {
-		flex:1,
+		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
-		marginTop: "50%"
+		marginTop: "50%",
 	},
 	loginText: {
 		fontFamily: "zilla-reg",
 		fontSize: 20,
-        color: "#fc8019",
-	}
+		color: "#fc8019",
+	},
 });
 export default Cart;
