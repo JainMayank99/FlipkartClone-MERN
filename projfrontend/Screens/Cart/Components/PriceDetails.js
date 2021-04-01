@@ -33,7 +33,7 @@ const PriceDetails = () => {
             />
             <View style={styles.view}>
                 <Text style={styles.subText}>Total Amount</Text>
-                <Text style={styles.subText}>₹30</Text>
+                <Text style={styles.subText}>₹3000</Text>
             </View>
 
             <Dash
