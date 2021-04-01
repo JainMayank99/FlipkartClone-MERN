@@ -38,7 +38,7 @@ export default function App() {
 		return (
 			<NavigationContainer>
 				<AuthStack.Navigator
-					initialRouteName="Cart"
+					initialRouteName="ProductDescription"
 					screenOptions={{
 						headerShown: false,
 					}}
