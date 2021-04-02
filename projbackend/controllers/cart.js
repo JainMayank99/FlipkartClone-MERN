@@ -1,5 +1,17 @@
 const CartSchema = require("../models/cart");
 
+exports.getCartItemById = (req, res, next, id) => {
+	CartSchema.findById(id, (err, cart) => {
+		if (err || !cart) {
+			return res.status(400).json({
+				error: "Cart Item not found in DB",
+			});
+		}
+		req.cart = cart;
+		next();
+	});
+};
+
 exports.addProductToCart = async (req, res) => {
 	await CartSchema.find({
 		user: req.profile._id,
@@ -15,6 +27,7 @@ exports.addProductToCart = async (req, res) => {
 			//     err: 'Item already exists in cart !'
 			// });
 			cartItem.Quantity++;
+			console.log(cartItem);
 		} else {
 			cartItem = new CartSchema();
 			cartItem.user = req.profile._id;
@@ -61,7 +74,7 @@ exports.removeProductFromCart = async (req, res) => {
 exports.updateQuantityInCart = async (req, res) => {
 	await CartSchema.find({ user: req.profile._id, product: req.product._id })
 		.populate("product", "stock")
-		.exec(async (err, cartItem) => {
+		.exec((err, cartItem) => {
 			if (err) {
 				return res.status(400).json({
 					err: "NOT able to get cartItem in DB !",
@@ -81,7 +94,7 @@ exports.updateQuantityInCart = async (req, res) => {
 			//changing quantity
 			cartItem[0].Quantity = req.body.quantity;
 
-			await cartItem[0].save((err, cartItem) => {
+			cartItem[0].save((err, cartItem) => {
 				if (err) {
 					return res.status(400).json({
 						err: "NOT able to save changes to cartItem in DB !",

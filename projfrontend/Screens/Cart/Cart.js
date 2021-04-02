@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 import LottieView from "lottie-react-native";
@@ -6,10 +6,36 @@ import Header from "../../components/Header";
 import CartItem from "./Components/CartItem";
 import CartList from "./Components/CartList";
 import { isAuthenticated } from "../Auth/AuthAPICalls/authCalls";
+import { getAllCartItemsByUserId } from "./APICall/cartAPI";
 
 const Cart = ({ routes, navigation }) => {
+	const [showCart, setShowCart] = useState(false);
+	const [itemList, setItemList] = useState([]);
 	const [language, setLanguage] = useState("en");
 	const [loading, setLoading] = useState(false);
+
+	useEffect(() => {
+		isAuthenticated()
+			.then((res) => {
+				// console.log(res.user._id);
+				if (res.user) {
+					getAllCartItemsByUserId(res.user._id, res.token)
+						.then((res) => {
+							setItemList(res.data);
+							setShowCart(true);
+							// console.log(res.data);
+						})
+						.catch((err) => {
+							console.log("cart list fetching error: " + err);
+						});
+				} else setShowCart(false);
+			})
+			.catch((err) => {
+				console.log("cart screen error: " + err);
+			});
+		// const {user} =
+		// console.log(isAuthenticated().user);
+	}, []);
 
 	const mainWork = (lang) => {
 		setLanguage(lang);
@@ -33,14 +59,18 @@ const Cart = ({ routes, navigation }) => {
 						source={require("../../assets/animations/loader.json")}
 					/>
 				) : null}
-				<Header language={language} changeLanguage={changeLanguage} />
+				<Header
+					language={language}
+					changeLanguage={changeLanguage}
+					navigation={navigation}
+				/>
 				<View
 					style={{
 						marginTop: 105,
 					}}
 				>
-					{!isAuthenticated() ? (
-						<CartList />
+					{showCart ? (
+						<CartList itemList={itemList} navigation={navigation} />
 					) : (
 						<View style={styles.login}>
 							<TouchableOpacity onPress={() => navigation.navigate("Login")}>

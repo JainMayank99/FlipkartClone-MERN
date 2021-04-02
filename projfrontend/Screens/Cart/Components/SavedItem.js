@@ -9,8 +9,9 @@ import {
 	TouchableWithoutFeedback,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import { Image as ExpoImage } from "react-native-expo-image-cache";
 
-const SavedItem = (item) => {
+const SavedItem = ({ item, navigation }) => {
 	const image = {
 		uri: require("../../../assets/catIcons/like.png"),
 	};
@@ -26,6 +27,7 @@ const SavedItem = (item) => {
 		<View
 			style={{
 				paddingVertical: 16,
+				// paddingBottom: 64,
 				paddingHorizontal: Dimensions.get("screen").width * 0.02041,
 			}}
 		>
@@ -46,8 +48,29 @@ const SavedItem = (item) => {
 							marginLeft: Dimensions.get("screen").width * 0.02041,
 						}}
 					>
-						<TouchableOpacity>
-							<Image
+						<TouchableOpacity
+							onPress={() => {
+								navigation.navigate("ProductDescription", {
+									item,
+								});
+							}}
+						>
+							<ExpoImage
+								style={{
+									width: width * 0.26785,
+									height: 130,
+									borderRadius: 5,
+									resizeMode: "cover",
+								}}
+								preview={{
+									uri: item.product.image[0].url
+										.slice(0, 48)
+										.concat("t_media_lib_thumb/")
+										.concat(item.product.image[0].url.slice(48)),
+								}}
+								uri={item.product.image[0].url}
+							/>
+							{/* <Image
 								source={item.item.image}
 								style={{
 									width: width * 0.26785,
@@ -55,15 +78,17 @@ const SavedItem = (item) => {
 									borderRadius: 5,
 									resizeMode: "cover",
 								}}
-							/>
+							/> */}
 						</TouchableOpacity>
 						<View style={styles.discountBox}>
-							<Text style={styles.textDiscount}>{item.item.discount}</Text>
+							<Text style={styles.textDiscount}>
+								{item.product.discount + " %"}
+							</Text>
 						</View>
 					</View>
 					<View style={styles.detailsBox}>
-						<Text style={styles.textDetails}>{item.item.title}</Text>
-						<Text style={styles.tribeDetails}>{item.item.desc}</Text>
+						<Text style={styles.textDetails}>{item.product.name}</Text>
+						{/* <Text style={styles.tribeDetails}>{item.item.desc}</Text> */}
 						<View
 							style={{
 								flex: 1,
@@ -72,14 +97,14 @@ const SavedItem = (item) => {
 								width: 200,
 							}}
 						>
-							<Text style={styles.rating}>
+							{/* <Text style={styles.rating}>
 								<Feather name="star" size={22} style={styles.icon} />
 								<Text>4.5</Text>
 								<Text>/5</Text>
-							</Text>
+							</Text> */}
 							<Text style={styles.price}>
 								<Text style={{ fontSize: 22 }}>₹</Text>
-								<Text>{item.item.cost}</Text>
+								<Text>{item.product.price}</Text>
 							</Text>
 						</View>
 					</View>
@@ -96,7 +121,7 @@ const SavedItem = (item) => {
 							height: 22.5,
 						}}
 					/>
-					<Text style={styles.buttonText}>Add To Cart</Text>
+					<Text style={styles.buttonText}>Move To Cart</Text>
 				</View>
 				<View style={styles.button}>
 					<Image

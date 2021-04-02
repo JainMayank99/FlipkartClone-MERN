@@ -163,7 +163,11 @@ const Home = ({ route, navigation }) => {
 						source={require("../../assets/animations/loader.json")}
 					/>
 
-					<Header language={language} changeLanguage={changeLanguage} />
+					<Header
+						language={language}
+						changeLanguage={changeLanguage}
+						navigation={navigation}
+					/>
 					<ScrollView
 						style={{
 							marginTop: 105,

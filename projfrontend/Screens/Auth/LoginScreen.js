@@ -7,17 +7,19 @@ import {
 	TouchableOpacity,
 	TouchableWithoutFeedback,
 	Keyboard,
+	StatusBar,
 } from "react-native";
 import { Formik } from "formik";
 import LottieView from "lottie-react-native";
+import { Feather } from "@expo/vector-icons";
 
-import Screen from "../../components/Screen";
 import { signIn, authenticate } from "./AuthAPICalls/authCalls";
 
 const LoginScreen = ({ navigation }) => {
 	const [focusName, setFocusName] = useState(false);
 	const [focusConfirmPassword, setFocusConfirmPassword] = useState(false);
 	const [loading, setLoading] = useState(false);
+	const [visibility, setVisibility] = useState(false);
 
 	const onFocusNameChange = () => {
 		setFocusName(true);
@@ -48,218 +50,123 @@ const LoginScreen = ({ navigation }) => {
 	};
 
 	return (
-		<View style={{ flex: 1 }}>
+		<View style={loading === true ? styles.overlay : { flex: 1 }}>
+			<StatusBar hidden />
 			{loading === true ? (
-				<View style={styles.overlay}>
-					<LottieView
-						style={styles.lottie}
-						autoPlay
-						loop
-						source={require("../../assets/animations/loader.json")}
-					/>
-					<Screen>
-						<View style={styles.screen}>
-							<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-								<View>
-									<Text style={styles.heading}>Login</Text>
-									<Formik
-										initialValues={{ phoneNumber: "", confirmPassword: "" }}
-										onSubmit={(values, actions) => {
-											setLoading(true);
-											apicall(values);
+				<LottieView
+					style={styles.lottie}
+					autoPlay
+					loop
+					source={require("../../assets/animations/loader.json")}
+				/>
+			) : null}
+
+			<View style={styles.screen}>
+				<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+					<View>
+						<Text style={styles.heading}>Login</Text>
+						<Formik
+							initialValues={{ phoneNumber: "", confirmPassword: "" }}
+							onSubmit={(values, actions) => {
+								setLoading(true);
+								apicall(values);
+							}}
+						>
+							{(formikProps) => (
+								<React.Fragment>
+									<View
+										style={{
+											marginHorizontal: 8,
+											marginTop: 24,
+											marginBottom: 16,
 										}}
 									>
-										{(formikProps) => (
-											<React.Fragment>
-												<View
-													style={{
-														marginHorizontal: 8,
-														marginTop: 24,
-														marginBottom: 16,
-													}}
-												>
-													<Text style={styles.label}>PHONE NUMBER</Text>
-													<TextInput
-														underlineColorAndroid="transparent"
-														onFocus={onFocusNameChange}
-														placeholder="Enter your registered number"
-														autoCorrect={false}
-														keyboardType="number-pad"
-														style={
-															focusName === false
-																? styles.textInput
-																: styles.textInputName
-														}
-														onChangeText={formikProps.handleChange(
-															"phoneNumber"
-														)}
-														onBlur={onBlurNameChange}
-													/>
-												</View>
-
-												<View
-													style={{
-														marginHorizontal: 8,
-														marginVertical: 4,
-													}}
-												>
-													<Text style={styles.label}>PASSWORD</Text>
-													<TextInput
-														underlineColorAndroid="transparent"
-														placeholder="Enter your password"
-														onFocus={onFocusConfirmPasswordChange}
-														autoCorrect={false}
-														secureTextEntry={true}
-														style={
-															focusConfirmPassword === false
-																? styles.textInput
-																: styles.textConfirmPassword
-														}
-														onChangeText={formikProps.handleChange(
-															"confirmPassword"
-														)}
-														onBlur={onBlurConfirmPasswordChange}
-													/>
-												</View>
-												<Text style={styles.forgot}>
-													Forgot Password {" >"}
-												</Text>
-
-												<TouchableOpacity
-													onPress={formikProps.handleSubmit}
-													style={{
-														marginHorizontal: 8,
-														marginVertical: 40,
-													}}
-												>
-													<View style={styles.button}>
-														<Text style={styles.submit}>Login</Text>
-													</View>
-												</TouchableOpacity>
-											</React.Fragment>
-										)}
-									</Formik>
-									<View style={styles.footer}>
-										<Text style={styles.or}>OR</Text>
-										<View style={styles.line1}></View>
-										<View style={styles.line2}></View>
+										<Text style={styles.label}>PHONE NUMBER</Text>
+										<TextInput
+											underlineColorAndroid="transparent"
+											onFocus={onFocusNameChange}
+											placeholder="Enter your registered number"
+											autoCorrect={false}
+											keyboardType="number-pad"
+											style={
+												focusName === false
+													? styles.textInput
+													: styles.textInputName
+											}
+											onChangeText={formikProps.handleChange("phoneNumber")}
+											onBlur={onBlurNameChange}
+											value={formikProps.values.phoneNumber}
+										/>
 									</View>
+
+									<View
+										style={{
+											marginHorizontal: 8,
+											marginVertical: 4,
+										}}
+									>
+										<Text style={styles.label}>PASSWORD</Text>
+										<TextInput
+											value={formikProps.values.confirmPassword}
+											underlineColorAndroid="transparent"
+											placeholder="Enter your password"
+											onFocus={onFocusConfirmPasswordChange}
+											autoCorrect={false}
+											secureTextEntry={visibility ? true : false}
+											keyboardType="default"
+											style={
+												focusConfirmPassword === false
+													? styles.textInput
+													: styles.textConfirmPassword
+											}
+											onChangeText={formikProps.handleChange("confirmPassword")}
+											onBlur={onBlurConfirmPasswordChange}
+										/>
+										<TouchableOpacity
+											style={styles.icon}
+											onPress={() => setVisibility(!visibility)}
+										>
+											<Feather
+												name={visibility ? "eye" : "eye-off"}
+												size={20}
+											/>
+										</TouchableOpacity>
+									</View>
+									<Text style={styles.forgot}>Forgot Password {" >"}</Text>
+
 									<TouchableOpacity
+										onPress={formikProps.handleSubmit}
 										style={{
 											marginHorizontal: 8,
 											marginVertical: 40,
 										}}
-										onPress={() => navigation.navigate("Verification")}
 									>
-										<View style={styles.button1}>
-											<Text style={styles.submit}>Sign Up</Text>
+										<View style={styles.button}>
+											<Text style={styles.submit}>Login</Text>
 										</View>
 									</TouchableOpacity>
-								</View>
-							</TouchableWithoutFeedback>
+								</React.Fragment>
+							)}
+						</Formik>
+						<View style={styles.footer}>
+							<Text style={styles.or}>OR</Text>
+							<View style={styles.line1}></View>
+							<View style={styles.line2}></View>
 						</View>
-					</Screen>
-				</View>
-			) : (
-				<Screen>
-					<View style={styles.screen}>
-						<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-							<View>
-								<Text style={styles.heading}>Login</Text>
-								<Formik
-									initialValues={{ phoneNumber: "", confirmPassword: "" }}
-									onSubmit={(values, actions) => {
-										setLoading(true);
-										apicall(values);
-									}}
-								>
-									{(formikProps) => (
-										<React.Fragment>
-											<View
-												style={{
-													marginHorizontal: 8,
-													marginTop: 24,
-													marginBottom: 16,
-												}}
-											>
-												<Text style={styles.label}>PHONE NUMBER</Text>
-												<TextInput
-													underlineColorAndroid="transparent"
-													onFocus={onFocusNameChange}
-													placeholder="Enter your registered number"
-													autoCorrect={false}
-													keyboardType="number-pad"
-													style={
-														focusName === false
-															? styles.textInput
-															: styles.textInputName
-													}
-													onChangeText={formikProps.handleChange("phoneNumber")}
-													onBlur={onBlurNameChange}
-												/>
-											</View>
-
-											<View
-												style={{
-													marginHorizontal: 8,
-													marginVertical: 4,
-												}}
-											>
-												<Text style={styles.label}>PASSWORD</Text>
-												<TextInput
-													underlineColorAndroid="transparent"
-													placeholder="Enter your password"
-													onFocus={onFocusConfirmPasswordChange}
-													autoCorrect={false}
-													secureTextEntry={true}
-													style={
-														focusConfirmPassword === false
-															? styles.textInput
-															: styles.textConfirmPassword
-													}
-													onChangeText={formikProps.handleChange(
-														"confirmPassword"
-													)}
-													onBlur={onBlurConfirmPasswordChange}
-												/>
-											</View>
-											<Text style={styles.forgot}>Forgot Password {" >"}</Text>
-
-											<TouchableOpacity
-												onPress={formikProps.handleSubmit}
-												style={{
-													marginHorizontal: 8,
-													marginVertical: 40,
-												}}
-											>
-												<View style={styles.button}>
-													<Text style={styles.submit}>Login</Text>
-												</View>
-											</TouchableOpacity>
-										</React.Fragment>
-									)}
-								</Formik>
-								<View style={styles.footer}>
-									<Text style={styles.or}>OR</Text>
-									<View style={styles.line1}></View>
-									<View style={styles.line2}></View>
-								</View>
-								<TouchableOpacity
-									style={{
-										marginHorizontal: 8,
-										marginVertical: 40,
-									}}
-									onPress={() => navigation.navigate("Verification")}
-								>
-									<View style={styles.button1}>
-										<Text style={styles.submit}>Sign Up</Text>
-									</View>
-								</TouchableOpacity>
+						<TouchableOpacity
+							style={{
+								marginHorizontal: 8,
+								marginVertical: 40,
+							}}
+							onPress={() => navigation.navigate("Verification")}
+						>
+							<View style={styles.button1}>
+								<Text style={styles.submit}>Sign Up</Text>
 							</View>
-						</TouchableWithoutFeedback>
+						</TouchableOpacity>
 					</View>
-				</Screen>
-			)}
+				</TouchableWithoutFeedback>
+			</View>
 		</View>
 	);
 };
@@ -412,6 +319,11 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 8,
 		paddingTop: 8,
 		color: "#fc8019",
+	},
+	icon: {
+		position: "absolute",
+		right: 0,
+		top: 25,
 	},
 });
 

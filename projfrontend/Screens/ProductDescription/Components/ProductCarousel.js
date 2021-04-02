@@ -7,7 +7,7 @@ import {
 	FlatList,
 	Animated,
 	StatusBar,
-	TouchableOpacity
+	TouchableOpacity,
 } from "react-native";
 import ProductCarouselItem from "./ProductCarouselItem";
 import Icon from "../../../components/Icon";
@@ -34,7 +34,7 @@ function infiniteScroll(dataList) {
 	}, 3000);
 }
 
-const ProductCarousel = ({ data,navigation }) => {
+const ProductCarousel = ({ data, navigation }) => {
 	const scrollX = new Animated.Value(0);
 	let position = Animated.divide(scrollX, width);
 	const [dataList, setDataList] = useState(data);
@@ -73,7 +73,10 @@ const ProductCarousel = ({ data,navigation }) => {
 				<View style={styles.nav}>
 					<Icon name="arrow-left" align="left" />
 				</View>
-				<TouchableOpacity style={styles.navend} onPress={() =>navigation.navigate('Cart')}>
+				<TouchableOpacity
+					style={styles.navend}
+					onPress={() => navigation.navigate("Cart")}
+				>
 					<Icon name="shopping-cart" align="right" />
 				</TouchableOpacity>
 				<View style={styles.wishlist}>

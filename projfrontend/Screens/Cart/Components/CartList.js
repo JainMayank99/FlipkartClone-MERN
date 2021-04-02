@@ -13,45 +13,17 @@ import CartItem from "./CartItem";
 import PriceDetails from "./PriceDetails";
 import SavedItem from "./SavedItem";
 
-const CartList = () => {
+const CartList = ({ itemList, navigation }) => {
 	const image1 = {
 		uri: require("../../../assets/catIcons/download.png"),
 	};
-	const [gallery, setgallery] = useState([
-		{
-			image: require("../../../assets/main/bsc2.jpg"),
-			title: "Solid State Kurta",
-			cost: "4,500",
-			key: "1",
-			desc: "Tribes Karnataka",
-			discount: "30% off",
-		},
-		{
-			image: require("../../../assets/main/cat2.png"),
-			title: "Something",
-			cost: "2,500",
-			key: "2",
-			desc: "Tribes Karnataka",
-			discount: "50% off",
-		},
 
-		{
-			image: require("../../../assets/main/bsc3.jpg"),
-			title: "Printed Kurta With Skirt ",
-			cost: "2,750",
-			key: "5",
-			desc: "Tribes Karnataka",
-			discount: "10% off",
-		},
-		{
-			image: require("../../../assets/main/bsc3.jpg"),
-			title: "Printed Kurta With Skirt ",
-			cost: "2,750",
-			key: "6",
-			desc: "Tribes Karnataka",
-			discount: "10% off",
-		},
-	]);
+	const [savedForLaterList, setSavedForLaterList] = useState(
+		itemList.filter((item) => item.isSavedForLater == true)
+	);
+	const [cartItemList, setCartItemList] = useState(
+		itemList.filter((item) => item.isSavedForLater == false)
+	);
 
 	return (
 		<ScrollView
@@ -66,10 +38,11 @@ const CartList = () => {
 			</View>
 
 			<FlatList
-				data={gallery}
+				data={cartItemList}
 				showsHorizontalScrollIndicator={false}
+				keyExtractor={(item) => item._id}
 				renderItem={({ item }) => {
-					return <CartItem item={item} />;
+					return <CartItem item={item} navigation={navigation} />;
 				}}
 			/>
 			<View
@@ -79,32 +52,37 @@ const CartList = () => {
 					paddingVertical: 4,
 				}}
 			></View>
-			<PriceDetails />
+			<PriceDetails itemList={itemList} />
 			<View
 				style={{
 					borderBottomWidth: 10,
 					borderColor: "#edeeef",
 				}}
 			></View>
-			<View style={styles.saved}>
-				<Image
-					source={image1.uri}
-					style={{
-						width: 22.5,
-						marginRight: 8,
-						height: 22.5,
-					}}
-				/>
-				<Text style={styles.savedText}>Saved For Later</Text>
-			</View>
-			<FlatList
-				data={gallery}
-				showsHorizontalScrollIndicator={false}
-				renderItem={({ item }) => {
-					return <SavedItem item={item} />;
-				}}
-			/>
-			<View style={{ padding: 40 }}></View>
+			{savedForLaterList.length > 0 ? (
+				<React.Fragment>
+					<View style={styles.saved}>
+						<Image
+							source={image1.uri}
+							style={{
+								width: 22.5,
+								marginRight: 8,
+								height: 22.5,
+							}}
+						/>
+						<Text style={styles.savedText}>Saved For Later</Text>
+					</View>
+					<FlatList
+						data={savedForLaterList}
+						showsHorizontalScrollIndicator={false}
+						keyExtractor={(item) => item._id}
+						renderItem={({ item }) => {
+							return <SavedItem item={item} navigation={navigation} />;
+						}}
+					/>
+				</React.Fragment>
+			) : null}
+			<View style={{ padding: 72 }}></View>
 		</ScrollView>
 	);
 };
