@@ -56,7 +56,7 @@ const ProductDescScreen = ({ route, navigation }) => {
 
 					addProductToCart(res.user._id, item._id, res.token)
 						.then((res) => {
-							console.log(res.data);
+							// console.log(res.data);
 							setAdding(false);
 						})
 						.catch((err) => {

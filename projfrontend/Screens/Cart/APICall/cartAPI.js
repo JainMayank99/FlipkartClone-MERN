@@ -28,12 +28,16 @@ export const addProductToCart = (userId, productId, token) => {
 
 let cancelToken;
 export const updateQuantityInCart = (userId, productId, token, quantity) => {
-	// if (typeof cancelToken != typeof undefined) {
-	// 	cancelToken.cancel("Cancelling previous req");
-	// }
+	if (typeof cancelToken != typeof undefined) {
+		cancelToken.cancel("Cancelling previous req");
+	}
 
-	// cancelToken = axios.CancelToken.source();
+	cancelToken = axios.CancelToken.source();
 
+	// console.log("userID", userId);
+	// console.log("productId", productId);
+	// console.log("token", token);
+	// console.log("quantity", quantity);
 	return axios({
 		method: "put",
 		url: `${BACKEND_URL}/updateQuantityInCart/${userId}/${productId}`,
@@ -45,6 +49,30 @@ export const updateQuantityInCart = (userId, productId, token, quantity) => {
 		data: {
 			quantity: quantity,
 		},
-		// cancelToken: cancelToken.token,
+		cancelToken: cancelToken.token,
+	});
+};
+
+export const removeProductFromCart = (userId, productId, token) => {
+	return axios({
+		method: "delete",
+		url: `${BACKEND_URL}/removeProductFromCart/${userId}/${productId}`,
+		headers: {
+			// Accept: "application/json",
+			// "Content-Type": "application/json",
+			Authorization: "Bearer " + token,
+		},
+	});
+};
+
+export const toggleIsSavedForLater = (userId, productId, token) => {
+	return axios({
+		method: "put",
+		url: `${BACKEND_URL}/toggleIsSavedForLater/${userId}/${productId}`,
+		headers: {
+			// Accept: "application/json",
+			// "Content-Type": "application/json",
+			Authorization: "Bearer " + token,
+		},
 	});
 };

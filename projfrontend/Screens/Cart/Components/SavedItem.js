@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
 	View,
 	Text,
@@ -8,8 +8,12 @@ import {
 	Dimensions,
 	TouchableWithoutFeedback,
 } from "react-native";
-import { Feather } from "@expo/vector-icons";
 import { Image as ExpoImage } from "react-native-expo-image-cache";
+import { isAuthenticated } from "../../Auth/AuthAPICalls/authCalls";
+import {
+	removeProductFromCart,
+	toggleIsSavedForLater,
+} from "../APICall/cartAPI";
 
 const SavedItem = ({ item, navigation }) => {
 	const image = {
@@ -21,8 +25,44 @@ const SavedItem = ({ item, navigation }) => {
 	const image1 = {
 		uri: require("../../../assets/catIcons/upload.png"),
 	};
-
 	const width = Dimensions.get("screen").width;
+
+	const [user, setUser] = useState();
+	const [token, setToken] = useState();
+
+	useEffect(() => {
+		isAuthenticated()
+			.then((res) => {
+				setUser(res.user._id);
+				setToken(res.token);
+			})
+			.catch((err) => {
+				console.log("isAuthenticated in CartItem", err);
+			});
+	}, []);
+
+	const removeItemFromCart = () => {
+		removeProductFromCart(user, item.product._id, token)
+			.then((res) => {
+				// console.log(res.data);
+				// navigation.navigate("Cart");
+				// rerender();
+			})
+			.catch((err) => {
+				console.log("updateQuantityInCart error", err);
+			});
+	};
+
+	const savedForLater = () => {
+		toggleIsSavedForLater(user, item.product._id, token)
+			.then((res) => {
+				// console.log(res.data);
+			})
+			.catch((err) => {
+				console.log("updateQuantityInCart error", err);
+			});
+	};
+
 	return (
 		<View
 			style={{
@@ -112,7 +152,12 @@ const SavedItem = ({ item, navigation }) => {
 			</TouchableWithoutFeedback>
 
 			<View style={styles.nav}>
-				<View style={styles.button}>
+				<TouchableOpacity
+					style={styles.button}
+					onPress={() => {
+						savedForLater();
+					}}
+				>
 					<Image
 						source={image1.uri}
 						style={{
@@ -122,8 +167,13 @@ const SavedItem = ({ item, navigation }) => {
 						}}
 					/>
 					<Text style={styles.buttonText}>Move To Cart</Text>
-				</View>
-				<View style={styles.button}>
+				</TouchableOpacity>
+				<TouchableOpacity
+					style={styles.button}
+					onPress={() => {
+						removeItemFromCart();
+					}}
+				>
 					<Image
 						source={trash.uri}
 						style={{
@@ -133,7 +183,7 @@ const SavedItem = ({ item, navigation }) => {
 						}}
 					/>
 					<Text style={styles.buttonText}>Remove</Text>
-				</View>
+				</TouchableOpacity>
 			</View>
 		</View>
 	);

@@ -7,15 +7,17 @@ import {
 	TouchableOpacity,
 	Dimensions,
 	TouchableWithoutFeedback,
-	Alert,
 } from "react-native";
-import { Feather } from "@expo/vector-icons";
 import { Image as ExpoImage } from "react-native-expo-image-cache";
 import { isAuthenticated } from "../../Auth/AuthAPICalls/authCalls";
-import { updateQuantityInCart } from "../APICall/cartAPI";
+import {
+	updateQuantityInCart,
+	removeProductFromCart,
+	toggleIsSavedForLater,
+} from "../APICall/cartAPI";
 
 const CartItem = ({ item, navigation }) => {
-	console.log("item", item);
+	// console.log("item", item);
 	const [quantity, setQuantity] = useState(item.Quantity);
 	const [user, setUser] = useState();
 	const [token, setToken] = useState();
@@ -33,17 +35,40 @@ const CartItem = ({ item, navigation }) => {
 
 	const changeQuantity = (newQuantity) => {
 		if (newQuantity <= 0) {
-			Alert.alert("Please select a valid quantity");
+			// Alert.alert("");
 		} else {
-			// updateQuantityInCart(user, item._id, token, newQuantity)
-			// 	.then((res) => {
-			// 		console.log(res.data);
-			// 		// setQuantity
-			// 	})
-			// 	.catch((err) => {
-			// 		console.log("updateQuantityInCart error", err);
-			// 	});
+			setQuantity(newQuantity);
+
+			updateQuantityInCart(user, item.product._id, token, newQuantity)
+				.then((res) => {
+					// console.log(res.data);
+				})
+				.catch((err) => {
+					console.log("updateQuantityInCart error", err);
+				});
 		}
+	};
+
+	const removeItemFromCart = () => {
+		removeProductFromCart(user, item.product._id, token)
+			.then((res) => {
+				// console.log(res.data);
+				// navigation.navigate("Cart");
+				// rerender();/
+			})
+			.catch((err) => {
+				console.log("updateQuantityInCart error", err);
+			});
+	};
+
+	const savedForLater = () => {
+		toggleIsSavedForLater(user, item.product._id, token)
+			.then((res) => {
+				// console.log(res.data);
+			})
+			.catch((err) => {
+				console.log("updateQuantityInCart error", err);
+			});
 	};
 
 	const image = {
@@ -173,7 +198,12 @@ const CartItem = ({ item, navigation }) => {
 			</TouchableWithoutFeedback>
 
 			<View style={styles.nav}>
-				<View style={styles.button}>
+				<TouchableOpacity
+					style={styles.button}
+					onPress={() => {
+						savedForLater();
+					}}
+				>
 					<Image
 						source={image1.uri}
 						style={{
@@ -183,8 +213,13 @@ const CartItem = ({ item, navigation }) => {
 						}}
 					/>
 					<Text style={styles.buttonText}>Save For Later</Text>
-				</View>
-				<View style={styles.button}>
+				</TouchableOpacity>
+				<TouchableOpacity
+					style={styles.button}
+					onPress={() => {
+						removeItemFromCart();
+					}}
+				>
 					<Image
 						source={trash.uri}
 						style={{
@@ -194,7 +229,7 @@ const CartItem = ({ item, navigation }) => {
 						}}
 					/>
 					<Text style={styles.buttonText}>Remove</Text>
-				</View>
+				</TouchableOpacity>
 			</View>
 		</View>
 	);

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
 	View,
 	Text,
@@ -17,6 +17,8 @@ const CartList = ({ itemList, navigation }) => {
 	const image1 = {
 		uri: require("../../../assets/catIcons/download.png"),
 	};
+
+	// useEffect(() => {}, [count]);
 
 	const [savedForLaterList, setSavedForLaterList] = useState(
 		itemList.filter((item) => item.isSavedForLater == true)
@@ -52,7 +54,7 @@ const CartList = ({ itemList, navigation }) => {
 					paddingVertical: 4,
 				}}
 			></View>
-			<PriceDetails itemList={itemList} />
+			<PriceDetails itemList={cartItemList} />
 			<View
 				style={{
 					borderBottomWidth: 10,

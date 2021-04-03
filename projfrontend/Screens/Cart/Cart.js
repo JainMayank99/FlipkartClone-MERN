@@ -3,7 +3,6 @@ import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 import LottieView from "lottie-react-native";
 import Header from "../../components/Header";
-import CartItem from "./Components/CartItem";
 import CartList from "./Components/CartList";
 import { isAuthenticated } from "../Auth/AuthAPICalls/authCalls";
 import { getAllCartItemsByUserId } from "./APICall/cartAPI";
@@ -13,6 +12,12 @@ const Cart = ({ routes, navigation }) => {
 	const [itemList, setItemList] = useState([]);
 	const [language, setLanguage] = useState("en");
 	const [loading, setLoading] = useState(false);
+
+	// const [count, setCount] = useState(itemList.length);
+
+	// const rerender = () => {
+	// 	setCount(count - 1);
+	// };
 
 	useEffect(() => {
 		isAuthenticated()
@@ -24,6 +29,7 @@ const Cart = ({ routes, navigation }) => {
 							setItemList(res.data);
 							setShowCart(true);
 							// console.log(res.data);
+							// console.log(count);
 						})
 						.catch((err) => {
 							console.log("cart list fetching error: " + err);
@@ -70,7 +76,11 @@ const Cart = ({ routes, navigation }) => {
 					}}
 				>
 					{showCart ? (
-						<CartList itemList={itemList} navigation={navigation} />
+						<CartList
+							itemList={itemList}
+							navigation={navigation}
+							// rerender={rerender}
+						/>
 					) : (
 						<View style={styles.login}>
 							<TouchableOpacity onPress={() => navigation.navigate("Login")}>
