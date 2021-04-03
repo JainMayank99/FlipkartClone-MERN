@@ -194,7 +194,11 @@ const Home = ({ route, navigation }) => {
 				</View>
 			) : (
 				<View>
-					<Header language={language} changeLanguage={changeLanguage} />
+					<Header
+						language={language}
+						changeLanguage={changeLanguage}
+						navigation={navigation}
+					/>
 					<ScrollView
 						style={{
 							marginTop: 105,

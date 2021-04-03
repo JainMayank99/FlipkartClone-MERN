@@ -1,24 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	View,
 	Text,
-	Image,
 	StyleSheet,
+	Image,
 	TouchableOpacity,
 	Dimensions,
 	TouchableWithoutFeedback,
 } from "react-native";
+import { Feather } from "@expo/vector-icons";
 import { Image as ExpoImage } from "react-native-expo-image-cache";
-import { isAuthenticated } from "../../Auth/AuthAPICalls/authCalls";
-import {
-	updateQuantityInCart,
-	removeProductFromCart,
-	toggleIsSavedForLater,
-} from "../APICall/cartAPI";
 
-const CartItem = ({ item, navigation }) => {
+import { isAuthenticated } from "../../Auth/AuthAPICalls/authCalls";
+import { removeProductFromWishList } from "../APICall/wishlistapi";
+
+const WishListItemDetails = ({ item, navigation }) => {
 	// console.log("item", item);
-	const [quantity, setQuantity] = useState(item.Quantity);
 	const [user, setUser] = useState();
 	const [token, setToken] = useState();
 	const [product, setProduct] = useState(item.product);
@@ -30,30 +27,15 @@ const CartItem = ({ item, navigation }) => {
 				setToken(res.token);
 			})
 			.catch((err) => {
-				console.log("isAuthenticated in CartItem", err);
+				console.log("isAuthenticated in Wishlist", err);
 			});
 	}, []);
 
-	const changeQuantity = (newQuantity) => {
-		if (newQuantity <= 0) {
-			// Alert.alert("");
-		} else {
-			setQuantity(newQuantity);
-
-			updateQuantityInCart(user, item.product._id, token, newQuantity)
-				.then((res) => {
-					// console.log(res.data);
-				})
-				.catch((err) => {
-					console.log("updateQuantityInCart error", err);
-				});
-		}
-	};
-
-	const removeItemFromCart = () => {
-		removeProductFromCart(user, item.product._id, token)
+	const removeItemFromWishlist = () => {
+		console.log("removeItemFromWishlist");
+		removeProductFromWishList(user, item.product._id, token)
 			.then((res) => {
-				// console.log(res.data);
+				console.log(res.data);
 				// navigation.navigate("Cart");
 				// rerender();/
 			})
@@ -62,30 +44,8 @@ const CartItem = ({ item, navigation }) => {
 			});
 	};
 
-	const savedForLater = () => {
-		toggleIsSavedForLater(user, item.product._id, token)
-			.then((res) => {
-				// console.log(res.data);
-			})
-			.catch((err) => {
-				console.log("updateQuantityInCart error", err);
-			});
-	};
-
 	const image = {
-		uri: require("../../../assets/catIcons/like.png"),
-	};
-	const trash = {
 		uri: require("../../../assets/catIcons/trash.png"),
-	};
-	const image1 = {
-		uri: require("../../../assets/catIcons/download.png"),
-	};
-	const minus = {
-		uri: require("../../../assets/catIcons/minus-circle.png"),
-	};
-	const plus = {
-		uri: require("../../../assets/catIcons/plus-circle.png"),
 	};
 	const width = Dimensions.get("screen").width;
 
@@ -94,9 +54,18 @@ const CartItem = ({ item, navigation }) => {
 			style={{
 				paddingVertical: 16,
 				paddingHorizontal: Dimensions.get("screen").width * 0.02041,
+				borderBottomWidth: 0.6,
+				borderColor: "#edeeef",
+				borderRadius: 2,
 			}}
 		>
-			<View style={styles.like}>
+			<TouchableOpacity
+				style={styles.trash}
+				onPress={() => {
+					removeItemFromWishlist();
+					// console.log("removeItemFromWishlist");
+				}}
+			>
 				<Image
 					source={image.uri}
 					style={{
@@ -105,7 +74,7 @@ const CartItem = ({ item, navigation }) => {
 						height: 22.5,
 					}}
 				/>
-			</View>
+			</TouchableOpacity>
 			<TouchableWithoutFeedback>
 				<View style={{ flex: 1, flexDirection: "row" }}>
 					<View
@@ -153,7 +122,7 @@ const CartItem = ({ item, navigation }) => {
 					</View>
 					<View style={styles.detailsBox}>
 						<Text style={styles.textDetails}>{item.product.name}</Text>
-						{/* <Text style={styles.tribeDetails}>{item.desc}</Text> */}
+						<Text style={styles.tribeDetails}>{item.product.description}</Text>
 						<View
 							style={{
 								flex: 1,
@@ -162,76 +131,19 @@ const CartItem = ({ item, navigation }) => {
 								width: 200,
 							}}
 						>
-							{/* <Text style={styles.rating}>
+							<Text style={styles.rating}>
 								<Feather name="star" size={22} style={styles.icon} />
-								<Text>4.5</Text>
+								<Text>{item.product.avgRating}</Text>
 								<Text>/5</Text>
-							</Text> */}
+							</Text>
 							<Text style={styles.price}>
 								<Text style={{ fontSize: 22 }}>₹</Text>
 								<Text>{item.product.price}</Text>
 							</Text>
 						</View>
-						<View style={styles.quantity}>
-							<TouchableOpacity onPress={() => changeQuantity(quantity - 1)}>
-								<Image
-									source={minus.uri}
-									style={{
-										width: 22.5,
-										height: 22.5,
-									}}
-								/>
-							</TouchableOpacity>
-
-							<Text style={styles.qText}>{quantity}</Text>
-							<TouchableOpacity onPress={() => changeQuantity(quantity + 1)}>
-								<Image
-									source={plus.uri}
-									style={{
-										width: 22.5,
-										height: 22.5,
-									}}
-								/>
-							</TouchableOpacity>
-						</View>
 					</View>
 				</View>
 			</TouchableWithoutFeedback>
-
-			<View style={styles.nav}>
-				<TouchableOpacity
-					style={styles.button}
-					onPress={() => {
-						savedForLater();
-					}}
-				>
-					<Image
-						source={image1.uri}
-						style={{
-							width: 22.5,
-							marginRight: 8,
-							height: 22.5,
-						}}
-					/>
-					<Text style={styles.buttonText}>Save For Later</Text>
-				</TouchableOpacity>
-				<TouchableOpacity
-					style={styles.button}
-					onPress={() => {
-						removeItemFromCart();
-					}}
-				>
-					<Image
-						source={trash.uri}
-						style={{
-							width: 22.5,
-							marginRight: 8,
-							height: 22.5,
-						}}
-					/>
-					<Text style={styles.buttonText}>Remove</Text>
-				</TouchableOpacity>
-			</View>
 		</View>
 	);
 };
@@ -244,7 +156,7 @@ const styles = StyleSheet.create({
 		position: "absolute",
 		right: Dimensions.get("screen").width * 0.10714,
 	},
-	like: {
+	trash: {
 		position: "absolute",
 		top: 20,
 		right: -15,
@@ -297,38 +209,6 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		color: "#4d4b50",
 	},
-	nav: {
-		flex: 1,
-		flexDirection: "row",
-		justifyContent: "space-around",
-		alignItems: "center",
-		marginTop: 24,
-	},
-	button: {
-		flex: 1,
-		flexDirection: "row",
-		borderWidth: 1,
-		borderColor: "#edeeef",
-		paddingVertical: 12,
-		paddingHorizontal: 24,
-		borderRadius: 5,
-		marginHorizontal: 5,
-	},
-	buttonText: {
-		fontFamily: "popins-med",
-		fontSize: 16,
-	},
-
-	quantity: {
-		flex: 1,
-		flexDirection: "row",
-	},
-	qText: {
-		fontFamily: "popins-bold",
-		fontSize: 16,
-		color: "#4d4b50",
-		paddingHorizontal: 16,
-	},
 });
 
-export default CartItem;
+export default WishListItemDetails;

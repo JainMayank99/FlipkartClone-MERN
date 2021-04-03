@@ -28,16 +28,22 @@ const Header = ({ language, changeLanguage, navigation }) => {
 					<HeaderIcon name="settings" />
 				</TouchableOpacity>
 			</View>
+
+			<View style={styles.cart}>
+				<TouchableOpacity
+					onPress={() => {
+						navigation.navigate("WishList");
+					}}
+				>
+					<HeaderIcon name="shopping-cart" />
+				</TouchableOpacity>
+			</View>
+
 			<View style={styles.body}>
 				<HeaderIcon name="menu" />
 				<Text style={styles.text}>Rajender</Text>
-				{/* <TouchableOpacity
-					onPress={() => {
-						navigation.navigate("Cart");
-					}}
-				> */}
-				<HeaderIcon name="shopping-cart" />
-				{/* </TouchableOpacity> */}
+
+				<HeaderIcon />
 			</View>
 			<SearchBar />
 			<RBSheet
@@ -103,6 +109,11 @@ const styles = StyleSheet.create({
 		position: "absolute",
 		top: 0,
 		right: 60,
+	},
+	cart: {
+		position: "absolute",
+		top: 0,
+		right: 20,
 	},
 	title: {
 		fontFamily: "popins-semibold",

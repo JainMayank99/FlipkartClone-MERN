@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
 	View,
 	Text,
@@ -11,99 +11,99 @@ import {
 } from "react-native";
 import ProductCarouselItem from "./ProductCarouselItem";
 import Icon from "../../../components/Icon";
-const { width, height } = Dimensions.get("window");
+import Paginator from "../../../components/Paginator";
+import { addProductToWishList } from "../../WishList/APICall/wishlistapi";
+import { isAuthenticated } from "../../Auth/AuthAPICalls/authCalls";
 
-function infiniteScroll(dataList) {
-	const numberOfData = dataList.length;
-	let scrollValue = 0,
-		scrolled = 0;
-	flag = 0;
-
-	setInterval(function () {
-		if (scrolled == 0) flag = 0;
-		if (scrolled == numberOfData - 1) flag = 1;
-		if (flag === 0 && scrolled < numberOfData - 1) {
-			scrollValue = scrollValue + width;
-			scrolled++;
-		} else {
-			scrollValue = scrollValue - width;
-			scrolled--;
-		}
-
-		this.flatList.scrollToOffset({ animated: true, offset: scrollValue });
-	}, 3000);
-}
-
-const ProductCarousel = ({ data, navigation }) => {
-	const scrollX = new Animated.Value(0);
-	let position = Animated.divide(scrollX, width);
+const ProductCarousel = ({ data, navigation, itemId }) => {
 	const [dataList, setDataList] = useState(data);
+	const [currentIndex, setCurrentIndex] = useState(0);
+	const [user, setUser] = useState("");
+	const [token, setToken] = useState("");
+
+	const scrollX = useRef(new Animated.Value(0)).current;
+	const slideRef = useRef(null);
+	const viewableItemsChanged = useRef(({ viewableItems }) => {
+		setCurrentIndex(viewableItems[0].index);
+	}).current;
+
+	const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
 
 	useEffect(() => {
 		setDataList(data);
-		infiniteScroll(dataList);
 	});
+
+	useEffect(() => {
+		isAuthenticated()
+			.then((res) => {
+				if (res.user) {
+					setUser(res.user._id);
+					setToken(res.token);
+				}
+			})
+			.catch((err) => {
+				console.log("isAuthenticated error is ProductCarousel", err);
+			});
+	}, []);
+
+	const addItemToWishList = () => {
+		if (user.length !== 0) {
+			addProductToWishList(user, itemId, token)
+				.then((res) => {
+					console.log(res.data);
+				})
+				.catch((err) => {
+					console.log(
+						"Error in adding item to wish list from product description",
+						err
+					);
+				});
+		} else {
+			navigation.navigate("Login");
+		}
+	};
 
 	if (data && data.length) {
 		return (
-			<View style={styles.body}>
+			<View style={styles.container}>
 				<StatusBar hidden />
+				<View style={{ flex: 3 }}>
+					<FlatList
+						data={data}
+						renderItem={({ item }) => <ProductCarouselItem item={item} />}
+						horizontal
+						showsHorizontalScrollIndicator={false}
+						pagingEnabled
+						bounces={false}
+						scrollEventThrottle={32}
+						onScroll={Animated.event(
+							[{ nativeEvent: { contentOffset: { x: scrollX } } }],
+							{ useNativeDriver: false }
+						)}
+						onViewableItemsChanged={viewableItemsChanged}
+						viewabilityConfig={viewConfig}
+						ref={slideRef}
+					/>
 
-				<FlatList
-					data={data}
-					ref={(flatList) => {
-						this.flatList = flatList;
-					}}
-					// keyExtractor={item => item._id}
-					keyExtractor={(item, index) => "key" + index}
-					horizontal
-					pagingEnabled
-					scrollEnabled
-					snapToAlignment="center"
-					scrollEventThrottle={16}
-					showsHorizontalScrollIndicator={false}
-					renderItem={({ item }) => {
-						return <ProductCarouselItem item={item} />;
-					}}
-					onScroll={Animated.event([
-						{ nativeEvent: { contentOffset: { x: scrollX } } },
-					])}
-				/>
-
-				<View style={styles.nav}>
-					<Icon name="arrow-left" align="left" />
+					<View style={styles.nav}>
+						<Icon name="arrow-left" align="left" />
+					</View>
+					<TouchableOpacity
+						style={styles.navend}
+						onPress={() => navigation.navigate("Cart")}
+					>
+						<Icon name="shopping-cart" align="right" />
+					</TouchableOpacity>
+					<TouchableOpacity
+						style={styles.wishlist}
+						onPress={() => {
+							addItemToWishList();
+						}}
+					>
+						<Icon name="heart" align="rightbottom" />
+					</TouchableOpacity>
 				</View>
-				<TouchableOpacity
-					style={styles.navend}
-					onPress={() => navigation.navigate("Cart")}
-				>
-					<Icon name="shopping-cart" align="right" />
-				</TouchableOpacity>
-				<View style={styles.wishlist}>
-					<Icon name="heart" align="rightbottom" />
-				</View>
-				<View style={styles.dotView}>
-					{data.map((_, i) => {
-						let opacity = position.interpolate({
-							inputRange: [i - 1, i, i + 1],
-							outputRange: [0.3, 1, 0.3],
-							extrapolate: "clamp",
-						});
-						return (
-							<Animated.View
-								key={i}
-								style={{
-									opacity,
-									height: 10,
-									width: 10,
-									backgroundColor: "#fc8019",
-									margin: 8,
-									borderRadius: 5,
-								}}
-							/>
-						);
-					})}
-				</View>
+				<Paginator data={data} scrollX={scrollX} />
 			</View>
 		);
 	}
@@ -113,17 +113,10 @@ const ProductCarousel = ({ data, navigation }) => {
 };
 
 const styles = StyleSheet.create({
-	body: { height: height / 2, marginBottom: 4 },
-	dotView: {
-		flexDirection: "row",
+	container: {
+		flex: 1,
 		justifyContent: "center",
-		marginTop: -35,
-	},
-
-	text: {
-		fontFamily: "popins-med",
-		fontSize: 20,
-		color: "#20263e",
+		alignItems: "center",
 	},
 	nav: {
 		position: "absolute",

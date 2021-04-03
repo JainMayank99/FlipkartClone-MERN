@@ -11,8 +11,8 @@ import SignUpScreen from "./Screens/Auth/SignUpScreen";
 import ProductListing from "./Screens/ProductListing/ProductListing";
 import ProductDescription from "./Screens/ProductDescription/ProductDescription";
 import Home from "./Screens/Home/Home";
-import { PaymentScreen } from "./Screens/PaymentScreen";
 import Cart from "./Screens/Cart/Cart";
+import WishList from "./Screens/WishList/WishList";
 import ProductReviews from "./Screens/ProductDescription/Components/ProductReviews";
 import AddAddress from "./components/ProfileComponents/AddAddress";
 
@@ -36,46 +36,31 @@ export default function App() {
 
 	if (fontsLoaded) {
 		return (
-			<NavigationContainer>
-				<AuthStack.Navigator
-					initialRouteName="Home"
-					screenOptions={{
-						headerShown: false,
-					}}
-				>
-					<AuthStack.Screen name="Login" component={LoginScreen} />
-					<AuthStack.Screen
-						name="Verification"
-						component={PhoneVerificationScreen}
-					/>
-					<AuthStack.Screen name="Register" component={SignUpScreen} />
-					<AuthStack.Screen name="Home" component={Home} />
-					<AuthStack.Screen name="Cart" component={Cart} />
-					<AuthStack.Screen
-						name="ProductDescription"
-						component={ProductDescription}
-					/>
-				</AuthStack.Navigator>
-			</NavigationContainer>
-			// <ProductListing />
-			// <NavigationContainer>
-			// 	<AuthStack.Navigator
-			// 		initialRouteName="ProductListing"
-			// 		screenOptions={{
-			// 			headerShown: false,
-			// 		}}
-			// 	>
-			// 		<AuthStack.Screen name="ProductListing" component={ProductListing} />
-			// 		{/* <AuthStack.Screen
-			//             name='Verification'
-			//             component={PhoneVerificationScreen}
-			//         /> */}
-			// 		<AuthStack.Screen
-			// 			name="ProductDescription"
-			// 			component={ProductDescription}
-			// 		/>
-			// 	</AuthStack.Navigator>
-			// </NavigationContainer>
+			<>
+				{(console.disableYellowBox = true)}
+				<NavigationContainer>
+					<AuthStack.Navigator
+						initialRouteName="Home"
+						screenOptions={{
+							headerShown: false,
+						}}
+					>
+						<AuthStack.Screen name="Login" component={LoginScreen} />
+						<AuthStack.Screen
+							name="Verification"
+							component={PhoneVerificationScreen}
+						/>
+						<AuthStack.Screen name="Register" component={SignUpScreen} />
+						<AuthStack.Screen name="Home" component={Home} />
+						<AuthStack.Screen name="Cart" component={Cart} />
+						<AuthStack.Screen name="WishList" component={WishList} />
+						<AuthStack.Screen
+							name="ProductDescription"
+							component={ProductDescription}
+						/>
+					</AuthStack.Navigator>
+				</NavigationContainer>
+			</>
 		);
 	} else {
 		return (

@@ -86,7 +86,11 @@ const ProductDescScreen = ({ route, navigation }) => {
 					/>
 				) : null}
 				<ScrollView>
-					<ProductCarousel data={item.image} navigation={navigation} />
+					<ProductCarousel
+						data={item.image}
+						navigation={navigation}
+						itemId={item._id}
+					/>
 
 					<ProductTitle
 						name={item.name}
@@ -97,6 +101,7 @@ const ProductDescScreen = ({ route, navigation }) => {
 					<ProductReturnPolicy />
 					<ProductReviews id={item._id} avgRating={item.avgRating} />
 					<RelatedProducts categoryId={item.category} navigation={navigation} />
+					<View style={{ height: 48 }}></View>
 				</ScrollView>
 			</View>
 			<TouchableOpacity onPress={onCartButtonPressed} style={styles.add}>
