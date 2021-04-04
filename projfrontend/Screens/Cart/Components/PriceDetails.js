@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import Dash from "react-native-dash";
 
 const PriceDetails = ({ itemList }) => {
-	console.log("Price Details", itemList);
+	// console.log("Price Details", itemList);
 
 	const [totalPrice, setTotalPrice] = useState(0);
 	const [discount, setDiscount] = useState(0);
@@ -22,7 +22,7 @@ const PriceDetails = ({ itemList }) => {
 		<View style={styles.container}>
 			<Text style={styles.heading}>Price Details</Text>
 			<View style={styles.view}>
-				<Text style={styles.subText}>Price (3 Items)</Text>
+				<Text style={styles.subText}>Price ({itemList.length} Items)</Text>
 				<Text style={styles.subText}>₹{totalPrice}</Text>
 			</View>
 			<View style={styles.view}>

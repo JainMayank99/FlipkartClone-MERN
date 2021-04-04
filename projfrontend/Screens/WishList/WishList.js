@@ -6,7 +6,7 @@ import Header from "../../components/Header";
 
 import WishListItems from "./components/WishListItems";
 import { isAuthenticated } from "../Auth/AuthAPICalls/authCalls";
-import { getAllWishListItemsByUserId } from "./APICall/wishlistapi";
+import { getAllWishListItemsByUserId } from "./APICall/WishlistAPI";
 
 const WishList = ({ navigation }) => {
 	const [language, setLanguage] = useState("en");
@@ -29,7 +29,9 @@ const WishList = ({ navigation }) => {
 						.catch((err) => {
 							console.log("wishlist fetching error: " + err);
 						});
-				} else setShowWishlist(false);
+				} else {
+					setShowWishlist(false);
+				}
 			})
 			.catch((err) => {
 				console.log("wishlist screen error: " + err);

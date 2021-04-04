@@ -1,12 +1,5 @@
-import React, { useState, useRef } from "react";
-import {
-	View,
-	Text,
-	StyleSheet,
-	FlatList,
-	TouchableOpacity,
-	Dimensions,
-} from "react-native";
+import React from "react";
+import { View, Text, StyleSheet, FlatList, Dimensions } from "react-native";
 
 import WishListItemDetails from "./WishListItemDetails";
 

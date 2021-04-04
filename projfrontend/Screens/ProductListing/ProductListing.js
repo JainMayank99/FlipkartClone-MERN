@@ -4,8 +4,8 @@ import LottieView from "lottie-react-native";
 
 import ProductList from "./ProductListingsComponents/ProductList";
 import Header_custom from "./ProductListingsComponents/Header_custom";
-import { productSearch } from "./APICall/productSearchAPI";
-import { productsByCategoryId } from "./APICall/categoryProductApi";
+import { productSearch } from "./APICall/ProductSearchAPI";
+import { productsByCategoryId } from "./APICall/CategoryProductAPI";
 
 const ProductListing = ({ category, navigation }) => {
 	// console.log("Category ID", category);

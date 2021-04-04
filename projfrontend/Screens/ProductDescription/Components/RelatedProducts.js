@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Image as ExpoImage } from "react-native-expo-image-cache";
 
-import { getRelatedProduct } from "../APICalls/relatedProduct";
+import { getRelatedProduct } from "../APICalls/RelatedProductAPI";
 
 const RelatedProducts = ({ categoryId, navigation }) => {
 	// console.log("categoryId", categoryId);

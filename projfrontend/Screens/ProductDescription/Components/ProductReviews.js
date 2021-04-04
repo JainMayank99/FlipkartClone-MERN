@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Dimensions, FlatList } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { getReviewByProductId } from "../APICalls/productReview";
+import { getReviewByProductId } from "../APICalls/ProductReviewAPI";
 
 const width = Dimensions.get("screen").width;
 const ProductReviews = ({ id, avgRating }) => {

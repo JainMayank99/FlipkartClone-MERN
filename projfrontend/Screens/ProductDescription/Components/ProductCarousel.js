@@ -12,14 +12,15 @@ import {
 import ProductCarouselItem from "./ProductCarouselItem";
 import Icon from "../../../components/Icon";
 import Paginator from "../../../components/Paginator";
-import { addProductToWishList } from "../../WishList/APICall/wishlistapi";
+
 import { isAuthenticated } from "../../Auth/AuthAPICalls/authCalls";
+import { addProductToWishList } from "../../WishList/APICall/WishlistAPI";
 
 const ProductCarousel = ({ data, navigation, itemId }) => {
 	const [dataList, setDataList] = useState(data);
 	const [currentIndex, setCurrentIndex] = useState(0);
-	const [user, setUser] = useState("");
-	const [token, setToken] = useState("");
+	const [user, setUser] = useState();
+	const [token, setToken] = useState();
 
 	const scrollX = useRef(new Animated.Value(0)).current;
 	const slideRef = useRef(null);

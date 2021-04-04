@@ -12,7 +12,7 @@ import { Feather } from "@expo/vector-icons";
 import { Image as ExpoImage } from "react-native-expo-image-cache";
 
 import { isAuthenticated } from "../../Auth/AuthAPICalls/authCalls";
-import { removeProductFromWishList } from "../APICall/wishlistapi";
+import { removeProductFromWishList } from "../APICall/WishlistAPI";
 
 const WishListItemDetails = ({ item, navigation }) => {
 	// console.log("item", item);

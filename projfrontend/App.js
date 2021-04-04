@@ -15,6 +15,8 @@ import Cart from "./Screens/Cart/Cart";
 import WishList from "./Screens/WishList/WishList";
 import ProductReviews from "./Screens/ProductDescription/Components/ProductReviews";
 import AddAddress from "./components/ProfileComponents/AddAddress";
+import Orders from "./Screens/Orders";
+import StartRatingComponent from "./components/ProfileComponents/StartRatingComponent";
 
 const AuthStack = createStackNavigator();
 
@@ -40,7 +42,7 @@ export default function App() {
 				{(console.disableYellowBox = true)}
 				<NavigationContainer>
 					<AuthStack.Navigator
-						initialRouteName="Home"
+						initialRouteName="Orders"
 						screenOptions={{
 							headerShown: false,
 						}}
@@ -54,6 +56,7 @@ export default function App() {
 						<AuthStack.Screen name="Home" component={Home} />
 						<AuthStack.Screen name="Cart" component={Cart} />
 						<AuthStack.Screen name="WishList" component={WishList} />
+						<AuthStack.Screen name="Orders" component={Orders} />
 						<AuthStack.Screen
 							name="ProductDescription"
 							component={ProductDescription}
