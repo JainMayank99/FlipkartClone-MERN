@@ -4,6 +4,7 @@ import {BACKEND_URL} from '@env';
 
 export const randomProduct = (count ) => {
     // console.log("Random Product call count: " + count);
+    console.log(BACKEND_URL)
     return axios({
         method: 'post',
         url: `${BACKEND_URL}/getRandomProducts`,

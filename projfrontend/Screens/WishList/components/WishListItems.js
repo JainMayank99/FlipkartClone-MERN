@@ -3,11 +3,11 @@ import { View, Text, StyleSheet, FlatList, Dimensions } from "react-native";
 
 import WishListItemDetails from "./WishListItemDetails";
 
-const WishListItems = ({ itemList, navigation }) => {
+const WishListItems = ({ itemList, navigation,onChangeWishlist }) => {
 	return (
 		<View
 			style={{
-				paddingBottom: 200,
+				marginBottom:150,
 				borderBottomWidth: 10,
 				borderColor: "#edeeef",
 			}}
@@ -18,9 +18,10 @@ const WishListItems = ({ itemList, navigation }) => {
 
 			<FlatList
 				data={itemList}
+				extraData={itemList}
 				showsHorizontalScrollIndicator={false}
 				renderItem={({ item }) => {
-					return <WishListItemDetails item={item} navigation={navigation} />;
+					return <WishListItemDetails item={item} navigation={navigation} onChangeWishlist={onChangeWishlist}/>;
 				}}
 			/>
 		</View>
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		padding: Dimensions.get("screen").width * 0.02041,
 		paddingHorizontal: Dimensions.get("screen").width * 0.04082,
-		marginBottom: 4,
+		marginBottom: 16,
 	},
 	text: {
 		fontFamily: "popins-bold",

@@ -66,7 +66,9 @@ const ProductCarousel = ({ data, navigation, itemId }) => {
 
 	if (data && data.length) {
 		return (
+			
 			<View style={styles.container}>
+				{(console.disableYellowBox = true)}
 				<StatusBar hidden />
 				<View style={{ flex: 3 }}>
 					<FlatList

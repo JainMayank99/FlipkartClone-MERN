@@ -7,6 +7,7 @@ import {
 	StatusBar,
 	Button,
 	TouchableOpacity,
+	Alert,
 } from "react-native";
 import RBSheet from "react-native-raw-bottom-sheet";
 import HeaderIcon from "./HeaderIcon";
@@ -14,8 +15,15 @@ import Screen from "./Screen";
 import SearchBar from "./SearchBar";
 import SelectLanguage from "./SelectLanguage";
 
+import { signout } from "../Screens/Auth/AuthAPICalls/authCalls";
+
 const Header = ({ language, changeLanguage, navigation }) => {
 	const refRBSheet = useRef();
+	const signOut=()=>{
+		signout();
+		alert("Sign out Successfull")
+
+	}
 	const image = {
 		uri:
 			"https://images.pexels.com/photos/227417/pexels-photo-227417.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
@@ -24,7 +32,10 @@ const Header = ({ language, changeLanguage, navigation }) => {
 		<Screen>
 			<StatusBar hidden />
 			<View style={styles.language}>
-				<TouchableOpacity onPress={() => refRBSheet.current.open()}>
+				{/* <TouchableOpacity onPress={() => refRBSheet.current.open()}>
+					<HeaderIcon name="settings" />
+				</TouchableOpacity> */}
+				<TouchableOpacity onPress={() => {signout()}}>
 					<HeaderIcon name="settings" />
 				</TouchableOpacity>
 			</View>

@@ -14,17 +14,20 @@ const WishList = ({ navigation }) => {
 	const [itemList, setItemList] = useState([]);
 	const [showWishlist, setShowWishlist] = useState(false);
 
+	const onChangeWishlist =(newData) =>{
+		if (newData != itemList){
+			setItemList(newData);
+		  } 
+	}
+
 	useEffect(() => {
 		isAuthenticated()
 			.then((res) => {
-				// console.log(res.user._id);
 				if (res.user) {
 					getAllWishListItemsByUserId(res.user._id, res.token)
 						.then((res) => {
-							setItemList(res.data);
+							onChangeWishlist(res.data)
 							setShowWishlist(true);
-							// console.log(res.data);
-							// console.log(count);
 						})
 						.catch((err) => {
 							console.log("wishlist fetching error: " + err);
@@ -36,8 +39,6 @@ const WishList = ({ navigation }) => {
 			.catch((err) => {
 				console.log("wishlist screen error: " + err);
 			});
-		// const {user} =
-		// console.log(isAuthenticated().user);
 	}, []);
 
 	const mainWork = (lang) => {
@@ -53,6 +54,7 @@ const WishList = ({ navigation }) => {
 
 	return (
 		<View>
+			{console.log("rerender")}
 			<View style={loading === true ? styles.overlay : null}>
 				{loading === true ? (
 					<LottieView
@@ -74,7 +76,7 @@ const WishList = ({ navigation }) => {
 					}}
 				>
 					{showWishlist ? (
-						<WishListItems itemList={itemList} navigation={navigation} />
+						<WishListItems itemList={itemList} navigation={navigation} onChangeWishlist={onChangeWishlist}/>
 					) : (
 						<View style={styles.login}>
 							<TouchableOpacity onPress={() => navigation.navigate("Login")}>

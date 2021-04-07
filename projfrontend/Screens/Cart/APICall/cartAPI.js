@@ -3,6 +3,7 @@ import { BACKEND_URL } from "@env";
 
 export const getAllCartItemsByUserId = (userId, token) => {
 	// console.log("Random Product call count: " + count);
+	console.log(BACKEND_URL)
 	return axios({
 		method: "get",
 		url: `${BACKEND_URL}/getAllCartItemsByUserId/${userId}`,
@@ -15,6 +16,7 @@ export const getAllCartItemsByUserId = (userId, token) => {
 };
 
 export const addProductToCart = (userId, productId, token) => {
+	console.log(BACKEND_URL)
 	return axios({
 		method: "post",
 		url: `${BACKEND_URL}/addProductToCart/${userId}/${productId}`,
@@ -28,6 +30,7 @@ export const addProductToCart = (userId, productId, token) => {
 
 let cancelToken;
 export const updateQuantityInCart = (userId, productId, token, quantity) => {
+	console.log(BACKEND_URL)
 	if (typeof cancelToken != typeof undefined) {
 		cancelToken.cancel("Cancelling previous req");
 	}
@@ -54,6 +57,7 @@ export const updateQuantityInCart = (userId, productId, token, quantity) => {
 };
 
 export const removeProductFromCart = (userId, productId, token) => {
+	console.log(BACKEND_URL)
 	return axios({
 		method: "delete",
 		url: `${BACKEND_URL}/removeProductFromCart/${userId}/${productId}`,
@@ -66,6 +70,7 @@ export const removeProductFromCart = (userId, productId, token) => {
 };
 
 export const toggleIsSavedForLater = (userId, productId, token) => {
+	console.log(BACKEND_URL)
 	return axios({
 		method: "put",
 		url: `${BACKEND_URL}/toggleIsSavedForLater/${userId}/${productId}`,

@@ -126,6 +126,7 @@ const Home = ({ route, navigation }) => {
 		},
 	]);
 	const renderItem = ({ item, index }) => {
+		{(console.disableYellowBox = true)}
 		return (
 			<View>
 				<TouchableOpacity

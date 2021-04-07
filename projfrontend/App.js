@@ -42,7 +42,7 @@ export default function App() {
 				{(console.disableYellowBox = true)}
 				<NavigationContainer>
 					<AuthStack.Navigator
-						initialRouteName="Orders"
+						initialRouteName="Home"
 						screenOptions={{
 							headerShown: false,
 						}}

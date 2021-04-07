@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
 		color: "#20263e",
 		paddingTop: 10,
 		marginLeft: 3,
+		zIndex:9
 	},
 	discountBox: {
 		position: "absolute",
