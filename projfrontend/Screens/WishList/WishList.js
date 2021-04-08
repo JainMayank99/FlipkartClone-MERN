@@ -8,7 +8,9 @@ import WishListItems from "./components/WishListItems";
 import { isAuthenticated } from "../Auth/AuthAPICalls/authCalls";
 import { getAllWishListItemsByUserId } from "./APICall/WishlistAPI";
 
-const WishList = ({ navigation }) => {
+const WishList = ({ navigation,route }) => {
+
+	
 	const [language, setLanguage] = useState("en");
 	const [loading, setLoading] = useState(false);
 	const [itemList, setItemList] = useState([]);
@@ -54,7 +56,8 @@ const WishList = ({ navigation }) => {
 
 	return (
 		<View>
-			{console.log("rerender")}
+			{/* {console.log("rerender")} */}
+			
 			<View style={loading === true ? styles.overlay : null}>
 				{loading === true ? (
 					<LottieView

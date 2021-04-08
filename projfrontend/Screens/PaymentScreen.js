@@ -148,4 +148,4 @@ const styles = StyleSheet.create({
   footer: { flex: 1, backgroundColor: "cyan" },
 });
 
-export { PaymentScreen };
+export default PaymentScreen ;

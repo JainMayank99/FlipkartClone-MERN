@@ -1,36 +1,45 @@
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
-import { WebView } from 'react-native-webview'
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { WebView } from "react-native-webview";
+import { STRIPE_PK_TEST } from "@env";
 
-const STRIPE_PK = 'pk_test_hDBhPoULfcSPFUbWwhtd3U5l00VvAHFpNS'
-
+const STRIPE_PK = STRIPE_PK_TEST;
 
 const PaymentView = (props) => {
+  const { amount, product } = props;
 
-    const { amount, product } = props
+  const onCheckStatus = (response) => {
+    props.onCheckStatus(response);
+  };
 
-
-    const onCheckStatus = (response) => {
-        props.onCheckStatus(response)
-    }
-
-
-    const htmlContent = `
+  const htmlContent = `
     
-                <!DOCTYPE html>
+            <!DOCTYPE html>
             <html lang="en">
             <head>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Payment Page</title>
                 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+                <link rel="preconnect" href="https://fonts.gstatic.com">
+                <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+                <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet">
                 <script src="https://js.stripe.com/v3/"></script>
-
-                <style>
                 
+                <style>
+             
+                .ElementsApp, .ElementsApp.InputElement {
+                    color: #FFF;
+                    font-weight: 500;
+                    font-family: "'Poppins', sans-serif";
+                    font-size: 20px;
+                    -webkit-font-smoothing: antialiased;
+                    -moz-osx-font-smoothing: grayscale;
+                }
                 .card-holder{
                     display: flex;
                     flex-direction: column;
+                    font-weight:300;
                     height: 200px;
                     justify-content: space-around;
                     background-color: #3D097F;
@@ -40,29 +49,32 @@ const PaymentView = (props) => {
                     padding-bottom: 20px;
                     margin-top: 50px;
                     margin-bottom: 50px;
+                    font-family: 'Poppins', sans-serif;
                 }
                 .card-element{
                     height: 100px;
                     display: flex;
                     flex-direction: column;
                     justify-content: space-around;
+                    font-family: 'Poppins', sans-serif;
                 }
                 .card-name{
                     padding: 20;
                     color: '#FFF';
-                    font-weight: 500;
-                    font-size: '25px';
+                    font-weight: 400;
+                    font-size: 20px;
                     background-color: transparent;
                     border: none;
-                
+                    font-family: 'Poppins', sans-serif;
                 }
 
                 input {
                     outline:none;
                     color: #FFF;
-                    font-size: '25px';
+                    font-size: 25px;
                     font-weight: 500;
                     background-color: transparent;
+                    font-family: 'Poppins', sans-serif;
                     }
                     
 
@@ -72,10 +84,11 @@ const PaymentView = (props) => {
                         flex-direction: row;
                         justify-content: center;
                         align-items: center;
+                        font-family: 'Poppins', sans-serif;
                     }
 
                     .products-info{
-                        
+                        font-family: 'Poppins', sans-serif;
                         height: 150px;
                         width: 100%;
                         padding: 20px;
@@ -84,13 +97,28 @@ const PaymentView = (props) => {
                     }
 
                     .card-errors{
+                        font-family: 'Poppins', sans-serif;
                         color: red;
+                        font-size:20px;
                     }
                     .pay-btn{
                         display: flex;
                         height: 50px;
                         justify-content: center;
                         align-items: center;
+                        font-family: 'Poppins', sans-serif;
+                        border-radius:10px;
+                        background-color: #fc8019;
+                        color:white;
+                        justify-content:center;
+                        
+                    }
+                   
+                   
+                    .btn{
+                        font-family: 'Poppins', sans-serif;
+                        color:white;
+                        font-weight:500;
                     }
                 
                 </style>
@@ -100,12 +128,7 @@ const PaymentView = (props) => {
                 
                 <!-- product info -->
                 <div class="container-fluid">
-                    <div class="row">
-                        <div class="products-info">
-                            Product Info: ${product}
-                            Amount: ${amount}
-                        </div>
-                    </div>
+                    
                     <div class="row">
                         <label class="card-errors" id="card-errors"></label>
                     </div>
@@ -117,14 +140,14 @@ const PaymentView = (props) => {
                                     <div id="card-element" class="card-element">
 
                                         <div class="form-group">
-                                            <label for="card_number">Carn Number</label>
+                                            <label for="card_number">Card Number</label>
                                             <input type="text" class="form-control" id="card_number" data-stripe="number">
                                         </div>
 
                                         <div class="form-row">
                                             <label>
-                                                <span>Card number</span>
-                                                <input type="text" size="20" data-stripe="number">
+                                                <span>Card Number</span>
+                                                <input type="text" size="20" data-stripe="number" >
                                             </label>
                                         </div> 
                                     
@@ -157,7 +180,8 @@ const PaymentView = (props) => {
 
                             
                                 <div class="pay-btn">
-                                    <input type="submit" class="btn btn-info btn-lg" value="Pay Now" />
+                                    <input type="submit" class="btn  btn-lg" value="Pay Now"
+                                    style="font-weight:400" />
                                 </div>
                 
                         </form>
@@ -179,9 +203,9 @@ const PaymentView = (props) => {
                             hidePostalCode: true,
                             style: {
                                 base: {
+                               
                                 color: '#FFF',
-                                fontWeight: 500,
-                                fontFamily: 'Source Code Pro, Consolas, Menlo, monospace',
+                                fontWeight: 400,
                                 fontSize: '20px',
                                 fontSmoothing: 'antialiased',
                                 '::placeholder': {
@@ -279,32 +303,30 @@ const PaymentView = (props) => {
 
     `;
 
-    const injectedJavaScript = `(function() {
+  const injectedJavaScript = `(function() {
         window.postMessage = function(data){
             window.ReactNativeWebView.postMessage(data);
         };
     })()`;
 
+  const onMessage = (event) => {
+    const { data } = event.nativeEvent;
+    console.log(data);
+    onCheckStatus(data);
+  };
 
-    const onMessage = (event) => {
-        const { data } = event.nativeEvent;
-        console.log(data)
-        onCheckStatus(data)
+  return (
 
-    }
-
-
-
-    return <WebView
+      <WebView
         javaScriptEnabled={true}
-        style={{ flex: 1 }}
-        originWhitelist={['*']}
+        style={{ flex: 1, marginTop:'25%' }}
+        originWhitelist={["*"]}
         source={{ html: htmlContent }}
         injectedJavaScript={injectedJavaScript}
         onMessage={onMessage}
-    />
+      />
+  
+  );
+};
 
-}
-
-
-export { PaymentView }
+export default PaymentView;
