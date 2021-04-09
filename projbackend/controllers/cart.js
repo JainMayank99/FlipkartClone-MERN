@@ -133,3 +133,17 @@ exports.toggleIsSavedForLater = async (req, res) => {
 		});
 	});
 };
+
+exports.emptyCart = (req, res, next) => {
+	CartSchema.deleteMany({
+		user: req.profile._id,
+		isSavedForLater: true,
+	}).exec((err, cartItem) => {
+		if (err || !cartItem) {
+			return res.status(400).json({
+				error: "Not Able to remove product from cartItem in DB",
+			});
+		}
+		next();
+	});
+};

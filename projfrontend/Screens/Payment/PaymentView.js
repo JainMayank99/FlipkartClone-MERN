@@ -3,16 +3,17 @@ import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { WebView } from "react-native-webview";
 import { STRIPE_PK_TEST } from "@env";
 
-const STRIPE_PK = STRIPE_PK_TEST;
-
 const PaymentView = (props) => {
-  const { amount, product } = props;
+	const { amount, product } = props;
+	// console.log("STRIPE_PK_TEST", STRIPE_PK_TEST);
+	// console.log("props", props);
+	const STRIPE_PK = STRIPE_PK_TEST;
 
-  const onCheckStatus = (response) => {
-    props.onCheckStatus(response);
-  };
+	const onCheckStatus = (response) => {
+		props.onCheckStatus(response);
+	};
 
-  const htmlContent = `
+	const htmlContent = `
     
             <!DOCTYPE html>
             <html lang="en">
@@ -303,30 +304,28 @@ const PaymentView = (props) => {
 
     `;
 
-  const injectedJavaScript = `(function() {
+	const injectedJavaScript = `(function() {
         window.postMessage = function(data){
             window.ReactNativeWebView.postMessage(data);
         };
     })()`;
 
-  const onMessage = (event) => {
-    const { data } = event.nativeEvent;
-    console.log(data);
-    onCheckStatus(data);
-  };
+	const onMessage = (event) => {
+		const { data } = event.nativeEvent;
+		// console.log(data);
+		onCheckStatus(data);
+	};
 
-  return (
-
-      <WebView
-        javaScriptEnabled={true}
-        style={{ flex: 1, marginTop:'25%' }}
-        originWhitelist={["*"]}
-        source={{ html: htmlContent }}
-        injectedJavaScript={injectedJavaScript}
-        onMessage={onMessage}
-      />
-  
-  );
+	return (
+		<WebView
+			javaScriptEnabled={true}
+			style={{ flex: 1, marginTop: "25%" }}
+			originWhitelist={["*"]}
+			source={{ html: htmlContent }}
+			injectedJavaScript={injectedJavaScript}
+			onMessage={onMessage}
+		/>
+	);
 };
 
-export default PaymentView;
+export { PaymentView };

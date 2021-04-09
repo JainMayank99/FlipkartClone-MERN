@@ -299,3 +299,23 @@ exports.removeProduct = (req, res) => {
 		});
 	});
 };
+
+exports.updateStock = (req, res, next) => {
+	let myOperations = req.body.products.map((product) => {
+		return {
+			updateOne: {
+				filter: { _id: product._id },
+				update: { $inc: { stock: -product.quantity } },
+			},
+		};
+	});
+
+	ProductSchema.bulkWrite(myOperations, {}, (err, products) => {
+		if (err) {
+			return res.status(400).json({
+				error: "Bulk operation failed",
+			});
+		}
+		next();
+	});
+};

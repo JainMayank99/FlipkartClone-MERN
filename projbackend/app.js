@@ -1,35 +1,34 @@
-require('dotenv').config()
+require("dotenv").config();
 
-const mongoose = require('mongoose');
-const express = require("express")
-const app = express()
+const mongoose = require("mongoose");
+const express = require("express");
+const app = express();
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const cors = require("cors")
+const cors = require("cors");
 
-const cloudinary = require('cloudinary');
+const cloudinary = require("cloudinary");
 
-cloudinary
-    .config({
-        cloud_name: process.env.CLOUDNAME,
-        api_key: process.env.CLOUDINARYAPIKEY,
-        api_secret: process.env.CLOUDINARYAPISECRET,
-    });
+cloudinary.config({
+	cloud_name: process.env.CLOUDNAME,
+	api_key: process.env.CLOUDINARYAPIKEY,
+	api_secret: process.env.CLOUDINARYAPISECRET,
+});
 
 //DB Connection
 mongoose
-    .connect(process.env.DATABASE, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true,
-        useFindAndModify: false,
-    })
-    .then(() => {
-        console.log("DB CONNECTED");
-    }).catch(() => {
-        console.log("Error in DB Connection");
-    });
-
+	.connect(process.env.DATABASE, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+		useCreateIndex: true,
+		useFindAndModify: false,
+	})
+	.then(() => {
+		console.log("DB CONNECTED");
+	})
+	.catch(() => {
+		console.log("Error in DB Connection");
+	});
 
 //My Routes
 const authRoutes = require("./routes/auth");
@@ -39,12 +38,11 @@ const categoryRoutes = require("./routes/category");
 const productRoutes = require("./routes/product");
 const wishListRoutes = require("./routes/wishlist");
 const cartRoutes = require("./routes/cart");
-// const orderRoutes = require("./routes/order");
 const reviewRoutes = require("./routes/review");
+const orderRoutes = require("./routes/order");
 
 const homeScreenRoutes = require("./routes/homeScreen");
 const productSearchRoutes = require("./routes/productSearch");
-
 
 //Middlewares
 app.use(bodyParser.json());
@@ -54,13 +52,13 @@ app.use(cors());
 // //Routes
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
-app.use("/api", addressRoutes)
+app.use("/api", addressRoutes);
 app.use("/api", categoryRoutes);
 app.use("/api", productRoutes);
 app.use("/api", wishListRoutes);
 app.use("/api", cartRoutes);
-// app.use("/api", orderRoutes);
 app.use("/api", reviewRoutes);
+app.use("/api", orderRoutes);
 
 app.use("/api", homeScreenRoutes);
 app.use("/api", productSearchRoutes);
@@ -70,5 +68,5 @@ const port = process.env.PORT || 8000;
 
 //Server Start
 app.listen(port, () => {
-    console.log(`App is running at port ${port}`);
+	console.log(`App is running at port ${port}`);
 });

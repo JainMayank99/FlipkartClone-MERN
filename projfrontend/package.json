@@ -58,12 +58,14 @@
     "react-native-screens": "~2.2.0",
     "react-native-snap-carousel": "^3.9.1",
     "react-native-star-rating": "^1.1.0",
+    "react-native-stripe-payments": "^1.0.6",
     "react-native-svg": "11.0.1",
     "react-native-web": "^0.15.0",
     "react-native-webview": "8.1.1",
     "react-useanimations": "^2.0.6",
     "rn-content-loader": "0.0.6",
     "rn-sliding-up-panel": "^2.4.4",
+    "uuid": "^8.3.2",
     "yup": "^0.28.5"
   },
   "devDependencies": {

@@ -17,7 +17,7 @@ import ProductReviews from "./Screens/ProductDescription/Components/ProductRevie
 import AddAddress from "./components/ProfileComponents/AddAddress";
 import Orders from "./Screens/Orders";
 import StartRatingComponent from "./components/ProfileComponents/StartRatingComponent";
-import PaymentScreen from "./Screens/PaymentScreen";
+import PaymentScreen from "./Screens/Payment/PaymentScreen";
 import PaymentView from "./Screens/Payment/PaymentView";
 
 const AuthStack = createStackNavigator();
@@ -42,9 +42,9 @@ export default function App() {
 		return (
 			<>
 				{(console.disableYellowBox = true)}
-				{/* <NavigationContainer>
+				<NavigationContainer>
 					<AuthStack.Navigator
-						initialRouteName="Home"
+						initialRouteName="PaymentScreen"
 						screenOptions={{
 							headerShown: false,
 						}}
@@ -63,9 +63,9 @@ export default function App() {
 							name="ProductDescription"
 							component={ProductDescription}
 						/>
+						<AuthStack.Screen name="PaymentScreen" component={PaymentScreen} />
 					</AuthStack.Navigator>
-				</NavigationContainer> */}
-				<PaymentView/>
+				</NavigationContainer>
 			</>
 		);
 	} else {
