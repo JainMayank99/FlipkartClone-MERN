@@ -137,7 +137,7 @@ exports.toggleIsSavedForLater = async (req, res) => {
 exports.emptyCart = (req, res, next) => {
 	CartSchema.deleteMany({
 		user: req.profile._id,
-		isSavedForLater: true,
+		isSavedForLater: false,
 	}).exec((err, cartItem) => {
 		if (err || !cartItem) {
 			return res.status(400).json({

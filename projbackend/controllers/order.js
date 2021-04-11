@@ -4,7 +4,7 @@ const { v4: uuidv4 } = require("uuid");
 
 exports.paymentByCard = async (req, res) => {
 	const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-	const { email, product, authToken, totalPrice } = req.body;
+	const { email, products, authToken, totalPrice } = req.body;
 	const { token } = authToken;
 	const { card } = token;
 
@@ -27,8 +27,8 @@ exports.paymentByCard = async (req, res) => {
 			source: token.id,
 		});
 
-		console.log("Customer Created.....");
-		console.log(customer);
+		// console.log("Customer Created.....");
+		// console.log(customer);
 
 		const response = await stripe.charges.create(
 			{
@@ -52,6 +52,11 @@ exports.paymentByCard = async (req, res) => {
 		// console.log(response);
 
 		//TODO: add to changes to Order Model
+
+		// products.map((product) => {
+		// 	let order=new OrderSchema()
+
+		// })
 
 		res.json(response);
 	} catch (err) {

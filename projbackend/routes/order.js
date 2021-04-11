@@ -22,8 +22,8 @@ router.post(
 	"/paymentByCard/:userId",
 	isSignedIn,
 	isAuthenticated,
-	// updateStock,
-	// emptyCart,
+	updateStock,
+	emptyCart,
 	paymentByCard
 );
 

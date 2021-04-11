@@ -19,7 +19,7 @@ import Orders from "./Screens/Orders";
 import StartRatingComponent from "./components/ProfileComponents/StartRatingComponent";
 import PaymentScreen from "./Screens/Payment/PaymentScreen";
 import PaymentView from "./Screens/Payment/PaymentView";
-import PaymentSelection from "./Screens/Cart/Components/PaymentSelection";
+import PaymentSelection from "./Screens/Payment/PaymentSelection";
 
 const AuthStack = createStackNavigator();
 
@@ -65,7 +65,10 @@ export default function App() {
 							component={ProductDescription}
 						/>
 						<AuthStack.Screen name="PaymentScreen" component={PaymentScreen} />
-						<AuthStack.Screen name="PaymentSelection" component={PaymentSelection} />
+						<AuthStack.Screen
+							name="PaymentSelection"
+							component={PaymentSelection}
+						/>
 					</AuthStack.Navigator>
 				</NavigationContainer>
 			</>
