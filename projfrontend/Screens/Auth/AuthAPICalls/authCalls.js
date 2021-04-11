@@ -3,7 +3,7 @@ import { BACKEND_URL } from "@env";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const signIn = (phone, password) => {
-	console.log(BACKEND_URL)
+	console.log(BACKEND_URL,"Login")
 	return axios({
 		method: "post",
 		url: `${BACKEND_URL}/signin`,

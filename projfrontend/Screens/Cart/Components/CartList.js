@@ -5,6 +5,7 @@ import {
   StyleSheet,
   FlatList,
   ScrollView,
+  TouchableOpacity,
   Image,
 } from "react-native";
 import { Dimensions } from "react-native";
@@ -68,8 +69,32 @@ const CartList = ({
         itemList={cartItemList}
         totalPrice={totalPrice}
         totalDiscount={totalDiscount}
+        navigation={navigation}
       />
-      
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate("PaymentSelection", {
+            itemList: itemList,
+            totalPrice: totalPrice,
+            totalDiscount: totalDiscount,
+            totalAmount: totalPrice - totalDiscount,
+          });
+        }}
+        style={{
+          paddingVertical: 16,
+          marginHorizontal: 16,
+        }}
+      >
+        <View style={styles.button}>
+          <Text style={styles.submit}>Proceed To Pay</Text>
+        </View>
+      </TouchableOpacity>
+      <View
+        style={{
+          borderBottomWidth: 10,
+          borderColor: "#edeeef",
+        }}
+      ></View>
       {savedForLaterList.length > 0 ? (
         <React.Fragment>
           <View style={styles.saved}>
@@ -156,6 +181,18 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "#20263e",
     marginLeft: 3,
+  },
+  button: {
+    backgroundColor: "#fc8019",
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 12,
+  },
+  submit: {
+    fontFamily: "popins-med",
+    fontSize: 20,
+    color: "white",
   },
 });
 

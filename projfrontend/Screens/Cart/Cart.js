@@ -7,8 +7,7 @@ import CartList from "./Components/CartList";
 import { isAuthenticated } from "../Auth/AuthAPICalls/authCalls";
 import { getAllCartItemsByUserId } from "./APICall/cartAPI";
 
-const Cart = ({ route, navigation }) => {
-  const item= route.params;
+const Cart = ({ navigation,from }) => {
   const [showCart, setShowCart] = useState(false);
   const [itemList, setItemList] = useState([]);
   const [language, setLanguage] = useState("en");
@@ -93,7 +92,7 @@ const Cart = ({ route, navigation }) => {
 
   return (
     <View>
-      {/* {console.log(item)} */}
+      {/* {console.log(from)} */}
       <View style={loading === true ? styles.overlay : null}>
         {loading === true ? (
           <LottieView
@@ -103,7 +102,7 @@ const Cart = ({ route, navigation }) => {
             source={require("../../assets/animations/loader.json")}
           />
         ) : null}
-        <Header
+    <Header
           language={language}
           changeLanguage={changeLanguage}
           navigation={navigation}
@@ -125,6 +124,7 @@ const Cart = ({ route, navigation }) => {
               totalDiscount={totalDiscount}
               changeLoading={changeLoading}
             />
+            
           ) : (
             <View style={styles.login}>
               <TouchableOpacity onPress={() => navigation.navigate("Login")}>

@@ -3,7 +3,7 @@ import { BACKEND_URL } from "@env";
 
 export const getAllCartItemsByUserId = (userId, token) => {
 	// console.log("Random Product call count: " + count);
-	console.log(BACKEND_URL)
+	console.log(BACKEND_URL,"Cart")
 	return axios({
 		method: "get",
 		url: `${BACKEND_URL}/getAllCartItemsByUserId/${userId}`,

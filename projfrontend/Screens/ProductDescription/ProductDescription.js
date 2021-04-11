@@ -57,7 +57,7 @@ const ProductDescScreen = ({ route, navigation }) => {
               console.log("Error in addProductToCart", err);
             });
         } else {
-          navigation.navigate("Cart", itemList);
+          navigation.navigate("Cart", {from:'Product'});
         }
       } else {
         navigation.navigate("Login");
