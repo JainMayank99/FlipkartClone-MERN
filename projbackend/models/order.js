@@ -11,9 +11,14 @@ var orderSchema = new mongoose.Schema(
 			type: ObjectId,
 			ref: "ProductSchema",
 		},
+		quantity: {
+			type: Number,
+			required: true,
+		},
 		transactionId: {
 			type: String,
 			required: true,
+			default: "",
 		},
 		// status: {
 		// 	type: String,

@@ -55,8 +55,28 @@ exports.paymentByCard = async (req, res) => {
 
 		// products.map((product) => {
 		// 	let order=new OrderSchema()
-
+		// 	order.quantity=product.quantity
+		// 	order.product=product._id
 		// })
+
+		//for synchronous execution for is used
+		for (let i = 0; i < products.length; i++) {
+			let product = products[i];
+			let order = new OrderSchema();
+
+			order.quantity = product.quantity;
+			order.product = product._id;
+			order.transactionId = uuidv4();
+
+			order.save((err, order) => {
+				if (err) {
+					return res.status(500).json({
+						error: "Error in saving order in DB!",
+					});
+				}
+				// res.status(200).json(order);
+			});
+		}
 
 		res.json(response);
 	} catch (err) {
@@ -88,23 +108,25 @@ exports.paymentByCash = async (req, res) => {
 					error: "Error in saving order in DB!",
 				});
 			}
-			res.status(200).json(order);
 		});
 	}
+	return res.status(200).json({ msg: "order placed successfully" });
 };
 
 exports.getOrdersByUserId = async (req, res) => {
-	OrderSchema.find({ user: req.profile._id }).exec((err, orders) => {
-		if (err || !orders) {
-			return res.status(500).json({
-				error: "Error in fetching orders from DB!",
-			});
-		}
+	OrderSchema.find({ user: req.profile._id })
+		.populate("product")
+		.exec((err, orders) => {
+			if (err || !orders) {
+				return res.status(500).json({
+					error: "Error in fetching orders from DB!",
+				});
+			}
 
-		if (orders.length == 0) {
-			return res.status(200).json({ msg: "no order placed yet" });
-		}
+			if (orders.length == 0) {
+				return res.status(200).json({ msg: "no order placed yet" });
+			}
 
-		return res.status(200).json({ orders });
-	});
+			return res.status(200).json({ orders });
+		});
 };
