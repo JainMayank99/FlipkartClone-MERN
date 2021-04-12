@@ -159,25 +159,7 @@ const PaymentScreen = ({ route }) => {
 		} else {
 			if (response !== undefined) {
 				return (
-					// <View>
-					// 	{/* <Header /> */}
-					// 	<View
-					// 		style={{
-					// 			display: "flex",
-					// 			flexDirection: "column",
-					// 			justifyContent: "center",
-					// 			alignItems: "center",
-					// 			height: 300,
-					// 			marginTop: 50,
-					// 		}}
-					// 	>
-					// 		<Text style={{ fontSize: 25, margin: 10 }}>
-					// 			{" "}
-					// 			{paymentStatus}{" "}
-					// 		</Text>
-					// 		<Text style={{ fontSize: 16, margin: 10 }}> {response} </Text>
-					// 	</View>
-					// </View>
+					
 					<View style={loading !== 0 ? styles.overlay : { flex: 1 }}>
 						{loading === 1 ? (
 							<LottieView

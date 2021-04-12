@@ -15,11 +15,11 @@ import Cart from "./Screens/Cart/Cart";
 import WishList from "./Screens/WishList/WishList";
 import ProductReviews from "./Screens/ProductDescription/Components/ProductReviews";
 import AddAddress from "./components/ProfileComponents/AddAddress";
-import Orders from "./Screens/Orders";
 import StartRatingComponent from "./components/ProfileComponents/StartRatingComponent";
 import PaymentScreen from "./Screens/Payment/PaymentScreen";
 import PaymentView from "./Screens/Payment/PaymentView";
 import PaymentSelection from "./Screens/Payment/PaymentSelection";
+import Orders from './Screens/Orders/Orders';
 
 const AuthStack = createStackNavigator();
 

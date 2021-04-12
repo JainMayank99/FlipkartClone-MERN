@@ -17,6 +17,8 @@ const ProductListing = ({ category, navigation }) => {
 
 	const [gallery, setGallery] = useState();
 
+	
+
 	useEffect(() => {
 		productSearch()
 			.then((res) => {

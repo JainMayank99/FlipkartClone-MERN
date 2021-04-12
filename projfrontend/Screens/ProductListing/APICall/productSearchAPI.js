@@ -3,6 +3,7 @@ import { BACKEND_URL } from "@env";
 
 export const productSearch = () => {
 	// console.log("Random Product call count: " + count);
+	
 	return axios({
 		method: "post",
 		url: `${BACKEND_URL}/searchProduct`,

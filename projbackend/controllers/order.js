@@ -78,7 +78,7 @@ exports.paymentByCash = async (req, res) => {
 		let order = new OrderSchema();
 
 		order.user = req.profile._id;
-		order.product = products[i].productId;
+		order.product = products[i]._id;
 
 		order.transactionId = uuidv4();
 

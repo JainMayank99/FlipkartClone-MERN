@@ -12,7 +12,7 @@ import { Feather } from '@expo/vector-icons';
 
 const OrderItemDetails = (item) => {
     const image = {
-        uri: require('../../assets/catIcons/trash.png'),
+        uri: require('../../../assets/catIcons/trash.png'),
     };
     const width = Dimensions.get('screen').width;
     return (
@@ -81,22 +81,22 @@ const styles = StyleSheet.create({
         width: 200,
     },
     delivered: {
-        fontFamily: 'zilla-med',
-        fontSize: 20,
+        fontFamily: 'popins-semibold',
+        fontSize: 16,
         color: 'black',
         paddingBottom: 4,
     },
     title: {
-        fontFamily: 'zilla-med',
+        fontFamily: 'popins-med',
         fontSize: 17,
         color: '#4d4b50',
         paddingVertical: 4,
     },
     review: {
-        fontFamily: 'zilla-med',
+        fontFamily: 'popins-med',
         fontSize: 18,
         color: '#fc8019',
-        paddingTop: 32,
+        paddingTop: 16,
     },
 });
 

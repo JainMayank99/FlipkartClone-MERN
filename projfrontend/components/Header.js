@@ -47,7 +47,7 @@ const Header = ({ language, changeLanguage, navigation}) => {
       <View style={styles.cart}>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("Cart");
+            navigation.navigate("Orders");
           }}
         >
           <HeaderIcon name="shopping-cart" />

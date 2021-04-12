@@ -15,7 +15,7 @@ const OrderList = () => {
     const refRBSheet = useRef();
     const [gallery, setgallery] = useState([
         {
-            image: require('../../assets/main/bsc2.jpg'),
+            image: require('../../../assets/main/bsc2.jpg'),
             title: 'Solid State Kurta',
             cost: '4,500',
             key: '1',
@@ -23,7 +23,7 @@ const OrderList = () => {
             discount: '30% off',
         },
         {
-            image: require('../../assets/main/cat2.png'),
+            image: require('../../../assets/main/cat2.png'),
             title: 'Something',
             cost: '2,500',
             key: '2',
@@ -32,7 +32,7 @@ const OrderList = () => {
         },
 
         {
-            image: require('../../assets/main/bsc3.jpg'),
+            image: require('../../../assets/main/bsc3.jpg'),
             title: 'Printed Kurta With Skirt ',
             cost: '2,750',
             key: '5',
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
         marginBottom: 4,
     },
     text: {
-        fontFamily: 'zilla-bold',
+        fontFamily: 'popins-semibold',
         fontSize: 22,
         color: '#20263e',
         marginLeft: 3,
