@@ -9,8 +9,10 @@ import {
 } from 'react-native';
 import { Dimensions } from 'react-native';
 import { Feather } from '@expo/vector-icons';
+import { Image as ExpoImage } from "react-native-expo-image-cache";
 
-const OrderItemDetails = (item) => {
+const OrderItemDetails = ({item}) => {
+   
     const image = {
         uri: require('../../../assets/catIcons/trash.png'),
     };
@@ -24,6 +26,7 @@ const OrderItemDetails = (item) => {
                 borderColor: '#edeeef',
                 borderRadius: 2,
             }}>
+                {/* { console.log("Item",item)} */}
             <TouchableWithoutFeedback>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
                     <View
@@ -32,22 +35,29 @@ const OrderItemDetails = (item) => {
                                 Dimensions.get('screen').width * 0.02041,
                         }}>
                         <TouchableOpacity>
-                            <Image
-                                source={item.item.image}
-                                style={{
-                                    width: width * 0.26785,
-                                    height: 130,
-                                    borderRadius: 5,
-                                    resizeMode: 'cover',
-                                }}
-                            />
+                           
+                             <ExpoImage
+                style={{
+                  width: width * 0.26785,
+                  height: 130,
+                  borderRadius: 5,
+                  resizeMode: "cover",
+                }}
+                preview={{
+                  uri: item.product.image[0].url
+                    .slice(0, 48)
+                    .concat("t_media_lib_thumb/")
+                    .concat(item.product.image[0].url.slice(48)),
+                }}
+                uri={item.product.image[0].url}
+              />
                         </TouchableOpacity>
                     </View>
                     <View style={styles.detailsBox}>
                         <Text style={styles.delivered}>
                             Delivered On 12/03/2021
                         </Text>
-                        <Text style={styles.title}>{item.item.title}</Text>
+                        <Text style={styles.title}>{item.name}</Text>
                         <View
                             style={{
                                 flex: 1,
@@ -95,7 +105,7 @@ const styles = StyleSheet.create({
     review: {
         fontFamily: 'popins-med',
         fontSize: 18,
-        color: '#fc8019',
+        color: '#FF6B3C',
         paddingTop: 16,
     },
 });

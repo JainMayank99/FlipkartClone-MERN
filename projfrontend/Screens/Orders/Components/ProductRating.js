@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
 		color: "black",
 	},
 	icon: {
-		color: "#FC8019",
+		color: '#FF6B3C',
 	},
 	text: {
 		fontFamily: "popins-semibold",

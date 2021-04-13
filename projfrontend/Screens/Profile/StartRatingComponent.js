@@ -33,7 +33,7 @@ function StartRatingComponent() {
                     value={text}
                     autoCorrect={false}
                     blurOnSubmit={true}
-                    selectionColor={'#fc8019'}
+                    selectionColor={'#FF6B3C'}
                 />
 
                 <StarRating
@@ -43,7 +43,7 @@ function StartRatingComponent() {
                     maxStars={5}
                     rating={rating}
                     selectedStar={(rating) => onRatingChange(rating)}
-                    fullStarColor={'#fc8019'}
+                    fullStarColor={'#FF6B3C'}
                     starSize={30}
                     animation={'tada'}
                 />
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
         marginVertical: 4,
     },
     button: {
-        backgroundColor: '#fc8019',
+        backgroundColor: '#FF6B3C',
         borderRadius: 5,
         justifyContent: 'center',
         alignItems: 'center',

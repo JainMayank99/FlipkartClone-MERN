@@ -61,14 +61,14 @@ const SelectSort = ({ onClickSortBy, sortBy }) => {
 											styles={styles.circle}
 											name="circle"
 											size={22}
-											color="#FC8019"
+											color="#FF6B3C"
 										/>
 									) : (
 										<Feather
 											styles={styles.circle}
 											name="disc"
 											size={22}
-											color="#FC8019"
+											color="#FF6B3C"
 										/>
 									)}
 								</TouchableWithoutFeedback>

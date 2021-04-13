@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
 	viewAll: {
 		fontFamily: "zilla-semibold",
 		fontSize: 16.5,
-		color: "#FC8019",
+		color: '#FF6B3C',
 	},
 	subTitle: {
 		fontFamily: "zilla-semibold",
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
 		color: "black",
 	},
 	icon: {
-		color: "#FC8019",
+		color: '#FF6B3C',
 		marginLeft: 2.5,
 	},
 	starRating: {

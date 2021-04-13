@@ -1,18 +1,21 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
-
-import Screen from '../Screen';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import Dash from 'react-native-dash';
+import { Feather } from "@expo/vector-icons";
 
-const Profile = () => {
+import Header from '../../components/Header';
+
+import Screen from './../../components/Screen';
+
+const Profile = ({ navigation}) => {
     const image = {
-        uri: require('../../assets/catIcons/user.jpg'),
+        uri: require('../../assets/main/profile.webp'),
     };
-    const orders = {
-        uri: require('../../assets/catIcons/orders.png'),
+    const wishlist = {
+        uri: require('../../assets/catIcons/wish.png'),
     };
     const address = {
-        uri: require('../../assets/catIcons/navigation.png'),
+        uri: require('../../assets/catIcons/addressbook.png'),
     };
     const settings = {
         uri: require('../../assets/catIcons/setting.png'),
@@ -20,13 +23,17 @@ const Profile = () => {
     const logOut = {
         uri: require('../../assets/catIcons/power.png'),
     };
+    const shopping = {
+        uri: require('../../assets/catIcons/shopping-bag.png'),
+    }
     return (
-        <Screen style={styles.screen}>
+        <View >
+            <Header navigation={navigation}/>
             <View style={{ padding: 16 }}>
                 <View style={styles.header}>
                     <View>
-                        <Text style={styles.name}>Rajender </Text>
-                        <Text style={styles.mail}>prince00430@gmail.com</Text>
+                        <Text style={styles.name}>Rajender Singh Banoula </Text>
+                        <Text style={styles.mail}>Contact : 8073734256</Text>
                         <Text style={styles.edit}>Edit Profile {'>'} </Text>
                     </View>
                     <Image
@@ -35,7 +42,7 @@ const Profile = () => {
                         style={{
                             marginVertical: 4,
                             width: 100,
-                            marginRight: 8,
+                            // marginRight: 8,
                             height: 100,
                             borderRadius: 50,
                             resizeMode: 'cover',
@@ -54,33 +61,49 @@ const Profile = () => {
                         borderRadius: 100,
                     }}
                 />
-                <Text style={styles.tag}>User Details</Text>
+                <Text style={styles.tag1}>User Details</Text>
                 <View style={styles.view}>
                     <View style={styles.image}>
-                        <Image
-                            source={orders.uri}
+                    <Image
+                            source={shopping.uri}
                             style={{
-                                width: 25,
-                                marginRight: 8,
-                                height: 25,
+                                width: 24,
+                                height: 24,
                             }}
                         />
                     </View>
-                    <Text style={styles.subHeader}>Your Orders</Text>
+                    <Text style={styles.subHeader}>My Orders</Text>
+                </View>
+
+               
+
+                <View style={styles.view}>
+                    <View style={styles.image}>
+                    <Image
+                            source={wishlist.uri}
+                            style={{
+                                width: 24,
+                                height: 24,
+                            }}
+                        />
+                    </View>
+                    <Text style={styles.subHeader}>My Wishlist</Text>
                 </View>
 
                 <View style={styles.view}>
                     <View style={styles.image}>
-                        <Image
+                    <Image
                             source={address.uri}
                             style={{
-                                width: 25,
-                                marginRight: 8,
-                                height: 25,
+                                width: 24,
+                                height: 24,
                             }}
                         />
                     </View>
+                    <TouchableOpacity onPress={() => navigation.navigate('Address')}>
                     <Text style={styles.subHeader}>Address Book</Text>
+                    </TouchableOpacity>
+                    
                 </View>
                 <View style={styles.view1}>
                     <Text style={styles.tag}>Change Password</Text>
@@ -95,7 +118,7 @@ const Profile = () => {
                         />
                     </View>
                 </View>
-                <View style={styles.view1}>
+                <View style={styles.view2}>
                     <Text style={styles.tag}>Log Out</Text>
                     <View style={styles.image}>
                         <Image
@@ -109,13 +132,14 @@ const Profile = () => {
                     </View>
                 </View>
             </View>
-            <Text style={styles.version}>App Version : 1.0</Text>
-        </Screen>
+           
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
     header: {
+        marginTop:72,
         paddingVertical: 8,
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -126,40 +150,54 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
     },
     view1: {
+        marginTop:4,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    view2: {
+      
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
     },
     name: {
-        fontFamily: 'popins-bold',
+        fontFamily: 'popins-reg',
         fontSize: 22,
         color: 'black',
         paddingVertical: 8,
     },
     mail: {
-        fontFamily: 'popins-med',
+        fontFamily: 'popins-reg',
         fontSize: 18,
         color: 'black',
         paddingTop: 5,
     },
     edit: {
-        fontFamily: 'popins-med',
+        fontFamily: 'popins-reg',
         fontSize: 18,
-        color: '#fc8019',
+        color: '#FF6B3C',
     },
     image: {
         height: 30,
+        paddingHorizontal: 8,
     },
     subHeader: {
-        fontFamily: 'popins-med',
-        fontSize: 17,
-        color: '#bdbdbd',
+        fontFamily: 'popins-reg',
+        fontSize: 18,
+        color: '#444d56',
         paddingVertical: 6,
         paddingHorizontal: 16,
     },
     tag: {
-        fontFamily: 'popins-med',
+        fontFamily: 'popins-reg',
         fontSize: 18,
+        color: 'black',
+        paddingVertical: 6,
+    },
+    tag1: {
+        fontFamily: 'popins-reg',
+        fontSize: 20,
         color: 'black',
         paddingVertical: 6,
     },

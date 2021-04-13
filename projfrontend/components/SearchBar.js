@@ -14,7 +14,7 @@ const SearchBar = () => {
             <Feather
                 name='search'
                 size={22}
-                color='#FC8019'
+                color='#FF6B3C'
                 style={{
                     position: 'absolute',
                     right: 10,

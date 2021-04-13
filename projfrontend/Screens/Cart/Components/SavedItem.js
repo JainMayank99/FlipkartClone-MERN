@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
     bottom: -10,
     left: 12.5,
     alignItems: "center",
-    backgroundColor: "#FC8019",
+    backgroundColor: '#FF6B3C',
     width: 80,
     borderRadius: 5,
     padding: 2,

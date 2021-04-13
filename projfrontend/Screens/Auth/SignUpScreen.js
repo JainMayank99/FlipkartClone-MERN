@@ -818,7 +818,7 @@ const styles = StyleSheet.create({
         paddingVertical: 2,
         borderWidth: 2,
         borderColor: 'transparent',
-        borderBottomColor: '#fc8019',
+        borderBottomColor: '#FF6B3C',
         borderRadius: 2.5,
     },
     textInputName: {
@@ -828,7 +828,7 @@ const styles = StyleSheet.create({
         paddingVertical: 2,
         borderWidth: 2,
         borderColor: 'transparent',
-        borderBottomColor: '#fc8019',
+        borderBottomColor: '#FF6B3C',
         borderRadius: 2.5,
     },
     textOldPassword: {
@@ -838,7 +838,7 @@ const styles = StyleSheet.create({
         paddingVertical: 2,
         borderWidth: 2,
         borderColor: 'transparent',
-        borderBottomColor: '#fc8019',
+        borderBottomColor: '#FF6B3C',
         borderRadius: 2.5,
     },
     textNewPassword: {
@@ -848,7 +848,7 @@ const styles = StyleSheet.create({
         paddingVertical: 2,
         borderWidth: 2,
         borderColor: 'transparent',
-        borderBottomColor: '#fc8019',
+        borderBottomColor: '#FF6B3C',
         borderRadius: 2.5,
     },
     textConfirmPassword: {
@@ -858,7 +858,7 @@ const styles = StyleSheet.create({
         paddingVertical: 2,
         borderWidth: 2,
         borderColor: 'transparent',
-        borderBottomColor: '#fc8019',
+        borderBottomColor: '#FF6B3C',
         borderRadius: 2.5,
     },
     buttonlight: {
@@ -869,7 +869,7 @@ const styles = StyleSheet.create({
         padding: 12,
     },
     button: {
-        backgroundColor: '#fc8019',
+        backgroundColor: '#FF6B3C',
         borderRadius: 5,
         justifyContent: 'center',
         alignItems: 'center',

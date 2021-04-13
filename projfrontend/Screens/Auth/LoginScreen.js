@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
 		paddingVertical: 2,
 		borderWidth: 2,
 		borderColor: "transparent",
-		borderBottomColor: "#fc8019",
+		borderBottomColor: '#FF6B3C',
 		borderRadius: 2.5,
 	},
 	textInputName: {
@@ -229,19 +229,19 @@ const styles = StyleSheet.create({
 		paddingVertical: 2,
 		borderWidth: 2,
 		borderColor: "transparent",
-		borderBottomColor: "#fc8019",
+		borderBottomColor: '#FF6B3C',
 		borderRadius: 2.5,
 	},
 
 	button: {
-		backgroundColor: "#fc8019",
+		backgroundColor: '#FF6B3C',
 		borderRadius: 5,
 		justifyContent: "center",
 		alignItems: "center",
 		padding: 12,
 	},
 	button1: {
-		backgroundColor: "#fc8019",
+		backgroundColor: '#FF6B3C',
 		borderRadius: 5,
 		justifyContent: "center",
 		alignItems: "center",
@@ -318,7 +318,7 @@ const styles = StyleSheet.create({
 		textAlign: "right",
 		paddingHorizontal: 8,
 		paddingTop: 8,
-		color: "#fc8019",
+		color: '#FF6B3C',
 	},
 	icon: {
 		position: "absolute",

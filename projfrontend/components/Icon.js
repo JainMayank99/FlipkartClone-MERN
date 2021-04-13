@@ -6,7 +6,7 @@ function Icon({
     name,
     size = 44,
     backgroundColor = 'rgba(255, 255, 255,1)',
-    iconColor = '#FC8019',
+    iconColor = '#FF6B3C',
     align,
 }) {
     return (

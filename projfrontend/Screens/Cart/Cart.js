@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
   loginText: {
     fontFamily: "zilla-reg",
     fontSize: 20,
-    color: "#fc8019",
+    color: '#FF6B3C',
   },
 });
 export default Cart;

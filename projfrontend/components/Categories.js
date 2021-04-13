@@ -120,7 +120,7 @@ const Categories = ({ language }) => {
                                         borderRadius: 50,
                                         alignItems: 'center',
                                         justifyContent: 'center',
-                                        backgroundColor: '#FC8019',
+                                        backgroundColor: '#FF6B3C',
                                     }}>
                                     <Image
                                         source={item.image}

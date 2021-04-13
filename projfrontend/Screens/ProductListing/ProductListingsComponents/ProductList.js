@@ -47,7 +47,7 @@ const ProductList = ({ data, query, navigation }) => {
 					onPress={() => refRBSheet.current.open()}
 					style={styles.slider}
 				>
-					<Feather name="sliders" size={22} color="#FC8019" />
+					<Feather name="sliders" size={22} color="#FF6B3C" />
 				</TouchableOpacity>
 			</View>
 			<RBSheet
@@ -64,7 +64,7 @@ const ProductList = ({ data, query, navigation }) => {
 						justifyContent: "center",
 					},
 					draggableIcon: {
-						backgroundColor: "#FC8019",
+						backgroundColor: '#FF6B3C',
 					},
 				}}
 			>

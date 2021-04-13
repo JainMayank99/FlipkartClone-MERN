@@ -211,6 +211,8 @@ const AddAddress = () => {
                       onSubmit={(values, actions) => {
                         setLoading(true);
                         //   apicall(values);
+                        Object.assign(values, {addressType: addressType});
+                        // values["addressType"]=addressType
                         console.log(values);
                       }}
                     >
@@ -456,6 +458,7 @@ const AddAddress = () => {
                       onSubmit={(values, actions) => {
                         setLoading(true);
                         //   apicall(values);
+                        Object.assign(values, {addressType: addressType});
                         console.log(values);
                       }}
                     >
@@ -628,8 +631,7 @@ const AddAddress = () => {
                                   : styles.miniButton
                               }
                             >
-                              <Feather name="home" size={22} color={addressType === "Home"
-                                    ?"#fc8019":"black"}/>
+                              <Feather name="home" size={22} color={addressType === "Home"?"#FF6B3C":"black"}/>
                               <Text
                                 style={
                                   addressType === "Home"
@@ -648,8 +650,7 @@ const AddAddress = () => {
                                   : styles.miniButton
                               }
                             >
-                              <Feather name="briefcase" size={22} color={addressType === "Work"
-                                    ?"#fc8019":"black"}/>
+                              <Feather name="briefcase" size={22} color={addressType === "Work"?"#FF6B3C":"black"}/>
                               <Text
                                 style={
                                   addressType === "Work"
@@ -755,7 +756,7 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     borderWidth: 2,
     borderColor: "transparent",
-    borderBottomColor: "#fc8019",
+    borderBottomColor: '#FF6B3C',
     borderRadius: 2.5,
   },
   textInputName: {
@@ -765,7 +766,7 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     borderWidth: 2,
     borderColor: "transparent",
-    borderBottomColor: "#fc8019",
+    borderBottomColor: '#FF6B3C',
     borderRadius: 2.5,
   },
   textCity: {
@@ -775,7 +776,7 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     borderWidth: 2,
     borderColor: "transparent",
-    borderBottomColor: "#fc8019",
+    borderBottomColor: '#FF6B3C',
     borderRadius: 2.5,
   },
   textState: {
@@ -785,7 +786,7 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     borderWidth: 2,
     borderColor: "transparent",
-    borderBottomColor: "#fc8019",
+    borderBottomColor: '#FF6B3C',
     borderRadius: 2.5,
   },
   textPincode: {
@@ -795,7 +796,7 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     borderWidth: 2,
     borderColor: "transparent",
-    borderBottomColor: "#fc8019",
+    borderBottomColor: '#FF6B3C',
     borderRadius: 2.5,
   },
   miniButton: {
@@ -818,7 +819,7 @@ const styles = StyleSheet.create({
     padding: 12,
     borderWidth: 1.5,
     borderRadius: 50,
-    borderColor: "#fc8019",
+    borderColor: '#FF6B3C',
     backgroundColor: "white",
     marginHorizontal: 16,
   },
@@ -831,11 +832,11 @@ const styles = StyleSheet.create({
   selectedMiniText: {
     fontFamily: "zilla-med",
     fontSize: 20,
-    color: "#fc8019",
+    color: '#FF6B3C',
     paddingHorizontal: 4,
   },
   button: {
-    backgroundColor: "#fc8019",
+    backgroundColor: '#FF6B3C',
     borderRadius: 5,
     justifyContent: "center",
     alignItems: "center",
@@ -850,7 +851,7 @@ const styles = StyleSheet.create({
 },
 
   button1: {
-    backgroundColor: "#fc8019",
+    backgroundColor: '#FF6B3C',
     borderRadius: 5,
     justifyContent: "center",
     alignItems: "center",

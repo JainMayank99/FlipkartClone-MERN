@@ -7,7 +7,7 @@ import OrderList from './Components/OrdersList';
 import { isAuthenticated } from '../Auth/AuthAPICalls/authCalls';
 import { getOrdersByUser } from './APICall/OrderAPI';
 
-const Orders = () => {
+const Orders = ({navigation}) => {
     const [language, setLanguage] = useState('en');
     const [loading, setLoading] = useState(false);
     const [showOrders, setShowOrders] = useState(false);
@@ -46,7 +46,7 @@ const Orders = () => {
 
     return (
         <View>
-            {console.log(itemList)}
+            {/* {console.log(itemList)} */}
             {loading === true ? (
                 <View style={styles.overlay}>
                     <LottieView
@@ -59,12 +59,13 @@ const Orders = () => {
                     <Header
                         language={language}
                         changeLanguage={changeLanguage}
+                        navigation={navigation}
                     />
                     <View
                         style={{
                             marginTop: 105,
                         }}>
-                        <OrdersItems />
+                       <OrderList itemList={itemList}/>
                     </View>
                 </View>
             ) : (
@@ -72,12 +73,13 @@ const Orders = () => {
                     <Header
                         language={language}
                         changeLanguage={changeLanguage}
+                        navigation={navigation}
                     />
                     <View
                         style={{
                             marginTop: 105,
                         }}>
-                        <OrderList />
+                        <OrderList itemList={itemList}/>
                     </View>
                 </View>
             )}

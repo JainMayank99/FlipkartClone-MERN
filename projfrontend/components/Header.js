@@ -47,15 +47,26 @@ const Header = ({ language, changeLanguage, navigation}) => {
       <View style={styles.cart}>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("Orders");
+            navigation.navigate("Cart");
           }}
         >
           <HeaderIcon name="shopping-cart" />
         </TouchableOpacity>
       </View>
 
+      <View style={styles.menu}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.openDrawer();
+          }}
+        >
+           <HeaderIcon name="menu" />
+        </TouchableOpacity>
+      </View>
+
       <View style={styles.body}>
-        <HeaderIcon name="menu" />
+        <TouchableOpacity></TouchableOpacity>
+       
         <Text style={styles.text}>Rajender</Text>
 
         <HeaderIcon />
@@ -129,6 +140,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     right: 20,
+  },
+  menu: {
+    position: "absolute",
+    top: 0,
+    left:16
   },
   title: {
     fontFamily: "popins-semibold",

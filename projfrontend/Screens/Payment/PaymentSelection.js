@@ -120,7 +120,7 @@ const PaymentSelection = ({ navigation, route }) => {
 		  position: "absolute",
 		  top: "55%",
 		  left: Dimensions.get("window").width * 0.5,
-		  translateX: -Dimensions.get("window").width * 0.25,
+		  translateX: -Dimensions.get("window").width * 0.35,
 		  zIndex:11
 		}}
 	  >
@@ -139,7 +139,7 @@ const PaymentSelection = ({ navigation, route }) => {
         <View style={styles.addressHolder}>
           <View style={styles.test}>
             <Text style={styles.subText}>Deliver To : Rajender Singh </Text>
-            <Feather name="home" size={20} color="#fc8019" />
+            <Feather name="home" size={20} color="#FF6B3C" />
           </View>
           <View style={styles.userAddress}>
             <Text style={styles.userInfo}>House No. ...................</Text>
@@ -187,14 +187,14 @@ const PaymentSelection = ({ navigation, route }) => {
                           styles={styles.circle}
                           name="circle"
                           size={22}
-                          color="#FC8019"
+                          color="#FF6B3C"
                         />
                       ) : (
                         <Feather
                           styles={styles.circle}
                           name="disc"
                           size={22}
-                          color="#FC8019"
+                          color="#FF6B3C"
                         />
                       )}
                     </TouchableWithoutFeedback>
@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
   someText: {
     fontFamily: "popins-semibold",
     fontSize: 20,
-    color: "#fc8019",
+    color: "#FF6B3C",
     marginTop: 25,
   },
   test: {
@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
   changeText: {
     fontFamily: "popins-med",
     fontSize: 16,
-    color: "#fc8019",
+    color: "#FF6B3C",
   },
   select: {
     fontFamily: "popins-bold",
@@ -299,7 +299,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get("screen").width * 0.85,
   },
   button: {
-    backgroundColor: "#fc8019",
+    backgroundColor: "#FF6B3C",
     borderRadius: 5,
     justifyContent: "center",
     alignItems: "center",

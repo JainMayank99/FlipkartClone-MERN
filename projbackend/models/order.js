@@ -20,6 +20,11 @@ var orderSchema = new mongoose.Schema(
 			required: true,
 			default: "",
 		},
+		modeOfPayment: {
+			type: String,
+			required: true,
+			default: "",
+		}
 		// status: {
 		// 	type: String,
 		// 	default: "Processing",

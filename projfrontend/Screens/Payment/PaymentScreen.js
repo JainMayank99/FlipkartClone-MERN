@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
 	text: {
 		fontFamily: "popins-med",
 		fontSize: 24,
-		color: "#fc8019",
+		color: '#FF6B3C',
 	},
 });
 

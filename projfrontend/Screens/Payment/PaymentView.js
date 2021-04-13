@@ -109,7 +109,7 @@ const PaymentView = (props) => {
                         align-items: center;
                         font-family: 'Poppins', sans-serif;
                         border-radius:10px;
-                        background-color: #fc8019;
+                        background-color: #FF6B3C;
                         color:white;
                         justify-content:center;
                         

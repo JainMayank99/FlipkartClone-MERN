@@ -3,6 +3,8 @@ import { StyleSheet } from "react-native";
 import * as Font from "expo-font";
 import { AppLoading } from "expo";
 import { createStackNavigator } from "@react-navigation/stack";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+
 import { NavigationContainer } from "@react-navigation/native";
 
 import LoginScreen from "./Screens/Auth/LoginScreen";
@@ -14,14 +16,21 @@ import Home from "./Screens/Home/Home";
 import Cart from "./Screens/Cart/Cart";
 import WishList from "./Screens/WishList/WishList";
 import ProductReviews from "./Screens/ProductDescription/Components/ProductReviews";
-import AddAddress from "./components/ProfileComponents/AddAddress";
-import StartRatingComponent from "./components/ProfileComponents/StartRatingComponent";
+// import AddAddress from "./components/ProfileComponents/AddAddress";
+// import StartRatingComponent from "./components/ProfileComponents/StartRatingComponent";
 import PaymentScreen from "./Screens/Payment/PaymentScreen";
 import PaymentView from "./Screens/Payment/PaymentView";
 import PaymentSelection from "./Screens/Payment/PaymentSelection";
 import Orders from './Screens/Orders/Orders';
+import { DrawerContent } from './Navigation/DrawerContent';
+import TabContent from "./Navigation/TabContent";
+import Profile from "./Screens/Profile/Profile";
+import AddressBook from './Screens/Profile/AddressBook';
+import AddAddress from "./Screens/Profile/AddAddress";
 
-const AuthStack = createStackNavigator();
+
+
+const AuthStack = createDrawerNavigator();
 
 export default function App() {
 	const getFonts = () => {
@@ -45,32 +54,25 @@ export default function App() {
 				{(console.disableYellowBox = true)}
 				<NavigationContainer>
 					<AuthStack.Navigator
-						initialRouteName="Home"
+						initialRouteName="MainDrawer"
 						screenOptions={{
 							headerShown: false,
 						}}
+						drawerContent={props => <DrawerContent {...props} />}
+						drawerStyle={{
+							backgroundColor: 'transparent',
+							width: 270,
+						  }}
 					>
-						<AuthStack.Screen name="Login" component={LoginScreen} />
-						<AuthStack.Screen
-							name="Verification"
-							component={PhoneVerificationScreen}
-						/>
-						<AuthStack.Screen name="Register" component={SignUpScreen} />
-						<AuthStack.Screen name="Home" component={Home} />
+						<AuthStack.Screen name="MainDrawer" component={TabContent} />
 						<AuthStack.Screen name="Cart" component={Cart} />
-						<AuthStack.Screen name="WishList" component={WishList} />
-						<AuthStack.Screen name="Orders" component={Orders} />
-						<AuthStack.Screen
-							name="ProductDescription"
-							component={ProductDescription}
-						/>
-						<AuthStack.Screen name="PaymentScreen" component={PaymentScreen} />
-						<AuthStack.Screen
-							name="PaymentSelection"
-							component={PaymentSelection}
-						/>
 					</AuthStack.Navigator>
+					
 				</NavigationContainer>
+				{/* <Profile/> */}
+				{/* <AddressBook/> */}
+				{/* <AddAddress/> */}
+				
 			</>
 		);
 	} else {

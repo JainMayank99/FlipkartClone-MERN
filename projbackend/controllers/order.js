@@ -67,6 +67,7 @@ exports.paymentByCard = async (req, res) => {
 			order.quantity = product.quantity;
 			order.product = product._id;
 			order.transactionId = uuidv4();
+			order.modeOfPayment="Card"
 
 			order.save((err, order) => {
 				if (err) {
@@ -95,13 +96,15 @@ exports.paymentByCash = async (req, res) => {
 
 	//for loop used to make code synchronous
 	for (let i = 0; i < products.length; i++) {
+		let product = products[i];
 		let order = new OrderSchema();
 
 		order.user = req.profile._id;
-		order.product = products[i]._id;
+		order.quantity = product.quantity;
+		order.product = product._id;
 
 		order.transactionId = uuidv4();
-
+		order.modeOfPayment="Cash"
 		order.save((err, order) => {
 			if (err) {
 				return res.status(500).json({
@@ -127,6 +130,6 @@ exports.getOrdersByUserId = async (req, res) => {
 				return res.status(200).json({ msg: "no order placed yet" });
 			}
 
-			return res.status(200).json({ orders });
+			return res.status(200).json( orders );
 		});
 };

@@ -8,7 +8,6 @@ import {
     View,
     StyleSheet,
     TouchableOpacity,
-    ScrollView,
 } from 'react-native';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -17,53 +16,29 @@ import Screen from '../Screen';
 import Dash from 'react-native-dash';
 
 const validationSchema = yup.object().shape({
-    oldPassword: yup
+    email: yup.string().label('Email').email().required(),
+    userName: yup
         .string()
-        .label('OldPassword')
-        .required('Please enter your current password'),
-    newPassword: yup
-        .string()
-        .required('Please enter your password')
-        .matches(
-            /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
-            'Must contain at least 8 characters, 1 uppercase, 1 digit & 1 special case character'
-        ),
-    confirmPassword: yup
-        .string()
-        .required('Please confirm your password')
-        .when('newPassword', {
-            is: (newPassword) =>
-                newPassword && newPassword.length > 0 ? true : false,
-            then: yup
-                .string()
-                .oneOf([yup.ref('newPassword')], "Password doesn't match"),
-        }),
+        .label('UserName')
+        .min(3, 'Enter atleast 3 character')
+        .max(20, 'Atmost 30 character'),
 });
 
-const ChangePassword = () => {
-    const [focusOldPassword, setFocusOldPassword] = useState(false);
-    const [focusNewPassword, setFocusNewPassword] = useState(false);
-    const [focusConfirmPassword, setFocusConfirmPassword] = useState(false);
+const EditProfile = () => {
+    const [focusName, setFocusName] = useState(false);
+    const [focusEmail, setFocusEmail] = useState(false);
 
-    const onFocusOldPasswordChange = () => {
-        setFocusOldPassword(true);
+    const onFocusNameChange = () => {
+        setFocusName(true);
     };
-    const onBlurOldPasswordChange = () => {
-        setFocusOldPassword(false);
+    const onBlurNameChange = () => {
+        setFocusName(false);
     };
-
-    const onFocusNewPasswordChange = () => {
-        setFocusNewPassword(true);
+    const onFocusEmailChange = () => {
+        setFocusEmail(true);
     };
-    const onBlurNewPasswordChange = () => {
-        setFocusNewPassword(false);
-    };
-
-    const onFocusConfirmPasswordChange = () => {
-        setFocusConfirmPassword(true);
-    };
-    const onBlurConfirmPasswordChange = () => {
-        setFocusConfirmPassword(false);
+    const onBlurEmailChange = () => {
+        setFocusEmail(false);
     };
 
     return (
@@ -71,11 +46,7 @@ const ChangePassword = () => {
             <View style={styles.screen}>
                 <Text style={styles.heading}>Edit Profile</Text>
                 <Formik
-                    initialValues={{
-                        oldPassword: '',
-                        newPassword: '',
-                        confirmPassword: '',
-                    }}
+                    initialValues={{ email: '', password: '' }}
                     onSubmit={(values, actions) => {
                         alert(JSON.stringify(values));
                         setTimeout(() => {
@@ -89,34 +60,39 @@ const ChangePassword = () => {
                                 style={{
                                     marginHorizontal: 8,
                                     marginTop: 24,
-                                    marginBottom: 8,
+                                    marginBottom: 16,
                                 }}>
-                                <Text style={styles.label}>OLD PASSWORD</Text>
+                                <Text style={styles.label}>USERNAME</Text>
                                 <TextInput
                                     underlineColorAndroid='transparent'
-                                    onFocus={onFocusOldPasswordChange}
-                                    placeholder='Enter old password'
+                                    onFocus={onFocusNameChange}
+                                    placeholder='Username'
                                     autoCorrect={false}
-                                    secureTextEntry={true}
                                     style={
-                                        focusOldPassword === false
+                                        focusName === false
                                             ? styles.textInput
-                                            : styles.textOldPassword
+                                            : styles.textInputName
                                     }
                                     onChangeText={formikProps.handleChange(
-                                        'oldPassword'
+                                        'userName'
                                     )}
-                                    onBlur={onBlurOldPasswordChange}
+                                    onBlur={onBlurNameChange}
                                 />
+                                <View
+                                    style={
+                                        formikProps.errors.userName
+                                            ? styles.redCircle
+                                            : styles.greenCircle
+                                    }></View>
                                 <Text
                                     style={
-                                        formikProps.touched.oldPassword &&
-                                        formikProps.errors.oldPassword
+                                        formikProps.touched.userName &&
+                                        formikProps.errors.userName
                                             ? styles.errMsg
                                             : null
                                     }>
-                                    {formikProps.touched.oldPassword &&
-                                        formikProps.errors.oldPassword}
+                                    {formikProps.touched.userName &&
+                                        formikProps.errors.userName}
                                 </Text>
                             </View>
 
@@ -125,84 +101,37 @@ const ChangePassword = () => {
                                     marginHorizontal: 8,
                                     marginVertical: 4,
                                 }}>
-                                <Text style={styles.label}>NEW PASSWORD</Text>
+                                <Text style={styles.label}>EMAIL</Text>
                                 <TextInput
                                     underlineColorAndroid='transparent'
-                                    placeholder='Enter new password'
-                                    onFocus={onFocusNewPasswordChange}
+                                    placeholder='johndoe@example.com'
+                                    onFocus={onFocusEmailChange}
                                     autoCorrect={false}
-                                    secureTextEntry={true}
                                     style={
-                                        focusNewPassword === false
+                                        focusEmail === false
                                             ? styles.textInput
-                                            : styles.textNewPassword
+                                            : styles.textInputEmail
                                     }
                                     onChangeText={formikProps.handleChange(
-                                        'newPassword'
+                                        'email'
                                     )}
-                                    onBlur={onBlurNewPasswordChange}
+                                    onBlur={onBlurEmailChange}
                                 />
                                 <View
                                     style={
-                                        formikProps.errors.newPassword
-                                            ? styles.redCircle
-                                            : styles.greenCircle
-                                    }></View>
-                                <ScrollView
-                                    horizontal={true}
-                                    showsHorizontalScrollIndicator={false}>
-                                    <Text
-                                        style={
-                                            formikProps.touched.newPassword &&
-                                            formikProps.errors.newPassword
-                                                ? styles.errMsg
-                                                : null
-                                        }>
-                                        {formikProps.touched.newPassword &&
-                                            formikProps.errors.newPassword}
-                                    </Text>
-                                </ScrollView>
-                            </View>
-
-                            <View
-                                style={{
-                                    marginHorizontal: 8,
-                                    marginVertical: 4,
-                                }}>
-                                <Text style={styles.label}>
-                                    CONFIRM PASSWORD
-                                </Text>
-                                <TextInput
-                                    underlineColorAndroid='transparent'
-                                    placeholder='Confirm new password'
-                                    onFocus={onFocusConfirmPasswordChange}
-                                    autoCorrect={false}
-                                    secureTextEntry={true}
-                                    style={
-                                        focusConfirmPassword === false
-                                            ? styles.textInput
-                                            : styles.textConfirmPassword
-                                    }
-                                    onChangeText={formikProps.handleChange(
-                                        'confirmPassword'
-                                    )}
-                                    onBlur={onBlurConfirmPasswordChange}
-                                />
-                                <View
-                                    style={
-                                        formikProps.errors.confirmPassword
+                                        formikProps.errors.email
                                             ? styles.redCircle
                                             : styles.greenCircle
                                     }></View>
                                 <Text
                                     style={
-                                        formikProps.touched.confirmPassword &&
-                                        formikProps.errors.confirmPassword
+                                        formikProps.touched.email &&
+                                        formikProps.errors.email
                                             ? styles.errMsg
                                             : null
                                     }>
-                                    {formikProps.touched.confirmPassword &&
-                                        formikProps.errors.confirmPassword}
+                                    {formikProps.touched.email &&
+                                        formikProps.errors.email}
                                 </Text>
                             </View>
 
@@ -217,8 +146,8 @@ const ChangePassword = () => {
                                     }}>
                                     <View
                                         style={
-                                            formikProps.errors.newPassword ||
-                                            formikProps.errors.confirmPassword
+                                            formikProps.errors.email ||
+                                            formikProps.errors.userName
                                                 ? styles.buttonlight
                                                 : styles.button
                                         }>
@@ -264,34 +193,24 @@ const styles = StyleSheet.create({
         borderRadius: 2.5,
         position: 'relative',
     },
-    textOldPassword: {
+    textInputEmail: {
         fontFamily: 'zilla-reg',
         fontSize: 20,
         color: '#bdbdbd',
         paddingVertical: 2,
         borderWidth: 2,
         borderColor: 'transparent',
-        borderBottomColor: '#fc8019',
+        borderBottomColor: '#FF6B3C',
         borderRadius: 2.5,
     },
-    textNewPassword: {
+    textInputName: {
         fontFamily: 'zilla-reg',
         fontSize: 20,
         color: '#bdbdbd',
         paddingVertical: 2,
         borderWidth: 2,
         borderColor: 'transparent',
-        borderBottomColor: '#fc8019',
-        borderRadius: 2.5,
-    },
-    textConfirmPassword: {
-        fontFamily: 'zilla-reg',
-        fontSize: 20,
-        color: '#bdbdbd',
-        paddingVertical: 2,
-        borderWidth: 2,
-        borderColor: 'transparent',
-        borderBottomColor: '#fc8019',
+        borderBottomColor: '#FF6B3C',
         borderRadius: 2.5,
     },
     buttonlight: {
@@ -302,7 +221,7 @@ const styles = StyleSheet.create({
         padding: 8,
     },
     button: {
-        backgroundColor: '#fc8019',
+        backgroundColor: '#FF6B3C',
         borderRadius: 5,
         justifyContent: 'center',
         alignItems: 'center',
@@ -350,4 +269,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ChangePassword;
+export default EditProfile;
