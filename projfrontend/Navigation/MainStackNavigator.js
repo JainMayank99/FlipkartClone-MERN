@@ -6,6 +6,7 @@ import WishList from "../Screens/WishList/WishList";
 import Orders from './../Screens/Orders/Orders';
 import AddressBook from "../Screens/Profile/AddressBook";
 import Profile from "../Screens/Profile/Profile";
+import AddAddress from "../Screens/Profile/AddAddress";
 
 const Stack = createStackNavigator();
 
@@ -52,6 +53,8 @@ const OrderStackNavigator = () => {
         {/* <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Profile" component={Profile} /> */}
+       
+
 
       </Stack.Navigator>
     );

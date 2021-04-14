@@ -22,6 +22,12 @@ const image = {
 const image1 = {
   uri: require('../assets/main/profileActive.webp'),
 };
+const imageW1 = {
+  uri: require('../assets/customIcons/wishList.png'),
+};
+const imageW = {
+  uri: require('../assets/customIcons/wishListActive.png'),
+};
 
 const TabContent = () => (
   <Tab.Navigator
@@ -128,16 +134,19 @@ const TabContent = () => (
               top: 5,
             }}
           >
-            <Feather
-              name="heart"
-              size={24}
-              color={focused ? "#00ff7f" : "#FF6B3C"}
-            />
+            <Image
+                            source={focused ?imageW1.uri:imageW.uri}
+                            style={{
+                                width: 28,
+                                height: 28,
+                                borderRadius:14
+                            }}
+                        />
             <Text
               style={{
                 color: focused ? "#00ff7f" : "#FF6B3C",
                 fontFamily: "popins-reg",
-                marginTop: 1,
+                marginTop: -1,
                 fontSize: 14,
               }}
             >

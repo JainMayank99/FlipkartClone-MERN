@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   ScrollView,
   KeyboardAvoidingView,
+  Alert,
 } from "react-native";
 import * as Location from "expo-location";
 import { Formik } from "formik";
@@ -18,24 +19,19 @@ import LottieView from "lottie-react-native";
 import MapView, { Marker } from "react-native-maps";
 import { Feather } from "@expo/vector-icons";
 import * as yup from "yup";
+import { addAddress } from "./APICall/AddressAPI";
+import { isAuthenticated } from "../Auth/AuthAPICalls/authCalls";
 
 const validationSchema = yup.object().shape({
- house: yup
-  .string()
-  .required('Please enter your House/Block/Flat No.'),
-  city: yup
-  .string()
-  .required('Please enter your City'),
-  state: yup
-  .string()
-  .required('Please enter your State'),
+  house: yup.string().required("Please enter your House/Block/Flat No."),
+  city: yup.string().required("Please enter your City"),
+  state: yup.string().required("Please enter your State"),
   pincode: yup
     .string()
-    .required('Please enter your Pincode')
+    .required("Please enter your Pincode")
     .label("Pincode")
     .min(6, "Enter atleast 6 character")
-    .max(6, "Cannot Enter more than 6 character")
-    ,
+    .max(6, "Cannot Enter more than 6 character"),
 });
 
 const AddAddress = () => {
@@ -57,7 +53,37 @@ const AddAddress = () => {
 
   const [loading, setLoading] = useState(false);
   const [addressType, setAddressType] = useState("Home");
+  const [user, setUser] = useState("");
+  const [token, setToken] = useState("");
 
+  useEffect(() => {
+    isAuthenticated()
+      .then((res) => {
+        if (res.user) {
+          setUser(res.user._id);
+          setToken(res.token);
+        }
+      })
+      .catch((err) => {
+        console.log("Add address screen error: " + err);
+      });
+  }, []);
+
+  const onSub = (val) => {
+    var getAddress = require("extract-country-state-city-from-zip");
+    getAddress(val.pincode, "AIzaSyDqZ5w4dZlSKCEnARbMsSQH353P8KAHi54", (err, res) =>
+      console.log(err, res)
+    );
+    console.log(val.pincode)
+    // let addressInfo=JSON.stringify(val)
+    // addAddress(user,token,addressInfo)
+    // .then((res) =>{
+    //   Alert.alert("Succesfully Added Address")
+    // })
+    // .catch((err) => {
+    //   Alert.alert(" Added Address screen error",err)
+    // })
+  };
   const changeAddressType = () => {
     console.log("Hii");
     if (addressType === "Home") setAddressType("Work");
@@ -196,251 +222,250 @@ const AddAddress = () => {
               source={require("../../assets/animations/loader.json")}
             />
 
-<View style={styles.screen}>
-            <KeyboardAvoidingView
-              behavior={Platform.OS === "ios" ? "padding" : "height"}
-              style={{ flex: 1 }}
-            >
-              <ScrollView showsVerticalScrollIndicator={false}>
-                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                  <View>
-                    <Text style={styles.heading}>SELECT DELIVERY ADDRESS</Text>
-                    <Formik
-                      initialValues={{ house: "", landmark: "",Pincode: "",}}
-                      validationSchema={validationSchema}
-                      onSubmit={(values, actions) => {
-                        setLoading(true);
-                        //   apicall(values);
-                        Object.assign(values, {addressType: addressType});
-                        // values["addressType"]=addressType
-                        console.log(values);
-                      }}
-                    >
-                      {(formikProps) => (
-                        <React.Fragment>
-                          <View
-                            style={{
-                              marginHorizontal: 8,
-                              marginVertical: 16,
-                            }}
-                          >
-                            <Text style={styles.label}>
-                              HOUSE/BLOCK/FLAT NO *
-                            </Text>
-                            <TextInput
-                              underlineColorAndroid="transparent"
-                              onFocus={onfocusHouseChange}
-                              placeholder="Enter house/flat/block no."
-                              autoCorrect={false}
-                              style={
-                                focusHouse === false
-                                  ? styles.textInput
-                                  : styles.textInputName
-                              }
-                              onChangeText={formikProps.handleChange("house")}
-                              onBlur={onBlurHouseChange}
-                            />
-                               <View
-                              style={
-                                formikProps.errors.house
-                                  ? styles.redCircle
-                                  : styles.greenCircle
-                              }
-                            ></View>
-                           
-                          </View>
-
-                          <View
-                            style={{
-                              marginHorizontal: 8,
-                              marginVertical: 4,
-                            }}
-                          >
-                            <Text style={styles.label}>CITY *</Text>
-                            <TextInput
-                              underlineColorAndroid="transparent"
-                              placeholder="Enter your city"
-                              onFocus={onfocusCityChange}
-                              autoCorrect={false}
-                              style={
-                                focusCity === false
-                                  ? styles.textInput
-                                  : styles.textCity
-                              }
-                              onChangeText={formikProps.handleChange("city")}
-                              onBlur={onBlurCityChange}
-                            />
-                               <View
-                              style={
-                                formikProps.errors.city
-                                  ? styles.redCircle
-                                  : styles.greenCircle
-                              }
-                            ></View>
-                           
-                          </View>
-
-                          <View
-                            style={{
-                              marginHorizontal: 8,
-                              marginVertical: 4,
-                            }}
-                          >
-                            <Text style={styles.label}>STATE *</Text>
-                            <TextInput
-                              underlineColorAndroid="transparent"
-                              placeholder="Enter your state"
-                              onFocus={onfocusStateChange}
-                              autoCorrect={false}
-                              style={
-                                focusState === false
-                                  ? styles.textInput
-                                  : styles.textState
-                              }
-                              onChangeText={formikProps.handleChange("state")}
-                              onBlur={onBlurStateChange}
-                            />
-                               <View
-                              style={
-                                formikProps.errors.state
-                                  ? styles.redCircle
-                                  : styles.greenCircle
-                              }
-                            ></View>
-                           
-                          </View>
-
-                          <View
-                            style={{
-                              marginHorizontal: 8,
-                              marginVertical: 4,
-                            }}
-                          >
-                            <Text style={styles.label}>PINCODE *</Text>
-                            <TextInput
-                              underlineColorAndroid="transparent"
-                              placeholder="Enter our pincode"
-                              onFocus={onfocusPincodeChange}
-                              autoCorrect={false}
-                              style={
-                                focusPincode === false
-                                  ? styles.textInput
-                                  : styles.textPincode
-                              }
-                              onChangeText={formikProps.handleChange("pincode")}
-                              onBlur={onBlurPincodeChange}
-                            />
+            <View style={styles.screen}>
+              <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                style={{ flex: 1 }}
+              >
+                <ScrollView showsVerticalScrollIndicator={false}>
+                  <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <View>
+                      <Text style={styles.heading}>
+                        SELECT DELIVERY ADDRESS
+                      </Text>
+                      <Formik
+                        initialValues={{ house: "", landmark: "", Pincode: "" }}
+                        validationSchema={validationSchema}
+                        onSubmit={(values, actions) => {
+                          setLoading(true);
+                          //   apicall(values);
+                          Object.assign(values, { addressType: addressType });
+                          // values["addressType"]=addressType
+                          console.log(values);
+                        }}
+                      >
+                        {(formikProps) => (
+                          <React.Fragment>
                             <View
-                              style={
-                                formikProps.errors.pincode
-                                  ? styles.redCircle
-                                  : styles.greenCircle
-                              }
-                            ></View>
-                            <Text
-                              style={
-                                
-                                formikProps.errors.pincode
-                                  ? styles.errMsg
-                                  : null
-                              }
+                              style={{
+                                marginHorizontal: 8,
+                                marginVertical: 16,
+                              }}
                             >
-                              {
-                                formikProps.errors.pincode}
-                            </Text>
-                          </View>
+                              <Text style={styles.label}>
+                                HOUSE/BLOCK/FLAT NO *
+                              </Text>
+                              <TextInput
+                                underlineColorAndroid="transparent"
+                                onFocus={onfocusHouseChange}
+                                placeholder="Enter house/flat/block no."
+                                autoCorrect={false}
+                                style={
+                                  focusHouse === false
+                                    ? styles.textInput
+                                    : styles.textInputName
+                                }
+                                onChangeText={formikProps.handleChange("house")}
+                                onBlur={onBlurHouseChange}
+                              />
+                              <View
+                                style={
+                                  formikProps.errors.house
+                                    ? styles.redCircle
+                                    : styles.greenCircle
+                                }
+                              ></View>
+                            </View>
 
-                          <View
-                            style={{
-                              marginHorizontal: 8,
-                              marginVertical: 4,
-                            }}
-                          >
-                            <Text style={styles.label}>LANDMARK</Text>
-                            <TextInput
-                              underlineColorAndroid="transparent"
-                              placeholder="Enter a landmark"
-                              onFocus={onfocusLandmarkChange}
-                              autoCorrect={false}
-                              style={
-                                focusLandmark === false
-                                  ? styles.textInput
-                                  : styles.textLandmark
-                              }
-                              onChangeText={formikProps.handleChange(
-                                "Landmark"
-                              )}
-                              onBlur={onBlurLandmarkChange}
-                            />
-                          </View>
-                          <Text style={styles.heading2}>
-                            SAVE THIS ADDRESS AS
-                          </Text>
-                          <View style={styles.addressType}>
-                            <TouchableOpacity
-                              onPress={changeAddressType}
-                              style={
-                                addressType === "Home"
-                                  ? styles.selectedMiniButton
-                                  : styles.miniButton
-                              }
+                            <View
+                              style={{
+                                marginHorizontal: 8,
+                                marginVertical: 4,
+                              }}
                             >
-                              <Feather name="home" size={22} color="black" />
+                              <Text style={styles.label}>CITY *</Text>
+                              <TextInput
+                                underlineColorAndroid="transparent"
+                                placeholder="Enter your city"
+                                onFocus={onfocusCityChange}
+                                autoCorrect={false}
+                                style={
+                                  focusCity === false
+                                    ? styles.textInput
+                                    : styles.textCity
+                                }
+                                onChangeText={formikProps.handleChange("city")}
+                                onBlur={onBlurCityChange}
+                              />
+                              <View
+                                style={
+                                  formikProps.errors.city
+                                    ? styles.redCircle
+                                    : styles.greenCircle
+                                }
+                              ></View>
+                            </View>
+
+                            <View
+                              style={{
+                                marginHorizontal: 8,
+                                marginVertical: 4,
+                              }}
+                            >
+                              <Text style={styles.label}>STATE *</Text>
+                              <TextInput
+                                underlineColorAndroid="transparent"
+                                placeholder="Enter your state"
+                                onFocus={onfocusStateChange}
+                                autoCorrect={false}
+                                style={
+                                  focusState === false
+                                    ? styles.textInput
+                                    : styles.textState
+                                }
+                                onChangeText={formikProps.handleChange("state")}
+                                onBlur={onBlurStateChange}
+                              />
+                              <View
+                                style={
+                                  formikProps.errors.state
+                                    ? styles.redCircle
+                                    : styles.greenCircle
+                                }
+                              ></View>
+                            </View>
+
+                            <View
+                              style={{
+                                marginHorizontal: 8,
+                                marginVertical: 4,
+                              }}
+                            >
+                              <Text style={styles.label}>PINCODE *</Text>
+                              <TextInput
+                                underlineColorAndroid="transparent"
+                                placeholder="Enter our pincode"
+                                onFocus={onfocusPincodeChange}
+                                autoCorrect={false}
+                                style={
+                                  focusPincode === false
+                                    ? styles.textInput
+                                    : styles.textPincode
+                                }
+                                onChangeText={formikProps.handleChange(
+                                  "pincode"
+                                )}
+                                onBlur={onBlurPincodeChange}
+                              />
+                              <View
+                                style={
+                                  formikProps.errors.pincode
+                                    ? styles.redCircle
+                                    : styles.greenCircle
+                                }
+                              ></View>
                               <Text
+                                style={
+                                  formikProps.errors.pincode
+                                    ? styles.errMsg
+                                    : null
+                                }
+                              >
+                                {formikProps.errors.pincode}
+                              </Text>
+                            </View>
+
+                            <View
+                              style={{
+                                marginHorizontal: 8,
+                                marginVertical: 4,
+                              }}
+                            >
+                              <Text style={styles.label}>LANDMARK</Text>
+                              <TextInput
+                                underlineColorAndroid="transparent"
+                                placeholder="Enter a landmark"
+                                onFocus={onfocusLandmarkChange}
+                                autoCorrect={false}
+                                style={
+                                  focusLandmark === false
+                                    ? styles.textInput
+                                    : styles.textLandmark
+                                }
+                                onChangeText={formikProps.handleChange(
+                                  "Landmark"
+                                )}
+                                onBlur={onBlurLandmarkChange}
+                              />
+                            </View>
+                            <Text style={styles.heading2}>
+                              SAVE THIS ADDRESS AS
+                            </Text>
+                            <View style={styles.addressType}>
+                              <TouchableOpacity
+                                onPress={changeAddressType}
                                 style={
                                   addressType === "Home"
-                                    ? styles.selectedMiniText
-                                    : styles.miniText
+                                    ? styles.selectedMiniButton
+                                    : styles.miniButton
                                 }
                               >
-                                Home
-                              </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                              onPress={changeAddressType}
-                              style={
-                                addressType === "Work"
-                                  ? styles.selectedMiniButton
-                                  : styles.miniButton
-                              }
-                            >
-                              <Feather name="home" size={22} color="black" />
-                              <Text
+                                <Feather name="home" size={22} color="black" />
+                                <Text
+                                  style={
+                                    addressType === "Home"
+                                      ? styles.selectedMiniText
+                                      : styles.miniText
+                                  }
+                                >
+                                  Home
+                                </Text>
+                              </TouchableOpacity>
+                              <TouchableOpacity
+                                onPress={changeAddressType}
                                 style={
                                   addressType === "Work"
-                                    ? styles.selectedMiniText
-                                    : styles.miniText
+                                    ? styles.selectedMiniButton
+                                    : styles.miniButton
                                 }
                               >
-                                Work
-                              </Text>
-                            </TouchableOpacity>
-                          </View>
-                          <TouchableOpacity
-                            onPress={formikProps.handleSubmit}
-                            style={{
-                              marginHorizontal: 8,
-                              marginVertical: 16,
-                            }}
-                          >
-                            <View
-                              style={
-                                formikProps.errors.pincode
-                                  ? styles.buttonlight
-                                  : styles.button
-                              }
-                            >
-                              <Text style={styles.submit}>Add Address</Text>
+                                <Feather name="home" size={22} color="black" />
+                                <Text
+                                  style={
+                                    addressType === "Work"
+                                      ? styles.selectedMiniText
+                                      : styles.miniText
+                                  }
+                                >
+                                  Work
+                                </Text>
+                              </TouchableOpacity>
                             </View>
-                          </TouchableOpacity>
-                        </React.Fragment>
-                      )}
-                    </Formik>
-                  </View>
-                </TouchableWithoutFeedback>
-              </ScrollView>
-            </KeyboardAvoidingView>
-          </View>
+                            <TouchableOpacity
+                              onPress={formikProps.handleSubmit}
+                              style={{
+                                marginHorizontal: 8,
+                                marginVertical: 16,
+                              }}
+                            >
+                              <View
+                                style={
+                                  formikProps.errors.pincode
+                                    ? styles.buttonlight
+                                    : styles.button
+                                }
+                              >
+                                <Text style={styles.submit}>Add Address</Text>
+                              </View>
+                            </TouchableOpacity>
+                          </React.Fragment>
+                        )}
+                      </Formik>
+                    </View>
+                  </TouchableWithoutFeedback>
+                </ScrollView>
+              </KeyboardAvoidingView>
+            </View>
           </View>
         ) : (
           <View style={styles.screen}>
@@ -453,13 +478,13 @@ const AddAddress = () => {
                   <View>
                     <Text style={styles.heading}>SELECT DELIVERY ADDRESS</Text>
                     <Formik
-                      initialValues={{ house: "", landmark: "",Pincode: "",}}
+                      initialValues={{ house: "", landmark: "", Pincode: "" }}
                       validationSchema={validationSchema}
                       onSubmit={(values, actions) => {
                         setLoading(true);
                         //   apicall(values);
-                        Object.assign(values, {addressType: addressType});
-                        console.log(values);
+                        Object.assign(values, { addressType: addressType });
+                        onSub(values);
                       }}
                     >
                       {(formikProps) => (
@@ -486,14 +511,13 @@ const AddAddress = () => {
                               onChangeText={formikProps.handleChange("house")}
                               onBlur={onBlurHouseChange}
                             />
-                               <View
+                            <View
                               style={
                                 formikProps.errors.house
                                   ? styles.redCircle
                                   : styles.greenCircle
                               }
                             ></View>
-                           
                           </View>
 
                           <View
@@ -516,14 +540,13 @@ const AddAddress = () => {
                               onChangeText={formikProps.handleChange("city")}
                               onBlur={onBlurCityChange}
                             />
-                               <View
+                            <View
                               style={
                                 formikProps.errors.city
                                   ? styles.redCircle
                                   : styles.greenCircle
                               }
                             ></View>
-                           
                           </View>
 
                           <View
@@ -546,14 +569,13 @@ const AddAddress = () => {
                               onChangeText={formikProps.handleChange("state")}
                               onBlur={onBlurStateChange}
                             />
-                               <View
+                            <View
                               style={
                                 formikProps.errors.state
                                   ? styles.redCircle
                                   : styles.greenCircle
                               }
                             ></View>
-                           
                           </View>
 
                           <View
@@ -585,14 +607,12 @@ const AddAddress = () => {
                             ></View>
                             <Text
                               style={
-                                
                                 formikProps.errors.pincode
                                   ? styles.errMsg
                                   : null
                               }
                             >
-                              {
-                                formikProps.errors.pincode}
+                              {formikProps.errors.pincode}
                             </Text>
                           </View>
 
@@ -631,7 +651,13 @@ const AddAddress = () => {
                                   : styles.miniButton
                               }
                             >
-                              <Feather name="home" size={22} color={addressType === "Home"?"#FF6B3C":"black"}/>
+                              <Feather
+                                name="home"
+                                size={22}
+                                color={
+                                  addressType === "Home" ? "#FF6B3C" : "black"
+                                }
+                              />
                               <Text
                                 style={
                                   addressType === "Home"
@@ -650,7 +676,13 @@ const AddAddress = () => {
                                   : styles.miniButton
                               }
                             >
-                              <Feather name="briefcase" size={22} color={addressType === "Work"?"#FF6B3C":"black"}/>
+                              <Feather
+                                name="briefcase"
+                                size={22}
+                                color={
+                                  addressType === "Work" ? "#FF6B3C" : "black"
+                                }
+                              />
                               <Text
                                 style={
                                   addressType === "Work"
@@ -756,7 +788,7 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     borderWidth: 2,
     borderColor: "transparent",
-    borderBottomColor: '#FF6B3C',
+    borderBottomColor: "#FF6B3C",
     borderRadius: 2.5,
   },
   textInputName: {
@@ -766,7 +798,7 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     borderWidth: 2,
     borderColor: "transparent",
-    borderBottomColor: '#FF6B3C',
+    borderBottomColor: "#FF6B3C",
     borderRadius: 2.5,
   },
   textCity: {
@@ -776,7 +808,7 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     borderWidth: 2,
     borderColor: "transparent",
-    borderBottomColor: '#FF6B3C',
+    borderBottomColor: "#FF6B3C",
     borderRadius: 2.5,
   },
   textState: {
@@ -786,7 +818,7 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     borderWidth: 2,
     borderColor: "transparent",
-    borderBottomColor: '#FF6B3C',
+    borderBottomColor: "#FF6B3C",
     borderRadius: 2.5,
   },
   textPincode: {
@@ -796,7 +828,7 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     borderWidth: 2,
     borderColor: "transparent",
-    borderBottomColor: '#FF6B3C',
+    borderBottomColor: "#FF6B3C",
     borderRadius: 2.5,
   },
   miniButton: {
@@ -819,7 +851,7 @@ const styles = StyleSheet.create({
     padding: 12,
     borderWidth: 1.5,
     borderRadius: 50,
-    borderColor: '#FF6B3C',
+    borderColor: "#FF6B3C",
     backgroundColor: "white",
     marginHorizontal: 16,
   },
@@ -832,26 +864,26 @@ const styles = StyleSheet.create({
   selectedMiniText: {
     fontFamily: "zilla-med",
     fontSize: 20,
-    color: '#FF6B3C',
+    color: "#FF6B3C",
     paddingHorizontal: 4,
   },
   button: {
-    backgroundColor: '#FF6B3C',
+    backgroundColor: "#FF6B3C",
     borderRadius: 5,
     justifyContent: "center",
     alignItems: "center",
     padding: 12,
   },
   buttonlight: {
-    backgroundColor: '#f4c2c2',
+    backgroundColor: "#f4c2c2",
     borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     padding: 12,
-},
+  },
 
   button1: {
-    backgroundColor: '#FF6B3C',
+    backgroundColor: "#FF6B3C",
     borderRadius: 5,
     justifyContent: "center",
     alignItems: "center",

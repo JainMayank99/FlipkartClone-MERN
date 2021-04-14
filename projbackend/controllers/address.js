@@ -82,8 +82,8 @@ exports.removeAddress = async (req, res) => {
                 if (user.address.addresses.length === 0) {
                     user.address.defaultAddress = "";
                 } else {
-                    if (user.address.defaultAddress === req.body.address) {
-                        user.address.defaultAddress = user.address.addresses[0]
+                    if (user.address.defaultAddress === req.body.address ) {
+                        user.address.defaultAddress = user.address.addresses[0] || ""
                     }
                 }
 
@@ -119,7 +119,7 @@ exports.getAllAddresses = async (req, res) => {
                 });
             }
 
-            return res.status(200).json(user.address.addresses)
+            return res.status(200).json(user.address)
         }
     )
 }

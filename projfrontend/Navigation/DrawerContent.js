@@ -52,7 +52,7 @@ export function DrawerContent(props) {
               )}
               label={() => <Text style={styles.text}>MY ACCOUNT</Text>}
               onPress={() => {
-                props.navigation.navigate("Home");
+                props.navigation.navigate("Profile");
               }}
             />
             <DrawerItem
