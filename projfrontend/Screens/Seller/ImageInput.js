@@ -40,6 +40,7 @@ function ImageInput({ imageUri, onChangeImage }) {
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         quality: 0.5,
       });
+      // console.log(result)
       if (!result.cancelled) onChangeImage(result.uri);
     } catch (error) {
       console.log("Error reading an image", error);
@@ -51,7 +52,7 @@ function ImageInput({ imageUri, onChangeImage }) {
       <View style={styles.container}>
         {!imageUri && (
           <MaterialCommunityIcons
-            color="grey"
+            color="white"
             name="camera"
             size={40}
           />
@@ -65,7 +66,7 @@ function ImageInput({ imageUri, onChangeImage }) {
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    backgroundColor: "white",
+    backgroundColor: "#ff5d42",
     borderRadius: 15,
     height: 100,
     justifyContent: "center",

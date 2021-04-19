@@ -57,7 +57,9 @@ export default BackButtonHeader;
 
 const styles = StyleSheet.create({
   screen: {
-    paddingVertical:8
+    paddingVertical:8,
+    maxHeight:52,
+    backgroundColor:'white',
   },
   body: {
     flex: 1,
@@ -71,7 +73,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     paddingTop:8,
-    paddingBottom:24,
+    // paddingBottom:24,
    
   
   },

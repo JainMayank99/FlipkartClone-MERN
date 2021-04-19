@@ -21,6 +21,7 @@ exports.getProductById = (req, res, next, id) => {
 
 //Note: later change the map to for with await
 exports.addProduct = (req, res) => {
+	console.log("Hitting",req.body)
 	let form = new formidable.IncomingForm({
 		multiples: true,
 		keepExtensions: true,
@@ -79,7 +80,7 @@ exports.addProduct = (req, res) => {
 									error: "Saving product in DB failed",
 								});
 							}
-							return res.status(202).send(product);
+							return res.status(200).json(product);
 						});
 					}
 				}
