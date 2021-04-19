@@ -13,34 +13,7 @@ import OrderItemDetails from './OrderItemDetails';
 
 const OrderList = ({itemList}) => {
     const refRBSheet = useRef();
-    // const [gallery, setgallery] = useState([
-    //     {
-    //         image: require('../../../assets/main/bsc2.jpg'),
-    //         title: 'Solid State Kurta',
-    //         cost: '4,500',
-    //         key: '1',
-    //         desc: 'Tribes Karnataka',
-    //         discount: '30% off',
-    //     },
-    //     {
-    //         image: require('../../../assets/main/cat2.png'),
-    //         title: 'Something',
-    //         cost: '2,500',
-    //         key: '2',
-    //         desc: 'Tribes Karnataka',
-    //         discount: '50% off',
-    //     },
-
-    //     {
-    //         image: require('../../../assets/main/bsc3.jpg'),
-    //         title: 'Printed Kurta With Skirt ',
-    //         cost: '2,750',
-    //         key: '5',
-    //         desc: 'Tribes Karnataka',
-    //         discount: '10% off',
-    //     },
-    // ]);
-
+    
     return (
         <View
             style={{
@@ -48,7 +21,7 @@ const OrderList = ({itemList}) => {
                 borderBottomWidth: 10,
                 borderColor: '#edeeef',
             }}>
-                {console.log("List",itemList)}
+              
             <View style={styles.body}>
                 <Text style={styles.text}>My Orders</Text>
             </View>

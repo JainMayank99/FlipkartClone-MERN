@@ -68,7 +68,7 @@ const ProductCarousel = ({ data, navigation, itemId }) => {
 		return (
 			
 			<View style={styles.container}>
-				{(console.disableYellowBox = true)}
+			
 				<StatusBar hidden />
 				<View style={{ flex: 3 }}>
 					<FlatList

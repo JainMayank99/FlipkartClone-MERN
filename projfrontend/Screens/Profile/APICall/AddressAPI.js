@@ -17,7 +17,7 @@ export const getAllAddress = (userId, token) => {
 
 export const addAddress = (userId, token,address) => {
 	// console.log("Random Product call count: " + count);
-	// console.log(BACKEND_URL,"Cart")
+	console.log(BACKEND_URL,"AddAddress")
 	return axios({
 		method: "post",
 		url: `${BACKEND_URL}/addAddress/${userId}`,

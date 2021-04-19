@@ -11,7 +11,8 @@ const {
     getAllCartItemsByUserId,
     removeProductFromCart,
     updateQuantityInCart,
-    toggleIsSavedForLater
+    toggleIsSavedForLater,
+    isProductInCart
 } = require("../controllers/cart")
 
 
@@ -37,5 +38,8 @@ router.put("/updateQuantityInCart/:userId/:productId", isSignedIn, isAuthenticat
 
 //to toggle isSavedForLater
 router.put("/toggleIsSavedForLater/:userId/:productId", isSignedIn, isAuthenticated, toggleIsSavedForLater)
+
+//to check product already is in User cart or not
+router.get("/isProductInCart/:userId/:productId", isSignedIn, isAuthenticated, isProductInCart)
 
 module.exports = router

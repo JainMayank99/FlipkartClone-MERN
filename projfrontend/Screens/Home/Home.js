@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
+import * as Location from 'expo-location';
+
 import {
   View,
   Text,
@@ -33,7 +35,18 @@ const Home = ({ route, navigation }) => {
   const [language, setLanguage] = useState("en");
   const [loading, setLoading] = useState(false);
   const carouselRef = useRef(null);
+ 
 
+
+  // React.useEffect(() => {
+  //     navigation.addListener('focus',()=>{
+       
+  //     })  
+  // },[navigation])
+
+  // useEffect(()=>{
+  //   handleUserLocation()
+  // })
   const mainWork = (lang) => {
     setLanguage(lang);
     setLoading(false);
@@ -127,12 +140,24 @@ const Home = ({ route, navigation }) => {
       key: "5",
     },
   ]);
+
+  const handleUserLocation = () => {
+    (async () => {
+     
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+       Console.log("Permission to access location was denied");
+        return;
+      }   
+    })();
+  };
   const renderItem = ({ item, index }) => {
-    {
-      console.disableYellowBox = true;
-    }
+    
+
+    
+
     return (
-      <View>
+      <View> 
         <TouchableOpacity
           onPress={() => {
             carouselRef.current.scrollToIndex(index);
@@ -173,12 +198,14 @@ const Home = ({ route, navigation }) => {
             changeLanguage={changeLanguage}
             navigation={navigation}
           />
+       
           <ScrollView
             style={{
               marginTop: 105,
             }}
           >
             <Categories language={language} changeLanguage={changeLanguage} />
+          
             <AppCarousel data={dummyData} navigation={navigation} />
             <TopPicks language={language} navigation={navigation} />
             <FeaturedCategories language={language} navigation={navigation} />
