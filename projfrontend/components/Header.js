@@ -19,9 +19,9 @@ import { signout } from "../Screens/Auth/AuthAPICalls/authCalls";
 
 const Header = ({ language, changeLanguage, navigation}) => {
   const refRBSheet = useRef();
-  const signOut = () => {
+  const logOut = () => {
     signout();
-	onAuth();
+	  // onAuth();
     console.log("Sign out Successfull");
   };
   const image = {
@@ -37,7 +37,7 @@ const Header = ({ language, changeLanguage, navigation}) => {
 				</TouchableOpacity> */}
         <TouchableOpacity
           onPress={() => {
-            signout();
+            logOut();
           }}
         >
           <HeaderIcon name="settings" />

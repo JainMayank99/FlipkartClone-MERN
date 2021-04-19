@@ -10,23 +10,38 @@ import Home from "../Screens/Home/Home";
 import Cart from "../Screens/Cart/Cart";
 import WishList from "./../Screens/WishList/WishList";
 import Orders from "./../Screens/Orders/Orders";
-import { ProfileStackNavigator } from "./MainStackNavigator";
+import {
+  MainStackNavigator,
+  ProfileStackNavigator,
+} from "./MainStackNavigator";
 
 const HomeStack = createStackNavigator();
 const OrderStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const image = {
-  uri: require('../assets/main/profile.webp'),
+  uri: require("../assets/main/profile.webp"),
 };
 const image1 = {
-  uri: require('../assets/main/profileActive.webp'),
+  uri: require("../assets/main/profileActive.webp"),
 };
 const imageW1 = {
-  uri: require('../assets/customIcons/wishList.png'),
+  uri: require("../assets/customIcons/wishList.png"),
 };
 const imageW = {
-  uri: require('../assets/customIcons/wishListActive.png'),
+  uri: require("../assets/customIcons/wishListActive.png"),
+};
+const imageH1 = {
+  uri: require("../assets/customIcons/home.png"),
+};
+const imageH = {
+  uri: require("../assets/customIcons/homeA.png"),
+};
+const imageO1 = {
+  uri: require("../assets/customIcons/order.png"),
+};
+const imageO = {
+  uri: require("../assets/customIcons/orderA.png"),
 };
 
 const TabContent = () => (
@@ -50,7 +65,7 @@ const TabContent = () => (
   >
     <Tab.Screen
       name="Home"
-      component={HomeStackScreen}
+      component={Home}
       options={{
         tabBarLabel: "Home",
 
@@ -64,16 +79,19 @@ const TabContent = () => (
               top: 5,
             }}
           >
-            <Feather
-              name="home"
-              size={24}
-              color={focused ? "#00ff7f" : "#FF6B3C"}
+            <Image
+              source={focused ? imageH1.uri : imageH.uri}
+              style={{
+                width: 28,
+                height: 28,
+                borderRadius: 14,
+              }}
             />
             <Text
               style={{
                 color: focused ? "#00ff7f" : "#FF6B3C",
                 fontFamily: "popins-reg",
-                marginTop: 1,
+                marginTop: -1,
                 fontSize: 14,
               }}
             >
@@ -87,8 +105,6 @@ const TabContent = () => (
       name="Orders"
       component={OrderStackScreen}
       options={{
-       
-
         tabBarIcon: ({ focused }) => (
           <View
             style={{
@@ -99,16 +115,19 @@ const TabContent = () => (
               top: 5,
             }}
           >
-            <Feather
-              name="shopping-bag"
-              size={24}
-              color={focused ? "#00ff7f" : "#FF6B3C"}
+            <Image
+              source={focused ? imageO1.uri : imageO.uri}
+              style={{
+                width: 28,
+                height: 28,
+                borderRadius: 14,
+              }}
             />
             <Text
               style={{
                 color: focused ? "#00ff7f" : "#FF6B3C",
                 fontFamily: "popins-reg",
-                marginTop: 1,
+                marginTop: -1,
                 fontSize: 14,
               }}
             >
@@ -135,13 +154,13 @@ const TabContent = () => (
             }}
           >
             <Image
-                            source={focused ?imageW1.uri:imageW.uri}
-                            style={{
-                                width: 28,
-                                height: 28,
-                                borderRadius:14
-                            }}
-                        />
+              source={focused ? imageW1.uri : imageW.uri}
+              style={{
+                width: 28,
+                height: 28,
+                borderRadius: 14,
+              }}
+            />
             <Text
               style={{
                 color: focused ? "#00ff7f" : "#FF6B3C",
@@ -173,13 +192,13 @@ const TabContent = () => (
             }}
           >
             <Image
-                            source={focused ?image1.uri:image.uri}
-                            style={{
-                                width: 28,
-                                height: 28,
-                                borderRadius:14
-                            }}
-                        />
+              source={focused ? image1.uri : image.uri}
+              style={{
+                width: 28,
+                height: 28,
+                borderRadius: 14,
+              }}
+            />
             {/* <Feather
               name="user"
               size={24}
@@ -216,12 +235,12 @@ const HomeStackScreen = ({ navigation }) => (
 
 const OrderStackScreen = ({ navigation }) => (
   <OrderStack.Navigator
-  initialRouteName="Orders"
+    initialRouteName="Orders"
     screenOptions={{
       headerShown: false,
     }}
   >
-     <OrderStack.Screen name="Home" component={Home} />
+    <OrderStack.Screen name="Home" component={Home} />
     <OrderStack.Screen name="Orders" component={Orders} />
     <OrderStack.Screen name="Wishlist" component={WishList} />
   </OrderStack.Navigator>

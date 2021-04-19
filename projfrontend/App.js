@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import * as Font from "expo-font";
-import { AppLoading } from "expo";
+import AppLoading from 'expo-app-loading';
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { enableScreens } from 'react-native-screens';
 
 import { NavigationContainer } from "@react-navigation/native";
 
@@ -27,12 +28,15 @@ import TabContent from "./Navigation/TabContent";
 import Profile from "./Screens/Profile/Profile";
 import AddressBook from './Screens/Profile/AddressBook';
 import AddAddress from "./Screens/Profile/AddAddress";
+import ProductDescScreen from "./Screens/ProductDescription/ProductDescription";
+import SellerScreen from './Screens/Seller/SellerScreen';
 
 
 
 const AuthStack = createDrawerNavigator();
 
 export default function App() {
+	enableScreens();
 	const getFonts = () => {
 		return Font.loadAsync({
 			"popins-reg": require("./assets/fonts/Poppins-Regular.ttf"),
@@ -51,7 +55,7 @@ export default function App() {
 	if (fontsLoaded) {
 		return (
 			<>
-				{(console.disableYellowBox = true)}
+			
 				<NavigationContainer>
 					<AuthStack.Navigator
 						initialRouteName="MainDrawer"
@@ -65,20 +69,23 @@ export default function App() {
 						  }}
 					>
 						<AuthStack.Screen name="MainDrawer" component={TabContent} />
-						<AuthStack.Screen name="Cart" component={Cart} />
+						<AuthStack.Screen name="Cart" component={SellerScreen} />
 						<AuthStack.Screen name="AddAddress" component={AddAddress} />
+						<AuthStack.Screen name="ProductDescription" component={ProductDescScreen} />
+						<AuthStack.Screen name="Login" component={LoginScreen} />
+						
+
+						
 					</AuthStack.Navigator>
 					
 				</NavigationContainer>
-				{/* <Profile/> */}
-				{/* <AddressBook/> */}
-				{/* <AddAddress/> */}
+				
 				
 			</>
 		);
 	} else {
 		return (
-			<AppLoading startAsync={getFonts} onFinish={() => setFontsLoaded(true)} />
+			<AppLoading startAsync={getFonts} onFinish={() => setFontsLoaded(true)}  onError={console.warn}/>
 		);
 	}
 }

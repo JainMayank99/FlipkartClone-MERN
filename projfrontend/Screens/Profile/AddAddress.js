@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useFormikContext, Formik } from "formik";
+
 import {
   Text,
   View,
@@ -27,18 +28,18 @@ const validationSchema = yup.object().shape({
   house: yup.string().required("Please enter your House/Block/Flat No."),
 });
 
-const AddAddress = () => {
+const AddAddress = ({ navigation }) => {
   const _mapView = useRef(null);
 
-  const [name, setName] = useState('');
-  const [city, setCity] = useState('');
-  const [postalCode, setPostalCode] = useState('');
-  const [state, setState] = useState('');
-
+  const [name, setName] = useState("");
+  const [city, setCity] = useState("");
+  const [postalCode, setPostalCode] = useState("");
+  const [state, setState] = useState("");
+  const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [region, setRegion] = useState({
     latitude: 22.3511148,
-    longitude: 78.6677428,
+    longitude: 108.6677428,
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
   });
@@ -46,39 +47,53 @@ const AddAddress = () => {
 
   const [focusHouse, setfocusHouse] = useState(false);
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(0);
+  const [mapLoading, setMapLoading] = useState(false);
   const [addressType, setAddressType] = useState("Home");
   const [user, setUser] = useState("");
   const [token, setToken] = useState("");
 
-  useEffect(() => {
-    isAuthenticated()
-      .then((res) => {
-        if (res.user) {
-          setUser(res.user._id);
-          setToken(res.token);
-        }
-      })
-      .catch((err) => {
-        console.log("Add address screen error: " + err);
-      });
-  }, []);
+  React.useEffect(() => {
+    navigation.addListener("focus", () => {
+      console.log("I am AdressAdder");
+      setLoading(0);
+      isAuthenticated()
+        .then((res) => {
+          if (res.user) {
+            setUser(res.user._id);
+            setToken(res.token);
+          }
+        })
+        .catch((err) => {
+          console.log("Add address screen error: " + err);
+        });
+      handleUserLocation();
+    });
+  }, [navigation]);
+
+  const pushToHome = () => {
+    navigation.goBack();
+  };
 
   const onSub = (val) => {
-    let addressInfo = JSON.stringify(val);
-    // console.log(addressInfo)
+    let addressInfo = JSON.stringify(val) + "";
+    setLoading(1);
     addAddress(user, token, addressInfo)
       .then((res) => {
-        Alert.alert("Succesfully Added Address");
-        navigation.navigate('Home')
+        setLoading(2);
+        val.house = "";
+        setTimeout(() => {
+          pushToHome();
+        }, 3000);
       })
       .catch((err) => {
-        Alert.alert(" Added Address screen error", err);
+        setLoading(3);
+        console.log(" Added Address screen error", err);
       });
   };
 
   const changeAddressType = () => {
-    console.log("Hii");
+    // console.log("Hii");
     if (addressType === "Home") setAddressType("Work");
     else setAddressType("Home");
   };
@@ -89,33 +104,23 @@ const AddAddress = () => {
     setfocusHouse(false);
   };
 
-  useEffect(() => {
-    handleUserLocation();
-  }, []);
-
   const onChangeValue = () => {
     setRegion(region);
     setTimeout(() => setMarginBottom(0));
   };
 
   const getAddress = async (latitude, longitude) => {
+    console.log(latitude, longitude);
     let response = await Location.reverseGeocodeAsync({
       latitude,
       longitude,
     });
 
     for (let item of response) {
-      // let address = {
-      //   name: item.name,
-      //   postalCode: item.postalCode,
-      //   city: item.city,
-      //   state: item.region,
-      // };
-      let name=item.name;
-      let postalCode=item.postalCode;
-      let city=item.city;
-      let state=item.region;
-
+      let name = item.name;
+      let postalCode = item.postalCode;
+      let city = item.city;
+      let state = item.region;
 
       setName(name);
       setCity(city);
@@ -126,26 +131,28 @@ const AddAddress = () => {
 
   const handleUserLocation = () => {
     (async () => {
-      let { status } = await Location.requestPermissionsAsync();
+      setMapLoading(true);
+      let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
         setErrorMsg("Permission to access location was denied");
         return;
       }
-
-      navigator.geolocation.getCurrentPosition((pos) => {
-        _mapView.current.animateToRegion({
-          ...region,
-          latitude: pos.coords.latitude,
-          longitude: pos.coords.longitude,
-        });
-        setRegion({
-          ...region,
-          latitude: pos.coords.latitude,
-          longitude: pos.coords.longitude,
-        });
-
-        getAddress(pos.coords.latitude, pos.coords.longitude);
+      let location = await Location.getCurrentPositionAsync({
+        accuracy: Location.Accuracy.Highest,
       });
+      setMapLoading(false);
+      _mapView.current.animateToRegion({
+        ...region,
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      });
+      setRegion({
+        ...region,
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      });
+
+      getAddress(location.coords.latitude, location.coords.longitude);
     })();
   };
 
@@ -156,64 +163,82 @@ const AddAddress = () => {
     text = JSON.stringify(location);
   }
 
+  const mapStyle = [
+    
+  ];
   return (
     <>
       <StatusBar hidden />
       <View
-        style={{
-          height: "60%",
-          overflow: "hidden",
-          borderRadius: 15,
-        }}
+        style={
+          loading !== 0 || mapLoading === true ? styles.overlay : { flex: 1,backgroundColor:'white' }
+        }
       >
-        <View style={{ flex: 1 }}>
-          <MapView
-            ref={_mapView}
-            showsUserLocation={true}
-            showsMyLocationButton={true}
-            scrollEnabled={false}
-            zoomEnabled={false}
-            rotateEnabled={false}
-            style={{
-              flex: 1,
-              marginBottom: marginBottom,
-              zIndex: -1,
-            }}
-            initialRegion={region}
-            onRegionChangeComplete={onChangeValue}
+        {loading !== 0 || mapLoading === true ? (
+          <LottieView
+            style={styles.lottie}
+            autoPlay
+            loop={false}
+            source={
+              loading === 1
+                ? require("../../assets/animations/loader.json")
+                : loading === 2
+                ? require("../../assets/animations/success.json")
+                : loading === 3
+                ? require("../../assets/animations/error.json")
+                : require("../../assets/animations/globe.json")
+            }
           />
-          {/* <Marker
-            coordinate={{latitude:region.latitude, longitude:region.longitude}}
-            image={require("../../assets/catIcons/pin.png")}
-          /> */}
-          <View
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              marginLeft: -24,
-              marginTop: -48,
-              zIndex: 10,
-            }}
-          >
-            <Image
-              style={{ height: 48, width: 48 }}
-              source={require("../../assets/catIcons/pin.png")}
+        ) : null}
+        <View
+          style={{
+            height: "60%",
+            overflow: "hidden",
+            borderRadius: 25,
+            
+          }}
+        >
+          <View style={{ flex: 1,backgroundColor:'white'}}>
+            <MapView
+              ref={_mapView}
+              showsUserLocation={true}
+              showsMyLocationButton={true}
+              scrollEnabled={false}
+              zoomEnabled={false}
+              rotateEnabled={false}
+              style={{
+                flex: 1,
+                marginBottom: marginBottom,
+                zIndex: -1,
+                
+              }}
+              initialRegion={region}
+              onRegionChangeComplete={onChangeValue}
+              customMapStyle={mapStyle}
             />
+
+            <View
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                marginLeft: -24,
+                marginTop: -48,
+                zIndex: 10,
+              }}
+            >
+              <Image
+                style={{ height: 48, width: 48 }}
+                source={require("../../assets/catIcons/pin.png")}
+              />
+            </View>
+
+           
+
+
           </View>
         </View>
-      </View>
-      <View style={{ flex: 1 }}>
-        {loading === true ? (
-          <View style={styles.overlay}>
-            <LottieView
-              style={styles.lottie}
-              autoPlay
-              loop
-              source={require("../../assets/animations/loader.json")}
-            />
-          </View>
-        ) : (
+        <View style={{ flex: 1 }}>
           <View style={styles.screen}>
             <>
               <Text style={styles.heading}>SELECT DELIVERY ADDRESS</Text>
@@ -252,6 +277,7 @@ const AddAddress = () => {
                         }
                         onChangeText={formikProps.handleChange("house")}
                         onBlur={onBlurHouseChange}
+                        value={formikProps.values.house}
                       />
                       <View
                         style={
@@ -336,7 +362,7 @@ const AddAddress = () => {
               </View>
             </View>
           </View>
-        )}
+        </View>
       </View>
     </>
   );

@@ -6,7 +6,6 @@ import {
   StyleSheet,
   View,
 } from "react-native";
-import { useFocusEffect } from "@react-navigation/native";
 import LottieView from "lottie-react-native";
 import ProductInfo from "./Components/ProductInfo";
 import ProductCarousel from "./Components/ProductCarousel";
@@ -19,17 +18,15 @@ import {
   getAllCartItemsByUserId,
 } from "../Cart/APICall/cartAPI";
 import { isAuthenticated } from "../Auth/AuthAPICalls/authCalls";
+import { isProductInCart } from "./APICalls/ProductReviewAPI";
 
 const ProductDescScreen = ({ route, navigation }) => {
   const { item } = route.params;
-
-  const [addTo, setAddTo] = useState(false);
-  const [msg, setMsg] = useState("Add to cart");
   const [language, setLanguage] = useState("en");
-  const [loading, setLoading] = useState(false);
-  const [adding, setAdding] = useState(false);
-  const [itemList, setItemList] = useState([]);
+  const [loading, setLoading] = useState(0);
   const [count, setCount] = useState(0);
+  const [user, setUser] = useState("");
+  const [token, setToken] = useState("");
 
   const mainWork = (lang) => {
     setLanguage(lang);
@@ -42,65 +39,73 @@ const ProductDescScreen = ({ route, navigation }) => {
     }, 500);
   };
 
+  const pushToHome = () => {
+    navigation.goBack();
+  };
   const onCartButtonPressed = () => {
-    isAuthenticated().then((res) => {
-      if (res.user) {
-        if (count === 0) {
-          setLoading(true);
-          addProductToCart(res.user._id, item._id, res.token)
+    if (user !== "") {
+      setLoading(1);
+      isProductInCart(user, item._id, token).then((res) => {
+        if (res.data.result == true) {
+          console.log("Hii")
+          setLoading(3);
+          setTimeout(() => {
+            pushToHome();
+          }, 2300);
+        } else {
+          addProductToCart(user,item._id, token)
             .then((res) => {
-              setAdding(false);
-              setCount(1);
-              setLoading(false);
+              setLoading(2);
+              setTimeout(() => {
+                pushToHome();
+              }, 2300);
             })
             .catch((err) => {
               console.log("Error in addProductToCart", err);
+              setLoading(3);
             });
-        } else {
-          navigation.navigate("Cart", {from:'Product'});
         }
-      } else {
-        navigation.navigate("Login");
-      }
-    });
+      })
+      .catch((err)=>{
+        console.log("Error In Validating")
+      });
+    } else navigation.navigate("Login")
   };
 
-  useEffect(() => {
-    isAuthenticated()
-      .then((res) => {
-        if (res.user) {
-          setLoading(true);
-          getAllCartItemsByUserId(res.user._id, res.token)
-            .then((res) => {
-              setItemList(res.data);
-              let count = 0;
-              for (let index = 0; index < res.data.length; index++) {
-                if (res.data[index].product._id === item._id) count++;
-                if (count === 1) break;
-              }
-              setCount(count);
-              setLoading(false);
-            })
-            .catch((err) => {
-              console.log("cart list fetching error: " + err);
-            });
-        } 
-      })
-      .catch((err) => {
-        console.log("cart screen error: " + err);
-      });
+  React.useEffect(() => {
+    navigation.addListener("focus", () => {
+      setLoading(0);
+      // setCount(0);
+      isAuthenticated()
+        .then((res) => {
+          if (res.user) {
+            setUser(res.user._id);
+            setToken(res.token);
+          }
+        })
+        .catch((err) => {
+          console.log("cart screen error: " + err);
+        });
+    });
   }, []);
 
   return (
     <>
-      {(console.disableYellowBox = true)}
-      <View style={loading === true ? styles.overlay : null}>
-        {loading === true || adding === true ? (
+      {/* {(console.disableYellowBox = true)} */}
+      <View style={loading !== 0 ? styles.overlay : null}>
+        {/* {console.log("User",user,token)} */}
+        {loading !== 0 ? (
           <LottieView
             style={styles.lottie}
             autoPlay
             loop
-            source={require("../../assets/animations/loader.json")}
+            source={
+              loading === 1
+                ? require("../../assets/animations/loader.json")
+                : loading === 2
+                ? require("../../assets/animations/success.json")
+                : require("../../assets/animations/error.json")
+            }
           />
         ) : null}
         <ScrollView>
@@ -128,9 +133,7 @@ const ProductDescScreen = ({ route, navigation }) => {
         </ScrollView>
       </View>
       <TouchableOpacity onPress={onCartButtonPressed} style={styles.add}>
-        <Text style={styles.submit}>
-          {count === 0 ? "Add To Cart" : "Go To Cart"}
-        </Text>
+        <Text style={styles.submit}>Add To Cart</Text>
       </TouchableOpacity>
     </>
   );

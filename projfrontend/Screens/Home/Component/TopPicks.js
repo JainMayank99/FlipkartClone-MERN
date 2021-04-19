@@ -79,7 +79,7 @@ const TopPicks = ({ language, navigation }) => {
 							<TouchableOpacity
 								onPress={() => {
 									navigation.navigate("ProductDescription", {
-										item,
+										item:item,
 									});
 								}}
 							>

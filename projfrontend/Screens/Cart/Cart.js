@@ -54,6 +54,7 @@ const Cart = ({ navigation,from }) => {
   };
 
   useEffect(() => {
+    // setLoading(true)
     isAuthenticated()
       .then((res) => {
         // console.log(res.user._id);
@@ -70,9 +71,7 @@ const Cart = ({ navigation,from }) => {
               console.log("cart list fetching error: " + err);
             });
         }
-        else if( items!==undefined){
-          console.log("Hii")
-        } else setShowCart(false);
+        else setShowCart(false);
       })
       .catch((err) => {
         console.log("cart screen error: " + err);
@@ -91,8 +90,7 @@ const Cart = ({ navigation,from }) => {
   };
 
   return (
-    <View>
-      {/* {console.log(from)} */}
+   
       <View style={loading === true ? styles.overlay : null}>
         {loading === true ? (
           <LottieView
@@ -102,17 +100,21 @@ const Cart = ({ navigation,from }) => {
             source={require("../../assets/animations/loader.json")}
           />
         ) : null}
-    <Header
+        <View style={{ backgroundColor: "white",}}>
+        <Header
           language={language}
           changeLanguage={changeLanguage}
           navigation={navigation}
         />
-        <View
-          style={{
-            marginTop: 105,
-          }}
-        >
+        
+      
           {showCart ? (
+              <View
+              style={{
+                marginTop: 105,
+                backgroundColor: "white"
+              }}
+            >
             <CartList
               itemList={itemList}
               navigation={navigation}
@@ -124,17 +126,20 @@ const Cart = ({ navigation,from }) => {
               totalDiscount={totalDiscount}
               changeLoading={changeLoading}
             />
-            
-          ) : (
+              </View>
+          ) : 
+         
             <View style={styles.login}>
-              <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-                <Text style={styles.loginText}>Login to continue {">>"}</Text>
-              </TouchableOpacity>
-            </View>
-          )}
+							<TouchableOpacity onPress={() => navigation.navigate("Login")}>
+								<Text style={styles.loginText}>Login to continue {">>"}</Text>
+							</TouchableOpacity>
+						</View>
+            
+         }
+      
         </View>
       </View>
-    </View>
+   
   );
 };
 
@@ -144,6 +149,7 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     zIndex: 10,
+   
   },
   lottie: {
     position: "absolute",
@@ -153,10 +159,12 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   login: {
-    flex: 1,
+    position: "relative",
+    height: "100%",
+    width: "100%",
+    flexDirection:'row',
     justifyContent: "center",
-    alignItems: "center",
-    marginTop: "50%",
+    alignItems: "center",  
   },
   loginText: {
     fontFamily: "zilla-reg",

@@ -134,6 +134,26 @@ exports.toggleIsSavedForLater = async (req, res) => {
 	});
 };
 
+exports.isProductInCart=(req,res)=>{
+	CartSchema.find({
+		user:req.profile._id,
+		product:req.product._id
+	}).exec((err,cartItem)=>{
+		if (err) {
+			return res.status(400).json({
+				err: "NOT able to get cartItem in DB !",
+			});
+		}
+		if (cartItem.length == 0) {
+			return res.status(200).json({result:false});
+		}
+		else{
+			return res.status(200).json({result:true});
+		}
+	})
+}
+
+
 exports.emptyCart = (req, res, next) => {
 	CartSchema.deleteMany({
 		user: req.profile._id,

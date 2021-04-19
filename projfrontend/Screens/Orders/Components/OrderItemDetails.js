@@ -10,6 +10,7 @@ import {
 import { Dimensions } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { Image as ExpoImage } from "react-native-expo-image-cache";
+import { truncate } from '../../../components/Truncate';
 
 const OrderItemDetails = ({item}) => {
    
@@ -55,9 +56,10 @@ const OrderItemDetails = ({item}) => {
                     </View>
                     <View style={styles.detailsBox}>
                         <Text style={styles.delivered}>
-                            Delivered On 12/03/2021
+                        {truncate(item.product.name,20) }
                         </Text>
-                        <Text style={styles.title}>{item.name}</Text>
+                        <Text style={styles.title}>Tribes Karnataka</Text>
+                        {/* <Text style={styles.title}>Paid via {item.modeOfPayment}</Text> */}
                         <View
                             style={{
                                 flex: 1,
@@ -91,8 +93,8 @@ const styles = StyleSheet.create({
         width: 200,
     },
     delivered: {
-        fontFamily: 'popins-semibold',
-        fontSize: 16,
+        fontFamily: 'popins-med',
+        fontSize: 20,
         color: 'black',
         paddingBottom: 4,
     },

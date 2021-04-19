@@ -7,6 +7,8 @@ import Orders from './../Screens/Orders/Orders';
 import AddressBook from "../Screens/Profile/AddressBook";
 import Profile from "../Screens/Profile/Profile";
 import AddAddress from "../Screens/Profile/AddAddress";
+import ProductDescScreen from "../Screens/ProductDescription/ProductDescription";
+import EditProfile from './../Screens/Profile/EditProfile';
 
 const Stack = createStackNavigator();
 
@@ -19,15 +21,16 @@ const MainStackNavigator = () => {
       }}
     >
       <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen name="Cart" component={Cart} />
+      {/* <Stack.Screen name="Cart" component={Cart} /> */}
       <Stack.Screen name="WishList" component={WishList} />
+      <Stack.Screen name="ProductDescription" component={ProductDescScreen} />
     </Stack.Navigator>
   );
 };
 const OrderStackNavigator = () => {
     return (
       <Stack.Navigator
-        initialRouteName="Cart"
+        initialRouteName="Order"
         screenOptions={{
           headerShown: false,
         }}
@@ -42,14 +45,16 @@ const OrderStackNavigator = () => {
   const ProfileStackNavigator = () => {
     return (
       <Stack.Navigator
-        initialRouteName="Cart"
+        initialRouteName="Profile"
         screenOptions={{
           headerShown: false,
         }}
       >
-       
+       <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Address" component={AddressBook} />
+        <Stack.Screen name="EditProfile" component={EditProfile} />
+        {/* <Stack.Screen name="AddAddress" component={AddAddress} /> */}
         {/* <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Profile" component={Profile} /> */}

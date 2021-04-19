@@ -15,3 +15,17 @@ export const getReviewByProductId = (productId) => {
 		// },
 	});
 };
+
+
+export const isProductInCart = (userId, productId, token) => {
+	console.log(BACKEND_URL)
+	return axios({
+		method: "get",
+		url: `${BACKEND_URL}/isProductInCart/${userId}/${productId}`,
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+			Authorization: "Bearer " + token,
+		},
+	});
+};
