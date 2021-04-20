@@ -31,8 +31,8 @@ exports.addProduct = (req, res) => {
 	//fields to contain name,description
 	//send at max 4
 	form.parse(req, (err, fields, files) => {
-		// console.log('fields:', fields);
-		// console.log('files:', files);
+		console.log('fields:', fields);
+		console.log('files:', files);
 		if (err) {
 			return res.status(400).json({
 				error: "problem with image",

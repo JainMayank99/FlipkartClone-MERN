@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 import ImageInput from "./ImageInput";
 
-function ImageInputList({ imageUris = [], onRemoveImage, onAddImage }) {
+function ImageInputList({ imageUris = [], onRemoveImage, onAddImage,file,setFile }) {
   const scrollView = useRef();
 
   return (
@@ -22,7 +22,7 @@ function ImageInputList({ imageUris = [], onRemoveImage, onAddImage }) {
               />
             </View>
           ))}
-          <ImageInput onChangeImage={(uri) => onAddImage(uri)} />
+          <ImageInput onChangeImage={(uri) => onAddImage(uri)} file={file} setFile={setFile} />
         </View>
       </ScrollView>
     </View>

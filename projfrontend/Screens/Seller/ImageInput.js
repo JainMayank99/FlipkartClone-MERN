@@ -11,7 +11,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 
 
-function ImageInput({ imageUri, onChangeImage }) {
+function ImageInput({ imageUri, onChangeImage,file,setFile }) {
   useEffect(() => {
     requestPermission();
   }, []);
@@ -41,6 +41,12 @@ function ImageInput({ imageUri, onChangeImage }) {
         quality: 0.5,
       });
       // console.log(result)
+      let newFile = {
+        uri: result.uri,
+        type: `test/${result.uri.split(".")[6]}`,
+        name: `test.${result.uri.split(".")[6]}`,
+      };
+      setFile([...file,newFile])
       if (!result.cancelled) onChangeImage(result.uri);
     } catch (error) {
       console.log("Error reading an image", error);

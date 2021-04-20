@@ -43,6 +43,7 @@ export default function SellerScreen({ navigation }) {
   const [focusDescription, setFocusDescription] = useState(false);
   const [user, setUser] = useState("");
   const [token, setToken] = useState("");
+  const [file,setFile] = useState([])
 
   React.useEffect(() => {
     navigation.addListener("focus", () => {
@@ -60,10 +61,20 @@ export default function SellerScreen({ navigation }) {
     });
   }, [navigation]);
 
-  const onSub = (data) => {
+  const onSub = (values) => {
+    var data = new FormData();
+    for(let i=0;i<file.length;i++){
+      data.append(`Img${i}`, file[`${i}`]);
+    }
+    data.append("name", values.productName);
+    data.append("stock", values.quantity);
+    data.append("description", values.description);
+    data.append("price", values.amount);
+    data.append("discount", 0);
+   
     uploadProduct(user, token, "6056e7146e98663c74f5b84a", data)
       .then((res) => {
-        console.log(res.data)
+        // console.log(res.data)
       })
       .catch((err) => {
         console.log(" Add Product screen error", err);
@@ -113,6 +124,8 @@ export default function SellerScreen({ navigation }) {
           imageUris={imageUris}
           onAddImage={handleAdd}
           onRemoveImage={handleRemove}
+          file={file}
+          setFile={setFile}
         />
         <AppPicker
           selectedItem={category}
@@ -130,16 +143,9 @@ export default function SellerScreen({ navigation }) {
           }}
           validationSchema={validationSchema}
           onSubmit={(values, actions) => {
-            Object.assign(values, { imageUris: imageUris });
-            var data = new FormData();
-            data.append("Img1", values.imageUris[0]);
-            data.append("name", values.productName);
-            data.append("stock", values.quantity);
-            data.append("description", values.description);
-            data.append("price", values.amount);
-            data.append("discount", 0);
-            console.log("Form Data", data);
-            onSub(data);
+          
+          
+            onSub(values);
           }}
         >
           {(formikProps) => (

@@ -20,6 +20,7 @@ const productSchema = new mongoose.Schema(
 			required: true,
 			maxlength: 500,
 			trim: true,
+			default: "Karnataka",
 		},
 		image: [
 			{
