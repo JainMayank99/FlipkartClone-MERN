@@ -34,67 +34,72 @@ const CartList = ({
     <ScrollView
       style={{
         paddingBottom: 150,
-       
       }}
     >
-      <View style={styles.body}>
-        <Text style={styles.text}>My Cart</Text>
-      </View>
+      {cartItemList.length > 0 ? (
+        <>
+          <View style={styles.body}>
+            <Text style={styles.text}>My Cart</Text>
+          </View>
 
-      <FlatList
-        data={cartItemList}
-        extraData={cartItemList}
-        showsHorizontalScrollIndicator={false}
-        keyExtractor={(item) => item._id}
-        renderItem={({ item }) => {
-          return (
-            <CartItem
-              item={item}
-              navigation={navigation}
-              onChangeCartItemList={onChangeCartItemList}
-              onChangeSavedItemList={onChangeSavedItemList}
-              changeLoading={changeLoading}
-            />
-          );
-        }}
-      />
-      <View
-        style={{
-          borderBottomWidth: 10,
-          borderColor: "#edeeef",
-          paddingVertical: 4,
-        }}
-      ></View>
-      <PriceDetails
-        itemList={cartItemList}
-        totalPrice={totalPrice}
-        totalDiscount={totalDiscount}
-        navigation={navigation}
-      />
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate("PaymentSelection", {
-            itemList: itemList,
-            totalPrice: totalPrice,
-            totalDiscount: totalDiscount,
-            totalAmount: totalPrice - totalDiscount,
-          });
-        }}
-        style={{
-          paddingVertical: 16,
-          marginHorizontal: 16,
-        }}
-      >
-        <View style={styles.button}>
-          <Text style={styles.submit}>Proceed To Pay</Text>
-        </View>
-      </TouchableOpacity>
-      <View
-        style={{
-          borderBottomWidth: 10,
-          borderColor: "#edeeef",
-        }}
-      ></View>
+          <FlatList
+            data={cartItemList}
+            extraData={cartItemList}
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={(item) => item._id}
+            renderItem={({ item }) => {
+              return (
+                <CartItem
+                  item={item}
+                  navigation={navigation}
+                  onChangeCartItemList={onChangeCartItemList}
+                  onChangeSavedItemList={onChangeSavedItemList}
+                  changeLoading={changeLoading}
+                />
+              );
+            }}
+          />
+          <View
+            style={{
+              borderBottomWidth: 10,
+              borderColor: "#edeeef",
+              paddingVertical: 4,
+            }}
+          ></View>
+
+          <PriceDetails
+            itemList={cartItemList}
+            totalPrice={totalPrice}
+            totalDiscount={totalDiscount}
+            navigation={navigation}
+          />
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("PaymentSelection", {
+                itemList: itemList,
+                totalPrice: totalPrice,
+                totalDiscount: totalDiscount,
+                totalAmount: totalPrice - totalDiscount,
+              });
+            }}
+            style={{
+              paddingVertical: 16,
+              marginHorizontal: 16,
+            }}
+          >
+            <View style={styles.button}>
+              <Text style={styles.submit}>Proceed To Pay</Text>
+            </View>
+          </TouchableOpacity>
+
+          <View
+            style={{
+              borderBottomWidth: 10,
+              borderColor: "#edeeef",
+            }}
+          ></View>
+        </>
+      ) : null}
       {savedForLaterList.length > 0 ? (
         <React.Fragment>
           <View style={styles.saved}>
@@ -120,6 +125,7 @@ const CartList = ({
                   navigation={navigation}
                   onChangeSavedItemList={onChangeSavedItemList}
                   onChangeCartItemList={onChangeCartItemList}
+                  changeLoading={changeLoading}
                 />
               );
             }}
@@ -183,7 +189,7 @@ const styles = StyleSheet.create({
     marginLeft: 3,
   },
   button: {
-    backgroundColor: '#FF6B3C',
+    backgroundColor: "#FF6B3C",
     borderRadius: 5,
     justifyContent: "center",
     alignItems: "center",

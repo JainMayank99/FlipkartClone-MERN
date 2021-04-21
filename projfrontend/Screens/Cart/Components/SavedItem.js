@@ -21,6 +21,7 @@ const SavedItem = ({
   navigation,
   onChangeSavedItemList,
   onChangeCartItemList,
+  changeLoading,
 }) => {
   const image = {
     uri: require("../../../assets/catIcons/like.png"),
@@ -48,6 +49,7 @@ const SavedItem = ({
   }, []);
 
   const removeItemFromCart = () => {
+    changeLoading(true);
     removeProductFromCart(user, item.product._id, token)
       .then((res) => {
         getAllCartItemsByUserId(user, token)
@@ -55,7 +57,7 @@ const SavedItem = ({
             onChangeSavedItemList(
               res.data.filter((item) => item.isSavedForLater == true)
             );
-            console.log(res.data);
+            changeLoading(false);
           })
           .catch((err) => {
             console.log("cart list fetching error: " + err);
@@ -67,6 +69,7 @@ const SavedItem = ({
   };
 
   const savedForLater = () => {
+    changeLoading(true);
     toggleIsSavedForLater(user, item.product._id, token)
       .then((res) => {
         getAllCartItemsByUserId(user, token)
@@ -77,6 +80,7 @@ const SavedItem = ({
             onChangeSavedItemList(
               res.data.filter((item) => item.isSavedForLater == true)
             );
+            changeLoading(false);
           })
           .catch((err) => {
             console.log("cart list fetching error: " + err);
@@ -222,7 +226,7 @@ const styles = StyleSheet.create({
     bottom: -10,
     left: 12.5,
     alignItems: "center",
-    backgroundColor: '#FF6B3C',
+    backgroundColor: "#FF6B3C",
     width: 80,
     borderRadius: 5,
     padding: 2,

@@ -77,22 +77,6 @@ const WishListItemDetails = ({ item, navigation, onChangeWishlist }) => {
         borderRadius: 2,
       }}
     >
-      {/* <TouchableOpacity
-        style={styles.trash}
-        onPress={() => {
-          removeItemFromWishlist();
-          // console.log("removeItemFromWishlist");
-        }}
-      >
-        <Image
-          source={image.uri}
-          style={{
-            width: 22.5,
-            marginRight: 8,
-            height: 22.5,
-          }}
-        />
-      </TouchableOpacity> */}
       <TouchableWithoutFeedback>
         <View style={{ flex: 1, flexDirection: "row" }}>
           <View

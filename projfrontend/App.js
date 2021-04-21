@@ -69,7 +69,7 @@ export default function App() {
 						  }}
 					>
 						<AuthStack.Screen name="MainDrawer" component={TabContent} />
-						<AuthStack.Screen name="Cart" component={SellerScreen} />
+						<AuthStack.Screen name="Cart" component={Cart} />
 						<AuthStack.Screen name="AddAddress" component={AddAddress} />
 						<AuthStack.Screen name="ProductDescription" component={ProductDescScreen} />
 						<AuthStack.Screen name="Login" component={LoginScreen} />

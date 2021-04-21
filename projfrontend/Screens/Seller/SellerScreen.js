@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, } from "react";
 import {
-  Button,
-  Image,
   View,
-  Platform,
   Text,
   TextInput,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
-import * as ImagePicker from "expo-image-picker";
-import { useFormikContext, Formik } from "formik";
-import DocumentPicker from "react-native-document-picker";
+import { Formik } from "formik";
+import { Feather } from "@expo/vector-icons";
+import LottieView from "lottie-react-native";
 import * as yup from "yup";
 
 const validationSchema = yup.object().shape({
   productName: yup.string().required("Please enter Product Name"),
   amount: yup.string().required("Please enter Product Amount"),
   quantity: yup.string().required("Please enter No. of stocks"),
+  discount: yup.string().required("Please enter the Discount"),
+  tribe: yup.string().required("Please enter the Tribe Name"),
   description: yup.string().required("Please enter Product Description"),
 });
 
@@ -27,11 +27,46 @@ import { StyleSheet } from "react-native";
 import BackButtonHeader from "./../../components/BackButtonHeader";
 import { isAuthenticated } from "../Auth/AuthAPICalls/authCalls";
 import { uploadProduct } from "./SellerAPI/sellerAPI";
+import CategoryPickerItem from './CategoryPickerItem';
+
+
 
 const categories = [
-  { label: "Furniture", value: "6056e7146e98663c74f5b84a" },
-  { label: "Clothing", value: 2 },
-  { label: "Cameras", value: 3 },
+  {
+    name:"dress",
+    label:"Clothing",
+    value:"1"
+  },
+  {
+    name:"book",
+    label:"Stationery",
+    value:"1"
+  },
+  {
+    name:"jewellery",
+    label:"Jewellery",
+    value:"1"
+  },
+  {
+    name:"bag",
+    label:"Bags",
+    value:"1"
+  },
+  {
+    name:"home",
+    label:"Home",
+    value:"1"
+  },
+  {
+    name:"doctor",
+    label:"Covid",
+    value:"1"
+  },
+  {
+    name:"food",
+    label:"Essentials",
+    value:"1"
+  },
 ];
 
 export default function SellerScreen({ navigation }) {
@@ -41,13 +76,16 @@ export default function SellerScreen({ navigation }) {
   const [focusAmount, setFocusAmount] = useState(false);
   const [focusQuantity, setFocusQuantity] = useState(false);
   const [focusDescription, setFocusDescription] = useState(false);
+  const [focusDiscount, setFocusDiscount] = useState(false);
+  const [focusTribe, setFocusTribe] = useState(false);
   const [user, setUser] = useState("");
   const [token, setToken] = useState("");
-  const [file,setFile] = useState([])
+  const [file, setFile] = useState([]);
+  const [loading, setLoading]=useState(0)
 
   React.useEffect(() => {
     navigation.addListener("focus", () => {
-    
+      setLoading(0)
       isAuthenticated()
         .then((res) => {
           if (res.user) {
@@ -63,22 +101,50 @@ export default function SellerScreen({ navigation }) {
 
   const onSub = (values) => {
     var data = new FormData();
-    for(let i=0;i<file.length;i++){
+    for (let i = 0; i < file.length; i++) {
       data.append(`Img${i}`, file[`${i}`]);
     }
+    console.log(category)
+    if(file.length===0){
+      alert('Upload atleast 1 image to proceed!');
+    }
+    
+    else if(category===null){
+      alert('Select Category of Product to proceed!');
+    }
+    else{
     data.append("name", values.productName);
     data.append("stock", values.quantity);
     data.append("description", values.description);
     data.append("price", values.amount);
-    data.append("discount", 0);
-   
+    data.append("discount", values.discount);
+    data.append("tribe", values.tribe);
+    data.append("category", values.category);
+
+    setLoading(1)
     uploadProduct(user, token, "6056e7146e98663c74f5b84a", data)
       .then((res) => {
-        // console.log(res.data)
+        setLoading(2);
+        values.productName= "",
+        values.amount= "",
+        values.quantity= "",
+        values.description= "",
+        values.discount= "",
+        values.tribe= "",
+        setImageUris([])
+        setCategory(null)
+        setTimeout(() => {
+          navigation.goBack();
+        }, 3000);
       })
       .catch((err) => {
         console.log(" Add Product screen error", err);
+        setLoading(3)
+        setTimeout(() => {
+          setLoading(0)
+        }, 3000);
       });
+    }
   };
 
   const handleAdd = (uri) => {
@@ -116,8 +182,42 @@ export default function SellerScreen({ navigation }) {
     setFocusDescription(false);
   };
 
+  const onfocusDiscountChange = () => {
+    setFocusDiscount(true);
+  };
+  const onBlurDiscountChange = () => {
+    setFocusDiscount(false);
+  };
+
+  const onfocusTribeChange = () => {
+    setFocusTribe(true);
+  };
+  const onBlurTribeChange = () => {
+    setFocusTribe(false);
+  };
+
   return (
     <>
+     <View
+        style={
+          loading !== 0 ? styles.overlay : { flex: 1,backgroundColor:'white' }
+        }
+      >
+        {loading !== 0 ? (
+          <LottieView
+            style={styles.lottie}
+            autoPlay={loading!==1?false:true}
+            loop={loading!==1?false:true}
+            source={
+              loading === 1
+                ? require("../../assets/animations/loader.json")
+                : loading === 2
+                ? require("../../assets/animations/success.json")
+                :require("../../assets/animations/error.json")
+                
+            }
+          />
+        ) : null}
       <BackButtonHeader />
       <Screen style={styles.screen}>
         <ImageInputList
@@ -128,175 +228,246 @@ export default function SellerScreen({ navigation }) {
           setFile={setFile}
         />
         <AppPicker
+          icon="apps"
+          items={categories}
+          name="category"
+          numberOfColumns={3}
+          PickerItemComponent={CategoryPickerItem}
+          placeholder="Category"
           selectedItem={category}
           onSelectItem={(item) => setCategory(item)}
-          items={categories}
-          icon="apps"
-          placeholder="Select Category"
         />
+
         <Formik
           initialValues={{
-            productName: "dfdf",
-            amount: "2323",
-            quantity: "422",
-            description: "dsdgds",
+            productName: "",
+            amount: "",
+            quantity: "",
+            description: "",
+            dicount: "",
+            tribe: "",
           }}
           validationSchema={validationSchema}
           onSubmit={(values, actions) => {
-          
-          
             onSub(values);
           }}
         >
           {(formikProps) => (
             <React.Fragment>
-              <View
-                style={{
-                  marginHorizontal: 8,
-                  marginVertical: 8,
-                }}
-              >
-                <Text style={styles.label}>Product Name</Text>
-                <TextInput
-                  underlineColorAndroid="transparent"
-                  onFocus={onfocusProductNameChange}
-                  placeholder="Enter Product Name"
-                  autoCorrect={false}
-                  style={
-                    focusProductName === false
-                      ? styles.textInput
-                      : styles.textInputName
-                  }
-                  onChangeText={formikProps.handleChange("productName")}
-                  onBlur={onBlurProductNameChange}
-                  value={formikProps.values.productName}
-                />
+              <ScrollView showsVerticalScrollIndicator={false}>
                 <View
-                  style={
-                    formikProps.errors.productName
-                      ? styles.redCircle
-                      : styles.greenCircle
-                  }
-                ></View>
-              </View>
-
-              <View
-                style={{
-                  marginHorizontal: 8,
-                  marginVertical: 8,
-                }}
-              >
-                <Text style={styles.label}>Quantity</Text>
-                <TextInput
-                  underlineColorAndroid="transparent"
-                  onFocus={onfocusQuantityChange}
-                  placeholder="Enter The No. Of Stocks"
-                  autoCorrect={false}
-                  style={
-                    focusQuantity === false
-                      ? styles.textInput
-                      : styles.textInputName
-                  }
-                  onChangeText={formikProps.handleChange("quantity")}
-                  onBlur={onBlurQuantityChange}
-                  value={formikProps.values.quantity}
-                />
-                <View
-                  style={
-                    formikProps.errors.quantity
-                      ? styles.redCircle
-                      : styles.greenCircle
-                  }
-                ></View>
-              </View>
-
-              <View
-                style={{
-                  marginHorizontal: 8,
-                  marginVertical: 8,
-                }}
-              >
-                <Text style={styles.label}>Amount</Text>
-                <TextInput
-                  underlineColorAndroid="transparent"
-                  onFocus={onfocusAmountChange}
-                  placeholder="Enter The Price"
-                  autoCorrect={false}
-                  style={
-                    focusAmount === false
-                      ? styles.textInput
-                      : styles.textInputName
-                  }
-                  onChangeText={formikProps.handleChange("amount")}
-                  onBlur={onBlurAmountChange}
-                  value={formikProps.values.amount}
-                />
-                <View
-                  style={
-                    formikProps.errors.amount
-                      ? styles.redCircle
-                      : styles.greenCircle
-                  }
-                ></View>
-              </View>
-
-              <View
-                style={{
-                  marginHorizontal: 8,
-                  marginVertical: 8,
-                }}
-              >
-                <Text style={styles.label}>Product Description</Text>
-                <TextInput
-                  underlineColorAndroid="transparent"
-                  onFocus={onfocusDescriptionChange}
-                  placeholder="Enter Product Description"
-                  autoCorrect={false}
-                  style={
-                    focusDescription === false
-                      ? styles.textInput
-                      : styles.textInputName
-                  }
-                  onChangeText={formikProps.handleChange("description")}
-                  onBlur={onBlurDescriptionChange}
-                  value={formikProps.values.description}
-                />
-                <View
-                  style={
-                    formikProps.errors.description
-                      ? styles.redCircle
-                      : styles.greenCircle
-                  }
-                ></View>
-              </View>
-
-              <TouchableOpacity
-                style={{
-                  position: "absolute",
-                  bottom: 10,
-                  right: 8,
-                  left: 16,
-                }}
-                onPress={formikProps.handleSubmit}
-              >
-                <View
-                  style={
-                    formikProps.errors.house
-                      ? styles.buttonlight
-                      : styles.button
-                  }
+                  style={{
+                    marginHorizontal: 8,
+                    marginVertical: 8,
+                  }}
                 >
-                  <Text style={styles.submit}>Add Product</Text>
+                  <Text style={styles.label}>Product Name</Text>
+                  <TextInput
+                    underlineColorAndroid="transparent"
+                    onFocus={onfocusProductNameChange}
+                    placeholder="Enter Product Name"
+                    autoCorrect={false}
+                    style={
+                      focusProductName === false
+                        ? styles.textInput
+                        : styles.textInputName
+                    }
+                    onChangeText={formikProps.handleChange("productName")}
+                    onBlur={onBlurProductNameChange}
+                    value={formikProps.values.productName}
+                  />
+                  <View
+                    style={
+                      formikProps.errors.productName
+                        ? styles.redCircle
+                        : styles.greenCircle
+                    }
+                  ></View>
                 </View>
-              </TouchableOpacity>
+
+                <View
+                  style={{
+                    marginHorizontal: 8,
+                    marginVertical: 8,
+                  }}
+                >
+                  <Text style={styles.label}>Quantity</Text>
+                  <TextInput
+                    underlineColorAndroid="transparent"
+                    onFocus={onfocusQuantityChange}
+                    placeholder="Enter The No. Of Stocks"
+                    autoCorrect={false}
+                    style={
+                      focusQuantity === false
+                        ? styles.textInput
+                        : styles.textInputName
+                    }
+                    onChangeText={formikProps.handleChange("quantity")}
+                    onBlur={onBlurQuantityChange}
+                    value={formikProps.values.quantity}
+                  />
+                  <View
+                    style={
+                      formikProps.errors.quantity
+                        ? styles.redCircle
+                        : styles.greenCircle
+                    }
+                  ></View>
+                </View>
+
+                <View
+                  style={{
+                    marginHorizontal: 8,
+                    marginVertical: 8,
+                  }}
+                >
+                  <Text style={styles.label}>Amount</Text>
+                  <TextInput
+                    underlineColorAndroid="transparent"
+                    onFocus={onfocusAmountChange}
+                    placeholder="Enter The Price"
+                    autoCorrect={false}
+                    style={
+                      focusAmount === false
+                        ? styles.textInput
+                        : styles.textInputName
+                    }
+                    onChangeText={formikProps.handleChange("amount")}
+                    onBlur={onBlurAmountChange}
+                    value={formikProps.values.amount}
+                  />
+                  <View
+                    style={
+                      formikProps.errors.amount
+                        ? styles.redCircle
+                        : styles.greenCircle
+                    }
+                  ></View>
+                </View>
+
+                <View
+                  style={{
+                    marginHorizontal: 8,
+                    marginVertical: 8,
+                  }}
+                >
+                  <Text style={styles.label}>Discount</Text>
+                  <TextInput
+                    underlineColorAndroid="transparent"
+                    onFocus={onfocusDiscountChange}
+                    placeholder="Enter Discount (in percentage)"
+                    autoCorrect={false}
+                    style={
+                      focusDiscount === false
+                        ? styles.textInput
+                        : styles.textInputName
+                    }
+                    onChangeText={formikProps.handleChange("discount")}
+                    onBlur={onBlurDiscountChange}
+                    value={formikProps.values.discount}
+                  />
+                  <View
+                    style={
+                      formikProps.errors.discount
+                        ? styles.redCircle
+                        : styles.greenCircle
+                    }
+                  ></View>
+                </View>
+
+                <View
+                  style={{
+                    marginHorizontal: 8,
+                    marginVertical: 8,
+                  }}
+                >
+                  <Text style={styles.label}>Tribe</Text>
+                  <TextInput
+                    underlineColorAndroid="transparent"
+                    onFocus={onfocusTribeChange}
+                    placeholder="Enter Name Of Tribe"
+                    autoCorrect={false}
+                    style={
+                      focusTribe === false
+                        ? styles.textInput
+                        : styles.textInputName
+                    }
+                    onChangeText={formikProps.handleChange("tribe")}
+                    onBlur={onBlurTribeChange}
+                    value={formikProps.values.tribe}
+                  />
+                  <View
+                    style={
+                      formikProps.errors.tribe
+                        ? styles.redCircle
+                        : styles.greenCircle
+                    }
+                  ></View>
+                </View>
+
+                <View
+                  style={{
+                    marginHorizontal: 8,
+                    marginVertical: 8,
+                  }}
+                >
+                  <Text style={styles.label}>Product Description</Text>
+                  <TextInput
+                    underlineColorAndroid="transparent"
+                    onFocus={onfocusDescriptionChange}
+                    placeholder="Enter Product Description"
+                    autoCorrect={false}
+                    style={
+                      focusDescription === false
+                        ? styles.textInput
+                        : styles.textInputName
+                    }
+                    onChangeText={formikProps.handleChange("description")}
+                    onBlur={onBlurDescriptionChange}
+                    value={formikProps.values.description}
+                  />
+                  <View
+                    style={
+                      formikProps.errors.description
+                        ? styles.redCircle
+                        : styles.greenCircle
+                    }
+                  ></View>
+                </View>
+
+                <TouchableOpacity
+                  style={styles.view}
+                  onPress={formikProps.handleSubmit}
+                >
+                  <View style={{ height: 30, paddingRight: 8 }}>
+                    <Feather name="plus" size={24} color="#ff5d42" />
+                  </View>
+
+                  <Text style={styles.add}>Add Product</Text>
+                </TouchableOpacity>
+              </ScrollView>
             </React.Fragment>
           )}
         </Formik>
       </Screen>
+      </View>
     </>
   );
 }
 const styles = StyleSheet.create({
+  overlay: {
+    position: "relative",
+    height: "100%",
+    width: "100%",
+    zIndex: 10,
+  },
+  lottie: {
+    position: "absolute",
+    backgroundColor: "rgba(255,255,255,0.5)",
+    height: "100%",
+    width: "100%",
+    zIndex: 10,
+  },
   screen: {
     paddingHorizontal: 8,
     backgroundColor: "white",
@@ -329,20 +500,6 @@ const styles = StyleSheet.create({
     borderBottomColor: "#ff5d42",
     borderRadius: 2.5,
   },
-  button: {
-    backgroundColor: "#ff5d42",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 14,
-    borderRadius: 10,
-  },
-  buttonlight: {
-    backgroundColor: "#f4c2c2",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 14,
-    borderRadius: 10,
-  },
   errMsg: {
     fontFamily: "zilla-reg",
     fontSize: 16,
@@ -368,9 +525,17 @@ const styles = StyleSheet.create({
     right: "0%",
     top: "12.5%",
   },
-  submit: {
-    fontFamily: "zilla-med",
+ 
+  view: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent:"flex-end",
+    padding: 8,
+    
+  },
+  add: {
+    fontFamily: "zilla-reg",
     fontSize: 22,
-    color: "white",
+    color: "#ff5d42",
   },
 });
