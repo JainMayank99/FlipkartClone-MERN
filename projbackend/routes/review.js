@@ -19,6 +19,7 @@ const {
 	removeReview,
 	getReviewByUserId,
 	getReviewByProductId,
+	getUserReviewByProductId,
 } = require("../controllers/review");
 
 //parameter extractor
@@ -29,6 +30,13 @@ router.param("productId", getProductById);
 
 //parameter extractor
 router.param("reviewId", getReviewById);
+
+router.get(
+	"/getUserReviewByProductId/:userId/:productId",
+	isSignedIn,
+	isAuthenticated,
+	getUserReviewByProductId
+);
 
 //TODO: add middleware to only allow those to add review if order schema contain that user ID and product ID
 // //to add product
