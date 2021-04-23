@@ -13,6 +13,27 @@ exports.getReviewById = (req, res, next, id) => {
 	});
 };
 
+exports.getUserReviewByProductId = async (req, res) => {
+	await ReviewSchema.find({
+		user: req.profile._id,
+		product: req.product._id,
+	}).exec(async (err, review) => {
+		if (err) {
+			return res.status(500).json({
+				err: "DB error",
+			});
+		}
+		if (review.length == 0) {
+			return res.status(200).json({
+				starCount: 0,
+				reviewText: "",
+			});
+		} else {
+			return res.status().json(review);
+		}
+	});
+};
+
 //TODO: dont allow if order not placed can't add review
 exports.addReview = async (req, res) => {
 	console.log(req.body)
