@@ -8,24 +8,24 @@ import {
   View,
   TouchableOpacity,
 } from "react-native";
-import { addReview } from "../APICall/OrderAPI";
+import { addReviewAndRating } from "../APICall/OrderAPI";
 
-function StartRatingComponent({route}) {
-  const {itemId,user,token}=route.params;
-  console.log(user, itemId)
+function StartRatingComponent({ route }) {
+  const { itemId, user, token } = route.params;
   const [rating, setRating] = useState(2);
   const [text, setText] = useState("");
   const onRatingChange = (rating) => {
     setRating(rating);
   };
   const onSubmit = () => {
-    addReview(user,token,itemId,text,rating)
-    .then((res) =>{
-        console.log("Successfully Added")
-    })
-    .catch((err) =>{
-        console.log("Add review Error",err)
-    })
+    console.log("On submit", user, token, itemId, text, rating);
+    addReviewAndRating(user, token, itemId, text, rating)
+      .then((res) => {
+        console.log("Successfully Added");
+      })
+      .catch((err) => {
+        console.log("Add review Error", err);
+      });
     console.log(text, rating);
   };
   return (

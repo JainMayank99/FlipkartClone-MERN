@@ -13,10 +13,12 @@ const reviewSchema = new mongoose.Schema({
     starCount: {
         type: Number,
         default: 0,
+        required: true,
     },
     reviewText: {
         type: String,
-        maxlength: 100
+        maxlength: 100,
+        default:""
     }
 }, { timestamps: true })
 

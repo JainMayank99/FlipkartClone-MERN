@@ -15,11 +15,10 @@ export const getOrdersByUser = (userId, token ) => {
     });
 };
 
-export const addReview = (userId, token,productId,reviewText,startCount ) => {
+export const addReviewAndRating = (userId, token,productId,reviewText,starCount ) => {
     return axios({
         method: 'post',
         url: `${BACKEND_URL}/addReview/${userId}/${productId}`,
-        
         headers: {
 			Accept: "application/json",
 			"Content-Type": "application/json",
@@ -27,7 +26,7 @@ export const addReview = (userId, token,productId,reviewText,startCount ) => {
 		},
         data: {
             reviewText: reviewText,
-            startCount: startCount
+            starCount: starCount
         }
     });
 };

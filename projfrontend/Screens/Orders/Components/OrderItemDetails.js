@@ -70,7 +70,7 @@ const OrderItemDetails = ({ item, navigation, user, token }) => {
               <TouchableOpacity
                 onPress={() => {
                   navigation.navigate("Rate", {
-                    itemId: item._id,
+                    itemId: item.product._id,
                     user: user,
                     token: token,
                   });

@@ -15,6 +15,7 @@ exports.getReviewById = (req, res, next, id) => {
 
 //TODO: dont allow if order not placed can't add review
 exports.addReview = async (req, res) => {
+	console.log(req.body)
 	// await ReviewSchema.find({
 	// 	user: req.profile._id,
 	// 	product: req.product._id,
