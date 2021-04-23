@@ -15,23 +15,23 @@ exports.getReviewById = (req, res, next, id) => {
 
 //TODO: dont allow if order not placed can't add review
 exports.addReview = async (req, res) => {
-	await ReviewSchema.find({
-		user: req.profile._id,
-		product: req.product._id,
-	}).exec(async (err, review) => {
-		if (err) {
-			return res.status(500).json({
-				err: "DB error",
-			});
-		}
-		if (review.length != 0) {
-			return res.status(400).json({
-				err: "review already exists",
-			});
-		}
-	});
+	// await ReviewSchema.find({
+	// 	user: req.profile._id,
+	// 	product: req.product._id,
+	// }).exec(async (err, review) => {
+	// 	if (err) {
+	// 		return res.status(500).json({
+	// 			err: "DB error",
+	// 		});
+	// 	}
+	// 	if (review.length != 0) {
+	// 		return res.status(400).json({
+	// 			err: "review already exists",
+	// 		});
+	// 	}
+	// });
 
-	const review = new ReviewSchema(req.body);
+	let review = new ReviewSchema(req.body);
 	review.user = req.profile._id;
 	review.product = req.product._id;
 

@@ -34,6 +34,7 @@ const CartList = ({
     <ScrollView
       style={{
         paddingBottom: 150,
+        backgroundColor:'white'
       }}
     >
       {cartItemList.length > 0 ? (
@@ -101,7 +102,7 @@ const CartList = ({
         </>
       ) : null}
       {savedForLaterList.length > 0 ? (
-        <React.Fragment>
+        <React.Fragment >
           <View style={styles.saved}>
             <Image
               source={image1.uri}
@@ -114,6 +115,7 @@ const CartList = ({
             <Text style={styles.savedText}>Saved For Later</Text>
           </View>
           <FlatList
+         
             data={savedForLaterList}
             extraData={savedForLaterList}
             showsHorizontalScrollIndicator={false}
@@ -132,7 +134,7 @@ const CartList = ({
           />
         </React.Fragment>
       ) : null}
-      <View style={{ padding: 72 }}></View>
+      <View style={{ padding: 88,backgroundColor:'white' }}></View>
     </ScrollView>
   );
 };
@@ -181,6 +183,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     flex: 1,
     flexDirection: "row",
+    backgroundColor:'white'
   },
   savedText: {
     fontFamily: "popins-bold",

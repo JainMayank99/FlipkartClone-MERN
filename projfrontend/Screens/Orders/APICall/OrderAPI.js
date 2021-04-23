@@ -3,8 +3,6 @@ import {BACKEND_URL} from '@env';
 
 
 export const getOrdersByUser = (userId, token ) => {
-    // console.log("Random Product call count: " + count);
-    // console.log(BACKEND_URL,"Home1")
     return axios({
         method: 'get',
         url: `${BACKEND_URL}/getOrdersByUserId/${userId}`,
@@ -14,5 +12,22 @@ export const getOrdersByUser = (userId, token ) => {
 			"Content-Type": "application/json",
 			Authorization: "Bearer " + token,
 		},
+    });
+};
+
+export const addReview = (userId, token,productId,reviewText,startCount ) => {
+    return axios({
+        method: 'post',
+        url: `${BACKEND_URL}/addReview/${userId}/${productId}`,
+        
+        headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+			Authorization: "Bearer " + token,
+		},
+        data: {
+            reviewText: reviewText,
+            startCount: startCount
+        }
     });
 };

@@ -30,6 +30,8 @@ import AddressBook from './Screens/Profile/AddressBook';
 import AddAddress from "./Screens/Profile/AddAddress";
 import ProductDescScreen from "./Screens/ProductDescription/ProductDescription";
 import SellerScreen from './Screens/Seller/SellerScreen';
+import ProductRating from './Screens/Orders/Components/ProductRating';
+import StartRatingComponent from './Screens/Orders/Components/StartRatingComponent';
 
 
 
@@ -73,7 +75,8 @@ export default function App() {
 						<AuthStack.Screen name="AddAddress" component={AddAddress} />
 						<AuthStack.Screen name="ProductDescription" component={ProductDescScreen} />
 						<AuthStack.Screen name="Login" component={LoginScreen} />
-						
+						<AuthStack.Screen name="Rate" component={StartRatingComponent} />
+						<AuthStack.Screen name="PaymentSelection" component={PaymentSelection} />
 
 						
 					</AuthStack.Navigator>
@@ -93,7 +96,6 @@ export default function App() {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: "#fff",
 		alignItems: "center",
 		justifyContent: "center",
 	},

@@ -12,6 +12,8 @@ const Orders = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [showOrders, setShowOrders] = useState(false);
   const [itemList, setItemList] = useState([]);
+  const [user, setUser] = useState("");
+  const [token, setToken] = useState("");
 
   const mainWork = (lang) => {
     setLanguage(lang);
@@ -27,10 +29,12 @@ const Orders = ({ navigation }) => {
   React.useEffect(() => {
     setLoading(true);
     navigation.addListener("focus", () => {
-      console.log("I am Order Screen");
+      // console.log("I am Order Screen");
       isAuthenticated()
         .then((res) => {
           if (res.user) {
+            setUser(res.user._id);
+            setToken(res.token);
             getOrdersByUser(res.user._id, res.token)
               .then((res) => {
                 setItemList(res.data);
@@ -47,7 +51,6 @@ const Orders = ({ navigation }) => {
         });
     });
   }, [navigation]);
-
 
   return (
     <View style={loading === true ? styles.overlay : null}>
@@ -71,7 +74,7 @@ const Orders = ({ navigation }) => {
             marginTop: 105,
           }}
         >
-          <OrderList itemList={itemList} />
+          <OrderList itemList={itemList} navigation={navigation} user={user} token={token} />
         </View>
       </View>
     </View>

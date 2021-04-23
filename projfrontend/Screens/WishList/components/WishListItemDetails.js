@@ -18,7 +18,12 @@ import {
 } from "../APICall/WishlistAPI";
 import { addProductToCart } from "../../Cart/APICall/cartAPI";
 
-const WishListItemDetails = ({ item, navigation, onChangeWishlist }) => {
+const WishListItemDetails = ({
+  item,
+  navigation,
+  onChangeWishlist,
+  changeLoading,
+}) => {
   const [user, setUser] = useState();
   const [token, setToken] = useState();
   const [product, setProduct] = useState(item.product);
@@ -35,7 +40,8 @@ const WishListItemDetails = ({ item, navigation, onChangeWishlist }) => {
   }, []);
 
   const removeItemFromWishlist = () => {
-    console.log("removeItemFromWishlist");
+    // console.log("removeItemFromWishlist");
+    changeLoading(true);
     removeProductFromWishList(user, item.product._id, token)
       .then((res) => {
         getAllWishListItemsByUserId(user, token)
@@ -45,6 +51,7 @@ const WishListItemDetails = ({ item, navigation, onChangeWishlist }) => {
           .catch((err) => {
             console.log("wishlist fetching error: " + err);
           });
+        changeLoading(false);
       })
       .catch((err) => {
         console.log("updateQuantityInCart error", err);
@@ -52,9 +59,26 @@ const WishListItemDetails = ({ item, navigation, onChangeWishlist }) => {
   };
 
   const addToCart = () => {
+    changeLoading(true);
     isAuthenticated().then((res) => {
       addProductToCart(user, item.product._id, token)
-        .then((res) => {})
+        .then((res) => {
+          removeProductFromWishList(user, item.product._id, token)
+            .then((res) => {
+              getAllWishListItemsByUserId(user, token)
+                .then((res) => {
+                  onChangeWishlist(res.data);
+                  changeLoading(false);
+                })
+                .catch((err) => {
+                  console.log("wishlist fetching error: " + err);
+                });
+              
+            })
+            .catch((err) => {
+              console.log("updateQuantityInCart error", err);
+            });
+        })
         .catch((err) => {
           console.log("Error in addProductToCart", err);
         });
@@ -152,7 +176,7 @@ const WishListItemDetails = ({ item, navigation, onChangeWishlist }) => {
               height: 22.5,
             }}
           />
-          <Text style={styles.buttonText}>Add To Cart</Text>
+          <Text style={styles.buttonText}>Move To Cart</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}

@@ -105,15 +105,6 @@ const CartItem = ({
       });
   };
 
-  const addToWishlist = () => {
-    addProductToWishList(user, item.product._id, token)
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log("updateQuantityInCart error", err);
-      });
-  };
 
   const image = {
     uri: require("../../../assets/catIcons/like.png"),
@@ -139,16 +130,6 @@ const CartItem = ({
         paddingHorizontal: Dimensions.get("screen").width * 0.02041,
       }}
     >
-      <TouchableOpacity onPress={() => addToWishlist()} style={styles.like}>
-        <Image
-          source={image.uri}
-          style={{
-            width: 22.5,
-            marginRight: 8,
-            height: 22.5,
-          }}
-        />
-      </TouchableOpacity>
       <TouchableWithoutFeedback>
         <View style={{ flex: 1, flexDirection: "row" }}>
           <View

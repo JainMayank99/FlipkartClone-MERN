@@ -95,8 +95,8 @@ const SavedItem = ({
     <View
       style={{
         paddingVertical: 16,
-        // paddingBottom: 64,
         paddingHorizontal: Dimensions.get("screen").width * 0.02041,
+        backgroundColor:'white'
       }}
     >
       <View style={styles.like}>

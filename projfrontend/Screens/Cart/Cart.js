@@ -122,7 +122,7 @@ const Cart = ({ navigation, from }) => {
             }}
           >
             
-            {cartItemList.length > 0 || savedForLaterList>0 ? (
+            {cartItemList.length > 0 || savedForLaterList.length >0 ? (
               <CartList
                 itemList={itemList}
                 navigation={navigation}
@@ -136,7 +136,6 @@ const Cart = ({ navigation, from }) => {
               />
             ) : (
               <View style={styles.emptyCartAnimationHolder}>
-                {console.log("Empty")}
                 <LottieView
                   style={styles.lottie1}
                   autoPlay

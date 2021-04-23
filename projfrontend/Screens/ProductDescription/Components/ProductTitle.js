@@ -13,9 +13,9 @@ const ProductTitle = ({ name, price, discount }) => {
 		>
 			<Text style={styles.title}>{name}</Text>
 			<View style={styles.body}>
-				<Text style={styles.cost}>₹{price}</Text>
+				<Text style={styles.cost}>₹{price- (price * discount) / 100}</Text>
 				<Text style={styles.initialCost}>
-					₹{price + (price * discount) / 100}
+					₹{price}
 				</Text>
 				<Text style={styles.discount}>( {discount}% discount )</Text>
 			</View>

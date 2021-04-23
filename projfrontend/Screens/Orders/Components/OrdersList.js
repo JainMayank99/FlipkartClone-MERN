@@ -11,7 +11,7 @@ import { Feather } from '@expo/vector-icons';
 
 import OrderItemDetails from './OrderItemDetails';
 
-const OrderList = ({itemList}) => {
+const OrderList = ({itemList,navigation,user,token}) => {
     const refRBSheet = useRef();
     
     return (
@@ -31,7 +31,7 @@ const OrderList = ({itemList}) => {
                 showsHorizontalScrollIndicator={false}
                 keyExtractor={(item) => item._id}
                 renderItem={({ item }) => {
-                    return <OrderItemDetails item={item} />;
+                    return <OrderItemDetails item={item} navigation={navigation} user={user} token={token}/>;
                 }}
             />
         </View>

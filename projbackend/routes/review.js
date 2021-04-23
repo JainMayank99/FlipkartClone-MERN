@@ -32,6 +32,7 @@ router.param("reviewId", getReviewById);
 
 //TODO: add middleware to only allow those to add review if order schema contain that user ID and product ID
 // //to add product
+//req.body to contain startCount and reviewText
 router.post(
 	"/addReview/:userId/:productId",
 	isSignedIn,
