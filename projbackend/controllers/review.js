@@ -29,7 +29,7 @@ exports.getUserReviewByProductId = async (req, res) => {
 				reviewText: "",
 			});
 		} else {
-			return res.status().json(review);
+			return res.status(200).json(review[0]);
 		}
 	});
 };

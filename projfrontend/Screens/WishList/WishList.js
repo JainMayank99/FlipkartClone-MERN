@@ -95,7 +95,7 @@ const WishList = ({ navigation, route }) => {
                 itemList={itemList}
                 navigation={navigation}
                 onChangeWishlist={onChangeWishlist}
-				changeLoading={changeLoading}
+				        changeLoading={changeLoading}
               />
             ) : showWishlist && itemList.length === 0 ? (
               <View style={styles.emptyCartAnimationHolder}>

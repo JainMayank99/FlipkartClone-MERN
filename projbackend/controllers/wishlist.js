@@ -58,3 +58,22 @@ exports.removeProductFromWishList = async (req, res) => {
 		return res.status(200).json(wishlist);
 	});
 };
+
+exports.isProductInWishlist=(req,res)=>{
+	WishListSchema.find({
+		user:req.profile._id,
+		product:req.product._id
+	}).exec((err,wishlistItem)=>{
+		if (err) {
+			return res.status(400).json({
+				err: "NOT able to get wishlistItem in DB !",
+			});
+		}
+		if (wishlistItem.length == 0) {
+			return res.status(200).json({result:false});
+		}
+		else{
+			return res.status(200).json({result:true});
+		}
+	})
+}

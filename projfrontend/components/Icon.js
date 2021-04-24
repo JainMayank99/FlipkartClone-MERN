@@ -1,6 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Feather } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 
 function Icon({
     name,
@@ -45,7 +46,7 @@ function Icon({
                         alignItems: 'center',
                         backgroundColor,
                     }}>
-                    <Feather name={name} color={iconColor} size={size * 0.5} />
+                    <FontAwesome name={name} color='#ff0800' size={size * 0.5} />
                 </View>
             ) : null}
         </>

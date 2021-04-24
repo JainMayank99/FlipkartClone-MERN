@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, FlatList, Dimensions } from "react-native";
+import { View, Text, StyleSheet, FlatList, Dimensions, ScrollView } from "react-native";
 
 import WishListItemDetails from "./WishListItemDetails";
 
@@ -20,7 +20,7 @@ const WishListItems = ({
       <View style={styles.body}>
         <Text style={styles.text}>My Wishlist</Text>
       </View>
-
+      <ScrollView showsHorizontalScrollIndicator={false}>
       <FlatList
         data={itemList}
         extraData={itemList}
@@ -36,6 +36,8 @@ const WishListItems = ({
           );
         }}
       />
+      <View style={{padding:88}}></View>
+      </ScrollView>
     </View>
   );
 };

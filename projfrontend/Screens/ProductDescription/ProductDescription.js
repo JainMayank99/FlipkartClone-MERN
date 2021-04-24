@@ -7,6 +7,8 @@ import {
   View,
   Dimensions,
 } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
+
 import LottieView from "lottie-react-native";
 import ProductInfo from "./Components/ProductInfo";
 import ProductCarousel from "./Components/ProductCarousel";
@@ -28,6 +30,8 @@ const ProductDescScreen = ({ route, navigation }) => {
   const [count, setCount] = useState(0);
   const [user, setUser] = useState("");
   const [token, setToken] = useState("");
+  const [inCart, setInCart] = useState();
+  const [loggedIn, setLoggedIn] = useState();
 
   const mainWork = (lang) => {
     setLanguage(lang);
@@ -42,58 +46,63 @@ const ProductDescScreen = ({ route, navigation }) => {
 
   const pushToHome = () => {
     navigation.goBack();
-    setLoading(0)
+    setLoading(0);
   };
 
   const pushToCart = () => {
     navigation.navigate("Cart");
-    setLoading(0)
+    setLoading(0);
   };
 
   const onCartButtonPressed = () => {
-    if (user !== "") {
+    if (loggedIn === false) navigation.navigate("Login");
+    else if (inCart === true) navigation.navigate("Cart");
+    else {
       setLoading(1);
-      isProductInCart(user, item._id, token)
+      addProductToCart(user, item._id, token)
         .then((res) => {
-          if (res.data.result == true) {
-            setLoading(4);
-            setTimeout(() => {
-              pushToCart();
-            }, 2000);
-          } else {
-            addProductToCart(user, item._id, token)
-              .then((res) => {
-                setLoading(2);
-                setTimeout(() => {
-                  pushToHome();
-                }, 2000);
-              })
-              .catch((err) => {
-                setLoading(3);
-              });
-          }
+          setLoading(2);
+          setTimeout(() => {
+            pushToHome();
+          }, 2000);
         })
         .catch((err) => {
-          console.log("Error In Validating");
+          setLoading(3);
         });
-    } else navigation.navigate("Login");
+    }
   };
 
-  React.useEffect(() => {
-    navigation.addListener("focus", () => {
-      setLoading(0);
+  useFocusEffect(
+    React.useCallback(() => {
+      setLoading(1);
       isAuthenticated()
         .then((res) => {
           if (res.user) {
             setUser(res.user._id);
             setToken(res.token);
+            setLoggedIn(true);
+            isProductInCart(res.user._id, item._id, res.token)
+              .then((res) => {
+                if (res.data.result === true) setInCart(true);
+                else setInCart(false);
+                setLoading(0);
+              })
+              .catch((err) => {
+                console.log("carted screen error: " + err);
+              });
+          } else {
+            setLoggedIn(false);
+            setInCart(false);
+            setTimeout(() => {
+              setLoading(0);
+            }, 500);
           }
         })
         .catch((err) => {
           console.log("cart screen error: " + err);
         });
-    });
-  }, []);
+    }, [item])
+  );
 
   return (
     <>
@@ -119,7 +128,11 @@ const ProductDescScreen = ({ route, navigation }) => {
           <ProductCarousel
             data={item.image}
             navigation={navigation}
+            item={item}
             itemId={item._id}
+            user={user}
+            token={token}
+            loggedIn={loggedIn}
           />
 
           <ProductTitle
@@ -140,7 +153,9 @@ const ProductDescScreen = ({ route, navigation }) => {
         </ScrollView>
       </View>
       <TouchableOpacity onPress={onCartButtonPressed} style={styles.add}>
-        <Text style={styles.submit}>Add To Cart</Text>
+        <Text style={styles.submit}>
+          {inCart === true ? "Go To Cart" : "Add to Cart"}
+        </Text>
       </TouchableOpacity>
     </>
   );

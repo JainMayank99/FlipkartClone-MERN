@@ -10,6 +10,7 @@ const {
     addProductToWishList,
     getAllWishListItemsByUserId,
     removeProductFromWishList,
+    isProductInWishlist
 } = require("../controllers/wishlist")
 
 //parameter extractor
@@ -17,6 +18,9 @@ router.param("userId", getUserById)
 
 //parameter extractor
 router.param("productId", getProductById)
+
+
+router.get("/isProductInWishlist/:userId/:productId",isSignedIn, isAuthenticated,isProductInWishlist)
 
 //to add product
 router.post("/addProductToWishList/:userId/:productId", isSignedIn, isAuthenticated, addProductToWishList)

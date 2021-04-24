@@ -29,3 +29,16 @@ export const isProductInCart = (userId, productId, token) => {
 		},
 	});
 };
+
+export const isProductInWishlist = (userId, productId, token) => {
+	console.log(BACKEND_URL)
+	return axios({
+		method: "get",
+		url: `${BACKEND_URL}/isProductInWishlist/${userId}/${productId}`,
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+			Authorization: "Bearer " + token,
+		},
+	});
+};

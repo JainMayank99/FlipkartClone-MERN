@@ -76,7 +76,7 @@ const OrderItemDetails = ({ item, navigation, user, token }) => {
                   });
                 }}
               >
-                <Text style={styles.review}>Rate & Review {">"}</Text>
+                <Text style={styles.review}>Review & Rating {">"}</Text>
               </TouchableOpacity>
             </View>
           </View>

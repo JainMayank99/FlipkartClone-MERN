@@ -20,7 +20,6 @@ export function DrawerContent(props) {
   const image1 = {
     uri: require("../assets/main/profile.webp"),
   };
-  // const { signOut, toggleTheme } = React.useContext(AuthContext);
 
   return (
     <View style={styles.body}>

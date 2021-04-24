@@ -82,6 +82,7 @@ const productSchema = new mongoose.Schema(
 			type: ObjectId,
 			ref: "UserSchema",
 		},
+		
 	},
 	{ timestamps: true }
 );
