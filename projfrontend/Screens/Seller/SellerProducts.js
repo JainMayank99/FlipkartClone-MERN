@@ -1,23 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
-
 import LottieView from "lottie-react-native";
-import Header from "../../components/Header";
 
-import WishListItems from "./components/WishListItems";
-import { isAuthenticated } from "../Auth/AuthAPICalls/authCalls";
-import { getAllWishListItemsByUserId } from "./APICall/WishlistAPI";
+import Header from "../../components/Header";
 import SellerItems from './SellerItems';
+import { getSellerProducts } from "./SellerAPI/sellerAPI";
+import { isAuthenticated } from "../Auth/AuthAPICalls/authCalls";
 
 const SellerProducts = ({ navigation,route }) => {
 
-	
 	const [language, setLanguage] = useState("en");
 	const [loading, setLoading] = useState(false);
 	const [itemList, setItemList] = useState([]);
-	const [showWishlist, setShowWishlist] = useState(false);
+	const [showSellerList, setShowSellerList] = useState(false);
 
-	const onChangeWishlist =(newData) =>{
+
+	const onChangeSellerList =(newData) =>{
 		if (newData != itemList){
 			setItemList(newData);
 		  } 
@@ -27,22 +25,24 @@ const SellerProducts = ({ navigation,route }) => {
 		isAuthenticated()
 			.then((res) => {
 				if (res.user) {
-					getAllWishListItemsByUserId(res.user._id, res.token)
+				getSellerProducts(res.user._id, res.token)
 						.then((res) => {
-							onChangeWishlist(res.data)
-							setShowWishlist(true);
+							console.log(res.data)
+							onChangeSellerList(res.data)
+							setShowSellerList(true);
 						})
 						.catch((err) => {
-							console.log("wishlist fetching error: " + err);
+							console.log("SellerList fetching error: " + err);
 						});
 				} else {
-					setShowWishlist(false);
+					setShowSellerList(false);
 				}
 			})
 			.catch((err) => {
-				console.log("wishlist screen error: " + err);
+				console.log("SellerList screen error: " + err);
 			});
 	}, []);
+
 
 	const mainWork = (lang) => {
 		setLanguage(lang);
@@ -57,8 +57,7 @@ const SellerProducts = ({ navigation,route }) => {
 
 	return (
 		<View>
-			{/* {console.log("rerender")} */}
-			
+
 			<View style={loading === true ? styles.overlay : null}>
 				{loading === true ? (
 					<LottieView
@@ -79,8 +78,8 @@ const SellerProducts = ({ navigation,route }) => {
 						marginTop: 105,
 					}}
 				>
-					{showWishlist ? (
-						<SellerItems itemList={itemList} navigation={navigation} onChangeWishlist={onChangeWishlist}/>
+					{showSellerList ? (
+						<SellerItems itemList={itemList} navigation={navigation} onChangeSellerList={onChangeSellerList}/>
 					) : (
 						<View style={styles.login}>
 							<TouchableOpacity onPress={() => navigation.navigate("Login")}>

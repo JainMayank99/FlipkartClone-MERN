@@ -119,8 +119,14 @@ const ProductDescScreen = ({ route, navigation }) => {
                 ? require("../../assets/animations/success.json")
                 : loading === 3
                 ? require("../../assets/animations/error.json")
+                : loading === 4
+                ? require("../../assets/animations/like.json")
+                : loading === 5
+                ? require("../../assets/animations/like.json")
                 : require("../../assets/animations/warn.json")
             }
+            speed={loading===5?-1:1}
+            // onAnimationFinish={setLoading(0)}
           />
         ) : null}
 
@@ -133,6 +139,7 @@ const ProductDescScreen = ({ route, navigation }) => {
             user={user}
             token={token}
             loggedIn={loggedIn}
+            setLoading={setLoading}
           />
 
           <ProductTitle

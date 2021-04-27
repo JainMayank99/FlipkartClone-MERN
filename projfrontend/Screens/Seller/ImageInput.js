@@ -56,6 +56,7 @@ function ImageInput({ imageUri, onChangeImage,file,setFile }) {
   return (
     <TouchableWithoutFeedback onPress={handlePress}>
       <View style={styles.container}>
+        {/* {console.log("URI",imageUri)} */}
         {!imageUri && (
           <MaterialCommunityIcons
             color="white"
@@ -63,7 +64,7 @@ function ImageInput({ imageUri, onChangeImage,file,setFile }) {
             size={40}
           />
         )}
-        {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
+        {imageUri && <Image source={{ uri:imageUri }} style={styles.image} />}
       </View>
     </TouchableWithoutFeedback>
   );

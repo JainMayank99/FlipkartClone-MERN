@@ -29,6 +29,7 @@ const ProductCarousel = ({
   user,
   token,
   loggedIn,
+  setLoading
 }) => {
   const [dataList, setDataList] = useState(data);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -66,9 +67,13 @@ const ProductCarousel = ({
 
   const addItemToWishList = () => {
     if (user.length !== 0) {
+     setLoading(4)
       addProductToWishList(user, itemId, token)
         .then((res) => {
           setInWishlist(true);
+          setTimeout(() => {
+            setLoading(0)
+          }, 1000);
         })
         .catch((err) => {
           console.log(
@@ -82,9 +87,13 @@ const ProductCarousel = ({
   };
 
   const removeItemFromWishlist = () => {
+    setLoading(5)
     removeProductFromWishList(user, itemId, token)
       .then((res) => {
         setInWishlist(false);
+        setTimeout(() => {
+          setLoading(0)
+        }, 1000);
       })
       .catch((err) => {
         console.log("Wishlist error", err);

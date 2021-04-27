@@ -16,3 +16,45 @@ export const uploadProduct = (userId,token,categoryId,formData) => {
         
 	});
 };
+
+export const getSellerProducts = (userId,token) => {
+	// console.log("Random Product call count: " + count);
+	return axios({
+		method: "get",
+		url: `${BACKEND_URL}/getProductsByUserId/${userId}`,
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+			Authorization: "Bearer " + token,
+		},
+        
+	});
+};
+
+export const removeSellerProduct = (userId,token,productId) => {
+	console.log("Remove Product call count: ",userId,token,productId);
+	return axios({
+		method: "delete",
+		url: `${BACKEND_URL}/removeSellerProduct/${userId}/${productId}`,
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+			Authorization: "Bearer " + token,
+		},  
+	});
+};
+
+
+export const updateSellerProduct = (userId,token,productId,formData) => {
+	console.log("Update Product call count: ",userId,token,productId);
+	return axios({
+		method: "put",
+		url: `${BACKEND_URL}/updateProduct/${userId}/${productId}`,
+		data: formData,
+		headers: {
+            Accept: "multipart/form-data",
+            "Content-Type": "multipart/form-data",
+			Authorization: "Bearer " + token,   
+		}, 
+	});
+};

@@ -42,7 +42,7 @@ router.post(
 // router.get("/getAllProducts", getAllProducts)
 
 //to get products of a seller
-router.get("/getProductsByUserId/:userId", getProductsByUserId);
+router.get("/getProductsByUserId/:userId",isSignedIn,isAuthenticated,isSeller,getProductsByUserId);
 
 //to get products of a category id
 router.post("/getProductsByCategoryId/:categoryId", getProductsByCategoryId);
@@ -58,7 +58,7 @@ router.put(
 
 //to remove a product
 router.delete(
-	"/removeProduct/:userId/:productId",
+	"/removeSellerProduct/:userId/:productId",
 	isSignedIn,
 	isAuthenticated,
 	isSeller,

@@ -184,14 +184,14 @@ exports.updateProduct = (req, res) => {
 	let form = new formidable.IncomingForm({
 		multiples: true,
 		keepExtensions: true,
-		maxFileSize: 2 * 1024 * 1024,
+		maxFileSize: 10 * 1024 * 1024,
 	});
 
 	//fields to contain name,description
 	//send at max 4
 	form.parse(req, (err, fields, files) => {
-		// console.log('fields:', fields);
-		// console.log('files:', files);
+		console.log('fields:', fields);
+		console.log('files:', files);
 		if (err) {
 			return res.status(400).json({
 				error: "problem with image",
@@ -242,6 +242,7 @@ exports.updateProduct = (req, res) => {
 
 						product.save((err, product) => {
 							if (err) {
+								console.log(err)
 								return res.status(400).json({
 									error: "Updating product in DB failed",
 								});
@@ -265,6 +266,7 @@ exports.updateProduct = (req, res) => {
 };
 
 exports.removeProduct = (req, res) => {
+	console.log("Remove Product backend",req.profile,req.product)
 	if (req.profile._id.toString() != req.product.sellerDetails.toString()) {
 		return res.status(401).json({
 			error: "Unauthorized",

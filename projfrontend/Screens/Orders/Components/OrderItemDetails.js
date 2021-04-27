@@ -27,7 +27,6 @@ const OrderItemDetails = ({ item, navigation, user, token }) => {
         borderRadius: 2,
       }}
     >
-      {/* { console.log("Item",item)} */}
       <TouchableWithoutFeedback>
         <View style={{ flex: 1, flexDirection: "row" }}>
           <View
@@ -58,7 +57,7 @@ const OrderItemDetails = ({ item, navigation, user, token }) => {
               {truncate(item.product.name, 20)}
             </Text>
             <Text style={styles.title}>Tribes Karnataka</Text>
-            {/* <Text style={styles.title}>Paid via {item.modeOfPayment}</Text> */}
+         
             <View
               style={{
                 flex: 1,

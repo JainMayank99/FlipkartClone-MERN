@@ -45,23 +45,42 @@ function StartRatingComponent({ route, navigation }) {
     }, [itemId])
   );
 
+  const pushToPreviousScreen=()=>{
+    navigation.goBack();
+  }
+ 
+
   const onSubmit = () => {
-    if(setUpdate===true) {
+    if(update!==true) {
+      setLoading(1);
         addReviewAndRating(user, token, itemId, text, rating)
       .then((res) => {
         console.log("Successfully Added");
+        setLoading(2);
+        setTimeout(() => {
+          pushToPreviousScreen();
+          setLoading(0)
+        }, 2000);
       })
       .catch((err) => {
         console.log("Add review Error", err);
+        setLoading(3);
       });
     }
     else{
+      setLoading(1);
         updateReviewAndRating(user, token, reviewId, text, rating)
         .then((res) => {
             console.log("Successfully Updated");
+            setLoading(2);
+            setTimeout(() => {
+              pushToPreviousScreen();
+              setLoading(0)
+            }, 2000);
           })
           .catch((err) => {
             console.log("Update review Error", err);
+            setLoading(3);
           });
     }
     
@@ -74,8 +93,14 @@ function StartRatingComponent({ route, navigation }) {
         <LottieView
           style={styles.lottie}
           autoPlay
-          loop
-          source={require("../../../assets/animations/loader.json")}
+          loop={false}
+          source={
+            loading === 1
+              ? require("../../../assets/animations/loader.json")
+              : loading === 2
+              ? require("../../../assets/animations/success.json")
+              :require("../../../assets/animations/error.json")
+          }
         />
       ) : null}
       <View
@@ -119,7 +144,7 @@ function StartRatingComponent({ route, navigation }) {
             }}
           >
             <View style={styles.button}>
-              <Text style={styles.submit}>{rating===0 && text.length===0?'SUBMIT':'UPDATE'}</Text>
+              <Text style={styles.submit}>{update!==true?'SUBMIT':'UPDATE'}</Text>
             </View>
           </TouchableOpacity>
         </View>

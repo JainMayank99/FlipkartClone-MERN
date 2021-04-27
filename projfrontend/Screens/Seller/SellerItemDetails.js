@@ -10,15 +10,16 @@ import {
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { Image as ExpoImage } from "react-native-expo-image-cache";
+import { isAuthenticated } from "../Auth/AuthAPICalls/authCalls";
 
-import { isAuthenticated } from "../../Auth/AuthAPICalls/authCalls";
-import {
-  getAllSellerItemsByUserId,
-  removeProductFromWishList,
-} from "../APICall/WishlistAPI";
-import { addProductToCart } from "../../Cart/APICall/cartAPI";
+// import {
+//   getAllSellerItemsByUserId,
+//   removeProductFromWishList,
+// } from "../APICall/WishlistAPI";
+// import { addProductToCart } from "../../Cart/APICall/cartAPI";
+import { removeSellerProduct,getSellerProducts } from "./SellerAPI/sellerAPI";
 
-const SellerItemDetails = ({ item, navigation, onChangeWishlist }) => {
+const SellerItemDetails = ({ item, navigation, onChangeSellerList }) => {
   const [user, setUser] = useState();
   const [token, setToken] = useState();
   const [product, setProduct] = useState(item.product);
@@ -30,43 +31,37 @@ const SellerItemDetails = ({ item, navigation, onChangeWishlist }) => {
         setToken(res.token);
       })
       .catch((err) => {
-        console.log("isAuthenticated in Wishlist", err);
+        console.log("isAuthenticated in SellerList", err);
       });
   }, []);
 
-  const removeItemFromWishlist = () => {
-    console.log("removeItemFromWishlist");
-    removeProductFromWishList(user, item.product._id, token)
+  const removeItemFromSellerList = () => {
+    console.log("removeItemFromSellerList",item._id);
+    removeSellerProduct(user, token ,item._id)
       .then((res) => {
-        getAllSellerItemsByUserId(user, token)
+        getSellerProducts(user,token)
           .then((res) => {
-            onChangeWishlist(res.data);
+            onChangeSellerList(res.data);
           })
           .catch((err) => {
-            console.log("wishlist fetching error: " + err);
+            console.log("SellerList fetching error: " + err);
           });
       })
       .catch((err) => {
-        console.log("updateQuantityInCart error", err);
+        console.log("Remove Product error", err);
       });
   };
 
-  const addToCart = () => {
-    isAuthenticated().then((res) => {
-      addProductToCart(user, item.product._id, token)
-        .then((res) => {})
-        .catch((err) => {
-          console.log("Error in addProductToCart", err);
-        });
-    });
+  const updateProduct = (item) => {
+   navigation.navigate('SellerUpdateScreen',{item:item})
   };
 
   const width = Dimensions.get("screen").width;
   const trash = {
-    uri: require("../../../assets/catIcons/trash.png"),
+    uri: require("../../assets/catIcons/trash.png"),
   };
   const image1 = {
-    uri: require("../../../assets/catIcons/upload.png"),
+    uri: require("../../assets/catIcons/upload.png"),
   };
   return (
     <View
@@ -99,23 +94,21 @@ const SellerItemDetails = ({ item, navigation, onChangeWishlist }) => {
                   resizeMode: "cover",
                 }}
                 preview={{
-                  uri: item.product.image[0].url
+                  uri: item.image[0].url
                     .slice(0, 48)
                     .concat("t_media_lib_thumb/")
-                    .concat(item.product.image[0].url.slice(48)),
+                    .concat(item.image[0].url.slice(48)),
                 }}
-                uri={item.product.image[0].url}
+                uri={item.image[0].url}
               />
             </TouchableOpacity>
             <View style={styles.discountBox}>
-              <Text style={styles.textDiscount}>
-                {item.product.discount + " %"}{" "}
-              </Text>
+              <Text style={styles.textDiscount}>{item.discount + " %"} </Text>
             </View>
           </View>
           <View style={styles.detailsBox}>
-            <Text style={styles.textDetails}>{item.product.name}</Text>
-            <Text style={styles.tribeDetails}>{item.product.description}</Text>
+            <Text style={styles.textDetails}>{item.name}</Text>
+            <Text style={styles.tribeDetails}>{item.description}</Text>
             <View
               style={{
                 flex: 1,
@@ -126,12 +119,12 @@ const SellerItemDetails = ({ item, navigation, onChangeWishlist }) => {
             >
               <Text style={styles.rating}>
                 <Feather name="star" size={22} style={styles.icon} />
-                <Text>{item.product.avgRating}</Text>
+                <Text>{item.avgRating}</Text>
                 <Text>/5</Text>
               </Text>
               <Text style={styles.price}>
                 <Text style={{ fontSize: 22 }}>₹</Text>
-                <Text>{item.product.price}</Text>
+                <Text>{item.price}</Text>
               </Text>
             </View>
           </View>
@@ -141,7 +134,7 @@ const SellerItemDetails = ({ item, navigation, onChangeWishlist }) => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            addToCart();
+            updateProduct(item);
           }}
         >
           <Image
@@ -157,7 +150,7 @@ const SellerItemDetails = ({ item, navigation, onChangeWishlist }) => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            removeItemFromWishlist();
+            removeItemFromSellerList();
           }}
         >
           <Image

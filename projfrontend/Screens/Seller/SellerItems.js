@@ -1,10 +1,10 @@
 import React from "react";
-import { View, Text, StyleSheet, FlatList, Dimensions } from "react-native";
+import { View, Text, StyleSheet, FlatList, Dimensions,ScrollView } from "react-native";
 import SellerItemDetails from './SellerItemDetails';
 
 
 
-const SellerItems = ({ itemList, navigation,onChangeWishlist }) => {
+const SellerItems = ({ itemList, navigation,onChangeSellerList }) => {
 	return (
 		<View
 			style={{
@@ -16,15 +16,17 @@ const SellerItems = ({ itemList, navigation,onChangeWishlist }) => {
 			<View style={styles.body}>
 				<Text style={styles.text}>My Products</Text>
 			</View>
-
+			<ScrollView showsHorizontalScrollIndicator={false}>
 			<FlatList
 				data={itemList}
 				extraData={itemList}
 				showsHorizontalScrollIndicator={false}
 				renderItem={({ item }) => {
-					return <SellerItemDetails item={item} navigation={navigation} onChangeWishlist={onChangeWishlist}/>;
+					return <SellerItemDetails item={item} navigation={navigation} onChangeSellerList={onChangeSellerList}/>;
 				}}
 			/>
+			<View style={{padding: 88}}/>
+			</ScrollView>
 		</View>
 	);
 };
