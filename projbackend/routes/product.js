@@ -15,6 +15,7 @@ const {
 	addProduct,
 	getAllProducts,
 	getProductsByUserId,
+	getSingleProductByUserId,
 	getProductsByCategoryId,
 	updateProduct,
 	removeProduct,
@@ -42,7 +43,22 @@ router.post(
 // router.get("/getAllProducts", getAllProducts)
 
 //to get products of a seller
-router.get("/getProductsByUserId/:userId",isSignedIn,isAuthenticated,isSeller,getProductsByUserId);
+router.get(
+	"/getProductsByUserId/:userId",
+	isSignedIn,
+	isAuthenticated,
+	isSeller,
+	getProductsByUserId
+);
+
+//to get single item details
+router.get(
+	"/getSingleProductByUserId/:userId/:productId",
+	isSignedIn,
+	isAuthenticated,
+	isSeller,
+	getSingleProductByUserId
+);
 
 //to get products of a category id
 router.post("/getProductsByCategoryId/:categoryId", getProductsByCategoryId);

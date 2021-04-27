@@ -21,7 +21,7 @@ exports.getProductById = (req, res, next, id) => {
 
 //Note: later change the map to for with await
 exports.addProduct = (req, res) => {
-	console.log("Hitting",req.body)
+	console.log("Hitting", req.body);
 	let form = new formidable.IncomingForm({
 		multiples: true,
 		keepExtensions: true,
@@ -31,8 +31,8 @@ exports.addProduct = (req, res) => {
 	//fields to contain name,description
 	//send at max 4
 	form.parse(req, (err, fields, files) => {
-		console.log('fields:', fields);
-		console.log('files:', files);
+		console.log("fields:", fields);
+		console.log("files:", files);
 		if (err) {
 			return res.status(400).json({
 				error: "problem with image",
@@ -123,6 +123,24 @@ exports.addProduct = (req, res) => {
 	//https://scotch.io/@codebyomar/how-to-upload-multiple-images-with-cloudinary-and-node-js
 };
 
+exports.getSingleProductByUserId = (req, res) => {
+	ProductSchema.find({ _id: req.product._id, sellerDetails: req.profile._id })
+		.populate("category")
+		.exec((err, products) => {
+			if (err) {
+				return res.status(500).json({
+					error: "DB error",
+				});
+			}
+			if (!products) {
+				return res.status(204).json({
+					error: "No Products found",
+				});
+			}
+			return res.status(200).json(products[0]);
+		});
+};
+
 exports.getAllProducts = (req, res) => {
 	ProductSchema.find()
 		// .populate("category")
@@ -141,8 +159,8 @@ exports.getProductsByUserId = (req, res) => {
 		.populate("category")
 		.exec((err, products) => {
 			if (err) {
-				return res.status(400).json({
-					error: "Saving product in DB failed",
+				return res.status(500).json({
+					error: "DB error",
 				});
 			}
 			if (!products) {
@@ -190,8 +208,8 @@ exports.updateProduct = (req, res) => {
 	//fields to contain name,description
 	//send at max 4
 	form.parse(req, (err, fields, files) => {
-		console.log('fields:', fields);
-		console.log('files:', files);
+		console.log("fields:", fields);
+		console.log("files:", files);
 		if (err) {
 			return res.status(400).json({
 				error: "problem with image",
@@ -242,7 +260,7 @@ exports.updateProduct = (req, res) => {
 
 						product.save((err, product) => {
 							if (err) {
-								console.log(err)
+								console.log(err);
 								return res.status(400).json({
 									error: "Updating product in DB failed",
 								});
@@ -266,7 +284,7 @@ exports.updateProduct = (req, res) => {
 };
 
 exports.removeProduct = (req, res) => {
-	console.log("Remove Product backend",req.profile,req.product)
+	console.log("Remove Product backend", req.profile, req.product);
 	if (req.profile._id.toString() != req.product.sellerDetails.toString()) {
 		return res.status(401).json({
 			error: "Unauthorized",
