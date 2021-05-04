@@ -17,7 +17,7 @@ import ImageInputList from "./ImageInputList";
 import AppPicker from "./AppPicker";
 import { StyleSheet } from "react-native";
 import BackButtonHeader from "./../../components/BackButtonHeader";
-import { updateSellerProduct } from "./SellerAPI/sellerAPI";
+import { updateSellerProduct,getSellerProduct } from "./SellerAPI/sellerAPI";
 import CategoryPickerItem from "./CategoryPickerItem";
 import { isAuthenticated } from "../Auth/AuthAPICalls/authCalls";
 
@@ -87,22 +87,35 @@ export default function SellerUpdateScreen({ navigation, route }) {
   const [file, setFile] = useState([]);
   const [loading, setLoading] = useState(0);
 
+
+  const settingInitialValues=(data) => {
+    setInitialAmount(data.price.toString());
+    setInitialDiscount(data.discount.toString());
+    setInitialStock(data.stock.toString());
+    setImageUris([])
+    setFile([])
+  }
+
+
   useFocusEffect(
     React.useCallback(() => {
-      setInitialAmount(item.price.toString());
-      setInitialDiscount(item.discount.toString());
-      setInitialStock(item.stock.toString());
       setLoading(1);
-      setImageUris([])
-      setFile([])
       isAuthenticated()
       .then((res) => {
         setUser(res.user._id);
         setToken(res.token);
-        setLoading(0)
+        getSellerProduct(res.user._id, res.token,item._id)
+            .then((res) => {
+              settingInitialValues(res.data)
+              setLoading(0)
+            })
+            .catch((err) => {
+              console.log('Error in getting seller product',err)
+            })
+      
       })
       .catch((err) => {
-        console.log("isAuthenticated in Wishlist", err);
+        console.log("isAuthenticated in Seller Update Screen", err);
       });
     }, [item])
   );
@@ -112,7 +125,6 @@ export default function SellerUpdateScreen({ navigation, route }) {
     for (let i = 0; i < file.length; i++) {
       data.append(`Img${i}`, file[`${i}`]);
     }
-    // console.log("Testing",category);
     if (file.length === 0) {
       alert("Upload atleast 1 image to proceed!");
     } else if (category === null) {
@@ -241,7 +253,6 @@ export default function SellerUpdateScreen({ navigation, route }) {
             selectedItem={category}
             onSelectItem={(item) => setCategory(item)}
           />
-          {console.log(item.name)}
           <Formik
             enableReinitialize={true}
             initialValues={{

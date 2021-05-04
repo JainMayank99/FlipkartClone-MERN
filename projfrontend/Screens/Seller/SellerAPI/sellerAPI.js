@@ -31,6 +31,21 @@ export const getSellerProducts = (userId,token) => {
 	});
 };
 
+export const getSellerProduct = (userId,token,productId) => {
+	// console.log("Random Product call count: " + count);
+	return axios({
+		method: "get",
+		url: `${BACKEND_URL}/getSingleProductByUserId/${userId}/${productId}`,
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+			Authorization: "Bearer " + token,
+		},
+        
+	});
+};
+
+
 export const removeSellerProduct = (userId,token,productId) => {
 	console.log("Remove Product call count: ",userId,token,productId);
 	return axios({
