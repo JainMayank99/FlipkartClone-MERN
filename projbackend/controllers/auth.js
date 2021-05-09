@@ -210,8 +210,6 @@ exports.isAuthorized = (req, res, next) => {
 };
 
 exports.forgetPassword = async (req, res) => {
-	// const user = new UserSchema(req.body);
-
 	UserSchema.find({ phone: req.body.phone }).exec((err, user) => {
 		// console.log(err);
 		if (err || !user) {
@@ -250,6 +248,7 @@ exports.changePassword = async (req, res) => {
 				err: "DB error or user not found",
 			});
 		}
+		//TODO: match with old password
 
 		user[0].password = req.body.password;
 
