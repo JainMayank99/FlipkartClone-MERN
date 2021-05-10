@@ -1,5 +1,7 @@
 const ProductSchema = require("../models/product");
 const ReviewSchema = require("../models/review");
+const CartSchema = require("../models/cart");
+const WishListSchema = require("../models/wishlist");
 const formidable = require("formidable");
 const { v4: uuidv4 } = require("uuid");
 var cloudinary = require("cloudinary").v2;
@@ -307,6 +309,25 @@ exports.removeProduct = (req, res) => {
 			});
 		}
 	});
+
+	CartSchema.deleteMany({ product: req.product._id }).exec((err, cart) => {
+		if (err) {
+			return res.status(500).json({
+				error: "Failed to remove Product from Cart",
+			});
+		}
+	});
+	WishListSchema.deleteMany({ product: req.product._id }).exec(
+		(err, wishlist) => {
+			if (err) {
+				return res.status(500).json({
+					error: "Failed to remove Product from WishList",
+				});
+			}
+		}
+	);
+
+	//TODO: see what to do for orders if product is removed
 
 	product.remove((err, deletedProduct) => {
 		if (err) {
