@@ -8,6 +8,7 @@ import {
 	TouchableWithoutFeedback,
 	Keyboard,
 	StatusBar,
+	Dimensions,
 } from "react-native";
 import { Formik } from "formik";
 import LottieView from "lottie-react-native";
@@ -15,10 +16,11 @@ import { Feather } from "@expo/vector-icons";
 
 import { signIn, authenticate } from "./AuthAPICalls/authCalls";
 
+const {height,width}=Dimensions.get('screen')
 const LoginScreen = ({ navigation }) => {
 	const [focusName, setFocusName] = useState(false);
 	const [focusConfirmPassword, setFocusConfirmPassword] = useState(false);
-	const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState(0);
 	const [visibility, setVisibility] = useState(false);
 
 	const onFocusNameChange = () => {
@@ -35,36 +37,42 @@ const LoginScreen = ({ navigation }) => {
 	};
 
 	const apicall = (values) => {
-		// console.log(values);
 		const { phoneNumber, confirmPassword } = values;
+		setLoading(1)
 		signIn(phoneNumber, confirmPassword)
 			.then((res) => {
-				// console.log(res);
 				authenticate(res.data, () => {
 					navigation.navigate("Home");
 				});
 			})
 			.catch((err) => {
-				alert(err);
+				setLoading(2)
+				setTimeout(() => {
+					setLoading(0)
+				  }, 1000);
 			});
 	};
 
 	return (
-		<View style={loading === true ? styles.overlay : { flex: 1 }}>
+		<View style={loading !== 0 ? styles.overlay : { flex: 1,backgroundColor:'white' }}>
 			<StatusBar hidden />
-			{loading === true ? (
+			{loading !== 0 ? (
 				<LottieView
 					style={styles.lottie}
 					autoPlay
-					loop
-					source={require("../../assets/animations/loader.json")}
+					loop={false}
+					source={
+						loading === 1
+						  ? require("../../assets/animations/loader.json")
+						  : require("../../assets/animations/error.json")	  
+					  }
 				/>
 			) : null}
 
 			<View style={styles.screen}>
 				<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 					<View>
-						<Text style={styles.heading}>Login</Text>
+						<Text style={styles.heading}>Sign In</Text>
 						<Formik
 							initialValues={{ phoneNumber: "", confirmPassword: "" }}
 							onSubmit={(values, actions) => {
@@ -76,9 +84,9 @@ const LoginScreen = ({ navigation }) => {
 								<React.Fragment>
 									<View
 										style={{
-											marginHorizontal: 8,
-											marginTop: 24,
-											marginBottom: 16,
+											marginHorizontal: width*0.0204,
+											marginTop: width*0.0611,
+											marginBottom: width*0.0406,
 										}}
 									>
 										<Text style={styles.label}>PHONE NUMBER</Text>
@@ -101,8 +109,8 @@ const LoginScreen = ({ navigation }) => {
 
 									<View
 										style={{
-											marginHorizontal: 8,
-											marginVertical: 4,
+											marginHorizontal: width*0.0204,
+											marginVertical: height*0.0051,
 										}}
 									>
 										<Text style={styles.label}>PASSWORD</Text>
@@ -112,7 +120,7 @@ const LoginScreen = ({ navigation }) => {
 											placeholder="Enter your password"
 											onFocus={onFocusConfirmPasswordChange}
 											autoCorrect={false}
-											secureTextEntry={visibility ? true : false}
+											secureTextEntry={visibility ? false : true}
 											keyboardType="default"
 											style={
 												focusConfirmPassword === false
@@ -137,12 +145,12 @@ const LoginScreen = ({ navigation }) => {
 									<TouchableOpacity
 										onPress={formikProps.handleSubmit}
 										style={{
-											marginHorizontal: 8,
-											marginVertical: 40,
+											marginHorizontal: width*0.0204,
+											marginVertical: height*0.051,
 										}}
 									>
 										<View style={styles.button}>
-											<Text style={styles.submit}>Login</Text>
+											<Text style={styles.submit}>SIGN IN</Text>
 										</View>
 									</TouchableOpacity>
 								</React.Fragment>
@@ -161,7 +169,7 @@ const LoginScreen = ({ navigation }) => {
 							onPress={() => navigation.navigate("Verification")}
 						>
 							<View style={styles.button1}>
-								<Text style={styles.submit}>Sign Up</Text>
+								<Text style={styles.submit}>SIGN UP</Text>
 							</View>
 						</TouchableOpacity>
 					</View>
@@ -182,6 +190,7 @@ const styles = StyleSheet.create({
 		height: "100%",
 		width: "100%",
 		zIndex: 10,
+		backgroundColor:'white' 
 	},
 	lottie: {
 		position: "absolute",
@@ -191,7 +200,7 @@ const styles = StyleSheet.create({
 		zIndex: 10,
 	},
 	heading: {
-		fontFamily: "zilla-bold",
+		fontFamily: "zilla-med",
 		fontSize: 28,
 		paddingVertical: 8,
 	},
@@ -234,14 +243,14 @@ const styles = StyleSheet.create({
 	},
 
 	button: {
-		backgroundColor: '#FF6B3C',
+		backgroundColor: '#FF5D42',
 		borderRadius: 5,
 		justifyContent: "center",
 		alignItems: "center",
 		padding: 12,
 	},
 	button1: {
-		backgroundColor: '#FF6B3C',
+		backgroundColor: '#FF5D42',
 		borderRadius: 5,
 		justifyContent: "center",
 		alignItems: "center",
@@ -253,40 +262,8 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 		color: "white",
 	},
-	errMsg: {
-		fontFamily: "zilla-reg",
-		fontSize: 16,
-		color: "red",
-		paddingVertical: 4,
-		height: 24,
-	},
-	greenCircle: {
-		height: 10,
-		width: 10,
-		borderRadius: 5,
-		backgroundColor: "#90EE90",
-		position: "absolute",
-		right: "0%",
-		top: "12.5%",
-	},
-	redCircle: {
-		height: 10,
-		width: 10,
-		borderRadius: 5,
-		backgroundColor: "#f94d00",
-		position: "absolute",
-		right: "0%",
-		top: "12.5%",
-	},
-	version: {
-		fontFamily: "zilla-med",
-		fontSize: 20,
-		color: "#d1d1d1",
-		textAlign: "center",
-		paddingBottom: 24,
-		borderBottomWidth: 7.5,
-		borderBottomColor: "#edeeef",
-	},
+
+
 	footer: {
 		flex: 1,
 		alignItems: "center",
@@ -299,26 +276,26 @@ const styles = StyleSheet.create({
 	line1: {
 		height: 1,
 		backgroundColor: "black",
-		width: 155,
+		width: width*0.395,
 		position: "absolute",
-		left: 10,
+		left: width*0.0255,
 		top: 7.5,
 	},
 	line2: {
 		height: 1,
 		backgroundColor: "black",
-		width: 155,
+		width: width*0.395,
 		position: "absolute",
-		right: 10,
+		right: width*0.0255,
 		top: 7.5,
 	},
 	forgot: {
-		fontFamily: "zilla-med",
+		fontFamily: "zilla-reg",
 		fontSize: 18,
 		textAlign: "right",
 		paddingHorizontal: 8,
 		paddingTop: 8,
-		color: '#FF6B3C',
+		color: '#FF5D42',
 	},
 	icon: {
 		position: "absolute",

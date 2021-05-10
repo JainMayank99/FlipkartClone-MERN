@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import LottieView from "lottie-react-native";
 import Header from "../../components/Header";
@@ -33,6 +34,7 @@ const WishList = ({ navigation, route }) => {
 
   React.useEffect(() => {
     navigation.addListener("focus", () => {
+      getLanguage()
       setLoading(true);
       isAuthenticated()
         .then((res) => {
@@ -66,6 +68,10 @@ const WishList = ({ navigation, route }) => {
       mainWork(lang);
     }, 500);
   };
+
+  const getLanguage = async() =>{
+    console.log(await AsyncStorage.getItem("lang"))
+  }
 
   return (
     <View>

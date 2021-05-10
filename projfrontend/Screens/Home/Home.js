@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState,useContext } from "react";
 import * as Location from 'expo-location';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import {
   View,
@@ -36,19 +37,11 @@ const Home = ({ route, navigation }) => {
   const [loading, setLoading] = useState(false);
   const carouselRef = useRef(null);
  
-
-
-  // React.useEffect(() => {
-  //     navigation.addListener('focus',()=>{
-       
-  //     })  
-  // },[navigation])
-
-  // useEffect(()=>{
-  //   handleUserLocation()
-  // })
-  const mainWork = (lang) => {
-    setLanguage(lang);
+  const mainWork = async(lang) => {
+    if (typeof window !== "undefined") {
+      setLanguage(lang);
+      await AsyncStorage.setItem("lang",lang);
+    }
     setLoading(false);
   };
   const changeLanguage = (lang) => {
@@ -57,6 +50,9 @@ const Home = ({ route, navigation }) => {
       mainWork(lang);
     }, 500);
   };
+
+  
+
   const [background, setBackground] = useState({
     uri:
       "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQA_-tL18_rj9zEcjN6n41NEaJm-kRNF9UeOtvksZ4z_OW6jRA9",
@@ -183,7 +179,7 @@ const Home = ({ route, navigation }) => {
   };
 
   return (
-    <View>
+    <View style={{backgroundColor:'white'}}>
       {loading === true ? (
         <View style={styles.overlay}>
           <LottieView
@@ -230,6 +226,7 @@ const Home = ({ route, navigation }) => {
             language={language}
             changeLanguage={changeLanguage}
             navigation={navigation}
+            showChangeLanguage={true}
           />
           <ScrollView
             style={{

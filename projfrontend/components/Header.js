@@ -8,6 +8,7 @@ import {
   Button,
   TouchableOpacity,
   Alert,
+  Image
 } from "react-native";
 import RBSheet from "react-native-raw-bottom-sheet";
 import HeaderIcon from "./HeaderIcon";
@@ -17,32 +18,39 @@ import SelectLanguage from "./SelectLanguage";
 
 import { signout } from "../Screens/Auth/AuthAPICalls/authCalls";
 
-const Header = ({ language, changeLanguage, navigation}) => {
+const Header = ({ language, changeLanguage, navigation,showChangeLanguage}) => {
   const refRBSheet = useRef();
-  const logOut = () => {
-    signout();
-	  // onAuth();
-    console.log("Sign out Successfull");
-  };
+  
   const image = {
     uri:
       "https://images.pexels.com/photos/227417/pexels-photo-227417.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
   };
+
+  const cart = {
+    uri: require("../assets/customIcons/cart.png"),
+  };
+  const languageIcon = {
+    uri: require("../assets/customIcons/language.png"),
+  };
+  const sidebar = {
+    uri: require("../assets/customIcons/sidebar.png"),
+  };
+
   return (
     <Screen>
       <StatusBar hidden />
-      <View style={styles.language}>
-        {/* <TouchableOpacity onPress={() => refRBSheet.current.open()}>
-					<HeaderIcon name="settings" />
-				</TouchableOpacity> */}
-        <TouchableOpacity
-          onPress={() => {
-            logOut();
-          }}
-        >
-          <HeaderIcon name="settings" />
-        </TouchableOpacity>
+      {showChangeLanguage===true && <View style={styles.language}>
+        <TouchableOpacity onPress={() => refRBSheet.current.open()}>
+        <Image
+            source={languageIcon.uri}
+            style={{
+              width: 28,
+              height: 28,
+            }}
+          />
+				</TouchableOpacity>
       </View>
+}
 
       <View style={styles.cart}>
         <TouchableOpacity
@@ -50,7 +58,13 @@ const Header = ({ language, changeLanguage, navigation}) => {
             navigation.navigate("Cart");
           }}
         >
-          <HeaderIcon name="shopping-cart" />
+           <Image
+            source={cart.uri}
+            style={{
+              width: 24,
+              height: 24,
+            }}
+          />
         </TouchableOpacity>
       </View>
 
@@ -60,7 +74,13 @@ const Header = ({ language, changeLanguage, navigation}) => {
             navigation.openDrawer();
           }}
         >
-           <HeaderIcon name="menu" />
+            <Image
+            source={sidebar.uri}
+            style={{
+              width: 24,
+              height: 24,
+            }}
+          />
         </TouchableOpacity>
       </View>
 
@@ -71,7 +91,7 @@ const Header = ({ language, changeLanguage, navigation}) => {
 
         <HeaderIcon />
       </View>
-      <SearchBar />
+      <SearchBar navigation={navigation}/>
       <RBSheet
         height={150}
         animation={"fade"}
@@ -133,7 +153,7 @@ const styles = StyleSheet.create({
   },
   language: {
     position: "absolute",
-    top: 0,
+    top: -2,
     right: 60,
   },
   cart: {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import { StyleSheet } from "react-native";
 import * as Font from "expo-font";
 import AppLoading from "expo-app-loading";
@@ -17,8 +17,6 @@ import Home from "./Screens/Home/Home";
 import Cart from "./Screens/Cart/Cart";
 import WishList from "./Screens/WishList/WishList";
 import ProductReviews from "./Screens/ProductDescription/Components/ProductReviews";
-// import AddAddress from "./components/ProfileComponents/AddAddress";
-// import StartRatingComponent from "./components/ProfileComponents/StartRatingComponent";
 import PaymentScreen from "./Screens/Payment/PaymentScreen";
 import PaymentView from "./Screens/Payment/PaymentView";
 import PaymentSelection from "./Screens/Payment/PaymentSelection";
@@ -32,13 +30,22 @@ import ProductDescScreen from "./Screens/ProductDescription/ProductDescription";
 import SellerScreen from "./Screens/Seller/SellerScreen";
 import ProductRating from "./Screens/Orders/Components/ProductRating";
 import StartRatingComponent from "./Screens/Orders/Components/StartRatingComponent";
-import SellerProducts from './Screens/Seller/SellerProducts';
-import SellerUpdateScreen from './Screens/Seller/SellerUpdateScreen';
+import SellerProducts from "./Screens/Seller/SellerProducts";
+import SellerUpdateScreen from "./Screens/Seller/SellerUpdateScreen";
+import AadhaarVerificationScreen from "./Screens/Seller/AadhaarVerificationScreen";
 
 const AuthStack = createDrawerNavigator();
 
 export default function App() {
   enableScreens();
+  const testInfo = {
+    React: {
+      lan:"eng"
+    },
+  };
+
+  const testInfoContext = React.createContext(testInfo);
+
   const getFonts = () => {
     return Font.loadAsync({
       "popins-reg": require("./assets/fonts/Poppins-Regular.ttf"),
@@ -53,10 +60,10 @@ export default function App() {
   };
 
   const [fontsLoaded, setFontsLoaded] = useState(false);
-
+ 
   if (fontsLoaded) {
     return (
-      <>
+      <testInfoContext.Provider value={testInfo}>
         <NavigationContainer>
           <AuthStack.Navigator
             initialRouteName="MainDrawer"
@@ -69,9 +76,19 @@ export default function App() {
               width: 270,
             }}
           >
-            <AuthStack.Screen name="MainDrawer" component={TabContent} />
-            <AuthStack.Screen name="Cart" component={SellerProducts} />
+            <AuthStack.Screen
+              name="MainDrawer"
+              component={TabContent}
+            
+             
+            />
+            <AuthStack.Screen name="Cart" component={Cart} />
             <AuthStack.Screen name="AddAddress" component={AddAddress} />
+            <AuthStack.Screen
+              name="AddProduct"
+              component={AadhaarVerificationScreen}
+            />
+            <AuthStack.Screen name="Search" component={ProductListing} />
             <AuthStack.Screen
               name="ProductDescription"
               component={ProductDescScreen}
@@ -82,13 +99,13 @@ export default function App() {
               name="PaymentSelection"
               component={PaymentSelection}
             />
-             <AuthStack.Screen
+            <AuthStack.Screen
               name="SellerUpdateScreen"
               component={SellerUpdateScreen}
             />
           </AuthStack.Navigator>
         </NavigationContainer>
-      </>
+      </testInfoContext.Provider>
     );
   } else {
     return (

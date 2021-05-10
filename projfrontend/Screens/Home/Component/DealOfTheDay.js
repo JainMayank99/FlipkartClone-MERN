@@ -15,59 +15,7 @@ import { randomProduct } from "../APICall/HomeCall";
 
 const DealOfTheDay = ({ language, navigation }) => {
 	const width = Dimensions.get("screen").width;
-	// const [gallery, setgallery] = useState([
-	//     {
-	//         image: require('../assets/main/deal1.webp'),
-	//         title: 'Nehru Jackets',
-	//         released: '2019 ‧ Action/Sci-fi ‧ 3h 2m',
-	//         key: '1',
-	//         desc:
-	//             'After Thanos, an intergalactic warlord, disintegrates half of the universe, the Avengers must reunite and assemble again to reinvigorate their trounced allies and restore balance.',
-	//     },
-	//     {
-	//         image: require('../assets/main/deal2.webp'),
-	//         title: 'Mitera',
-	//         released: '2019 ‧ Animation/Musical ‧ 1h 43m',
-	//         key: '2',
-	//         desc:
-	//             'Elsa the Snow Queen has an extraordinary gift -- the power to create ice and snow. But no matter how happy she is to be surrounded by the people of Arendelle, Elsa finds herself strangely unsettled.',
-	//     },
-	//     {
-	//         image: require('../assets/main/deal3.jpg'),
-	//         title: 'Priyaasi',
-	//         released: '2019 ‧ Action/Sci-fi ‧ 2h 2m',
-	//         key: '3',
-	//         desc:
-	//             'Alita, a battle cyborg, is revived by Ido, a doctor, who realises that she actually has the soul of a teenager. Alita then sets out to learn about her past and find her true identity.',
-	//     },
-	// ]);
-
-	// const [gallery2, setgallery2] = useState([
-	//     {
-	//         image: require('../assets/main/deal4.webp'),
-	//         title: 'Craft Vatika',
-	//         released: '2019 ‧ Action/Sci-fi ‧ 3h 2m',
-	//         key: '1',
-	//         desc:
-	//             'After Thanos, an intergalactic warlord, disintegrates half of the universe, the Avengers must reunite and assemble again to reinvigorate their trounced allies and restore balance.',
-	//     },
-	//     {
-	//         image: require('../assets/main/deal5.webp'),
-	//         title: 'Fog Lighting',
-	//         released: '2019 ‧ Animation/Musical ‧ 1h 43m',
-	//         key: '2',
-	//         desc:
-	//             'Elsa the Snow Queen has an extraordinary gift -- the power to create ice and snow. But no matter how happy she is to be surrounded by the people of Arendelle, Elsa finds herself strangely unsettled.',
-	//     },
-	//     {
-	//         image: require('../assets/main/deal6.webp'),
-	//         title: 'Cortina',
-	//         released: '2019 ‧ Action/Sci-fi ‧ 2h 2m',
-	//         key: '3',
-	//         desc:
-	//             'Alita, a battle cyborg, is revived by Ido, a doctor, who realises that she actually has the soul of a teenager. Alita then sets out to learn about her past and find her true identity.',
-	//     },
-	// ]);
+	
 
 	const [gallery, setGallery] = useState();
 	const [gallery2, setGallery2] = useState();

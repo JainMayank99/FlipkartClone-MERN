@@ -92,7 +92,7 @@ export function DrawerContent(props) {
               )}
               label={() => <Text style={styles.text}>BECOME A SELLER</Text>}
               onPress={() => {
-                props.navigation.navigate("Home");
+                props.navigation.navigate("AddProduct");
               }}
               style={styles.text}
             />

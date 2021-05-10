@@ -1,24 +1,30 @@
 export const dummyData = [
     {
-        title: 'Browse homemade Accesories',
-        url: 'https://i.ibb.co/hYjK44F/anise-aroma-art-bazaar-277253.jpg',
+        title: 'Naga Tribe',
+        url: require('../assets/stories/NagaTribe.jpg'),
         description:
-            'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+            'Known for their headgear and their detailed dressing style.',
         id: 1,
     },
     {
-        title: 'Food inside a Bowl',
-        url: 'https://i.ibb.co/JtS24qP/food-inside-bowl-1854037.jpg',
+        title: 'Hunja Tribe',
+        url: require('../assets/stories/HunjaTribe.jpg'),
         description:
-            'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+            'It is comprised of muslim converts from the hindu religion.',
         id: 2,
     },
     {
-        title: 'Vegatable Salad',
-        url:
-            'https://i.ibb.co/JxykVBt/flat-lay-photography-of-vegetable-salad-on-plate-1640777.jpg',
+        title: 'Angami Tribe',
+        url: require('../assets/stories/AngamiTribe.jpg'),
         description:
-            'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+            'Best known for the famed Hornbill Festival.',
         id: 3,
+    },
+    {
+        title: 'Ladakhi Tribe',
+        url: require('../assets/stories/LadakhiTribes.jpg'),
+        description:
+            'They are primarily Buddhists and Muslims..',
+        id: 4,
     },
 ];

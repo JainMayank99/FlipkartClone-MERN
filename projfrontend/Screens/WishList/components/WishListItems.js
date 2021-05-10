@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Text, StyleSheet, FlatList, Dimensions, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Dimensions,
+  ScrollView,
+} from "react-native";
 
 import WishListItemDetails from "./WishListItemDetails";
 
@@ -12,31 +19,30 @@ const WishListItems = ({
   return (
     <View
       style={{
-        marginBottom: 150,
-        borderBottomWidth: 10,
-        borderColor: "#edeeef",
+        marginBottom: 175,
+        maxHeight:Dimensions.get("screen").height*0.7,
       }}
     >
       <View style={styles.body}>
         <Text style={styles.text}>My Wishlist</Text>
       </View>
       <ScrollView showsHorizontalScrollIndicator={false}>
-      <FlatList
-        data={itemList}
-        extraData={itemList}
-        showsHorizontalScrollIndicator={false}
-        renderItem={({ item }) => {
-          return (
-            <WishListItemDetails
-              item={item}
-              navigation={navigation}
-              onChangeWishlist={onChangeWishlist}
-              changeLoading={changeLoading}
-            />
-          );
-        }}
-      />
-      <View style={{padding:88}}></View>
+        <FlatList
+          data={itemList}
+          extraData={itemList}
+          showsHorizontalScrollIndicator={false}
+          renderItem={({ item }) => {
+            return (
+              <WishListItemDetails
+                item={item}
+                navigation={navigation}
+                onChangeWishlist={onChangeWishlist}
+                changeLoading={changeLoading}
+              />
+            );
+          }}
+        />
+        <View style={{ padding: 88 }}></View>
       </ScrollView>
     </View>
   );

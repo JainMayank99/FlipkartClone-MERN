@@ -61,7 +61,6 @@ const SelectLanguage = ({ language, changeLanguage }) => {
             style={{
                 paddingVertical: 8,
             }}>
-            {/* {console.log(language, title)} */}
             <FlatList
                 horizontal={true}
                 data={gallery}
@@ -96,7 +95,7 @@ const SelectLanguage = ({ language, changeLanguage }) => {
                                         borderRadius: 50,
                                         alignItems: 'center',
                                         justifyContent: 'center',
-                                        backgroundColor: '#FF6B3C',
+                                        backgroundColor: '#FC8019',
                                     }}>
                                     <Image
                                         source={item.image}

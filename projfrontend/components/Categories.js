@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 
 const Categories = ({ language }) => {
-    //Categories In Different Languages
     const titleEng = [
         'Clothing ',
         'Stationery',
@@ -120,7 +119,7 @@ const Categories = ({ language }) => {
                                         borderRadius: 50,
                                         alignItems: 'center',
                                         justifyContent: 'center',
-                                        backgroundColor: '#FF6B3C',
+                                        backgroundColor: '#ff5d42',
                                     }}>
                                     <Image
                                         source={item.image}

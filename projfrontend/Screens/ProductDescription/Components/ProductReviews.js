@@ -11,7 +11,6 @@ const ProductReviews = ({ id, avgRating }) => {
 		getReviewByProductId(id)
 			.then((res) => {
 				setReviews(res.data);
-				// console.log(res.data);
 			})
 			.catch((err) => {
 				console.log("Error in getting review of product", err);
@@ -104,7 +103,7 @@ const styles = StyleSheet.create({
 		fontFamily: "zilla-semibold",
 		fontSize: 18,
 		color: "black",
-		marginLeft: 8,
+		marginLeft: 4,
 	},
 	user: {
 		fontFamily: "zilla-semibold",
