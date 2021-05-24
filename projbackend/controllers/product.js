@@ -33,8 +33,8 @@ exports.addProduct = (req, res) => {
 	//fields to contain name,description
 	//send at max 4
 	form.parse(req, (err, fields, files) => {
-		console.log("fields:", fields);
-		console.log("files:", files);
+		// console.log("fields:", fields);
+		// console.log("files:", files);
 		if (err) {
 			return res.status(400).json({
 				error: "problem with image",
@@ -48,11 +48,17 @@ exports.addProduct = (req, res) => {
 		let imgDetails = new Array();
 		let count = 0;
 
-		Object.keys(files).map(async (key) => {
+		for (let index = 0; index < Object.keys(files).length; index++) {
+			const key = Object.keys(files)[index];
+
+			// }
+
+			// Object.keys(files).map(async (key) => {
 			// console.log(key + ":" + files[key].path);
 			const uniqueFileName = uuidv4();
 
-			await cloudinary.uploader.upload(
+			// await
+			cloudinary.uploader.upload(
 				files[key].path.toString(),
 				{
 					public_id: `FlipkartClone/${uniqueFileName}`,
@@ -74,7 +80,7 @@ exports.addProduct = (req, res) => {
 					// console.log(count, ",", Object.keys(files).length);
 					if (count === Object.keys(files).length) {
 						product.image.push(...imgDetails);
-						// console.log("Product" + product);
+						console.log("Product" + product);
 
 						product.save((err, product) => {
 							if (err) {
@@ -87,7 +93,8 @@ exports.addProduct = (req, res) => {
 					}
 				}
 			);
-		});
+		}
+		// );
 	});
 
 	// form.on('progress', (bytesReceived, bytesExpected) => {

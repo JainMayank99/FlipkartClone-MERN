@@ -6,19 +6,19 @@ const productSchema = new mongoose.Schema(
 		name: {
 			type: String,
 			required: true,
-			maxlength: 50,
+			maxlength: 200,
 			trim: true,
 		},
 		description: {
 			type: String,
 			required: true,
-			maxlength: 500,
+			maxlength: 2000,
 			trim: true,
 		},
 		tribe: {
 			type: String,
 			required: true,
-			maxlength: 500,
+			maxlength: 100,
 			trim: true,
 			default: "Karnataka",
 		},
@@ -82,7 +82,6 @@ const productSchema = new mongoose.Schema(
 			type: ObjectId,
 			ref: "UserSchema",
 		},
-		
 	},
 	{ timestamps: true }
 );
