@@ -16,10 +16,6 @@ const PriceDetails = ({ itemList, totalPrice, totalDiscount, navigation }) => {
           <Text style={styles.subText}>Discount</Text>
           <Text style={styles.green}>₹{totalDiscount}</Text>
         </View>
-        {/* <View style={styles.view}>
-			<Text style={styles.subText}>Delivery Charges</Text>
-			<Text style={styles.subText}>₹50</Text>
-		</View> */}
         <Dash
           dashGap={5}
           dashLength={7.5}
@@ -61,7 +57,6 @@ const PriceDetails = ({ itemList, totalPrice, totalDiscount, navigation }) => {
           borderColor: "#edeeef",
         }}
       ></View>
-      
     </View>
   );
 };
@@ -93,7 +88,6 @@ const styles = StyleSheet.create({
     fontSize: 17,
     color: "#50c878",
   },
- 
 });
 
 export default PriceDetails;

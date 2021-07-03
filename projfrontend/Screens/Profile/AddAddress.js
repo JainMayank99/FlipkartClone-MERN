@@ -163,15 +163,15 @@ const AddAddress = ({ navigation }) => {
     text = JSON.stringify(location);
   }
 
-  const mapStyle = [
-    
-  ];
+  const mapStyle = [];
   return (
     <>
       <StatusBar hidden />
       <View
         style={
-          loading !== 0 || mapLoading === true ? styles.overlay : { flex: 1,backgroundColor:'white' }
+          loading !== 0 || mapLoading === true
+            ? styles.overlay
+            : { flex: 1, backgroundColor: "white" }
         }
       >
         {loading !== 0 || mapLoading === true ? (
@@ -195,10 +195,9 @@ const AddAddress = ({ navigation }) => {
             height: "60%",
             overflow: "hidden",
             borderRadius: 25,
-            
           }}
         >
-          <View style={{ flex: 1,backgroundColor:'white'}}>
+          <View style={{ flex: 1, backgroundColor: "white" }}>
             <MapView
               ref={_mapView}
               showsUserLocation={true}
@@ -210,7 +209,6 @@ const AddAddress = ({ navigation }) => {
                 flex: 1,
                 marginBottom: marginBottom,
                 zIndex: -1,
-                
               }}
               initialRegion={region}
               onRegionChangeComplete={onChangeValue}
@@ -232,10 +230,6 @@ const AddAddress = ({ navigation }) => {
                 source={require("../../assets/catIcons/pin.png")}
               />
             </View>
-
-           
-
-
           </View>
         </View>
         <View style={{ flex: 1 }}>
@@ -247,7 +241,6 @@ const AddAddress = ({ navigation }) => {
                 validationSchema={validationSchema}
                 onSubmit={(values, actions) => {
                   setLoading(true);
-                  //   apicall(values);
                   Object.assign(values, { addressType: addressType });
                   Object.assign(values, { city: city });
                   Object.assign(values, { state: state });

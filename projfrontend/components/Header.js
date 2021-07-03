@@ -55,7 +55,7 @@ const Header = ({ language, changeLanguage, navigation,showChangeLanguage}) => {
       <View style={styles.cart}>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("Cart");
+            navigation.navigate("ChangePassword");
           }}
         >
            <Image
@@ -87,7 +87,7 @@ const Header = ({ language, changeLanguage, navigation,showChangeLanguage}) => {
       <View style={styles.body}>
         <TouchableOpacity></TouchableOpacity>
        
-        <Text style={styles.text}>Rajender</Text>
+        <Text style={styles.text}></Text>
 
         <HeaderIcon />
       </View>

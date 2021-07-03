@@ -17,9 +17,13 @@ import Header from "../../components/Header";
 import PriceDetails from "../Cart/Components/PriceDetails";
 import { paymentByCash } from "./APICall/PaymentAPI";
 import { isAuthenticated } from "../Auth/AuthAPICalls/authCalls";
+import { getAllAddress } from "./../Profile/APICall/AddressAPI";
+import { truncate } from "./../../components/Truncate";
 
 const PaymentSelection = ({ navigation, route }) => {
   const { itemList, totalPrice, totalDiscount, totalAmount } = route.params;
+  const [defaultAddress, setDefaultAddress] = useState("");
+  const [allAddresses, setAllAddressses] = useState([]);
   const [selectedMode, setSelectedMode] = useState(0);
   const [loading, setLoading] = useState(0);
   const [loadinhMsg, setLoadingMsg] = useState("");
@@ -27,21 +31,49 @@ const PaymentSelection = ({ navigation, route }) => {
   const [token, setToken] = useState("");
   const [products, setProducts] = useState([]);
 
-  useEffect(() => {
-    isAuthenticated()
+  const onChange = (data1, data2) => {
+    setDefaultAddress(JSON.parse(data1));
+    setAllAddressses(data2);
+  };
+
+  const getAddresses = (user, token) => {
+    setLoading(1);
+    getAllAddress(user, token)
       .then((res) => {
-        if (res.user) {
-          setUser(res.user._id);
-          setToken(res.token);
+        if (
+          res.data.defaultAddress.length === 0 &&
+          res.data.addresses.length === 0
+        ) {
+          setDefaultAddress("");
+          setAllAddressses([]);
+        } else {
+          onChange(res.data.defaultAddress, res.data.addresses);
         }
+        setLoading(0);
       })
       .catch((err) => {
-        console.log("Payment screen error: " + err);
+        console.log("get address book  error: " + err);
       });
-    itemList.map((item) =>
-      products.push({ quantity: item.Quantity, _id: item.product._id })
-    );
-  }, []);
+  };
+
+  React.useEffect(() => {
+    navigation.addListener("focus", () => {
+      isAuthenticated()
+        .then((res) => {
+          if (res.user) {
+            setUser(res.user._id);
+            setToken(res.token);
+            getAddresses(res.user._id, res.token);
+          }
+        })
+        .catch((err) => {
+          console.log("Payment screen error: " + err);
+        });
+      itemList.map((item) =>
+        products.push({ quantity: item.Quantity, _id: item.product._id })
+      );
+    });
+  }, [navigation]);
 
   const [modeOfPayment, setModeOfPayment] = useState([
     {
@@ -71,7 +103,6 @@ const PaymentSelection = ({ navigation, route }) => {
           }, 100);
         })
         .catch(() => {
-          //TODO:Payment failed animation
           console.log("Failed Cash Payment");
         });
     } else {
@@ -88,45 +119,45 @@ const PaymentSelection = ({ navigation, route }) => {
     <View style={loading !== 0 ? styles.overlay : null}>
       {console.log(selectedMode)}
       {loading === 1 ? (
-		<>
-        <LottieView
-          style={styles.lottie}
-          autoPlay
-          loop
-          source={require("../../assets/animations/loader.json")}
-        />
-		<View
-		style={{
-		  position: "absolute",
-		  top: "55%",
-		  left: Dimensions.get("window").width * 0.5,
-		  translateX: -Dimensions.get("window").width * 0.25,
-		  zIndex:11
-		}}
-	  >
-		<Text style={styles.someText}>{loadinhMsg}</Text>
-	  </View>
-	  </>
+        <>
+          <LottieView
+            style={styles.lottie}
+            autoPlay
+            loop
+            source={require("../../assets/animations/loader.json")}
+          />
+          <View
+            style={{
+              position: "absolute",
+              top: "55%",
+              left: Dimensions.get("window").width * 0.5,
+              translateX: -Dimensions.get("window").width * 0.25,
+              zIndex: 11,
+            }}
+          >
+            <Text style={styles.someText}>{loadinhMsg}</Text>
+          </View>
+        </>
       ) : loading === 2 ? (
-		  <>
-        <LottieView
-          style={styles.lottie}
-          autoPlay
-          loop
-          source={require("../../assets/animations/done.json")}
-        />
-		<View
-		style={{
-		  position: "absolute",
-		  top: "55%",
-		  left: Dimensions.get("window").width * 0.5,
-		  translateX: -Dimensions.get("window").width * 0.35,
-		  zIndex:11
-		}}
-	  >
-		<Text style={styles.someText}>{loadinhMsg}</Text>
-	  </View>
-	  </>
+        <>
+          <LottieView
+            style={styles.lottie}
+            autoPlay
+            loop
+            source={require("../../assets/animations/done.json")}
+          />
+          <View
+            style={{
+              position: "absolute",
+              top: "55%",
+              left: Dimensions.get("window").width * 0.5,
+              translateX: -Dimensions.get("window").width * 0.35,
+              zIndex: 11,
+            }}
+          >
+            <Text style={styles.someText}>{loadinhMsg}</Text>
+          </View>
+        </>
       ) : null}
       <Header />
       <ScrollView
@@ -134,16 +165,32 @@ const PaymentSelection = ({ navigation, route }) => {
           marginTop: 105,
         }}
       >
-       
-
         <View style={styles.addressHolder}>
           <View style={styles.test}>
             <Text style={styles.subText}>Deliver To : Rajender Singh </Text>
             <Feather name="home" size={20} color="#FF6B3C" />
           </View>
           <View style={styles.userAddress}>
-            <Text style={styles.userInfo}>House No. ...................</Text>
-            <TouchableOpacity style={styles.change}>
+            <Text style={styles.userInfo}>
+              {truncate(
+                defaultAddress.house +
+                  "," +
+                  defaultAddress.city +
+                  "," +
+                  defaultAddress.state +
+                  "," +
+                  defaultAddress.postalCode,
+                35
+              )}
+            </Text>
+            <TouchableOpacity
+              style={styles.change}
+              onPress={() =>
+                navigation.navigate("SetDefaultAddressScreen", {
+                  screenName: "PaymentSelection",
+                })
+              }
+            >
               <Text style={styles.changeText}>CHANGE </Text>
             </TouchableOpacity>
           </View>

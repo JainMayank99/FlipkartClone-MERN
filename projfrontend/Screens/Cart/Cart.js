@@ -173,9 +173,9 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: "popins-reg",
-    fontSize:22.5,
+    fontSize:20,
     position: "relative",
-    top: "60%",
+    top: "52.5%",
     left:Dimensions.get('window').width*0.5,
     transform: [{translateX:-Dimensions.get('window').width*0.15 }],
     zIndex: 7.5,
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     height: "100%",
     width: "100%",
-    top:'-5%',
+    top:'-7.5%',
     zIndex: 7.5,
   },
   lottie: {

@@ -2,8 +2,8 @@ const axios = require("axios");
 import { BACKEND_URL } from "@env";
 
 export const getAllAddress = (userId, token) => {
-	// console.log("Random Product call count: " + count);
-	console.log(BACKEND_URL,"Addr")
+	// console.log("Random Product call count: ");
+	console.log(BACKEND_URL,"Addre")
 	return axios({
 		method: "get",
 		url: `${BACKEND_URL}/getAllAddresses/${userId}`,
@@ -16,7 +16,7 @@ export const getAllAddress = (userId, token) => {
 };
 
 export const addAddress = (userId, token,address) => {
-	// console.log("Random Product call count: " + count);
+	// console.log("Random Product call count: ");
 	console.log(BACKEND_URL,"AddAddress")
 	return axios({
 		method: "post",

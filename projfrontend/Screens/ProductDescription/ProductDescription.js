@@ -126,7 +126,6 @@ const ProductDescScreen = ({ route, navigation }) => {
                 : require("../../assets/animations/warn.json")
             }
             speed={loading===5?-1:1}
-            // onAnimationFinish={setLoading(0)}
           />
         ) : null}
 

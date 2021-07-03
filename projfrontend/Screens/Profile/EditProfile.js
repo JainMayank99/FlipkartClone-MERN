@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import {
-  SafeAreaView,
+  Dimensions,
   TextInput,
-  Button,
-  ActivityIndicator,
   Text,
   View,
   StyleSheet,
@@ -50,7 +48,6 @@ const EditProfile = ({ navigation, route }) => {
       .then((res) => {
         setName(res.data.name);
         setEmail(res.data.email);
-        console.log(res.data);
       })
       .catch((err) => {
         console.log("User fetch error: " + err);
@@ -61,7 +58,6 @@ const EditProfile = ({ navigation, route }) => {
     setLoading(1);
     editUser(user, token, values.userName, values.email)
       .then((res) => {
-        console.log(res.data);
         setLoading(2);
         setTimeout(() => {
           pushToHome();
@@ -77,16 +73,15 @@ const EditProfile = ({ navigation, route }) => {
   };
 
   React.useEffect(() => {
-    setLoading(1)
+    setLoading(1);
     navigation.addListener("focus", () => {
-      console.log("I am Edit Profile");
       isAuthenticated()
         .then((res) => {
           if (res.user) {
             setUser(res.user._id);
             setToken(res.token);
             fetchUser(res.user._id, res.token);
-            setLoading(0)
+            setLoading(0);
           }
         })
         .catch((err) => {
@@ -109,7 +104,7 @@ const EditProfile = ({ navigation, route }) => {
   };
 
   return (
-    <View style={loading !== 0 ? styles.overlay : null}>
+    <View style={loading !== 0 ? styles.overlay : {backgroundColor:'white'}}>
       {loading !== 0 ? (
         <LottieView
           style={styles.lottie}
@@ -220,25 +215,23 @@ const EditProfile = ({ navigation, route }) => {
                   </Text>
                 </View>
 
-               
-                  <TouchableOpacity
-                    onPress={formikProps.handleSubmit}
-                    style={{
-                      marginHorizontal: 8,
-                      marginVertical: 40,
-                    }}
+                <TouchableOpacity
+                  onPress={formikProps.handleSubmit}
+                  style={{
+                    marginHorizontal: 8,
+                    marginVertical: 40,
+                  }}
+                >
+                  <View
+                    style={
+                      formikProps.errors.email || formikProps.errors.userName
+                        ? styles.buttonlight
+                        : styles.button
+                    }
                   >
-                    <View
-                      style={
-                        formikProps.errors.email || formikProps.errors.userName
-                          ? styles.buttonlight
-                          : styles.button
-                      }
-                    >
-                      <Text style={styles.submit}>Update</Text>
-                    </View>
-                  </TouchableOpacity>
-                
+                    <Text style={styles.submit}>Update</Text>
+                  </View>
+                </TouchableOpacity>
               </React.Fragment>
             )}
           </Formik>
@@ -253,9 +246,11 @@ const EditProfile = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   screen: {
     paddingTop: 72,
-    paddingBottom:8,
-    paddingHorizontal:16,
+    paddingBottom: 8,
+    paddingHorizontal: 16,
     marginTop: 8,
+    backgroundColor: "white",
+    height:Dimensions.get("screen").height
   },
   overlay: {
     position: "relative",
@@ -366,6 +361,7 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
     borderBottomWidth: 5,
     borderBottomColor: "#edeeef",
+    backgroundColor: "white",
   },
 });
 

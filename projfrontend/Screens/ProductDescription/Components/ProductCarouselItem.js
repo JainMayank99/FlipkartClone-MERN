@@ -7,7 +7,6 @@ const { width, height } = Dimensions.get("window");
 const ProductCarouselItem = ({ item }) => {
 	return (
 		<View style={styles.cardView}>
-			{/* <Image style={styles.image} source={item.url} /> */}
 			<ExpoImage
 				preview={{
 					uri: item.url
@@ -17,6 +16,7 @@ const ProductCarouselItem = ({ item }) => {
 				}}
 				uri={item.url}
 				style={styles.image}
+				resizeMode='cover'
 			/>
 		</View>
 	);
@@ -34,11 +34,16 @@ const styles = StyleSheet.create({
 		shadowOpacity: 0.5,
 		shadowRadius: 3,
 		elevation: 6,
+		overflow:'visible'
+		
+		
 	},
 
 	image: {
 		width: width,
-		height: height / 2,
+		height: height/2,
+		resizeMode: "contain",
+		
 	},
 	itemTitle: {
 		color: "white",
@@ -50,6 +55,7 @@ const styles = StyleSheet.create({
 		marginBottom: 5,
 		elevation: 5,
 		fontFamily: "popins-med",
+		
 	},
 });
 

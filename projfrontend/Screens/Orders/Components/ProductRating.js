@@ -2,7 +2,6 @@ import React from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
-// const width = Dimensions.get('screen').width;
 const ProductRating = () => {
 	return (
 		<View

@@ -9,9 +9,10 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import { Image as ExpoImage } from "react-native-expo-image-cache";
-
 import { isAuthenticated } from "../../Auth/AuthAPICalls/authCalls";
 import { addProductToWishList } from "./../../WishList/APICall/WishlistAPI";
+
+import { truncate } from "./../../../components/Truncate";
 import {
   updateQuantityInCart,
   removeProductFromCart,
@@ -105,7 +106,6 @@ const CartItem = ({
       });
   };
 
-
   const image = {
     uri: require("../../../assets/catIcons/like.png"),
   };
@@ -167,8 +167,9 @@ const CartItem = ({
             </View>
           </View>
           <View style={styles.detailsBox}>
-            <Text style={styles.textDetails}>{item.product.name}</Text>
-            {/* <Text style={styles.tribeDetails}>{item.desc}</Text> */}
+            <Text style={styles.textDetails}>
+              {truncate(item.product.name, 20)}
+            </Text>
             <View
               style={{
                 flex: 1,

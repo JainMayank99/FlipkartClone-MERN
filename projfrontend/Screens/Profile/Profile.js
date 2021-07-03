@@ -6,24 +6,28 @@ import LottieView from "lottie-react-native";
 
 import Header from "../../components/Header";
 
-import { getUser } from './APICall/ProfileAPI';
+import { getUser } from "./APICall/ProfileAPI";
 import { isAuthenticated } from "../Auth/AuthAPICalls/authCalls";
-import { truncate } from './../../components/Truncate';
+import { truncate } from "./../../components/Truncate";
 
 const Profile = ({ navigation }) => {
-
   const [user, setUser] = useState("");
   const [token, setToken] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(0);
+  const [language, setLanguage] = useState("en");
+
+  const getLanguage = async () => {
+    setLanguage(await AsyncStorage.getItem("lang"));
+  };
 
   const fetchUser = (userId, tokenId) => {
     getUser(userId, tokenId)
       .then((res) => {
-        setName(truncate(res.data.name,20));
+        setName(truncate(res.data.name, 20));
         setPhone(res.data.phone);
-        setLoading(false)
+        setLoading(false);
       })
       .catch((err) => {
         console.log("User fetch error: " + err);
@@ -31,16 +35,14 @@ const Profile = ({ navigation }) => {
   };
 
   React.useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     navigation.addListener("focus", () => {
-      console.log("I am Edit Profile");
       isAuthenticated()
         .then((res) => {
           if (res.user) {
             setUser(res.user._id);
             setToken(res.token);
             fetchUser(res.user._id, res.token);
-           
           }
         })
         .catch((err) => {
@@ -68,128 +70,141 @@ const Profile = ({ navigation }) => {
     uri: require("../../assets/catIcons/shopping-bag.png"),
   };
   return (
-    <View style={loading===true ? styles.overlay : null}>
-    {loading ===true ? (
-      <LottieView
-        style={styles.lottie}
-        autoPlay
-        loop={false}
-        source={
-          require("../../assets/animations/loader.json")
-            
-        }
-      />
-    ) : null}
-    <View>
-      <Header navigation={navigation} />
-      <View style={{ padding: 16 }}>
-        <View style={styles.header}>
-          <View>
-            <Text style={styles.name}>{name}</Text>
-            <Text style={styles.mail}>Contact : {phone}</Text>
-            <TouchableOpacity>
-              <Text
-                style={styles.edit}
-                onPress={(() => navigation.navigate("EditProfile",{ screenName:'Profile' }) )}
-              >
-                Edit Profile {">"}{" "}
-              </Text>
-            </TouchableOpacity>
+    <View style={loading === true ? styles.overlay : null}>
+      {loading === true ? (
+        <LottieView
+          style={styles.lottie}
+          autoPlay
+          loop={false}
+          source={require("../../assets/animations/loader.json")}
+        />
+      ) : null}
+      <View>
+        <Header navigation={navigation} />
+        <View style={{ padding: 16 }}>
+          <View style={styles.header}>
+            <View>
+              <Text style={styles.name}>{name}</Text>
+              <Text style={styles.mail}>Contact : {phone}</Text>
+              <TouchableOpacity>
+                <Text
+                  style={styles.edit}
+                  onPress={() =>
+                    navigation.navigate("EditProfile", {
+                      screenName: "Profile",
+                    })
+                  }
+                >
+                  {language === "te"
+                    ? "ప్రొఫైల్‌ను సవరించండి"
+                    : language === "hi"
+                    ? "प्रोफ़ाइल संपादित करें"
+                    : language === "ka"
+                    ? "ಪ್ರೊಫೈಲ್ ಬದಲಿಸು"
+                    : language === "ta"
+                    ? "சுயவிவரத்தைத் திருத்து"
+                    : "Edit Profile"}
+                  {">"}
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <Image
+              style={styles.image}
+              source={image.uri}
+              style={{
+                marginVertical: 4,
+                width: 100,
+                height: 100,
+                borderRadius: 50,
+                resizeMode: "cover",
+              }}
+            />
           </View>
-          <Image
-            style={styles.image}
-            source={image.uri}
+          <Dash
+            dashGap={-1}
+            dashLength={7.5}
+            dashThickness={1.5}
+            dashColor="#edeeef"
+            dashStyle={{ borderRadius: 100, overflow: "hidden" }}
             style={{
-              marginVertical: 4,
-              width: 100,
-              // marginRight: 8,
-              height: 100,
-              borderRadius: 50,
-              resizeMode: "cover",
+              width: "100%",
+              height: 8,
+              borderRadius: 100,
             }}
           />
-        </View>
-        <Dash
-          dashGap={-1}
-          dashLength={7.5}
-          dashThickness={1.5}
-          dashColor="#edeeef"
-          dashStyle={{ borderRadius: 100, overflow: "hidden" }}
-          style={{
-            width: "100%",
-            height: 8,
-            borderRadius: 100,
-          }}
-        />
-        <Text style={styles.tag1}>User Details</Text>
-        <View style={styles.view}>
-          <View style={styles.image}>
-            <Image
-              source={shopping.uri}
-              style={{
-                width: 24,
-                height: 24,
-              }}
-            />
+          <Text style={styles.tag1}>User Details</Text>
+          <View style={styles.view}>
+            <View style={styles.image}>
+              <Image
+                source={shopping.uri}
+                style={{
+                  width: 24,
+                  height: 24,
+                }}
+              />
+            </View>
+            <Text style={styles.subHeader}>My Orders</Text>
           </View>
-          <Text style={styles.subHeader}>My Orders</Text>
-        </View>
 
-        <View style={styles.view}>
-          <View style={styles.image}>
-            <Image
-              source={wishlist.uri}
-              style={{
-                width: 24,
-                height: 24,
-              }}
-            />
+          <View style={styles.view}>
+            <View style={styles.image}>
+              <Image
+                source={wishlist.uri}
+                style={{
+                  width: 24,
+                  height: 24,
+                }}
+              />
+            </View>
+            <Text style={styles.subHeader}>My Wishlist</Text>
           </View>
-          <Text style={styles.subHeader}>My Wishlist</Text>
-        </View>
 
-        <View style={styles.view}>
-          <View style={styles.image}>
-            <Image
-              source={address.uri}
-              style={{
-                width: 24,
-                height: 24,
-              }}
-            />
+          <View style={styles.view}>
+            <View style={styles.image}>
+              <Image
+                source={address.uri}
+                style={{
+                  width: 24,
+                  height: 24,
+                }}
+              />
+            </View>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("Address", { screenName: "Profile" })
+              }
+            >
+              <Text style={styles.subHeader}>Address Book</Text>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity onPress={() => navigation.navigate("Address",{ screenName:'Profile' })}>
-            <Text style={styles.subHeader}>Address Book</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.view1}>
-          <Text style={styles.tag}>Change Password</Text>
-          <View style={styles.image}>
-            <Image
-              source={settings.uri}
-              style={{
-                width: 25,
-                marginRight: 8,
-                height: 25,
-              }}
-            />
+          <View style={styles.view1}>
+            <Text style={styles.tag}>Change Password</Text>
+            <View style={styles.image}>
+              <Image
+                source={settings.uri}
+                style={{
+                  width: 25,
+                  marginRight: 8,
+                  height: 25,
+                }}
+              />
+            </View>
           </View>
-        </View>
-        <View style={styles.view2}>
-          <Text style={styles.tag}>Log Out</Text>
-          <View style={styles.image}>
-            <Image
-              source={logOut.uri}
-              style={{
-                width: 25,
-                marginRight: 8,
-                height: 25,
-              }}
-            />
+          <View style={styles.view2}>
+            <Text style={styles.tag}>Log Out</Text>
+            <View style={styles.image}>
+              <Image
+                source={logOut.uri}
+                style={{
+                  width: 25,
+                  marginRight: 8,
+                  height: 25,
+                }}
+              />
+            </View>
           </View>
         </View>
       </View>
-    </View>
     </View>
   );
 };

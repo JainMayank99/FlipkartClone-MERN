@@ -25,7 +25,7 @@ export const isProductInCart = (userId, productId, token) => {
 };
 
 export const isProductInWishlist = (userId, productId, token) => {
-	console.log(BACKEND_URL)
+	console.log(BACKEND_URL,"hii")
 	return axios({
 		method: "get",
 		url: `${BACKEND_URL}/isProductInWishlist/${userId}/${productId}`,
