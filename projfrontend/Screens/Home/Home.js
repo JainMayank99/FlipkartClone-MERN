@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState,useContext } from "react";
-import * as Location from 'expo-location';
+import React, { useEffect, useRef, useState, useContext } from "react";
+import * as Location from "expo-location";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import {
@@ -36,11 +36,21 @@ const Home = ({ route, navigation }) => {
   const [language, setLanguage] = useState("en");
   const [loading, setLoading] = useState(false);
   const carouselRef = useRef(null);
- 
-  const mainWork = async(lang) => {
+
+  React.useEffect(() => {
+    navigation.addListener("focus", () => {
+      getLanguage();
+    });
+  }, [navigation]);
+  
+  const getLanguage = async () => {
+    setLanguage(await AsyncStorage.getItem("lang"));
+  };
+
+  const mainWork = async (lang) => {
     if (typeof window !== "undefined") {
       setLanguage(lang);
-      await AsyncStorage.setItem("lang",lang);
+      await AsyncStorage.setItem("lang", lang);
     }
     setLoading(false);
   };
@@ -48,18 +58,14 @@ const Home = ({ route, navigation }) => {
     setLoading(true);
     setTimeout(() => {
       mainWork(lang);
-    }, 500);
+    }, 100);
   };
 
-  
-
   const [background, setBackground] = useState({
-    uri:
-      "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQA_-tL18_rj9zEcjN6n41NEaJm-kRNF9UeOtvksZ4z_OW6jRA9",
+    uri: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQA_-tL18_rj9zEcjN6n41NEaJm-kRNF9UeOtvksZ4z_OW6jRA9",
     name: "Avengers: End Game",
     stat: "2019 ‧ Action/Sci-fi ‧ 3h 2m",
-    desc:
-      "After Thanos, an intergalactic warlord, disintegrates half of the universe, the Avengers must reunite and assemble again to reinvigorate their trounced allies and restore balance.",
+    desc: "After Thanos, an intergalactic warlord, disintegrates half of the universe, the Avengers must reunite and assemble again to reinvigorate their trounced allies and restore balance.",
   });
 
   const [gallery, setgallery] = useState([
@@ -69,8 +75,7 @@ const Home = ({ route, navigation }) => {
       title: "Avengers: End Game",
       released: "2019 ‧ Action/Sci-fi ‧ 3h 2m",
       key: "1",
-      desc:
-        "After Thanos, an intergalactic warlord, disintegrates half of the universe, the Avengers must reunite and assemble again to reinvigorate their trounced allies and restore balance.",
+      desc: "After Thanos, an intergalactic warlord, disintegrates half of the universe, the Avengers must reunite and assemble again to reinvigorate their trounced allies and restore balance.",
     },
     {
       image:
@@ -78,8 +83,7 @@ const Home = ({ route, navigation }) => {
       title: "Frozen II",
       released: "2019 ‧ Animation/Musical ‧ 1h 43m",
       key: "2",
-      desc:
-        "Elsa the Snow Queen has an extraordinary gift -- the power to create ice and snow. But no matter how happy she is to be surrounded by the people of Arendelle, Elsa finds herself strangely unsettled.",
+      desc: "Elsa the Snow Queen has an extraordinary gift -- the power to create ice and snow. But no matter how happy she is to be surrounded by the people of Arendelle, Elsa finds herself strangely unsettled.",
     },
     {
       image:
@@ -87,8 +91,7 @@ const Home = ({ route, navigation }) => {
       title: "Alita: Battle Angel",
       released: "2019 ‧ Action/Sci-fi ‧ 2h 2m",
       key: "3",
-      desc:
-        "Alita, a battle cyborg, is revived by Ido, a doctor, who realises that she actually has the soul of a teenager. Alita then sets out to learn about her past and find her true identity.",
+      desc: "Alita, a battle cyborg, is revived by Ido, a doctor, who realises that she actually has the soul of a teenager. Alita then sets out to learn about her past and find her true identity.",
     },
     {
       image:
@@ -96,8 +99,7 @@ const Home = ({ route, navigation }) => {
       title: "The Irish Man",
       released: "2019 ‧ Crime/Drama ‧ 3h 30m",
       key: "4",
-      desc:
-        "In the 1950s, truck driver Frank Sheeran gets involved with Russell Bufalino and his Pennsylvania crime family. As Sheeran climbs the ranks to become a top hit man, he also goes to work for Jimmy Hoffa.",
+      desc: "In the 1950s, truck driver Frank Sheeran gets involved with Russell Bufalino and his Pennsylvania crime family. As Sheeran climbs the ranks to become a top hit man, he also goes to work for Jimmy Hoffa.",
     },
     {
       image:
@@ -105,8 +107,7 @@ const Home = ({ route, navigation }) => {
       title: "John Wick Chapter 3",
       released: "2019 ‧ Action/Thriller ‧ 2h 10m",
       key: "5",
-      desc:
-        "John Wick is declared excommunicado and a hefty bounty is set on him after he murders an international crime lord. He sets out to seek help to save himself from ruthless hitmen and bounty hunters.",
+      desc: "John Wick is declared excommunicado and a hefty bounty is set on him after he murders an international crime lord. He sets out to seek help to save himself from ruthless hitmen and bounty hunters.",
     },
   ]);
 
@@ -139,21 +140,16 @@ const Home = ({ route, navigation }) => {
 
   const handleUserLocation = () => {
     (async () => {
-     
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
-       Console.log("Permission to access location was denied");
+        Console.log("Permission to access location was denied");
         return;
-      }   
+      }
     })();
   };
   const renderItem = ({ item, index }) => {
-    
-
-    
-
     return (
-      <View> 
+      <View>
         <TouchableOpacity
           onPress={() => {
             carouselRef.current.scrollToIndex(index);
@@ -179,7 +175,8 @@ const Home = ({ route, navigation }) => {
   };
 
   return (
-    <View style={{backgroundColor:'white'}}>
+    <View style={{ backgroundColor: "white" }}>
+      {console.log(language)}
       {loading === true ? (
         <View style={styles.overlay}>
           <LottieView
@@ -194,14 +191,14 @@ const Home = ({ route, navigation }) => {
             changeLanguage={changeLanguage}
             navigation={navigation}
           />
-       
+
           <ScrollView
             style={{
               marginTop: 105,
             }}
           >
             <Categories language={language} changeLanguage={changeLanguage} />
-          
+
             <AppCarousel data={dummyData} navigation={navigation} />
             <TopPicks language={language} navigation={navigation} />
             <FeaturedCategories language={language} navigation={navigation} />

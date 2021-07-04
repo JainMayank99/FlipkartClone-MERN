@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import {
-  SafeAreaView,
+  Dimensions,
   TextInput,
-  Button,
-  ActivityIndicator,
   Text,
   View,
   StyleSheet,
@@ -12,9 +10,8 @@ import {
 import { Formik } from "formik";
 import * as yup from "yup";
 import LottieView from "lottie-react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import Screen from "./../../components/Screen";
-import Header from "../../components/Header";
 import BackButtonHeader from "../../components/BackButtonHeader";
 
 import { isAuthenticated } from "../Auth/AuthAPICalls/authCalls";
@@ -39,6 +36,7 @@ const EditProfile = ({ navigation, route }) => {
   const [token, setToken] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [language, setLanguage] = useState("en");
 
   const pushToHome = () => {
     navigation.goBack();
@@ -50,7 +48,6 @@ const EditProfile = ({ navigation, route }) => {
       .then((res) => {
         setName(res.data.name);
         setEmail(res.data.email);
-        console.log(res.data);
       })
       .catch((err) => {
         console.log("User fetch error: " + err);
@@ -61,7 +58,6 @@ const EditProfile = ({ navigation, route }) => {
     setLoading(1);
     editUser(user, token, values.userName, values.email)
       .then((res) => {
-        console.log(res.data);
         setLoading(2);
         setTimeout(() => {
           pushToHome();
@@ -76,17 +72,21 @@ const EditProfile = ({ navigation, route }) => {
       });
   };
 
+  const getLanguage = async () => {
+    setLanguage(await AsyncStorage.getItem("lang"));
+  };
+
   React.useEffect(() => {
-    setLoading(1)
     navigation.addListener("focus", () => {
-      console.log("I am Edit Profile");
+      getLanguage();
       isAuthenticated()
         .then((res) => {
           if (res.user) {
+            setLoading(1);
             setUser(res.user._id);
             setToken(res.token);
             fetchUser(res.user._id, res.token);
-            setLoading(0)
+            setLoading(0);
           }
         })
         .catch((err) => {
@@ -109,7 +109,7 @@ const EditProfile = ({ navigation, route }) => {
   };
 
   return (
-    <View style={loading !== 0 ? styles.overlay : null}>
+    <View style={loading !== 0 ? styles.overlay : { backgroundColor: "white" }}>
       {loading !== 0 ? (
         <LottieView
           style={styles.lottie}
@@ -127,7 +127,17 @@ const EditProfile = ({ navigation, route }) => {
       <View>
         <BackButtonHeader screenName={screenName} navigation={navigation} />
         <View style={styles.screen}>
-          <Text style={styles.heading}>Edit Profile</Text>
+          <Text style={styles.heading}>
+            {language === "te"
+              ? "ప్రొఫైల్‌ను సవరించండి"
+              : language === "hi"
+              ? "प्रोफ़ाइल संपादित करें"
+              : language === "ka"
+              ? "ಪ್ರೊಫೈಲ್ ಬದಲಿಸು"
+              : language === "ta"
+              ? "சுயவிவரத்தைத் திருத்து"
+              : "Wishlist Is Empty"}
+          </Text>
           <Formik
             enableReinitialize={true}
             initialValues={{ email: email, userName: name }}
@@ -220,25 +230,33 @@ const EditProfile = ({ navigation, route }) => {
                   </Text>
                 </View>
 
-               
-                  <TouchableOpacity
-                    onPress={formikProps.handleSubmit}
-                    style={{
-                      marginHorizontal: 8,
-                      marginVertical: 40,
-                    }}
+                <TouchableOpacity
+                  onPress={formikProps.handleSubmit}
+                  style={{
+                    marginHorizontal: 8,
+                    marginVertical: 40,
+                  }}
+                >
+                  <View
+                    style={
+                      formikProps.errors.email || formikProps.errors.userName
+                        ? styles.buttonlight
+                        : styles.button
+                    }
                   >
-                    <View
-                      style={
-                        formikProps.errors.email || formikProps.errors.userName
-                          ? styles.buttonlight
-                          : styles.button
-                      }
-                    >
-                      <Text style={styles.submit}>Update</Text>
-                    </View>
-                  </TouchableOpacity>
-                
+                    <Text style={styles.submit}>
+                      {language === "te"
+                        ? "నవీకరణ"
+                        : language === "hi"
+                        ? "अपडेट करें"
+                        : language === "ka"
+                        ? "ನವೀಕರಿಸಿ"
+                        : language === "ta"
+                        ? "புதுப்பிப்பு"
+                        : "Update "}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
               </React.Fragment>
             )}
           </Formik>
@@ -253,9 +271,11 @@ const EditProfile = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   screen: {
     paddingTop: 72,
-    paddingBottom:8,
-    paddingHorizontal:16,
+    paddingBottom: 8,
+    paddingHorizontal: 16,
     marginTop: 8,
+    backgroundColor: "white",
+    height: Dimensions.get("screen").height,
   },
   overlay: {
     position: "relative",
@@ -366,6 +386,7 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
     borderBottomWidth: 5,
     borderBottomColor: "#edeeef",
+    backgroundColor: "white",
   },
 });
 

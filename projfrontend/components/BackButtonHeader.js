@@ -4,7 +4,7 @@ import { Feather } from "@expo/vector-icons";
 import Screen from "./Screen";
 import { StatusBar } from "react-native";
 
-const BackButtonHeader = ({ screenName,navigation }) => {
+const BackButtonHeader = ({ screenName, navigation }) => {
   const cart = {
     uri: require("../assets/customIcons/cart.png"),
   };
@@ -17,7 +17,7 @@ const BackButtonHeader = ({ screenName,navigation }) => {
   return (
     <Screen style={styles.screen}>
       <StatusBar hidden />
-      <View style={{ position: "relative"}}>
+      <View style={{ position: "relative" }}>
         <TouchableOpacity style={styles.cart}>
           <Image
             source={cart.uri}
@@ -36,16 +36,18 @@ const BackButtonHeader = ({ screenName,navigation }) => {
             }}
           />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.back} onPress={()=>navigation.goBack()}>
-         
-            <Image
-              source={back.uri}
-              style={{
-                width: 32,
-                height: 32,
-              }}
-            />
-          
+        <TouchableOpacity
+          style={styles.back}
+          onPress={() => navigation.goBack()}
+        >
+          <Image
+            source={back.uri}
+            style={{
+              width: 32,
+              height: 32,
+            }}
+          />
+
           {/* <Text style={styles.add}>{screenName}</Text> */}
         </TouchableOpacity>
       </View>
@@ -57,25 +59,22 @@ export default BackButtonHeader;
 
 const styles = StyleSheet.create({
   screen: {
-    paddingVertical:8,
-    maxHeight:52,
-    backgroundColor:'white',
+    paddingVertical: 8,
+    maxHeight: 52,
+    backgroundColor: "white",
+    zIndex: 9999,
   },
   body: {
     flex: 1,
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
-  
   },
   view: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
-    paddingTop:8,
-    // paddingBottom:24,
-   
-  
+    paddingTop: 8,
   },
   add: {
     fontFamily: "zilla-med",

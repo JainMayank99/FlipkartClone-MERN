@@ -15,6 +15,7 @@ const WishListItems = ({
   navigation,
   onChangeWishlist,
   changeLoading,
+  language
 }) => {
   return (
     <View
@@ -24,7 +25,15 @@ const WishListItems = ({
       }}
     >
       <View style={styles.body}>
-        <Text style={styles.text}>My Wishlist</Text>
+        <Text style={styles.text}>  {language === "te"
+                    ? "కోరికల జాబితా"
+                    : language === "hi"
+                    ? "इच्छा-सूची"
+                    : language === "ka"
+                    ? "ಬಯಕೆಪಟ್ಟಿ"
+                    : language === "ta"
+                    ? "விருப்பப்பட்டியல்"
+                    : "Wishlist"}</Text>
       </View>
       <ScrollView showsHorizontalScrollIndicator={false}>
         <FlatList
@@ -38,6 +47,7 @@ const WishListItems = ({
                 navigation={navigation}
                 onChangeWishlist={onChangeWishlist}
                 changeLoading={changeLoading}
+                language={language}
               />
             );
           }}

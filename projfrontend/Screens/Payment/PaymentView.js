@@ -5,8 +5,6 @@ import { STRIPE_PK_TEST } from "@env";
 
 const PaymentView = (props) => {
 	const { amount, product } = props;
-	// console.log("STRIPE_PK_TEST", STRIPE_PK_TEST);
-	// console.log("props", props);
 	const STRIPE_PK = STRIPE_PK_TEST;
 
 	const onCheckStatus = (response) => {
@@ -29,6 +27,9 @@ const PaymentView = (props) => {
                 
                 <style>
              
+               body{
+                   background-color:'white';
+               }
                 .ElementsApp, .ElementsApp.InputElement {
                     color: #FFF;
                     font-weight: 500;
@@ -121,6 +122,8 @@ const PaymentView = (props) => {
                         color:white;
                         font-weight:500;
                     }
+
+                   
                 
                 </style>
             
@@ -128,7 +131,7 @@ const PaymentView = (props) => {
             <body>
                 
                 <!-- product info -->
-                <div class="container-fluid">
+                <div class="container-fluid" >
                     
                     <div class="row">
                         <label class="card-errors" id="card-errors"></label>

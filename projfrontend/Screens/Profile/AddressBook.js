@@ -13,20 +13,20 @@ import {
 import Dash from "react-native-dash";
 import { Feather } from "@expo/vector-icons";
 import LottieView from "lottie-react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import Header from "../../components/Header";
 import { isAuthenticated } from "../Auth/AuthAPICalls/authCalls";
 import { getAllAddress, removeAddress } from "./APICall/AddressAPI";
 import BackButtonHeader from "../../components/BackButtonHeader";
 
-const AddressBook = ({ navigation,route }) => {
+const AddressBook = ({ navigation, route }) => {
   const { screenName } = route.params;
-  const { width } = useWindowDimensions();
   const [defaultAddress, setDefaultAddress] = useState("");
   const [allAddresses, setAllAddressses] = useState([]);
   const [user, setUser] = useState("");
   const [token, setToken] = useState("");
   const [loading, setLoading] = useState(true);
+  const [language, setLanguage] = useState("en");
 
   const onChange = (data1, data2) => {
     setDefaultAddress(JSON.parse(data1));
@@ -66,8 +66,13 @@ const AddressBook = ({ navigation,route }) => {
       });
   };
 
+  const getLanguage = async () => {
+    setLanguage(await AsyncStorage.getItem("lang"));
+  };
+
   React.useEffect(() => {
     navigation.addListener("focus", () => {
+      getLanguage();
       isAuthenticated()
         .then((res) => {
           if (res.user) {
@@ -82,22 +87,10 @@ const AddressBook = ({ navigation,route }) => {
     });
   }, [navigation]);
 
-  // useEffect(() => {
-  //   isAuthenticated()
-  //     .then((res) => {
-  //       if (res.user) {
-  //         setUser(res.user._id);
-  //         setToken(res.token);
-  //         getAddresses(res.user._id, res.token);
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       console.log(" address book screen error: " + err);
-  //     });
-  // }, [loading]);
-
   return (
-    <View style={loading === true ? styles.overlay : null}>
+    <View
+      style={loading === true ? styles.overlay : { backgroundColor: "white" }}
+    >
       {loading === true ? (
         <LottieView
           style={styles.lottie}
@@ -106,14 +99,29 @@ const AddressBook = ({ navigation,route }) => {
           source={require("../../assets/animations/loader.json")}
         />
       ) : null}
-      <View>
-      {/* {console.log(defaultAddress,allAddresses)} */}
-        <BackButtonHeader screenName={screenName} navigation={navigation}  />
-        {loading === false && defaultAddress.length!==0 && allAddresses.length !== 0 ? (
-          <View style={{ marginTop:32 }}>
-            {console.log(1)}
+      <View
+        style={{
+          backgroundColor: "white",
+          height: Dimensions.get("screen").height,
+        }}
+      >
+        <BackButtonHeader screenName={screenName} navigation={navigation} />
+        {loading === false &&
+        defaultAddress.length !== 0 &&
+        allAddresses.length !== 0 ? (
+          <View style={{ marginTop: 32 }}>
             <View style={{ marginHorizontal: 16 }}>
-              <Text style={styles.heading}>Default Address :</Text>
+              <Text style={styles.heading}>
+                {language === "te"
+                  ? "డిఫాల్ట్ చిరునామా :"
+                  : language === "hi"
+                  ? "डिफ़ॉल्ट पता :"
+                  : language === "ka"
+                  ? "ಡೀಫಾಲ್ಟ್ ವಿಳಾಸ :"
+                  : language === "ta"
+                  ? "இயல்புநிலை முகவரி :"
+                  : "Default Address :"}
+              </Text>
               <View style={styles.addressHolder}>
                 <View
                   style={{ minWidth: Dimensions.get("screen").width * 0.875 }}
@@ -128,8 +136,14 @@ const AddressBook = ({ navigation,route }) => {
                   <Text style={styles.text}>{defaultAddress.postalCode}</Text>
                 </View>
 
-                <TouchableOpacity onPress={() => removeAddress()}>
-                  <Feather name="trash" size={22} color="#FF6B3C" />
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("SetDefaultAddressScreen", {
+                      screenName: "Profile",
+                    })
+                  }
+                >
+                  <Feather name="feather" size={22} color="#FF6B3C" />
                 </TouchableOpacity>
               </View>
             </View>
@@ -142,7 +156,17 @@ const AddressBook = ({ navigation,route }) => {
               }}
             ></View>
             <View style={{ paddingLeft: 16 }}>
-              <Text style={styles.heading2}>My Addresses :</Text>
+              <Text style={styles.heading2}>
+                {language === "te"
+                  ? "నా చిరునామాలు :"
+                  : language === "hi"
+                  ? "मेरे पते :"
+                  : language === "ka"
+                  ? "ನನ್ನ ವಿಳಾಸಗಳು :"
+                  : language === "ta"
+                  ? "எனது முகவரிகள் :"
+                  : "My Addresses :"}
+              </Text>
               <FlatList
                 data={allAddresses}
                 extraData={allAddresses}
@@ -186,7 +210,17 @@ const AddressBook = ({ navigation,route }) => {
                 <Feather name="plus" size={24} color="#FF6B3C" />
               </View>
 
-              <Text style={styles.add}>Add Address</Text>
+              <Text style={styles.add}>
+                {language === "te"
+                  ? "చిరునామాను జోడించండి"
+                  : language === "hi"
+                  ? "पता जोड़ें"
+                  : language === "ka"
+                  ? "ವಿಳಾಸವನ್ನು ಸೇರಿಸಿ"
+                  : language === "ta"
+                  ? "முகவரியைச் சேர்க்கவும்"
+                  : "Add Address"}
+              </Text>
             </TouchableOpacity>
             <View style={{ paddingHorizontal: 16 }}>
               <Dash
@@ -202,36 +236,35 @@ const AddressBook = ({ navigation,route }) => {
                 }}
               />
             </View>
-            
           </View>
-        ) : loading === false && defaultAddress.length===0 && allAddresses.length === 0 ? (
+        ) : loading === false &&
+          defaultAddress.length === 0 &&
+          allAddresses.length === 0 ? (
           <View style={{ marginTop: 105 }}>
-            <View style= {styles.notFound }>
-            
-                <LottieView
-                  style={styles.globe}
-                  autoPlay
-                  loop
-                  source={require("../../assets/animations/globe.json")}
-                />
-           
+            <View style={styles.notFound}>
+              <LottieView
+                style={styles.globe}
+                autoPlay
+                loop
+                source={require("../../assets/animations/globe.json")}
+              />
             </View>
             <TouchableOpacity style={styles.buttonHolder}>
-            {/* <Text style={styles.notFoundText}>Add Address</Text> */}
-            <TouchableOpacity
-              style={styles.view}
-              onPress={() => navigation.navigate("AddAddress")}
-            >
-              <View style={{ height: 30, paddingRight: 8 }}>
-                <Feather name="plus" size={24} color="#FF6B3C" />
-              </View>
+              <TouchableOpacity
+                style={styles.view}
+                onPress={() => navigation.navigate("AddAddress")}
+              >
+                <View style={{ height: 30, paddingRight: 8 }}>
+                  <Feather name="plus" size={24} color="#FF6B3C" />
+                </View>
 
-              <Text style={styles.add}>Add Address</Text>
+                <Text style={styles.add}>Add Address</Text>
+              </TouchableOpacity>
             </TouchableOpacity>
-            </TouchableOpacity>
-            </View>
-          
-        ) :   console.log(3)}
+          </View>
+        ) : (
+          console.log()
+        )}
       </View>
     </View>
   );
@@ -257,20 +290,18 @@ const styles = StyleSheet.create({
   notFound: {
     position: "relative",
     height: "100%",
-    width: Dimensions.get('screen').width,
-    
+    width: Dimensions.get("screen").width,
   },
   globe: {
     position: "absolute",
-    top:'-10%',
+    top: "-10%",
     backgroundColor: "rgba(255,255,255,0)",
     height: "100%",
     width: "100%",
-   
   },
-  buttonHolder:{
+  buttonHolder: {
     position: "absolute",
-    top:'50%',
+    top: "50%",
     backgroundColor: "rgba(255,255,255,0)",
     height: "100%",
     width: "100%",
@@ -302,7 +333,8 @@ const styles = StyleSheet.create({
   view: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 16,
+    paddingHorizontal: 12,
+    paddingTop: 8,
   },
   addressHolder: {
     flexDirection: "row",
@@ -327,7 +359,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "#FF6B3C",
   },
-  
 });
 
 export default AddressBook;

@@ -49,15 +49,13 @@ const ProductCarousel = ({
     React.useCallback(() => {
       setDataList(data);
       if (loggedIn !== false) {
-		//   console.log(user, itemId, token)
         isProductInWishlist(user, itemId, token)
           .then((res) => {
-            // console.log(res.data);
             if (res.data.result === true) setInWishlist(true);
             else setInWishlist(false);
           })
           .catch((err) => {
-            console.log("wishlist screen error: " + err);
+            console.log("wishlist screen error in carousel: " + err);
           });
       } else {
         setInWishlist(false);
@@ -103,6 +101,7 @@ const ProductCarousel = ({
   if (data && data.length) {
     return (
       <View style={styles.container}>
+        {console.log(inWishlist)}
         <StatusBar hidden />
         <View style={{ flex: 3 }}>
           <FlatList

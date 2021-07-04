@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import StarRating from "react-native-star-rating";
-import Screen from "./../../../components/Screen";
 import { useFocusEffect } from "@react-navigation/native";
 import {
   StyleSheet,
@@ -12,16 +11,20 @@ import {
 } from "react-native";
 import LottieView from "lottie-react-native";
 
-import { addReviewAndRating, getReviewAndRating,updateReviewAndRating} from "../APICall/OrderAPI";
+import {
+  addReviewAndRating,
+  getReviewAndRating,
+  updateReviewAndRating,
+} from "../APICall/OrderAPI";
 import BackButtonHeader from "../../../components/BackButtonHeader";
 
 function StartRatingComponent({ route, navigation }) {
-  const { itemId, user, token } = route.params;
+  const { itemId, user, token, language } = route.params;
   const [rating, setRating] = useState(2);
   const [text, setText] = useState("");
-  const [reviewId, setReviewId] =useState("")
+  const [reviewId, setReviewId] = useState("");
   const [loading, setLoading] = useState(0);
-  const [update,setUpdate] = useState()
+  const [update, setUpdate] = useState();
 
   const onRatingChange = (rating) => {
     setRating(rating);
@@ -34,9 +37,10 @@ function StartRatingComponent({ route, navigation }) {
         .then((res) => {
           setRating(res.data.starCount);
           setText(res.data.reviewText);
-          setReviewId(res.data._id)
-          if(res.data.reviewText.length===0 || res.data.starCount==='') setUpdate(false);
-          else setUpdate(true)
+          setReviewId(res.data._id);
+          if (res.data.reviewText.length === 0 || res.data.starCount === "")
+            setUpdate(false);
+          else setUpdate(true);
           setLoading(0);
         })
         .catch((err) => {
@@ -45,45 +49,42 @@ function StartRatingComponent({ route, navigation }) {
     }, [itemId])
   );
 
-  const pushToPreviousScreen=()=>{
+  const pushToPreviousScreen = () => {
     navigation.goBack();
-  }
- 
+  };
 
   const onSubmit = () => {
-    if(update!==true) {
+    if (update !== true) {
       setLoading(1);
-        addReviewAndRating(user, token, itemId, text, rating)
-      .then((res) => {
-        console.log("Successfully Added");
-        setLoading(2);
-        setTimeout(() => {
-          pushToPreviousScreen();
-          setLoading(0)
-        }, 2000);
-      })
-      .catch((err) => {
-        console.log("Add review Error", err);
-        setLoading(3);
-      });
-    }
-    else{
-      setLoading(1);
-        updateReviewAndRating(user, token, reviewId, text, rating)
+      addReviewAndRating(user, token, itemId, text, rating)
         .then((res) => {
-            console.log("Successfully Updated");
-            setLoading(2);
-            setTimeout(() => {
-              pushToPreviousScreen();
-              setLoading(0)
-            }, 2000);
-          })
-          .catch((err) => {
-            console.log("Update review Error", err);
-            setLoading(3);
-          });
+          setLoading(2);
+          setTimeout(() => {
+            pushToPreviousScreen();
+            setLoading(0);
+          }, 2000);
+        })
+        .catch((err) => {
+          console.log("Add review Error", err);
+          setLoading(3);
+        });
+    } else {
+      setLoading(1);
+      updateReviewAndRating(user, token, reviewId, text, rating)
+        .then((res) => {
+          console.log("Successfully Updated");
+          setLoading(2);
+          setTimeout(() => {
+            pushToPreviousScreen();
+            setLoading(0);
+          }, 2000);
+        })
+        .catch((err) => {
+          console.log("Update review Error", err);
+          setLoading(3);
+        });
     }
-    
+
     console.log(text, rating);
   };
 
@@ -99,7 +100,7 @@ function StartRatingComponent({ route, navigation }) {
               ? require("../../../assets/animations/loader.json")
               : loading === 2
               ? require("../../../assets/animations/success.json")
-              :require("../../../assets/animations/error.json")
+              : require("../../../assets/animations/error.json")
           }
         />
       ) : null}
@@ -111,7 +112,17 @@ function StartRatingComponent({ route, navigation }) {
       >
         <BackButtonHeader />
         <View style={styles.body}>
-          <Text style={styles.heading}>Review Product</Text>
+          <Text style={styles.heading}>
+            {language === "te"
+              ? "ఉత్పత్తిని సమీక్షించండి"
+              : language === "hi"
+              ? "उत्पाद की समीक्षा करें"
+              : language === "ka"
+              ? "ಉತ್ಪನ್ನವನ್ನು ಪರಿಶೀಲಿಸಿ"
+              : language === "ta"
+              ? "தயாரிப்பு மதிப்பாய்வு"
+              : "Review Product"}
+          </Text>
 
           <TextInput
             style={styles.textInput}
@@ -144,7 +155,27 @@ function StartRatingComponent({ route, navigation }) {
             }}
           >
             <View style={styles.button}>
-              <Text style={styles.submit}>{update!==true?'SUBMIT':'UPDATE'}</Text>
+              <Text style={styles.submit}>
+                {update !== true
+                  ? language === "te"
+                    ? "సమీక్షను జోడించండి"
+                    : language === "hi"
+                    ? "समीक्षा जोड़ें"
+                    : language === "ka"
+                    ? "ವಿಮರ್ಶೆಯನ್ನು ಸೇರಿಸಿ"
+                    : language === "ta"
+                    ? "மதிப்பாய்வைச் சேர்"
+                    : "Add Review"
+                  : language === "te"
+                  ? "నవీకరణ సమీక్ష"
+                  : language === "hi"
+                  ? "अद्यतन समीक्षा"
+                  : language === "ka"
+                  ? "ವಿಮರ್ಶೆಯನ್ನು ನವೀಕರಿಸಿ"
+                  : language === "ta"
+                  ? "மதிப்பாய்வைப் புதுப்பிக்கவும்"
+                  : "Update Review"}
+              </Text>
             </View>
           </TouchableOpacity>
         </View>

@@ -8,20 +8,16 @@ import { productSearch } from "./APICall/ProductSearchAPI";
 import { productsByCategoryId } from "./APICall/CategoryProductAPI";
 
 const ProductListing = ({ category, navigation }) => {
-  // console.log("Category ID", category);
-
   const [language, setLanguage] = useState("en");
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState("");
   const [data, setData] = useState([]);
-
   const [gallery, setGallery] = useState();
 
   useEffect(() => {
     productSearch()
       .then((res) => {
         setGallery(res.data);
-        // console.log(res.data);
       })
       .catch((err) => {
         console.log("Product Search Screen error", err);
@@ -30,7 +26,6 @@ const ProductListing = ({ category, navigation }) => {
       productsByCategoryId(category)
         .then((res) => {
           setData(res.data);
-          // console.log(res.data);
         })
         .catch((err) => {
           console.log("Category Product Search Screen error", err);
@@ -53,10 +48,8 @@ const ProductListing = ({ category, navigation }) => {
     setQuery(queryText);
 
     const tempData = gallery.filter((item) =>
-      // queryText.length > 2 &&
-      item.name.toLowerCase().startsWith(queryText.toLowerCase())
+      item.name.toLowerCase().startsWith(queryText.toLowerCase()) && queryText.length >=2
     );
-
     setData(tempData);
   };
 
@@ -67,7 +60,6 @@ const ProductListing = ({ category, navigation }) => {
         height: Dimensions.get("screen").height,
       }}
     >
-      {/* {data.length > 0 ? console.log(data) : null} */}
       {loading === true ? (
         <View style={styles.overlay}>
           <LottieView

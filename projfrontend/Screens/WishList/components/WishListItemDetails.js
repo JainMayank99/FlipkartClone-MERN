@@ -17,12 +17,14 @@ import {
   removeProductFromWishList,
 } from "../APICall/WishlistAPI";
 import { addProductToCart } from "../../Cart/APICall/cartAPI";
+import { truncate } from './../../../components/Truncate';
 
 const WishListItemDetails = ({
   item,
   navigation,
   onChangeWishlist,
   changeLoading,
+  language,
 }) => {
   const [user, setUser] = useState();
   const [token, setToken] = useState();
@@ -138,7 +140,7 @@ const WishListItemDetails = ({
             </View>
           </View>
           <View style={styles.detailsBox}>
-            <Text style={styles.textDetails}>{item.product.name}</Text>
+            <Text style={styles.textDetails}>{truncate(item.product.name, 20)}</Text>
             <Text style={styles.tribeDetails}>{item.product.description}</Text>
             <View
               style={{
@@ -176,7 +178,15 @@ const WishListItemDetails = ({
               height: 22.5,
             }}
           />
-          <Text style={styles.buttonText}>Move To Cart</Text>
+          <Text style={styles.buttonText}>{language === "te"
+                    ? "బండికి జోడించండి"
+                    : language === "hi"
+                    ? "कार्ट में डालें"
+                    : language === "ka"
+                    ? "ಕಾರ್ಟ್‌ಗೆ ಸೇರಿಸಿ"
+                    : language === "ta"
+                    ? "பெட்டகத்தில் சேர்"
+                    : "Add To Cart"}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
@@ -192,7 +202,15 @@ const WishListItemDetails = ({
               height: 22.5,
             }}
           />
-          <Text style={styles.buttonText}>Remove</Text>
+          <Text style={styles.buttonText}>{language === "te"
+                    ? "తొలగించండి"
+                    : language === "hi"
+                    ? "निकालें"
+                    : language === "ka"
+                    ? "ತೆಗೆದುಹಾಕಿ"
+                    : language === "ta"
+                    ? "அகற்று"
+                    : "Remove"}</Text>
         </TouchableOpacity>
       </View>
     </View>

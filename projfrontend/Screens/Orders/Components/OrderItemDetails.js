@@ -12,7 +12,7 @@ import { Feather } from "@expo/vector-icons";
 import { Image as ExpoImage } from "react-native-expo-image-cache";
 import { truncate } from "../../../components/Truncate";
 
-const OrderItemDetails = ({ item, navigation, user, token }) => {
+const OrderItemDetails = ({ item, navigation, user, token, language }) => {
   const image = {
     uri: require("../../../assets/catIcons/trash.png"),
   };
@@ -27,6 +27,7 @@ const OrderItemDetails = ({ item, navigation, user, token }) => {
         borderRadius: 2,
       }}
     >
+      {console.log(language)}
       <TouchableWithoutFeedback>
         <View style={{ flex: 1, flexDirection: "row" }}>
           <View
@@ -57,7 +58,7 @@ const OrderItemDetails = ({ item, navigation, user, token }) => {
               {truncate(item.product.name, 20)}
             </Text>
             <Text style={styles.title}>Tribes Karnataka</Text>
-         
+
             <View
               style={{
                 flex: 1,
@@ -72,10 +73,22 @@ const OrderItemDetails = ({ item, navigation, user, token }) => {
                     itemId: item.product._id,
                     user: user,
                     token: token,
+                    language:language
                   });
                 }}
               >
-                <Text style={styles.review}>Review & Rating {">"}</Text>
+                <Text style={styles.review}>
+                  {language === "te"
+                    ? "సమీక్ష & రేటింగ్"
+                    : language === "hi"
+                    ? "समीक्षा और रेटिंग"
+                    : language === "ka"
+                    ? "ವಿಮರ್ಶೆ ಮತ್ತು ರೇಟಿಂಗ್"
+                    : language === "ta"
+                    ? "மதிப்பாய்வு & மதிப்பீடு"
+                    : "Review & Rating"}
+                  {">"}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>

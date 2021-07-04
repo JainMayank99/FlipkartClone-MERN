@@ -32,13 +32,17 @@ const WishList = ({ navigation, route }) => {
     }
   };
 
+  const getLanguage = async () => {
+    setLanguage(await AsyncStorage.getItem("lang"));
+  };
+  
   React.useEffect(() => {
     navigation.addListener("focus", () => {
-      getLanguage()
-      setLoading(true);
+      getLanguage();
       isAuthenticated()
         .then((res) => {
           if (res.user) {
+            setLoading(true);
             getAllWishListItemsByUserId(res.user._id, res.token)
               .then((res) => {
                 onChangeWishlist(res.data);
@@ -69,9 +73,7 @@ const WishList = ({ navigation, route }) => {
     }, 500);
   };
 
-  const getLanguage = async() =>{
-    console.log(await AsyncStorage.getItem("lang"))
-  }
+ 
 
   return (
     <View>
@@ -101,7 +103,8 @@ const WishList = ({ navigation, route }) => {
                 itemList={itemList}
                 navigation={navigation}
                 onChangeWishlist={onChangeWishlist}
-				        changeLoading={changeLoading}
+                changeLoading={changeLoading}
+                language={language}
               />
             ) : showWishlist && itemList.length === 0 ? (
               <View style={styles.emptyCartAnimationHolder}>
@@ -111,7 +114,17 @@ const WishList = ({ navigation, route }) => {
                   loop
                   source={require("../../assets/animations/emptyCart.json")}
                 />
-                <Text style={styles.text}>Wishlist Is Empty!</Text>
+                <Text style={styles.text}>
+                  {language === "te"
+                    ? "కోరికల జాబితా ఖాళీగా ఉంది!"
+                    : language === "hi"
+                    ? "इच्छा-सूची खाली है!"
+                    : language === "ka"
+                    ? "ಬಯಕೆಪಟ್ಟಿ ಖಾಲಿಯಾಗಿದೆ!"
+                    : language === "ta"
+                    ? "விருப்பப்பட்டியல் காலியாக உள்ளது!"
+                    : "Wishlist Is Empty"}
+                </Text>
               </View>
             ) : (
               <View style={styles.login}>
@@ -142,15 +155,16 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   login: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: "50%",
+    marginTop: "55%",
+    textAlign: "center",
+    zIndex: 10,
   },
   loginText: {
     fontFamily: "zilla-reg",
     fontSize: 20,
+    textAlign: "center",
     color: "#FF6B3C",
+    zIndex: 10,
   },
   emptyCartAnimationHolder: {
     position: "relative",
@@ -160,11 +174,10 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: "popins-reg",
-    fontSize: 22.5,
+    fontSize: 20,
     position: "relative",
-    top: "50%",
-    left: Dimensions.get("window").width * 0.5,
-    transform: [{ translateX: -Dimensions.get("window").width * 0.185 }],
+    top: "52.5%",
+    textAlign: "center",
     zIndex: 7.5,
     color: "#FF6B3C",
   },

@@ -1,25 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
-import {
-  useTheme,
-  Avatar,
-  Title,
-  Caption,
-  Paragraph,
-  Drawer,
-  TouchableRipple,
-  Switch,
-} from "react-native-paper";
+import { Avatar, Drawer } from "react-native-paper";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import { Feather } from "@expo/vector-icons";
-
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { isAuthenticated } from "../Screens/Auth/AuthAPICalls/authCalls";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export function DrawerContent(props) {
-  const paperTheme = useTheme();
   const image1 = {
     uri: require("../assets/main/profile.webp"),
   };
+  const [language, setLanguage] = useState("en");
+  const [user, setUser] = useState("");
+  const [token, setToken] = useState("");
+  const [role, setRole] = useState(0)
+
+  React.useEffect(() => {
+    isAuthenticated()
+      .then((res) => {
+        if (res.user) {
+          setUser(res.user._id);
+          setToken(res.token);
+          setRole(res.user.role)
+          
+        }
+      })
+      .catch((err) => {
+        console.log(" address book screen error: " + err);
+      });
+  });
 
   return (
     <View style={styles.body}>
@@ -28,7 +37,13 @@ export function DrawerContent(props) {
           <View style={styles.userInfoSection}>
             <View style={{ flexDirection: "row", marginTop: 15 }}>
               <Avatar.Image source={image1.uri} size={75} />
-              <View style={{ marginLeft: 15, flexDirection: "column",justifyContent: "center"}}>
+              <View
+                style={{
+                  marginLeft: 15,
+                  flexDirection: "column",
+                  justifyContent: "center",
+                }}
+              >
                 <Text style={styles.title}>Rajender Singh</Text>
                 <Text style={styles.caption}>8073734256</Text>
               </View>
@@ -70,7 +85,7 @@ export function DrawerContent(props) {
               )}
               label={() => <Text style={styles.text}>MY WISHLIST</Text>}
               onPress={() => {
-                props.navigation.navigate("Home");
+                props.navigation.navigate("Wishlist");
               }}
             />
             <DrawerItem
@@ -90,9 +105,9 @@ export function DrawerContent(props) {
               icon={({ color, size }) => (
                 <Feather name="zap" size={20} color="#FF6B3C" />
               )}
-              label={() => <Text style={styles.text}>BECOME A SELLER</Text>}
+              label={() => <Text style={styles.text}>{role==1?'MY PRODUCTS':'BECOME A SELLER'}</Text>}
               onPress={() => {
-                props.navigation.navigate("AddProduct");
+                props.navigation.navigate("SellerProducts");
               }}
               style={styles.text}
             />
@@ -100,15 +115,15 @@ export function DrawerContent(props) {
         </View>
       </DrawerContentScrollView>
       <Drawer.Section style={styles.bottomDrawerSection}>
-      <DrawerItem
-              icon={({ color, size }) => (
-                <Feather name="log-out" size={20} color="#FF6B3C" />
-              )}
-              label={() => <Text style={styles.text}>SIGN OUT</Text>}
-              onPress={() => {
-                props.navigation.navigate("Orders");
-              }}
-            />
+        <DrawerItem
+          icon={({ color, size }) => (
+            <Feather name="log-out" size={20} color="#FF6B3C" />
+          )}
+          label={() => <Text style={styles.text}>SIGN OUT</Text>}
+          onPress={() => {
+            props.navigation.navigate("Orders");
+          }}
+        />
       </Drawer.Section>
     </View>
   );
@@ -173,7 +188,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     borderTopColor: "#f4f4f4",
     borderTopWidth: 1.5,
-    borderBottomWidth:1.5,
+    borderBottomWidth: 1.5,
     borderColor: "#edeeef",
   },
   preference: {

@@ -2,7 +2,7 @@ const axios = require("axios");
 import { BACKEND_URL } from "@env";
 
 export const productSearch = () => {
-	// console.log("Random Product call count: " + count);
+	console.log("Random Product call count: " );
 	
 	return axios({
 		method: "post",

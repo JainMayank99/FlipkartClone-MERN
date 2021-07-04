@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet,Text, TouchableOpacity} from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import LottieView from "lottie-react-native";
 import Header from "../../components/Header";
@@ -26,13 +27,18 @@ const Orders = ({ navigation }) => {
     }, 500);
   };
 
+  const getLanguage = async () => {
+    setLanguage(await AsyncStorage.getItem("lang"));
+  };
+
   React.useEffect(() => {
-    setLoading(true);
+   
     navigation.addListener("focus", () => {
-      // console.log("I am Order Screen");
+      getLanguage();
       isAuthenticated()
         .then((res) => {
           if (res.user) {
+            setLoading(true);
             setUser(res.user._id);
             setToken(res.token);
             getOrdersByUser(res.user._id, res.token)
@@ -73,8 +79,36 @@ const Orders = ({ navigation }) => {
           style={{
             marginTop: 105,
           }}
-        >
-          <OrderList itemList={itemList} navigation={navigation} user={user} token={token} />
+        >{showOrders && itemList.length > 0 ? (
+          <OrderList itemList={itemList} navigation={navigation} user={user} token={token} language={language}/>
+        ) : showOrders && itemList.length === undefined ? (
+          <View style={styles.emptyCartAnimationHolder}>
+            <LottieView
+              style={styles.lottie1}
+              autoPlay
+              loop
+              source={require("../../assets/animations/emptyCart.json")}
+            />
+            <Text style={styles.text}>
+              {language === "te"
+                ? "ఆర్డర్ జాబితా ఖాళీగా ఉంది!"
+                : language === "hi"
+                ? "आदेश सूची खाली है!"
+                : language === "ka"
+                ? "ಆದೇಶ ಪಟ್ಟಿ ಖಾಲಿಯಾಗಿದೆ!"
+                : language === "ta"
+                ? "ஆர்டர் பட்டியல் காலியாக உள்ளது!"
+                : "Orderlist Is Empty!"}
+            </Text>
+          </View>
+        ) : (
+          <View style={styles.login}>
+            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+              <Text style={styles.loginText}>Login to continue {">>"}</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+         
         </View>
       </View>
     </View>
@@ -94,6 +128,40 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     zIndex: 10,
+  },
+  login: {
+    marginTop: "55%", 
+    textAlign: "center",
+    zIndex: 10,
+  },
+  loginText: {
+    fontFamily: "zilla-reg",
+    fontSize: 20,
+    textAlign: "center",
+    color: "#FF6B3C",
+    zIndex: 10,
+  },
+  emptyCartAnimationHolder: {
+    position: "relative",
+    height: "100%",
+    width: "100%",
+    zIndex: 7.5,
+  },
+  text: {
+    fontFamily: "popins-reg",
+    fontSize: 20,
+    position: "relative",
+    top: "52.5%",
+    textAlign: "center",
+    zIndex: 7.5,
+    color: "#FF6B3C",
+  },
+  lottie1: {
+    position: "absolute",
+    height: "100%",
+    width: "100%",
+    top: "-7.5%",
+    zIndex: 7.5,
   },
 });
 export default Orders;

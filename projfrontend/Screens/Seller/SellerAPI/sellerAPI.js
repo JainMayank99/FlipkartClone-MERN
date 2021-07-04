@@ -3,7 +3,7 @@ import { BACKEND_URL } from "@env";
 
 export const uploadProduct = (userId,token,categoryId,formData) => {
 	// console.log("Random Product call count: " + count);
-	console.log("BACKEND_URL",formData,userId,categoryId);
+	console.log("BACKEND_URLv",formData,userId,categoryId);
 	return axios({
 		method: "post",
         data: formData,

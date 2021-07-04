@@ -2,7 +2,7 @@ const axios = require("axios");
 import { BACKEND_URL } from "@env";
 
 export const addProductToWishList = (userId, itemId, token) => {
-	// console.log(BACKEND_URL)
+	console.log(BACKEND_URL,"hiioo")
 	return axios({
 		method: "post",
 		url: `${BACKEND_URL}/addProductToWishList/${userId}/${itemId}`,
@@ -15,6 +15,7 @@ export const addProductToWishList = (userId, itemId, token) => {
 };
 
 export const getAllWishListItemsByUserId = (userId, token) => {
+	
 	return axios({
 		method: "get",
 		url: `${BACKEND_URL}/getAllWishListItemsByUserId/${userId}`,

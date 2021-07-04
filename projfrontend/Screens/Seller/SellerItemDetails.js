@@ -12,12 +12,9 @@ import { Feather } from "@expo/vector-icons";
 import { Image as ExpoImage } from "react-native-expo-image-cache";
 import { isAuthenticated } from "../Auth/AuthAPICalls/authCalls";
 
-// import {
-//   getAllSellerItemsByUserId,
-//   removeProductFromWishList,
-// } from "../APICall/WishlistAPI";
-// import { addProductToCart } from "../../Cart/APICall/cartAPI";
+
 import { removeSellerProduct,getSellerProducts } from "./SellerAPI/sellerAPI";
+import { truncate } from './../../components/Truncate';
 
 const SellerItemDetails = ({ item, navigation, onChangeSellerList }) => {
   const [user, setUser] = useState();
@@ -107,7 +104,7 @@ const SellerItemDetails = ({ item, navigation, onChangeSellerList }) => {
             </View>
           </View>
           <View style={styles.detailsBox}>
-            <Text style={styles.textDetails}>{item.name}</Text>
+            <Text style={styles.textDetails}>{truncate(item.name, 20)}</Text>
             <Text style={styles.tribeDetails}>{item.description}</Text>
             <View
               style={{
@@ -127,6 +124,9 @@ const SellerItemDetails = ({ item, navigation, onChangeSellerList }) => {
                 <Text>{item.price}</Text>
               </Text>
             </View>
+            <Text style={styles.price}>
+              Remaining stocks : {item.stock}
+            </Text>
           </View>
         </View>
       </TouchableWithoutFeedback>

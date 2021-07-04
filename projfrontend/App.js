@@ -1,5 +1,5 @@
-import React, { useState,useContext } from "react";
-import { StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet,LogBox } from "react-native";
 import * as Font from "expo-font";
 import AppLoading from "expo-app-loading";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -33,18 +33,27 @@ import StartRatingComponent from "./Screens/Orders/Components/StartRatingCompone
 import SellerProducts from "./Screens/Seller/SellerProducts";
 import SellerUpdateScreen from "./Screens/Seller/SellerUpdateScreen";
 import AadhaarVerificationScreen from "./Screens/Seller/AadhaarVerificationScreen";
+import SetDefaultAddress from "./Screens/Profile/SetDefaultAddress";
+import { isAuthenticated } from "./Screens/Auth/AuthAPICalls/authCalls";
+import ChangePassword from "./Screens/Auth/ChangePassword";
+import ForgotPassword from './Screens/Auth/ForgotPassword';
+import SellerItems from './Screens/Seller/SellerItems';
 
 const AuthStack = createDrawerNavigator();
+// Ignore log notification by message
+LogBox.ignoreLogs(['Warning: ...']);
+
+//Ignore all log notifications
+LogBox.ignoreAllLogs();
 
 export default function App() {
   enableScreens();
+ 
   const testInfo = {
     React: {
-      lan:"eng"
+      lan: "eng",
     },
   };
-
-  const testInfoContext = React.createContext(testInfo);
 
   const getFonts = () => {
     return Font.loadAsync({
@@ -60,52 +69,53 @@ export default function App() {
   };
 
   const [fontsLoaded, setFontsLoaded] = useState(false);
- 
+
   if (fontsLoaded) {
     return (
-      <testInfoContext.Provider value={testInfo}>
-        <NavigationContainer>
-          <AuthStack.Navigator
-            initialRouteName="MainDrawer"
-            screenOptions={{
-              headerShown: false,
-            }}
-            drawerContent={(props) => <DrawerContent {...props} />}
-            drawerStyle={{
-              backgroundColor: "transparent",
-              width: 270,
-            }}
-          >
-            <AuthStack.Screen
-              name="MainDrawer"
-              component={TabContent}
-            
-             
-            />
-            <AuthStack.Screen name="Cart" component={Cart} />
-            <AuthStack.Screen name="AddAddress" component={AddAddress} />
-            <AuthStack.Screen
-              name="AddProduct"
-              component={AadhaarVerificationScreen}
-            />
-            <AuthStack.Screen name="Search" component={ProductListing} />
-            <AuthStack.Screen
-              name="ProductDescription"
-              component={ProductDescScreen}
-            />
-            <AuthStack.Screen name="Login" component={LoginScreen} />
-            <AuthStack.Screen name="Rate" component={StartRatingComponent} />
-            <AuthStack.Screen
-              name="PaymentSelection"
-              component={PaymentSelection}
-            />
-            <AuthStack.Screen
-              name="SellerUpdateScreen"
-              component={SellerUpdateScreen}
-            />
-          </AuthStack.Navigator>
-        </NavigationContainer>
-      </testInfoContext.Provider>
+      <NavigationContainer>
+        <AuthStack.Navigator
+          initialRouteName="MainDrawer"
+          screenOptions={{
+            headerShown: false,
+          }}
+          drawerContent={(props) => <DrawerContent {...props} />}
+          drawerStyle={{
+            backgroundColor: "transparent",
+            width: 270,
+          }}
+        >
+          <AuthStack.Screen name="ForgotPassword" component={ForgotPassword} />
+          <AuthStack.Screen name="ChangePassword" component={ChangePassword} />
+          <AuthStack.Screen name="MainDrawer" component={TabContent} />
+          <AuthStack.Screen name="Cart" component={Cart} />
+          <AuthStack.Screen name="AddAddress" component={AddAddress} />
+          <AuthStack.Screen
+            name="AddProduct"
+            component={AadhaarVerificationScreen}
+          />
+          <AuthStack.Screen name="Search" component={ProductListing} />
+          <AuthStack.Screen
+            name="ProductDescription"
+            component={ProductDescScreen}
+          />
+          <AuthStack.Screen name="Login" component={LoginScreen} />
+          <AuthStack.Screen name="Rate" component={StartRatingComponent} />
+          <AuthStack.Screen
+            name="PaymentSelection"
+            component={PaymentSelection}
+          />
+          <AuthStack.Screen name="SellerScreen" component={SellerScreen} />
+          <AuthStack.Screen name="SellerProducts" component={SellerProducts} />
+          <AuthStack.Screen
+            name="SetDefaultAddressScreen"
+            component={SetDefaultAddress}
+          />
+           <AuthStack.Screen
+            name="PaymentScreen"
+            component={PaymentScreen}
+          />
+        </AuthStack.Navigator>
+      </NavigationContainer>
     );
   } else {
     return (

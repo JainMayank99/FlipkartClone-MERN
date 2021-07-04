@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+	Image,
 	TextInput,
 	Text,
 	View,
@@ -18,6 +19,9 @@ import { signIn, authenticate } from "./AuthAPICalls/authCalls";
 
 const {height,width}=Dimensions.get('screen')
 const LoginScreen = ({ navigation }) => {
+	const logo = {
+		uri: require("../../assets/animations/logo.png"),
+	  };
 	const [focusName, setFocusName] = useState(false);
 	const [focusConfirmPassword, setFocusConfirmPassword] = useState(false);
 	const [loading, setLoading] = useState(0);
@@ -70,6 +74,15 @@ const LoginScreen = ({ navigation }) => {
 			) : null}
 
 			<View style={styles.screen}>
+			<View style={{flex: 1,alignItems:'center',marginVertical:2}}>
+			<Image
+            source={logo.uri}
+            style={{ 
+              width: 200,
+              height: 200,
+            }}
+          />
+		  </View>
 				<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 					<View>
 						<Text style={styles.heading}>Sign In</Text>
