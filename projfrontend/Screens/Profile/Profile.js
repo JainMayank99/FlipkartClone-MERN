@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import Dash from "react-native-dash";
 import { Feather } from "@expo/vector-icons";
 import LottieView from "lottie-react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Header from "../../components/Header";
 
@@ -35,11 +36,12 @@ const Profile = ({ navigation }) => {
   };
 
   React.useEffect(() => {
-    setLoading(true);
     navigation.addListener("focus", () => {
+      getLanguage();
       isAuthenticated()
         .then((res) => {
           if (res.user) {
+            setLoading(true);
             setUser(res.user._id);
             setToken(res.token);
             fetchUser(res.user._id, res.token);
@@ -85,7 +87,18 @@ const Profile = ({ navigation }) => {
           <View style={styles.header}>
             <View>
               <Text style={styles.name}>{name}</Text>
-              <Text style={styles.mail}>Contact : {phone}</Text>
+              <Text style={styles.mail}>
+                {language === "te"
+                  ? "పరిచయం : "
+                  : language === "hi"
+                  ? "से संपर्क करें : "
+                  : language === "ka"
+                  ? "ಸಂಪರ್ಕ : "
+                  : language === "ta"
+                  ? "தொடர்பு : "
+                  : "Contact : "}
+                {phone}
+              </Text>
               <TouchableOpacity>
                 <Text
                   style={styles.edit}
@@ -104,7 +117,7 @@ const Profile = ({ navigation }) => {
                     : language === "ta"
                     ? "சுயவிவரத்தைத் திருத்து"
                     : "Edit Profile"}
-                  {">"}
+                  {" >"}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -132,7 +145,17 @@ const Profile = ({ navigation }) => {
               borderRadius: 100,
             }}
           />
-          <Text style={styles.tag1}>User Details</Text>
+          <Text style={styles.tag1}>
+            {language === "te"
+              ? "వినియోగదారు వివరాలు"
+              : language === "hi"
+              ? "उपयोगकर्ता विवरण"
+              : language === "ka"
+              ? "ಬಳಕೆದಾರರ ವಿವರಗಳು"
+              : language === "ta"
+              ? "பயனர் விவரங்கள்"
+              : "User Details"}
+          </Text>
           <View style={styles.view}>
             <View style={styles.image}>
               <Image
@@ -143,7 +166,23 @@ const Profile = ({ navigation }) => {
                 }}
               />
             </View>
-            <Text style={styles.subHeader}>My Orders</Text>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("Orders", { screenName: "Profile" })
+              }
+            >
+              <Text style={styles.subHeader}>
+                {language === "te"
+                  ? "నా ఆదేశాలు"
+                  : language === "hi"
+                  ? "मेरे आदेश"
+                  : language === "ka"
+                  ? "ನನ್ನ ಆಜ್ಞೆಗಳು"
+                  : language === "ta"
+                  ? "என்னுடைய உத்தரவுகள்"
+                  : "My Orders"}
+              </Text>
+            </TouchableOpacity>
           </View>
 
           <View style={styles.view}>
@@ -156,7 +195,23 @@ const Profile = ({ navigation }) => {
                 }}
               />
             </View>
-            <Text style={styles.subHeader}>My Wishlist</Text>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("Wishlist", { screenName: "Profile" })
+              }
+            >
+              <Text style={styles.subHeader}>
+                {language === "te"
+                  ? "కోరికల జాబితా"
+                  : language === "hi"
+                  ? "इच्छा-सूची"
+                  : language === "ka"
+                  ? "ಬಯಕೆಪಟ್ಟಿ"
+                  : language === "ta"
+                  ? "விருப்பப்பட்டியல்"
+                  : "Wishlist"}
+              </Text>
+            </TouchableOpacity>
           </View>
 
           <View style={styles.view}>
@@ -174,11 +229,31 @@ const Profile = ({ navigation }) => {
                 navigation.navigate("Address", { screenName: "Profile" })
               }
             >
-              <Text style={styles.subHeader}>Address Book</Text>
+              <Text style={styles.subHeader}>
+                {language === "te"
+                  ? "చిరునామా పుస్తకం"
+                  : language === "hi"
+                  ? "पता पुस्तिका"
+                  : language === "ka"
+                  ? "ವಿಳಾಸ ಪುಸ್ತಕ"
+                  : language === "ta"
+                  ? "முகவரி புத்தகம்"
+                  : "Address Book"}
+              </Text>
             </TouchableOpacity>
           </View>
           <View style={styles.view1}>
-            <Text style={styles.tag}>Change Password</Text>
+            <Text style={styles.tag}>
+              {language === "te"
+                ? "పాస్వర్డ్ మార్చండి"
+                : language === "hi"
+                ? "पासवर्ड बदलें"
+                : language === "ka"
+                ? "ಗುಪ್ತಪದವನ್ನು ಬದಲಿಸಿ"
+                : language === "ta"
+                ? "கடவுச்சொல்லை மாற்று"
+                : "Change Password"}
+            </Text>
             <View style={styles.image}>
               <Image
                 source={settings.uri}
@@ -191,7 +266,17 @@ const Profile = ({ navigation }) => {
             </View>
           </View>
           <View style={styles.view2}>
-            <Text style={styles.tag}>Log Out</Text>
+            <Text style={styles.tag}>
+              {language === "te"
+                ? "లాగ్ అవుట్"
+                : language === "hi"
+                ? "लॉग आउट"
+                : language === "ka"
+                ? "ಲಾಗ್ ಔಟ್"
+                : language === "ta"
+                ? "வெளியேறு"
+                : "Log Out"}
+            </Text>
             <View style={styles.image}>
               <Image
                 source={logOut.uri}

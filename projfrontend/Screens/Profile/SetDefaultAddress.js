@@ -1,4 +1,4 @@
-import React, {useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -9,9 +9,10 @@ import {
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import LottieView from "lottie-react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { isAuthenticated } from "../Auth/AuthAPICalls/authCalls";
-import { changeDefaultAddress, getAllAddress} from "./APICall/AddressAPI";
+import { changeDefaultAddress, getAllAddress } from "./APICall/AddressAPI";
 import BackButtonHeader from "../../components/BackButtonHeader";
 
 const SetDefaultAddress = ({ navigation, route }) => {
@@ -21,10 +22,11 @@ const SetDefaultAddress = ({ navigation, route }) => {
   const [user, setUser] = useState("");
   const [token, setToken] = useState("");
   const [loading, setLoading] = useState(true);
-  const [defaultAddressTester,setDefaultAddressTester] = useState()
+  const [defaultAddressTester, setDefaultAddressTester] = useState();
+  const [language, setLanguage] = useState("en");
 
   const onChange = (data1, data2) => {
-    setDefaultAddressTester(data1)
+    setDefaultAddressTester(data1);
     setDefaultAddress(JSON.parse(data1));
     setAllAddressses(data2);
   };
@@ -49,35 +51,40 @@ const SetDefaultAddress = ({ navigation, route }) => {
       });
   };
 
-  const changeDefault = (user,token,addr)=>{
+  const changeDefault = (user, token, addr) => {
     setLoading(true);
-    changeDefaultAddress(user,token,addr)
-    .then((res)=>{
-      getAllAddress(user, token)
+    changeDefaultAddress(user, token, addr)
       .then((res) => {
-        if (
-          res.data.defaultAddress.length === 0 &&
-          res.data.addresses.length === 0
-        ) {
-          setDefaultAddress("");
-          setAllAddressses([]);
-        } else {
-          onChange(res.data.defaultAddress, res.data.addresses);
-        }
+        getAllAddress(user, token)
+          .then((res) => {
+            if (
+              res.data.defaultAddress.length === 0 &&
+              res.data.addresses.length === 0
+            ) {
+              setDefaultAddress("");
+              setAllAddressses([]);
+            } else {
+              onChange(res.data.defaultAddress, res.data.addresses);
+            }
+            setLoading(false);
+          })
+          .catch((err) => {
+            console.log("get address book  error: " + err);
+          });
         setLoading(false);
       })
       .catch((err) => {
         console.log("get address book  error: " + err);
       });
-      setLoading(false);
-    })
-    .catch((err) => {
-      console.log("get address book  error: " + err);
-    });
-  }
+  };
+
+  const getLanguage = async () => {
+    setLanguage(await AsyncStorage.getItem("lang"));
+  };
 
   React.useEffect(() => {
     navigation.addListener("focus", () => {
+      getLanguage();
       isAuthenticated()
         .then((res) => {
           if (res.user) {
@@ -114,12 +121,21 @@ const SetDefaultAddress = ({ navigation, route }) => {
         <View style={{ marginTop: 32 }}>
           <View
             style={{
-             
               paddingVertical: 4,
             }}
           ></View>
           <View style={{ paddingLeft: 16 }}>
-            <Text style={styles.heading2}>Select Default Addresses :</Text>
+            <Text style={styles.heading2}>
+              {language === "te"
+                ? "డిఫాల్ట్ చిరునామాను ఎంచుకోండి :"
+                : language === "hi"
+                ? "डिफ़ॉल्ट पता चुनें :"
+                : language === "ka"
+                ? "ಡೀಫಾಲ್ಟ್ ವಿಳಾಸವನ್ನು ಆಯ್ಕೆಮಾಡಿ :"
+                : language === "ta"
+                ? "இயல்புநிலை முகவரியைத் தேர்ந்தெடுக்கவும் :"
+                : "Select Default Address :"}
+            </Text>
             <FlatList
               data={allAddresses}
               extraData={allAddresses}
@@ -144,10 +160,14 @@ const SetDefaultAddress = ({ navigation, route }) => {
 
                     <TouchableOpacity
                       onPress={() => {
-                        changeDefault(user, token,item)
+                        changeDefault(user, token, item);
                       }}
                     >
-                      <Feather name={defaultAddressTester===item?"disc": "circle"} size={22} color="#FF6B3C" />
+                      <Feather
+                        name={defaultAddressTester === item ? "disc" : "circle"}
+                        size={22}
+                        color="#FF6B3C"
+                      />
                     </TouchableOpacity>
                   </View>
                 );

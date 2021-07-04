@@ -32,6 +32,10 @@ const WishList = ({ navigation, route }) => {
     }
   };
 
+  const getLanguage = async () => {
+    setLanguage(await AsyncStorage.getItem("lang"));
+  };
+  
   React.useEffect(() => {
     navigation.addListener("focus", () => {
       getLanguage();
@@ -69,9 +73,7 @@ const WishList = ({ navigation, route }) => {
     }, 500);
   };
 
-  const getLanguage = async () => {
-    setLanguage(await AsyncStorage.getItem("lang"));
-  };
+ 
 
   return (
     <View>

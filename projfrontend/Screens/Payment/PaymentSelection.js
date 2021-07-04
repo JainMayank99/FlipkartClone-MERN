@@ -8,10 +8,10 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-
 import { Feather } from "@expo/vector-icons";
 import { Dimensions } from "react-native";
 import LottieView from "lottie-react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Header from "../../components/Header";
 import PriceDetails from "../Cart/Components/PriceDetails";
@@ -30,6 +30,7 @@ const PaymentSelection = ({ navigation, route }) => {
   const [user, setUser] = useState("");
   const [token, setToken] = useState("");
   const [products, setProducts] = useState([]);
+  const [language, setLanguage] = useState("en");
 
   const onChange = (data1, data2) => {
     setDefaultAddress(JSON.parse(data1));
@@ -56,8 +57,13 @@ const PaymentSelection = ({ navigation, route }) => {
       });
   };
 
+  const getLanguage = async () => {
+    setLanguage(await AsyncStorage.getItem("lang"));
+  };
+
   React.useEffect(() => {
     navigation.addListener("focus", () => {
+      getLanguage();
       isAuthenticated()
         .then((res) => {
           if (res.user) {
@@ -199,6 +205,7 @@ const PaymentSelection = ({ navigation, route }) => {
           itemList={itemList}
           totalPrice={totalPrice}
           totalDiscount={totalDiscount}
+          language={language}
         />
         <View
           style={{
@@ -208,7 +215,17 @@ const PaymentSelection = ({ navigation, route }) => {
             borderColor: "#edeeef",
           }}
         >
-          <Text style={styles.select}>Select Mode Of Payment</Text>
+          <Text style={styles.select}>
+            {language === "te"
+              ? "చెల్లింపు మోడ్‌ను ఎంచుకోండి"
+              : language === "hi"
+              ? "भुगतान का तरीका चुनें"
+              : language === "ka"
+              ? "ಪಾವತಿ ಮೋಡ್ ಆಯ್ಕೆಮಾಡಿ"
+              : language === "ta"
+              ? "கட்டணம் செலுத்தும் முறையைத் தேர்ந்தெடுக்கவும்"
+              : "Select Mode Of Payment"}
+          </Text>
           <FlatList
             vertical={true}
             data={modeOfPayment}

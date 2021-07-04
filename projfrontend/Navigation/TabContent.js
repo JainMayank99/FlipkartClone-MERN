@@ -138,10 +138,10 @@ const TabContent = () => (
       }}
     />
     <Tab.Screen
-      name="Progfile"
+      name="Wishlist"
       component={WishList}
       options={{
-        tabBarLabel: "Prdofile",
+        tabBarLabel: "Wishlist",
 
         tabBarIcon: ({ focused }) => (
           <View

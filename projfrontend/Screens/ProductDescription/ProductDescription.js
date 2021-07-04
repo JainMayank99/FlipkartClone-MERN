@@ -8,8 +8,9 @@ import {
   Dimensions,
 } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import LottieView from "lottie-react-native";
+
 import ProductInfo from "./Components/ProductInfo";
 import ProductCarousel from "./Components/ProductCarousel";
 import ProductReturnPolicy from "./Components/ProductReturnPolicy";
@@ -27,22 +28,10 @@ const ProductDescScreen = ({ route, navigation }) => {
   const { item } = route.params;
   const [language, setLanguage] = useState("en");
   const [loading, setLoading] = useState(0);
-  const [count, setCount] = useState(0);
   const [user, setUser] = useState("");
   const [token, setToken] = useState("");
   const [inCart, setInCart] = useState();
   const [loggedIn, setLoggedIn] = useState();
-
-  const mainWork = (lang) => {
-    setLanguage(lang);
-    setLoading(false);
-  };
-  const changeLanguage = (lang) => {
-    setLoading(true);
-    setTimeout(() => {
-      mainWork(lang);
-    }, 500);
-  };
 
   const pushToHome = () => {
     navigation.goBack();
@@ -72,12 +61,17 @@ const ProductDescScreen = ({ route, navigation }) => {
     }
   };
 
+  const getLanguage = async () => {
+    setLanguage(await AsyncStorage.getItem("lang"));
+  };
+
   useFocusEffect(
     React.useCallback(() => {
-      setLoading(1);
+      getLanguage();
       isAuthenticated()
         .then((res) => {
           if (res.user) {
+            setLoading(1);
             setUser(res.user._id);
             setToken(res.token);
             setLoggedIn(true);
@@ -104,6 +98,8 @@ const ProductDescScreen = ({ route, navigation }) => {
     }, [item])
   );
 
+ 
+
   return (
     <>
       <View style={loading !== 0 ? styles.overlay : null}>
@@ -125,7 +121,7 @@ const ProductDescScreen = ({ route, navigation }) => {
                 ? require("../../assets/animations/like.json")
                 : require("../../assets/animations/warn.json")
             }
-            speed={loading===5?-1:1}
+            speed={loading === 5 ? -1 : 1}
           />
         ) : null}
 
@@ -146,9 +142,9 @@ const ProductDescScreen = ({ route, navigation }) => {
             price={item.price}
             discount={item.discount}
           />
-          <ProductInfo description={item.description} />
-          <ProductReturnPolicy />
-          <ProductReviews id={item._id} avgRating={item.avgRating} />
+          <ProductInfo description={item.description} language={language} />
+          <ProductReturnPolicy language={language}/>
+          <ProductReviews id={item._id} avgRating={item.avgRating} language={language}/>
           {loading ? null : (
             <RelatedProducts
               categoryId={item.category}

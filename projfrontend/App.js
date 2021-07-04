@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet,LogBox } from "react-native";
 import * as Font from "expo-font";
 import AppLoading from "expo-app-loading";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -37,8 +37,14 @@ import SetDefaultAddress from "./Screens/Profile/SetDefaultAddress";
 import { isAuthenticated } from "./Screens/Auth/AuthAPICalls/authCalls";
 import ChangePassword from "./Screens/Auth/ChangePassword";
 import ForgotPassword from './Screens/Auth/ForgotPassword';
+import SellerItems from './Screens/Seller/SellerItems';
 
 const AuthStack = createDrawerNavigator();
+// Ignore log notification by message
+LogBox.ignoreLogs(['Warning: ...']);
+
+//Ignore all log notifications
+LogBox.ignoreAllLogs();
 
 export default function App() {
   enableScreens();
@@ -99,6 +105,7 @@ export default function App() {
             component={PaymentSelection}
           />
           <AuthStack.Screen name="SellerScreen" component={SellerScreen} />
+          <AuthStack.Screen name="SellerProducts" component={SellerProducts} />
           <AuthStack.Screen
             name="SetDefaultAddressScreen"
             component={SetDefaultAddress}

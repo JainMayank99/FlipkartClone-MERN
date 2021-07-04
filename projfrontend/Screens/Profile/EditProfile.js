@@ -10,9 +10,8 @@ import {
 import { Formik } from "formik";
 import * as yup from "yup";
 import LottieView from "lottie-react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import Screen from "./../../components/Screen";
-import Header from "../../components/Header";
 import BackButtonHeader from "../../components/BackButtonHeader";
 
 import { isAuthenticated } from "../Auth/AuthAPICalls/authCalls";
@@ -37,6 +36,7 @@ const EditProfile = ({ navigation, route }) => {
   const [token, setToken] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [language, setLanguage] = useState("en");
 
   const pushToHome = () => {
     navigation.goBack();
@@ -72,12 +72,17 @@ const EditProfile = ({ navigation, route }) => {
       });
   };
 
+  const getLanguage = async () => {
+    setLanguage(await AsyncStorage.getItem("lang"));
+  };
+
   React.useEffect(() => {
-    setLoading(1);
     navigation.addListener("focus", () => {
+      getLanguage();
       isAuthenticated()
         .then((res) => {
           if (res.user) {
+            setLoading(1);
             setUser(res.user._id);
             setToken(res.token);
             fetchUser(res.user._id, res.token);
@@ -104,7 +109,7 @@ const EditProfile = ({ navigation, route }) => {
   };
 
   return (
-    <View style={loading !== 0 ? styles.overlay : {backgroundColor:'white'}}>
+    <View style={loading !== 0 ? styles.overlay : { backgroundColor: "white" }}>
       {loading !== 0 ? (
         <LottieView
           style={styles.lottie}
@@ -122,7 +127,17 @@ const EditProfile = ({ navigation, route }) => {
       <View>
         <BackButtonHeader screenName={screenName} navigation={navigation} />
         <View style={styles.screen}>
-          <Text style={styles.heading}>Edit Profile</Text>
+          <Text style={styles.heading}>
+            {language === "te"
+              ? "ప్రొఫైల్‌ను సవరించండి"
+              : language === "hi"
+              ? "प्रोफ़ाइल संपादित करें"
+              : language === "ka"
+              ? "ಪ್ರೊಫೈಲ್ ಬದಲಿಸು"
+              : language === "ta"
+              ? "சுயவிவரத்தைத் திருத்து"
+              : "Wishlist Is Empty"}
+          </Text>
           <Formik
             enableReinitialize={true}
             initialValues={{ email: email, userName: name }}
@@ -229,7 +244,17 @@ const EditProfile = ({ navigation, route }) => {
                         : styles.button
                     }
                   >
-                    <Text style={styles.submit}>Update</Text>
+                    <Text style={styles.submit}>
+                      {language === "te"
+                        ? "నవీకరణ"
+                        : language === "hi"
+                        ? "अपडेट करें"
+                        : language === "ka"
+                        ? "ನವೀಕರಿಸಿ"
+                        : language === "ta"
+                        ? "புதுப்பிப்பு"
+                        : "Update "}
+                    </Text>
                   </View>
                 </TouchableOpacity>
               </React.Fragment>
@@ -250,7 +275,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     marginTop: 8,
     backgroundColor: "white",
-    height:Dimensions.get("screen").height
+    height: Dimensions.get("screen").height,
   },
   overlay: {
     position: "relative",

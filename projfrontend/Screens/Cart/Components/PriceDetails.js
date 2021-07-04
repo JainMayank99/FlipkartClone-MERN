@@ -2,18 +2,52 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import Dash from "react-native-dash";
 
-const PriceDetails = ({ itemList, totalPrice, totalDiscount, navigation }) => {
+const PriceDetails = ({
+  itemList,
+  totalPrice,
+  totalDiscount,
+  language,
+}) => {
   return (
     <View>
       <View style={styles.container}>
         {console.log("cartItemList Re")}
-        <Text style={styles.heading}>Price Details</Text>
+        <Text style={styles.heading}>
+          {language === "te"
+            ? "ధర వివరాలు"
+            : language === "hi"
+            ? "मूल्य विवरण"
+            : language === "ka"
+            ? "ಬೆಲೆ ವಿವರಗಳು"
+            : language === "ta"
+            ? "விலை விவரங்கள்"
+            : "Price Details"}
+        </Text>
         <View style={styles.view}>
-          <Text style={styles.subText}>Price ({itemList.length} Items)</Text>
+          <Text style={styles.subText}>
+            {language === "te"
+              ? "ధర"
+              : language === "hi"
+              ? "मूल्य"
+              : language === "ka"
+              ? "ಬೆಲೆ"
+              : language === "ta"
+              ? "விலை"
+              : "Price"}
+            ({itemList.length} Items)
+          </Text>
           <Text style={styles.subText}>₹{totalPrice}</Text>
         </View>
         <View style={styles.view}>
-          <Text style={styles.subText}>Discount</Text>
+          <Text style={styles.subText}> {language === "te"
+              ? "డిస్కౌంట్"
+              : language === "hi"
+              ? "छूट"
+              : language === "ka"
+              ? "ರಿಯಾಯಿತಿ"
+              : language === "ta"
+              ? "தள்ளுபடி"
+              : "Discount"}</Text>
           <Text style={styles.green}>₹{totalDiscount}</Text>
         </View>
         <Dash
@@ -30,7 +64,15 @@ const PriceDetails = ({ itemList, totalPrice, totalDiscount, navigation }) => {
           }}
         />
         <View style={styles.view}>
-          <Text style={styles.subText}>Total Amount</Text>
+          <Text style={styles.subText}>{language === "te"
+              ? "మొత్తం మొత్తం"
+              : language === "hi"
+              ? "कुल राशि"
+              : language === "ka"
+              ? "ಒಟ್ಟು ಮೊತ್ತ"
+              : language === "ta"
+              ? "மொத்த தொகை"
+              : "Total Amount"}</Text>
           <Text style={styles.subText}>₹{totalPrice - totalDiscount}</Text>
         </View>
 
@@ -47,7 +89,15 @@ const PriceDetails = ({ itemList, totalPrice, totalDiscount, navigation }) => {
           }}
         />
         <View style={styles.view}>
-          <Text style={styles.green}>Total Savings</Text>
+          <Text style={styles.green}>{language === "te"
+              ? "మొత్తం పొదుపు"
+              : language === "hi"
+              ? "कुल बचत"
+              : language === "ka"
+              ? "ಒಟ್ಟು ಉಳಿತಾಯ"
+              : language === "ta"
+              ? "மொத்த சேமிப்பு"
+              : "Total Savings"}</Text>
           <Text style={styles.green}>₹{totalDiscount}</Text>
         </View>
       </View>

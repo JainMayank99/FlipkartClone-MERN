@@ -1,7 +1,14 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { View, StyleSheet, Text, TouchableOpacity, Dimensions } from "react-native";
-
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
 import LottieView from "lottie-react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import Header from "../../components/Header";
 import CartList from "./Components/CartList";
 import { isAuthenticated } from "../Auth/AuthAPICalls/authCalls";
@@ -48,16 +55,17 @@ const Cart = ({ navigation, from }) => {
     if (newData != savedForLaterList) setSavedForLaterList(newData);
   };
 
-  const rerender = () => {
-    setCount(count + 1);
+  const getLanguage = async () => {
+    setLanguage(await AsyncStorage.getItem("lang"));
   };
 
   React.useEffect(() => {
     navigation.addListener("focus", () => {
-      setLoading(true);
+      getLanguage();
       isAuthenticated()
         .then((res) => {
           if (res.user) {
+            setLoading(true);
             getAllCartItemsByUserId(res.user._id, res.token)
               .then((res) => {
                 setItemList(res.data);
@@ -121,8 +129,7 @@ const Cart = ({ navigation, from }) => {
               backgroundColor: "white",
             }}
           >
-            
-            {cartItemList.length > 0 || savedForLaterList.length >0 ? (
+            {cartItemList.length > 0 || savedForLaterList.length > 0 ? (
               <CartList
                 itemList={itemList}
                 navigation={navigation}
@@ -133,6 +140,7 @@ const Cart = ({ navigation, from }) => {
                 totalPrice={totalPrice}
                 totalDiscount={totalDiscount}
                 changeLoading={changeLoading}
+                language={language}
               />
             ) : (
               <View style={styles.emptyCartAnimationHolder}>
@@ -142,7 +150,17 @@ const Cart = ({ navigation, from }) => {
                   loop
                   source={require("../../assets/animations/emptyCart.json")}
                 />
-                <Text style={styles.text}>Cart Is Empty!</Text>
+                <Text style={styles.text}>
+                  {language === "te"
+                    ? "బండి ఖాళీగా ఉంది !"
+                    : language === "hi"
+                    ? "कार्ट खाली है !"
+                    : language === "ka"
+                    ? "ಕಾರ್ಟ್ ಖಾಲಿಯಾಗಿದೆ !"
+                    : language === "ta"
+                    ? "வண்டி காலியாக உள்ளது !"
+                    : "Cart Is Empty !"}
+                </Text>
               </View>
             )}
           </View>
@@ -173,19 +191,19 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: "popins-reg",
-    fontSize:20,
+    fontSize: 20,
     position: "relative",
     top: "52.5%",
-    left:Dimensions.get('window').width*0.5,
-    transform: [{translateX:-Dimensions.get('window').width*0.15 }],
+    left: Dimensions.get("window").width * 0.5,
+    transform: [{ translateX: -Dimensions.get("window").width * 0.15 }],
     zIndex: 7.5,
-    color:"#FF6B3C"
+    color: "#FF6B3C",
   },
   lottie1: {
     position: "absolute",
     height: "100%",
     width: "100%",
-    top:'-7.5%',
+    top: "-7.5%",
     zIndex: 7.5,
   },
   lottie: {

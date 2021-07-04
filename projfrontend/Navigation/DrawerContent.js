@@ -4,13 +4,16 @@ import { Avatar, Drawer } from "react-native-paper";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import { Feather } from "@expo/vector-icons";
 import { isAuthenticated } from "../Screens/Auth/AuthAPICalls/authCalls";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export function DrawerContent(props) {
   const image1 = {
     uri: require("../assets/main/profile.webp"),
   };
+  const [language, setLanguage] = useState("en");
   const [user, setUser] = useState("");
   const [token, setToken] = useState("");
+  const [role, setRole] = useState(0)
 
   React.useEffect(() => {
     isAuthenticated()
@@ -18,7 +21,8 @@ export function DrawerContent(props) {
         if (res.user) {
           setUser(res.user._id);
           setToken(res.token);
-          // console.log('User',res)
+          setRole(res.user.role)
+          
         }
       })
       .catch((err) => {
@@ -81,7 +85,7 @@ export function DrawerContent(props) {
               )}
               label={() => <Text style={styles.text}>MY WISHLIST</Text>}
               onPress={() => {
-                props.navigation.navigate("Home");
+                props.navigation.navigate("Wishlist");
               }}
             />
             <DrawerItem
@@ -101,9 +105,9 @@ export function DrawerContent(props) {
               icon={({ color, size }) => (
                 <Feather name="zap" size={20} color="#FF6B3C" />
               )}
-              label={() => <Text style={styles.text}>BECOME A SELLER</Text>}
+              label={() => <Text style={styles.text}>{role==1?'MY PRODUCTS':'BECOME A SELLER'}</Text>}
               onPress={() => {
-                props.navigation.navigate("SellerScreen");
+                props.navigation.navigate("SellerProducts");
               }}
               style={styles.text}
             />

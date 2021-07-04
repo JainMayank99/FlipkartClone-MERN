@@ -24,6 +24,7 @@ const CartList = ({
   totalPrice,
   totalDiscount,
   changeLoading,
+  language,
 }) => {
   const [change, setChange] = useState(true);
   const image1 = {
@@ -34,13 +35,23 @@ const CartList = ({
     <ScrollView
       style={{
         paddingBottom: 150,
-        backgroundColor:'white'
+        backgroundColor: "white",
       }}
     >
       {cartItemList.length > 0 ? (
         <>
           <View style={styles.body}>
-            <Text style={styles.text}>My Cart</Text>
+            <Text style={styles.text}>
+              {language === "te"
+                ? "నా షాపింగ్ బండి"
+                : language === "hi"
+                ? "मेरी शॉपिंग कार्ट"
+                : language === "ka"
+                ? "ನನ್ನ ಶಾಪಿಂಗ್ ಕಾರ್ಟ್"
+                : language === "ta"
+                ? "எனது வணிக வண்டி"
+                : "My Cart"}
+            </Text>
           </View>
 
           <FlatList
@@ -56,6 +67,7 @@ const CartList = ({
                   onChangeCartItemList={onChangeCartItemList}
                   onChangeSavedItemList={onChangeSavedItemList}
                   changeLoading={changeLoading}
+                  language={language}
                 />
               );
             }}
@@ -73,6 +85,7 @@ const CartList = ({
             totalPrice={totalPrice}
             totalDiscount={totalDiscount}
             navigation={navigation}
+            language={language}
           />
           <TouchableOpacity
             onPress={() => {
@@ -89,7 +102,15 @@ const CartList = ({
             }}
           >
             <View style={styles.button}>
-              <Text style={styles.submit}>Proceed To Pay</Text>
+              <Text style={styles.submit}>{language === "te"
+              ? "చెల్లించడానికి కొనసాగండి"
+              : language === "hi"
+              ? "चुकाने के लिए कार्रवाई शुरू करो "
+              : language === "ka"
+              ? "ಪಾವತಿಸಲು ಮುಂದುವರಿಯಿರಿ"
+              : language === "ta"
+              ? "செலுத்த தொடரவும்"
+              : "Proceed To Pay"}</Text>
             </View>
           </TouchableOpacity>
 
@@ -102,7 +123,7 @@ const CartList = ({
         </>
       ) : null}
       {savedForLaterList.length > 0 ? (
-        <React.Fragment >
+        <React.Fragment>
           <View style={styles.saved}>
             <Image
               source={image1.uri}
@@ -112,10 +133,17 @@ const CartList = ({
                 height: 22.5,
               }}
             />
-            <Text style={styles.savedText}>Saved For Later</Text>
+            <Text style={styles.savedText}>{language === "te"
+              ? "తరువాత సేవ్ చేయబడింది"
+              : language === "hi"
+              ? "भविष्य के लिए बचाया हुआ "
+              : language === "ka"
+              ? "ನಂತರ ಉಳಿಸಲಾಗಿದೆ"
+              : language === "ta"
+              ? "பின்னர் சேமிக்கப்பட்டது"
+              : "Saved For Later"}</Text>
           </View>
           <FlatList
-         
             data={savedForLaterList}
             extraData={savedForLaterList}
             showsHorizontalScrollIndicator={false}
@@ -128,13 +156,14 @@ const CartList = ({
                   onChangeSavedItemList={onChangeSavedItemList}
                   onChangeCartItemList={onChangeCartItemList}
                   changeLoading={changeLoading}
+                  language={language}
                 />
               );
             }}
           />
         </React.Fragment>
       ) : null}
-      <View style={{ padding: 88,backgroundColor:'white' }}></View>
+      <View style={{ padding: 88, backgroundColor: "white" }}></View>
     </ScrollView>
   );
 };
@@ -183,7 +212,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     flex: 1,
     flexDirection: "row",
-    backgroundColor:'white'
+    backgroundColor: "white",
   },
   savedText: {
     fontFamily: "popins-bold",

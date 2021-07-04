@@ -3,7 +3,7 @@ import { BACKEND_URL } from "@env";
 
 export const getAllAddress = (userId, token) => {
 	// console.log("Random Product call count: ");
-	console.log(BACKEND_URL,"Addre")
+	console.log(BACKEND_URL,"Addres")
 	return axios({
 		method: "get",
 		url: `${BACKEND_URL}/getAllAddresses/${userId}`,

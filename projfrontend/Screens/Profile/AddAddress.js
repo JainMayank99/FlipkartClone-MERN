@@ -7,14 +7,8 @@ import {
   StyleSheet,
   Image,
   StatusBar,
-  Dimensions,
-  TouchableWithoutFeedback,
-  Keyboard,
-  TextInput,
   TouchableOpacity,
-  ScrollView,
-  KeyboardAvoidingView,
-  Alert,
+  TextInput,
 } from "react-native";
 import * as Location from "expo-location";
 import LottieView from "lottie-react-native";
@@ -23,6 +17,7 @@ import { Feather } from "@expo/vector-icons";
 import * as yup from "yup";
 import { addAddress } from "./APICall/AddressAPI";
 import { isAuthenticated } from "../Auth/AuthAPICalls/authCalls";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const validationSchema = yup.object().shape({
   house: yup.string().required("Please enter your House/Block/Flat No."),
@@ -44,18 +39,21 @@ const AddAddress = ({ navigation }) => {
     longitudeDelta: 0.01,
   });
   const [marginBottom, setMarginBottom] = useState(1);
-
   const [focusHouse, setfocusHouse] = useState(false);
-
   const [loading, setLoading] = useState(0);
   const [mapLoading, setMapLoading] = useState(false);
   const [addressType, setAddressType] = useState("Home");
   const [user, setUser] = useState("");
   const [token, setToken] = useState("");
+  const [language, setLanguage] = useState("en");
+
+  const getLanguage = async () => {
+    setLanguage(await AsyncStorage.getItem("lang"));
+  };
 
   React.useEffect(() => {
     navigation.addListener("focus", () => {
-      console.log("I am AdressAdder");
+      getLanguage();
       setLoading(0);
       isAuthenticated()
         .then((res) => {
@@ -93,7 +91,6 @@ const AddAddress = ({ navigation }) => {
   };
 
   const changeAddressType = () => {
-    // console.log("Hii");
     if (addressType === "Home") setAddressType("Work");
     else setAddressType("Home");
   };
@@ -235,7 +232,17 @@ const AddAddress = ({ navigation }) => {
         <View style={{ flex: 1 }}>
           <View style={styles.screen}>
             <>
-              <Text style={styles.heading}>SELECT DELIVERY ADDRESS</Text>
+              <Text style={styles.heading}>
+                {language === "te"
+                  ? "డెలివరీ చిరునామాను ఎంచుకోండి :"
+                  : language === "hi"
+                  ? "वितरण पता चुनें :"
+                  : language === "ka"
+                  ? "ವಿತರಣಾ ವಿಳಾಸವನ್ನು ಆಯ್ಕೆಮಾಡಿ :"
+                  : language === "ta"
+                  ? "டெலிவரி முகவரியைத் தேர்ந்தெடுக்கவும் :"
+                  : "Select Delivery Address :"}
+              </Text>
               <Formik
                 initialValues={{ house: "" }}
                 validationSchema={validationSchema}
@@ -296,14 +303,34 @@ const AddAddress = ({ navigation }) => {
                             : styles.button
                         }
                       >
-                        <Text style={styles.submit}>Add Address</Text>
+                        <Text style={styles.submit}>
+                          {language === "te"
+                            ? "చిరునామాను జోడించండి"
+                            : language === "hi"
+                            ? "पता जोड़ें"
+                            : language === "ka"
+                            ? "ವಿಳಾಸವನ್ನು ಸೇರಿಸಿ"
+                            : language === "ta"
+                            ? "முகவரியைச் சேர்க்கவும்"
+                            : "Add Address"}
+                        </Text>
                       </View>
                     </TouchableOpacity>
                   </React.Fragment>
                 )}
               </Formik>
             </>
-            <Text style={styles.heading2}>SAVE THIS ADDRESS AS</Text>
+            <Text style={styles.heading2}>
+              {language === "te"
+                ? "ఈ చిరునామాను సేవ్ చేయండి"
+                : language === "hi"
+                ? "इस पते को इस रूप में सहेजें"
+                : language === "ka"
+                ? "ಈ ವಿಳಾಸವನ್ನು ಉಳಿಸಿ"
+                : language === "ta"
+                ? "இந்த முகவரியை சேமிக்கவும்"
+                : "SAVE THIS ADDRESS AS "}
+            </Text>
             <View>
               <View style={styles.addressType}>
                 <TouchableOpacity

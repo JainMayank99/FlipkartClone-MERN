@@ -2,8 +2,8 @@ const axios = require("axios");
 import { BACKEND_URL } from "@env";
 
 export const getUser = (userId, token) => {
-	console.log("Random Product call count:11 ");
-	console.log(BACKEND_URL,"User")
+	
+	console.log(BACKEND_URL,"User1")
 	return axios({
 		method: "get",
 		url: `${BACKEND_URL}/getUserDetails/${userId}`,

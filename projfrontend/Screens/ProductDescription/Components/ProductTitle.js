@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { truncate } from './../../../components/Truncate';
 
 const ProductTitle = ({ name, price, discount }) => {
 	return (
@@ -11,7 +12,7 @@ const ProductTitle = ({ name, price, discount }) => {
 				borderColor: "#edeeef",
 			}}
 		>
-			<Text style={styles.title}>{name}</Text>
+			<Text style={styles.title}>{truncate(name, 30)}</Text>
 			<View style={styles.body}>
 				<Text style={styles.cost}>₹{price- (price * discount) / 100}</Text>
 				<Text style={styles.initialCost}>

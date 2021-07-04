@@ -46,7 +46,6 @@ const CartItem = ({
   const changeQuantity = (newQuantity) => {
     changeLoading(true);
     if (newQuantity <= 0) {
-      // Alert.alert("");
     } else {
       setQuantity(newQuantity);
       updateQuantityInCart(user, item.product._id, token, newQuantity);

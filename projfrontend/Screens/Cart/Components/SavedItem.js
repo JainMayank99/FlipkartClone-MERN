@@ -23,6 +23,7 @@ const SavedItem = ({
   onChangeSavedItemList,
   onChangeCartItemList,
   changeLoading,
+  language
 }) => {
   const image = {
     uri: require("../../../assets/catIcons/like.png"),

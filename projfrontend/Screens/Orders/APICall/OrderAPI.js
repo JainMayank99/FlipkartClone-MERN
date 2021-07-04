@@ -3,7 +3,7 @@ import {BACKEND_URL} from '@env';
 
 
 export const getOrdersByUser = (userId, token ) => {
-    console.log("Hey")
+    console.log("Hii")
     return axios({
         method: 'get',
         url: `${BACKEND_URL}/getOrdersByUserId/${userId}`,

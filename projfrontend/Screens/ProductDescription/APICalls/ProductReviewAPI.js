@@ -2,7 +2,7 @@ const axios = require("axios");
 import { BACKEND_URL } from "@env";
 
 export const getReviewByProductId = (productId) => {
-	console.log("Review API: ");
+	console.log("Review APIs: ");
 	return axios({
 		method: "post",
 		url: `${BACKEND_URL}/getReviewByProductId/${productId}`,
