@@ -85,7 +85,7 @@ exports.signin = (req, res) => {
 			res.cookie("token", token, { expire: new Date() + 9999 });
 
 			//sending response to frontEnd
-			const { _id, name, email, phone,role } = user;
+			const { _id, name, email, phone, role } = user;
 			return res.json({
 				token,
 				user: {
@@ -93,7 +93,7 @@ exports.signin = (req, res) => {
 					name,
 					email,
 					phone,
-					role
+					role,
 					// address
 				},
 			});
@@ -240,32 +240,42 @@ exports.forgetPassword = async (req, res) => {
 };
 
 exports.changePassword = async (req, res) => {
-	// const user = new UserSchema(req.body);
-
-	UserSchema.find({ phone: req.body.phone }).exec((err, user) => {
-		// console.log(err);
+	UserSchema.findById(req.profile, async (err, user) => {
 		if (err || !user) {
 			return res.status(400).json({
-				err: "DB error or user not found",
+				error: "User not found in DB",
 			});
 		}
-		//TODO: match with old password
+		let { oldPassword, newPassword, confirmNewPassword } = req.body;
 
-		user[0].password = req.body.password;
+		// console.log(user);
 
-		user[0].save((err, user) => {
+		if (!user.authenticate(oldPassword)) {
+			return res.status(400).json({
+				error: "Old password didn't match",
+			});
+		}
+
+		if (
+			newPassword.length < 5 &&
+			newPassword.length > 15 &&
+			newPassword !== confirmNewPassword
+		) {
+			return res.status(400).json({
+				error: "Length of password should be >5  <15",
+			});
+		}
+
+		user.password = newPassword;
+
+		await user.save((err, user) => {
 			if (err) {
 				return res.status(400).json({
-					msg: "NOT able to save user in DB !",
+					error: "Updation of password failed",
 				});
 			}
-
-			return res.status(200).json({
-				msg: "password updated successfully",
-				id: user._id,
-				name: user.name,
-				email: user.email,
-				phone: user.phone,
+			return res.status(201).json({
+				message: "Password updated succesfully",
 			});
 		});
 	});
