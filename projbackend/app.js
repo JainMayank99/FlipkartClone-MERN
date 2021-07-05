@@ -64,7 +64,7 @@ app.use("/api", homeScreenRoutes);
 app.use("/api", productSearchRoutes);
 
 //Port
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 9000;
 
 //Server Start
 app.listen(port, () => {

@@ -27,8 +27,8 @@ router.post(
 
 router.post("/signin", signin);
 
-// router.get('/test', isSignedIn, (req, res) => {
-//     res.json(req.auth);
+// router.get("/test", (req, res) => {
+// 	res.json("TESTING");
 // });
 
 router.get("/signout", signout);

@@ -5,6 +5,9 @@ const {
 	getRandomProducts,
 	getTopRatedProducts,
 	getTopRatedProductsBasedOnCategoryId,
+	getRandomCategory,
+	getNewlyArrivedProduct,
+	getProductBasedOnTribe,
 } = require("../controllers/homeScreen");
 
 const { getCategoryById } = require("../controllers/category");
@@ -20,5 +23,12 @@ router.post(
 	"/getTopRatedProductsBasedOnCategoryId/:categoryId",
 	getTopRatedProductsBasedOnCategoryId
 );
+
+router.get("/getRandomCategory", getRandomCategory);
+
+router.get("/getNewlyArrivedProduct", getNewlyArrivedProduct);
+
+//req.body.tribe to contain tribe name in proper casing
+router.post("/getProductBasedOnTribe", getProductBasedOnTribe);
 
 module.exports = router;

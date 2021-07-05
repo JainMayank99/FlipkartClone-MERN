@@ -60,6 +60,8 @@ exports.paymentByCard = async (req, res) => {
 		// })
 
 		//for synchronous execution for is used
+
+		//TODO: add product stock update
 		for (let i = 0; i < products.length; i++) {
 			let product = products[i];
 			let order = new OrderSchema();
@@ -67,7 +69,7 @@ exports.paymentByCard = async (req, res) => {
 			order.quantity = product.quantity;
 			order.product = product._id;
 			order.transactionId = uuidv4();
-			order.modeOfPayment="Card"
+			order.modeOfPayment = "Card";
 
 			order.save((err, order) => {
 				if (err) {
@@ -104,7 +106,7 @@ exports.paymentByCash = async (req, res) => {
 		order.product = product._id;
 
 		order.transactionId = uuidv4();
-		order.modeOfPayment="Cash"
+		order.modeOfPayment = "Cash";
 		order.save((err, order) => {
 			if (err) {
 				return res.status(500).json({
@@ -130,6 +132,6 @@ exports.getOrdersByUserId = async (req, res) => {
 				return res.status(200).json({ msg: "no order placed yet" });
 			}
 
-			return res.status(200).json( orders );
+			return res.status(200).json(orders);
 		});
 };
