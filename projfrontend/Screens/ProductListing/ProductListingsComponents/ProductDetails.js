@@ -54,7 +54,6 @@ const ProductDetails = ({ item, route, navigation }) => {
 			</View>
 			<TouchableOpacity
 				onPress={() => {
-					// console.log("clicked");
 					navigation.navigate("ProductDescription", {
 						item,
 					});
@@ -82,15 +81,6 @@ const ProductDetails = ({ item, route, navigation }) => {
 							}}
 							uri={item.image[0].url}
 						/>
-						{/* <Image
-								source={item.image[0].url}
-								style={{
-									width: width * 0.26785,
-									height: 130,
-									borderRadius: 5,
-									resizeMode: "cover",
-								}}
-							/> */}
 
 						<View style={styles.discountBox}>
 							<Text style={styles.textDiscount}>{item.discount}% off</Text>

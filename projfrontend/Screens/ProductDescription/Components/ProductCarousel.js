@@ -51,6 +51,7 @@ const ProductCarousel = ({
       if (loggedIn !== false) {
         isProductInWishlist(user, itemId, token)
           .then((res) => {
+            console.log(inWishlist)
             if (res.data.result === true) setInWishlist(true);
             else setInWishlist(false);
           })
@@ -101,7 +102,7 @@ const ProductCarousel = ({
   if (data && data.length) {
     return (
       <View style={styles.container}>
-        {console.log(inWishlist)}
+        
         <StatusBar hidden />
         <View style={{ flex: 3 }}>
           <FlatList

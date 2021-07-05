@@ -197,7 +197,7 @@ const Home = ({ route, navigation }) => {
               marginTop: 105,
             }}
           >
-            <Categories language={language} changeLanguage={changeLanguage} />
+            <Categories language={language} navigation={navigation} />
 
             <AppCarousel data={dummyData} navigation={navigation} />
             <TopPicks language={language} navigation={navigation} />
@@ -213,7 +213,7 @@ const Home = ({ route, navigation }) => {
 
             <BestSellingInCat navigation={navigation} />
             <TopRated navigation={navigation} />
-            <Sell navigation={navigation} />
+            <Sell/>
             <BestSellingInJew navigation={navigation} />
           </ScrollView>
         </View>
@@ -230,7 +230,7 @@ const Home = ({ route, navigation }) => {
               marginTop: 105,
             }}
           >
-            <Categories language={language} changeLanguage={changeLanguage} />
+            <Categories language={language} navigation={navigation} />
             <AppCarousel data={dummyData} navigation={navigation} />
             <TopPicks language={language} navigation={navigation} />
             <FeaturedCategories language={language} navigation={navigation} />
@@ -245,7 +245,7 @@ const Home = ({ route, navigation }) => {
 
             <BestSellingInCat navigation={navigation} />
             <TopRated navigation={navigation} />
-            <Sell navigation={navigation} />
+            <Sell />
             <BestSellingInJew navigation={navigation} />
           </ScrollView>
         </View>

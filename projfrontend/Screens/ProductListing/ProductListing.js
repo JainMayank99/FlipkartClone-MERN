@@ -7,14 +7,17 @@ import Header_custom from "./ProductListingsComponents/Header_custom";
 import { productSearch } from "./APICall/ProductSearchAPI";
 import { productsByCategoryId } from "./APICall/CategoryProductAPI";
 
-const ProductListing = ({ category, navigation }) => {
+const ProductListing = ({ navigation,route }) => {
   const [language, setLanguage] = useState("en");
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState("");
   const [data, setData] = useState([]);
   const [gallery, setGallery] = useState();
+  const {category}=route.params;
 
-  useEffect(() => {
+  React.useEffect(() => {
+    navigation.addListener("focus", () => {
+    
     productSearch()
       .then((res) => {
         setGallery(res.data);
@@ -31,7 +34,8 @@ const ProductListing = ({ category, navigation }) => {
           console.log("Category Product Search Screen error", err);
         });
     }
-  }, []);
+  });
+}, [navigation]);
 
   const mainWork = (lang) => {
     setLanguage(lang);

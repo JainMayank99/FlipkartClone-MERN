@@ -19,18 +19,32 @@ const ProductList = ({ data, query, navigation }) => {
   const refRBSheet = useRef();
   const height = Dimensions.get("screen").height;
   const [sortBy, setSortBy] = useState("");
- 
-  const compare = (a, b, key) => {
-    if (sortBy === "2") return b.price - a.price;
 
-    if (sortBy === "3") {
-      return a.price - b.price;
-    }
-  };
   const onClickSortBy = (key) => {
     setSortBy(key);
-    data.sort(compare);
+    console.log(key);
+    data.sort((a, b) => {
+      if(key === '1'){
+        return b.avgRating - a.avgRating;
+      }
+      if (key === "2") {
+        return a.price - b.price;
+      }
+
+      if (key === "3") {  
+        return b.price - a.price;
+      }
+
+      if (key === "4") {  
+        return Date.parse(a.updatedAt)- Date.parse(b.updatedAt);
+      }
+    });
   };
+
+  React.useEffect(() => {
+    navigation.addListener("focus", () => {
+    });
+  }, [navigation]);
 
   return (
     <View
@@ -38,7 +52,6 @@ const ProductList = ({ data, query, navigation }) => {
         paddingBottom: 207.5,
       }}
     >
-      
       <View style={styles.body}>
         <Text style={styles.text}>Search Results</Text>
 
@@ -85,7 +98,6 @@ const ProductList = ({ data, query, navigation }) => {
             height: height * 0.6,
           }}
         >
-      
           <LottieView
             style={styles.lottie}
             autoPlay
@@ -109,7 +121,6 @@ const ProductList = ({ data, query, navigation }) => {
         showsHorizontalScrollIndicator={false}
         keyExtractor={(item) => item._id}
         renderItem={({ item }) => {
-          // console.log("item", item);
           return <ProductDetails item={item} navigation={navigation} />;
         }}
       />
