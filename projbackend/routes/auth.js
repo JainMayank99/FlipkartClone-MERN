@@ -1,5 +1,6 @@
 var express = require("express");
 var router = express.Router();
+
 const { check, validationResult } = require("express-validator");
 const {
 	signout,
@@ -7,7 +8,13 @@ const {
 	signin,
 	forgetPassword,
 	changePassword,
+	isAuthenticated,
+	isSignedIn,
 } = require("../controllers/auth");
+const { getUserById } = require("../controllers/user");
+
+//parameter extractor
+router.param("userId", getUserById);
 
 router.post(
 	"/signup",
@@ -35,6 +42,12 @@ router.get("/signout", signout);
 
 router.post("/forgetPassword", forgetPassword);
 
-router.post("/changePassword", changePassword);
+//req.body to contain oldPassword , newPassword and confirmNewPassword
+router.post(
+	"/changePassword/:userId",
+	isSignedIn,
+	isAuthenticated,
+	changePassword
+);
 
 module.exports = router;
