@@ -24,26 +24,25 @@ const ProductList = ({ data, query, navigation }) => {
     setSortBy(key);
     console.log(key);
     data.sort((a, b) => {
-      if(key === '1'){
+      if (key === "1") {
         return b.avgRating - a.avgRating;
       }
       if (key === "2") {
         return a.price - b.price;
       }
 
-      if (key === "3") {  
+      if (key === "3") {
         return b.price - a.price;
       }
 
-      if (key === "4") {  
-        return Date.parse(a.updatedAt)- Date.parse(b.updatedAt);
+      if (key === "4") {
+        return Date.parse(a.updatedAt) - Date.parse(b.updatedAt);
       }
     });
   };
 
   React.useEffect(() => {
-    navigation.addListener("focus", () => {
-    });
+    navigation.addListener("focus", () => {});
   }, [navigation]);
 
   return (
@@ -139,20 +138,20 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   text: {
-    fontFamily: "zilla-med",
-    fontSize: 24,
+    fontFamily: "popins-med",
+    fontSize: 20,
     color: "#20263e",
     paddingVertical: 10,
     marginLeft: 3,
   },
   errorText: {
-    fontFamily: "zilla-med",
-    fontSize: 24,
+    fontFamily: "popins-med",
+    fontSize: 20,
     color: "#20263e",
     paddingVertical: 10,
   },
   view: {
-    fontFamily: "zilla-med",
+    fontFamily: "popins-med",
     fontSize: 18,
     color: "#20263e",
     paddingTop: 10,
@@ -170,7 +169,7 @@ const styles = StyleSheet.create({
     padding: 2,
   },
   heading: {
-    fontFamily: "zilla-med",
+    fontFamily: "popins-med",
     fontSize: 20,
     color: "#20263e",
     paddingHorizontal: 8,

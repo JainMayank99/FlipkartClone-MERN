@@ -17,7 +17,7 @@ exports.getRandomProducts = async (req, res) => {
 exports.getTopRatedProducts = async (req, res) => {
 	ProductSchema.find()
 		.sort({ avgRating: "descending" })
-		.limit(5)
+		.limit(6)
 		.exec((err, products) => {
 			if (err || !products) {
 				return res.status(400).json({

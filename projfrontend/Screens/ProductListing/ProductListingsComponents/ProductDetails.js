@@ -12,7 +12,6 @@ import { Feather } from "@expo/vector-icons";
 import { Image as ExpoImage } from "react-native-expo-image-cache";
 
 const ProductDetails = ({ item, route, navigation }) => {
-	// console.log("ProductDetail", item);
 	const image = {
 		uri: require("../../../assets/catIcons/like.png"),
 	};
@@ -69,8 +68,7 @@ const ProductDetails = ({ item, route, navigation }) => {
 							style={{
 								width: width * 0.26785,
 								height: 130,
-								borderTopLeftRadius: 5,
-								borderTopRightRadius: 5,
+								borderRadius: 5,
 								resizeMode: "cover",
 							}}
 							preview={{

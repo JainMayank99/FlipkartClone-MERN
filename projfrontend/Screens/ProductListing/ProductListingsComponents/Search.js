@@ -9,7 +9,7 @@ const Search = ({ query, handleSearch }) => {
 			<TextInput
 				style={styles.formField}
 				underlineColorAndroid="transparent"
-				placeholder="Search here!"
+				placeholder="Enter the item you are looking for..."
 				placeholderTextColor="#7e85a1"
 				placeholderTextWeight="bold"
 				autoCorrect={false}
@@ -42,8 +42,8 @@ const styles = StyleSheet.create({
 		borderRadius: 5,
 		borderColor: "#f7f7f7",
 		backgroundColor: "#f7f7f7",
-		fontSize: 22.5,
-		fontFamily: "zilla-med",
+		fontSize: 18,
+		fontFamily: "popins-med",
 		height: 50,
 	},
 });

@@ -15,40 +15,44 @@ const BackButtonHeader = ({ screenName, navigation }) => {
     uri: require("../assets/customIcons/back.png"),
   };
   return (
-    <Screen style={styles.screen}>
+    <Screen>
       <StatusBar hidden />
-      <View style={{ position: "relative" }}>
-        <TouchableOpacity style={styles.cart}>
-          <Image
-            source={cart.uri}
-            style={{
-              width: 24,
-              height: 24,
-            }}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.settings}>
-          <Image
-            source={settings.uri}
-            style={{
-              width: 24,
-              height: 24,
-            }}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.back}
-          onPress={() => navigation.goBack()}
-        >
-          <Image
-            source={back.uri}
-            style={{
-              width: 32,
-              height: 32,
-            }}
-          />
 
-          {/* <Text style={styles.add}>{screenName}</Text> */}
+      {/* <View style={styles.cart}>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate("ChangePassword");
+        }}
+      >
+         <Image
+          source={cart.uri}
+          style={{
+            width: 24,
+            height: 24,
+          }}
+        />
+      </TouchableOpacity>
+    </View> */}
+
+      <View style={styles.menu}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}
+        >
+          <View
+            style={styles.view}
+            onPress={() => navigation.navigate("AddAddress")}
+          >
+            <Image
+              source={back.uri}
+              style={{
+                width: 30,
+                height: 30,
+              }}
+            />
+            <Text style={styles.add}>{screenName}</Text>
+          </View>
         </TouchableOpacity>
       </View>
     </Screen>
@@ -58,42 +62,38 @@ const BackButtonHeader = ({ screenName, navigation }) => {
 export default BackButtonHeader;
 
 const styles = StyleSheet.create({
-  screen: {
-    paddingVertical: 8,
-    maxHeight: 52,
-    backgroundColor: "white",
-    zIndex: 9999,
-  },
   body: {
     flex: 1,
     flexDirection: "row",
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
     alignItems: "center",
+    padding: 12,
+    paddingHorizontal: 16,
+  },
+  text: {
+    fontFamily: "popins-med",
+    fontSize: 20,
+    color: "#20263e",
+  },
+  // cart: {
+  //   position: "absolute",
+  //   top: -4,
+  //   right: 16,
+  // },
+  menu: {
+    position: "absolute",
+    top: -12,
+    left: 4,
   },
   view: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "flex-start",
-    paddingTop: 8,
   },
   add: {
-    fontFamily: "zilla-med",
-    fontSize: 24,
-    color: "black",
-  },
-  cart: {
-    position: "absolute",
-    top: -8,
-    right: 16,
-  },
-  settings: {
-    position: "absolute",
-    top: -8,
-    right: 56,
-  },
-  back: {
-    position: "absolute",
-    top: -12,
-    left: 0,
+    fontFamily: "popins-reg",
+    fontSize: 20,
+    color: "#FF6B3C",
+    marginTop:4,
+    marginLeft:4
   },
 });

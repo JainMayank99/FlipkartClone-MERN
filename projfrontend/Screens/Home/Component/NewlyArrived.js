@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,39 +6,63 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
-  Dimensions,
 } from "react-native";
-
+import { Dimensions } from "react-native";
 import { Image as ExpoImage } from "react-native-expo-image-cache";
+import { truncate } from "./../../../components/Truncate";
 
-import { randomProduct } from "../APICall/HomeCall";
-import { truncate } from './../../../components/Truncate';
-
-const DealOfTheDay = ({ language, navigation }) => {
+const NewlyArrived = ({ navigation, newItems1, newItems2 }) => {
   const width = Dimensions.get("screen").width;
+  const [gallery, setgallery] = useState([
+    {
+      image: require("../../../assets/main/bsc3.jpg"),
+      title: "Printed Kurta",
+      released: "2019 ‧ Action/Sci-fi ‧ 3h 2m",
+      key: "1",
+      desc: "After Thanos, an intergalactic warlord, disintegrates half of the universe, the Avengers must reunite and assemble again to reinvigorate their trounced allies and restore balance.",
+    },
+    {
+      image: require("../../../assets/main/bsj2.jpg"),
+      title: "Jewellery Set",
+      released: "2019 ‧ Animation/Musical ‧ 1h 43m",
+      key: "2",
+      desc: "Elsa the Snow Queen has an extraordinary gift -- the power to create ice and snow. But no matter how happy she is to be surrounded by the people of Arendelle, Elsa finds herself strangely unsettled.",
+    },
+    {
+      image: require("../../../assets/main/new1.webp"),
+      title: "Fountain",
+      released: "2019 ‧ Action/Sci-fi ‧ 2h 2m",
+      key: "3",
+      desc: "Alita, a battle cyborg, is revived by Ido, a doctor, who realises that she actually has the soul of a teenager. Alita then sets out to learn about her past and find her true identity.",
+    },
+  ]);
 
-  const [gallery, setGallery] = useState();
-  const [gallery2, setGallery2] = useState();
-
-  useEffect(() => {
-    randomProduct(3)
-      .then((res) => {
-        setGallery(res.data);
-      })
-      .catch((err) => {
-        console.log("Deals of the Day Gallery1 Home Screen error", err);
-      });
-    randomProduct(3)
-      .then((res) => {
-        setGallery2(res.data);
-      })
-      .catch((err) => {
-        console.log("Deals of the Day Gallery2 Home Screen error", err);
-      });
-  }, []);
+  const [gallery2, setgallery2] = useState([
+    {
+      image: require("../../../assets/main/deal5.webp"),
+      title: "Fog Lighting",
+      released: "2019 ‧ Animation/Musical ‧ 1h 43m",
+      key: "2",
+      desc: "Elsa the Snow Queen has an extraordinary gift -- the power to create ice and snow. But no matter how happy she is to be surrounded by the people of Arendelle, Elsa finds herself strangely unsettled.",
+    },
+    {
+      image: require("../../../assets/main/bsj5.jpg"),
+      title: "Gold Ring",
+      released: "2019 ‧ Action/Sci-fi ‧ 2h 2m",
+      key: "3",
+      desc: "Alita, a battle cyborg, is revived by Ido, a doctor, who realises that she actually has the soul of a teenager. Alita then sets out to learn about her past and find her true identity.",
+    },
+    {
+      image: require("../../../assets/main/bsc5.webp"),
+      title: "Lehenga",
+      released: "2019 ‧ Action/Sci-fi ‧ 3h 2m",
+      key: "1",
+      desc: "After Thanos, an intergalactic warlord, disintegrates half of the universe, the Avengers must reunite and assemble again to reinvigorate their trounced allies and restore balance.",
+    },
+  ]);
 
   const image = {
-    uri: require("../../../assets/catIcons/deals.png"),
+    uri: require("../../../assets/catIcons/bookmark.png"),
   };
   const imageChevron = {
     uri: require("../../../assets/catIcons/chevron-right.png"),
@@ -60,25 +84,14 @@ const DealOfTheDay = ({ language, navigation }) => {
             height: 24,
           }}
         />
-        <Text style={styles.text}>
-          {language === "te"
-            ? "రోజు ఒప్పందాలు"
-            : language === "hi"
-            ? "दिन के सौदे"
-            : language === "ka"
-            ? "ದಿನದ ವ್ಯವಹಾರಗಳು"
-            : language === "ta"
-            ? "நாள் ஒப்பந்தங்கள்"
-            : "Deals Of The Day"}
-        </Text>
+        <Text style={styles.text}>Newly Arrived</Text>
       </View>
 
       <FlatList
         horizontal
         horizontal={true}
-        data={gallery}
+        data={newItems1}
         showsHorizontalScrollIndicator={false}
-        keyExtractor={(item) => item._id}
         renderItem={({ item }) => {
           return (
             <View
@@ -125,9 +138,8 @@ const DealOfTheDay = ({ language, navigation }) => {
       <FlatList
         horizontal
         horizontal={true}
-        data={gallery2}
+        data={newItems2}
         showsHorizontalScrollIndicator={false}
-        keyExtractor={(item) => item._id}
         renderItem={({ item }) => {
           return (
             <View
@@ -138,7 +150,13 @@ const DealOfTheDay = ({ language, navigation }) => {
                 paddingHorizontal: Dimensions.get("screen").width * 0.02041,
               }}
             >
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("ProductDescription", {
+                    item,
+                  });
+                }}
+              >
                 <ExpoImage
                   style={{
                     width: width * 0.26785,
@@ -155,9 +173,10 @@ const DealOfTheDay = ({ language, navigation }) => {
                   }}
                   uri={item.image[0].url}
                 />
-                
                 <View style={styles.discountBox}>
-                  <Text style={styles.textDiscount}>{truncate(item.name, 12)}</Text>
+                  <Text style={styles.textDiscount}>
+                    {truncate(item.name, 12)}
+                  </Text>
                 </View>
               </TouchableOpacity>
             </View>
@@ -215,4 +234,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DealOfTheDay;
+export default NewlyArrived;

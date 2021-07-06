@@ -1,21 +1,25 @@
 import React from "react";
-import { View, StyleSheet, TextInput,TouchableOpacity} from "react-native";
+import { View, StyleSheet, TextInput,TouchableOpacity,Text} from "react-native";
 import { Dimensions } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
 const SearchBar = ({navigation}) => {
   return (
     <View style={styles.container}>
-      <TextInput
+      <View
         style={styles.formField}
         placeholder="What are you looking for ?"
         placeholderTextColor="#7e85a1"
         placeholderTextWeight="bold"
-      ></TextInput>
+      >
+        <Text style={styles.text}>What are you looking for ?</Text>
+      </View>
 
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate("Search");
+          navigation.navigate("Search",{
+            category:'searching'
+          });
         }}
         style={{
             position: "absolute",
@@ -41,6 +45,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   formField: {
+    justifyContent: "center",
     borderWidth: 1,
     paddingHorizontal: 12,
     borderRadius: 5,
@@ -50,5 +55,9 @@ const styles = StyleSheet.create({
     fontFamily: "popins-med",
     height: 50,
   },
+  text: {
+    fontSize: 18,
+    fontFamily: "popins-med",
+  }
 });
 export default SearchBar;

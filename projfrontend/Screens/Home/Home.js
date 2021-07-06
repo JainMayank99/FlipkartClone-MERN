@@ -19,30 +19,69 @@ import Header from "../../components/Header";
 import AppCarousel from "../../components/AppCarousel";
 import Categories from "../../components/Categories";
 import TopPicks from "./Component/TopPicks";
-import FeaturedCategories from "../../components/FeaturedCategories";
+import FeaturedCategories from "./Component/FeaturedCategories";
 import DealOfTheDay from "./Component/DealOfTheDay";
 import MiniTextBox from "../../components/MiniTextBox";
 import PopularTribes from "../../components/PopularTribes";
-import NewlyArrived from "../../components/NewlyArrived";
+import NewlyArrived from "./Component/NewlyArrived";
 import InTheSpotlight from "./Component/InTheSpotlight";
-import TopRated from "../../components/TopRated";
-import BestSellingInCat from "../../components/BestSellingInCat";
+import TopRated from "./Component/TopRated";
+import BestSellingInCat from "./Component/BestSellingInCat";
 import Sell from "../../components/Sell";
 import BestSellingInJew from "../../components/BestSellingInJew";
-import { isAuthenticated } from "../Auth/AuthAPICalls/authCalls";
+import {
+  getNewlyArrivedProduct,
+  getRandomCategory,
+  getTopRatedProductsBasedOnCategoryId,
+  getTopRatedProducts
+} from "./APICall/HomeCall";
 
 const Home = ({ route, navigation }) => {
-  const [token, setToken] = useState("");
   const [language, setLanguage] = useState("en");
   const [loading, setLoading] = useState(false);
   const carouselRef = useRef(null);
+  const [category, setCategory] = useState([]);
+  const [clothes, setClothes] = useState([]);
+  const [newItems, setNewItems] = useState([]);
+  const [topRatedItems, setTopRatedItems] = useState([]);
 
   React.useEffect(() => {
     navigation.addListener("focus", () => {
       getLanguage();
+      getRandomCategory()
+        .then((res) => {
+          setCategory(res.data);
+        })
+        .catch((err) => {
+          console.log("Deals of the Day Gallery2 Home Screen error", err);
+        });
+
+      getTopRatedProductsBasedOnCategoryId("6056e7146e98663c74f5b84a")
+        .then((res) => {
+          setClothes(res.data);
+        })
+        .catch((err) => {
+          console.log("Best In clothing Gallery2 Home Screen error", err);
+        });
+
+      getNewlyArrivedProduct()
+        .then((res) => {
+          setNewItems(res.data);
+        })
+        .catch((err) => {
+          console.log("Newly Arrived Gallery2 Home Screen error", err);
+        });
+
+      getTopRatedProducts()
+        .then((res) => {
+          setTopRatedItems(res.data);
+        })
+        .catch((err) => {
+          console.log("Newly Arrived Gallery2 Home Screen error", err);
+        });
     });
   }, [navigation]);
-  
+
   const getLanguage = async () => {
     setLanguage(await AsyncStorage.getItem("lang"));
   };
@@ -60,83 +99,6 @@ const Home = ({ route, navigation }) => {
       mainWork(lang);
     }, 100);
   };
-
-  const [background, setBackground] = useState({
-    uri: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQA_-tL18_rj9zEcjN6n41NEaJm-kRNF9UeOtvksZ4z_OW6jRA9",
-    name: "Avengers: End Game",
-    stat: "2019 ‧ Action/Sci-fi ‧ 3h 2m",
-    desc: "After Thanos, an intergalactic warlord, disintegrates half of the universe, the Avengers must reunite and assemble again to reinvigorate their trounced allies and restore balance.",
-  });
-
-  const [gallery, setgallery] = useState([
-    {
-      image:
-        "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQA_-tL18_rj9zEcjN6n41NEaJm-kRNF9UeOtvksZ4z_OW6jRA9",
-      title: "Avengers: End Game",
-      released: "2019 ‧ Action/Sci-fi ‧ 3h 2m",
-      key: "1",
-      desc: "After Thanos, an intergalactic warlord, disintegrates half of the universe, the Avengers must reunite and assemble again to reinvigorate their trounced allies and restore balance.",
-    },
-    {
-      image:
-        "https://www.spotlightstheatre.co.uk/wordpress/wp-content/uploads/2019/11/f_frozen2_header_mobile_18432_d258f93f.jpeg",
-      title: "Frozen II",
-      released: "2019 ‧ Animation/Musical ‧ 1h 43m",
-      key: "2",
-      desc: "Elsa the Snow Queen has an extraordinary gift -- the power to create ice and snow. But no matter how happy she is to be surrounded by the people of Arendelle, Elsa finds herself strangely unsettled.",
-    },
-    {
-      image:
-        "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSxo7Naxu0tjuSEZ9_faYL--aWjx8V5TKr4q2YeenYKXXik-T5P",
-      title: "Alita: Battle Angel",
-      released: "2019 ‧ Action/Sci-fi ‧ 2h 2m",
-      key: "3",
-      desc: "Alita, a battle cyborg, is revived by Ido, a doctor, who realises that she actually has the soul of a teenager. Alita then sets out to learn about her past and find her true identity.",
-    },
-    {
-      image:
-        "https://www.gstatic.com/tv/thumb/v22vodart/15879807/p15879807_v_v8_aa.jpg",
-      title: "The Irish Man",
-      released: "2019 ‧ Crime/Drama ‧ 3h 30m",
-      key: "4",
-      desc: "In the 1950s, truck driver Frank Sheeran gets involved with Russell Bufalino and his Pennsylvania crime family. As Sheeran climbs the ranks to become a top hit man, he also goes to work for Jimmy Hoffa.",
-    },
-    {
-      image:
-        "https://i.pinimg.com/originals/99/03/9a/99039a6afb682e42c9a12556071b38c9.jpg",
-      title: "John Wick Chapter 3",
-      released: "2019 ‧ Action/Thriller ‧ 2h 10m",
-      key: "5",
-      desc: "John Wick is declared excommunicado and a hefty bounty is set on him after he murders an international crime lord. He sets out to seek help to save himself from ruthless hitmen and bounty hunters.",
-    },
-  ]);
-
-  const [list, setList] = useState([
-    {
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJKLiEyyz1Q9RC8EBYl3ijr3nuGeyO2ETmwy6Kdq0AQtD0elWD",
-      key: "1",
-    },
-    {
-      image: "https://upload.wikimedia.org/wikipedia/en/7/7a/1917poster.jpg",
-      key: "2",
-    },
-    {
-      image:
-        "https://upload.wikimedia.org/wikipedia/en/b/bd/Spider-Man_Far_From_Home_poster.jpg",
-      key: "3",
-    },
-    {
-      image:
-        "https://in.bmscdn.com/iedb/movies/images/mobile/thumbnail/large/spies-in-disguise-et00072276-10-03-2018-03-41-39.jpg",
-      key: "4",
-    },
-    {
-      image:
-        "https://m.media-amazon.com/images/M/MV5BMTE0YWFmOTMtYTU2ZS00ZTIxLWE3OTEtYTNiYzBkZjViZThiXkEyXkFqcGdeQXVyODMzMzQ4OTI@._V1_.jpg",
-      key: "5",
-    },
-  ]);
 
   const handleUserLocation = () => {
     (async () => {
@@ -176,80 +138,62 @@ const Home = ({ route, navigation }) => {
 
   return (
     <View style={{ backgroundColor: "white" }}>
-      {console.log(language)}
-      {loading === true ? (
-        <View style={styles.overlay}>
+      <View style={loading === true ? styles.overlay : null}>
+        {loading === true ? (
           <LottieView
             style={styles.lottie}
             autoPlay
             loop
             source={require("../../assets/animations/loader.json")}
           />
+        ) : null}
+        <Header
+          language={language}
+          changeLanguage={changeLanguage}
+          navigation={navigation}
+        />
 
-          <Header
+        <ScrollView
+          style={{
+            marginTop: 105,
+          }}
+        >
+          <Categories language={language} navigation={navigation} />
+
+          <AppCarousel data={dummyData} navigation={navigation} />
+          <TopPicks language={language} navigation={navigation} />
+          <FeaturedCategories
             language={language}
-            changeLanguage={changeLanguage}
             navigation={navigation}
+            category={category}
           />
 
-          <ScrollView
-            style={{
-              marginTop: 105,
-            }}
-          >
-            <Categories language={language} navigation={navigation} />
-
-            <AppCarousel data={dummyData} navigation={navigation} />
-            <TopPicks language={language} navigation={navigation} />
-            <FeaturedCategories language={language} navigation={navigation} />
-
-            <DealOfTheDay language={language} navigation={navigation} />
-            <MiniTextBox data={minData} navigation={navigation} />
-            <BestSellingInCat navigation={navigation} />
-            <PopularTribes navigation={navigation} />
-
-            <NewlyArrived navigation={navigation} />
-            <InTheSpotlight navigation={navigation} />
-
-            <BestSellingInCat navigation={navigation} />
-            <TopRated navigation={navigation} />
-            <Sell/>
-            <BestSellingInJew navigation={navigation} />
-          </ScrollView>
-        </View>
-      ) : (
-        <View>
-          <Header
-            language={language}
-            changeLanguage={changeLanguage}
+          <DealOfTheDay language={language} navigation={navigation} />
+          <MiniTextBox data={minData} navigation={navigation} />
+          <BestSellingInCat
             navigation={navigation}
-            showChangeLanguage={true}
+            clothes1={clothes.slice(0, 3)}
+            clothes2={clothes.slice(3)}
           />
-          <ScrollView
-            style={{
-              marginTop: 105,
-            }}
-          >
-            <Categories language={language} navigation={navigation} />
-            <AppCarousel data={dummyData} navigation={navigation} />
-            <TopPicks language={language} navigation={navigation} />
-            <FeaturedCategories language={language} navigation={navigation} />
+          <PopularTribes navigation={navigation} />
 
-            <DealOfTheDay language={language} navigation={navigation} />
-            <MiniTextBox data={minData} navigation={navigation} />
-            <BestSellingInCat navigation={navigation} />
-            <PopularTribes navigation={navigation} />
+          <NewlyArrived
+            navigation={navigation}
+            newItems1={newItems.slice(0, 3)}
+            newItems2={newItems.slice(3)}
+          />
+          <InTheSpotlight navigation={navigation} />
 
-            <NewlyArrived navigation={navigation} />
-            <InTheSpotlight navigation={navigation} />
-
-            <BestSellingInCat navigation={navigation} />
-            <TopRated navigation={navigation} />
-            <Sell />
-            <BestSellingInJew navigation={navigation} />
-          </ScrollView>
-        </View>
-      )}
+          <BestSellingInCat
+            navigation={navigation}
+            clothes1={clothes.slice(0, 3)}
+            clothes2={clothes.slice(3)}
+          />
+          <TopRated navigation={navigation} topRatedItems={topRatedItems}/>
+          <Sell />
+          <BestSellingInJew navigation={navigation} />
+        </ScrollView>
+      </View>
     </View>
   );
 };

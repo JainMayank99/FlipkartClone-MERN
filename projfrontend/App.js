@@ -38,6 +38,7 @@ import { isAuthenticated } from "./Screens/Auth/AuthAPICalls/authCalls";
 import ChangePassword from "./Screens/Auth/ChangePassword";
 import ForgotPassword from './Screens/Auth/ForgotPassword';
 import SellerItems from './Screens/Seller/SellerItems';
+import CategorySearchResults from "./Screens/ProductListing/CategorySearchResults";
 
 const AuthStack = createDrawerNavigator();
 // Ignore log notification by message
@@ -94,6 +95,8 @@ export default function App() {
             component={AadhaarVerificationScreen}
           />
           <AuthStack.Screen name="Search" component={ProductListing} />
+          <AuthStack.Screen name="CategorySearch" component={CategorySearchResults} />
+
           <AuthStack.Screen
             name="ProductDescription"
             component={ProductDescScreen}

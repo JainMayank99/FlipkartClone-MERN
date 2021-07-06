@@ -3,60 +3,29 @@ import { View, StyleSheet, Dimensions } from "react-native";
 import LottieView from "lottie-react-native";
 
 import ProductList from "./ProductListingsComponents/ProductList";
-import Header_custom from "./ProductListingsComponents/Header_custom";
-import { productSearch } from "./APICall/ProductSearchAPI";
 import { productsByCategoryId } from "./APICall/CategoryProductAPI";
+import BackButtonHeader from "../../components/BackButtonHeader";
 
-const ProductListing = ({ navigation,route }) => {
+const CategorySearchResults = ({ navigation, route }) => {
   const [language, setLanguage] = useState("en");
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState("");
   const [data, setData] = useState([]);
   const [gallery, setGallery] = useState();
-  const {category}=route.params;
+  const { category } = route.params;
 
   React.useEffect(() => {
     navigation.addListener("focus", () => {
-    
-    productSearch()
-      .then((res) => {
-        setGallery(res.data);
-      })
-      .catch((err) => {
-        console.log("Product Search Screen error", err);
-      });
-    if (category !== 'searching') {
       productsByCategoryId(category)
         .then((res) => {
           setData(res.data);
-          console.log(res.data)
+          console.log(res.data);
         })
         .catch((err) => {
           console.log("Category Product Search Screen error", err);
         });
-    }
-  });
-}, [navigation]);
-
-  const mainWork = (lang) => {
-    setLanguage(lang);
-    setLoading(false);
-  };
-  const changeLanguage = (lang) => {
-    setLoading(true);
-    setTimeout(() => {
-      mainWork(lang);
-    }, 500);
-  };
-
-  const handleSearch = (queryText) => {
-    setQuery(queryText);
-
-    const tempData = gallery.filter((item) =>
-      item.name.toLowerCase().startsWith(queryText.toLowerCase()) && queryText.length >=2
-    );
-    setData(tempData);
-  };
+    });
+  }, [navigation]);
 
   return (
     <View
@@ -65,46 +34,24 @@ const ProductListing = ({ navigation,route }) => {
         height: Dimensions.get("screen").height,
       }}
     >
-      {loading === true ? (
-        <View style={styles.overlay}>
+      <View style={loading === true ? styles.overlay : null}>
+        {loading === true ? (
           <LottieView
             style={styles.lottie}
             autoPlay
             loop
             source={require("../../assets/animations/loader.json")}
           />
-
-          <Header_custom
-            query={query}
-            handleSearch={handleSearch}
-            navigation={navigation}
-            
-          />
-          <View
-            style={{
-              marginTop: 105,
-            }}
-          >
-            <ProductList data={data} query={query} navigation={navigation} />
-          </View>
+        ) : null}
+        <BackButtonHeader screenName='Home' navigation={navigation}/>
+        <View
+          style={{
+            marginTop: 40,
+          }}
+        >
+          <ProductList data={data} query={query} navigation={navigation} />
         </View>
-      ) : (
-        <View>
-          <Header_custom
-            query={query}
-            handleSearch={handleSearch}
-            language={language}
-            changeLanguage={changeLanguage}
-          />
-          <View
-            style={{
-              marginTop: 105,
-            }}
-          >
-            <ProductList data={data} query={query} navigation={navigation} />
-          </View>
-        </View>
-      )}
+      </View>
     </View>
   );
 };
@@ -198,4 +145,4 @@ const styles = StyleSheet.create({
     overflow: "visible",
   },
 });
-export default ProductListing;
+export default CategorySearchResults;

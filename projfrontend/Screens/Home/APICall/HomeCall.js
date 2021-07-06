@@ -16,3 +16,48 @@ export const randomProduct = (count ) => {
         },
     });
 };
+
+export const getRandomCategory = ( ) => {
+   
+    return axios({
+        method: 'get',
+        url: `${BACKEND_URL}/getRandomCategory`,
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+    });
+};
+
+export const getTopRatedProductsBasedOnCategoryId = (id) => {
+  
+    return axios({
+        method: 'post',
+        url: `${BACKEND_URL}/getTopRatedProductsBasedOnCategoryId/${id}`,
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+    });
+};
+export const getNewlyArrivedProduct = () => {
+  
+    return axios({
+        method: 'get',
+        url: `${BACKEND_URL}/getNewlyArrivedProduct`,
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+    });
+};
+export const getTopRatedProducts = () => {
+    return axios({
+        method: 'get',
+        url: `${BACKEND_URL}/getTopRatedProducts`,
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+    });
+};

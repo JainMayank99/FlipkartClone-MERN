@@ -77,14 +77,18 @@ const Categories = ({ language, navigation }) => {
   ]);
 
   return (
-    <View>
       <FlatList
         horizontal={true}
         data={gallery}
         showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => {
           return (
-            <View
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("CategorySearch", {
+                  category: "6056e7146e98663c74f5b84a",
+                });
+              }}
               style={{
                 height: 65,
                 width: 65,
@@ -94,9 +98,10 @@ const Categories = ({ language, navigation }) => {
                 marginVertical: 5,
                 marginHorizontal: 6.5,
                 paddingLeft: 12,
+                zIndex:10000
               }}
             >
-              <TouchableOpacity
+              <View
                 style={{
                   height: 65,
                   width: 65,
@@ -104,12 +109,6 @@ const Categories = ({ language, navigation }) => {
                   alignItems: "center",
                   justifyContent: "center",
                   marginHorizontal: 3,
-                }}
-                onPress={() => {
-                  navigation.navigate("Search", {
-                    category: "6056e7146e98663c74f5b84a",
-                  });
-                
                 }}
               >
                 <View
@@ -133,12 +132,11 @@ const Categories = ({ language, navigation }) => {
                 <Text style={styles.text}>
                   {checkLanguage(language, item.key)}
                 </Text>
-              </TouchableOpacity>
-            </View>
+              </View>
+            </TouchableOpacity>
           );
         }}
       />
-    </View>
   );
 };
 const styles = StyleSheet.create({
