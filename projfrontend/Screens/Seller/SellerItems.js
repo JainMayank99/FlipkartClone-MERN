@@ -109,6 +109,8 @@ const styles = StyleSheet.create({
     padding: Dimensions.get("screen").width * 0.02041,
     paddingHorizontal: Dimensions.get("screen").width * 0.04082,
     marginVertical: 16,
+    backgroundColor: "white",
+    zIndex:10
   },
   addNewBody: {
     justifyContent: "flex-start",
@@ -128,6 +130,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     width: Dimensions.get("screen").width,
     height: 50,
+    zIndex:10
   },
   text: {
     fontFamily: "popins-bold",
@@ -164,6 +167,8 @@ const styles = StyleSheet.create({
   viewAddr: {
     flexDirection: "row",
     alignItems: "center",
+    backgroundColor: "white",
+    zIndex:10
   },
   add: {
     fontFamily: "popins-reg",
