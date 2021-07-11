@@ -86,9 +86,9 @@ const ProductDetails = ({ item, route, navigation }) => {
 					</View>
 					<View style={styles.detailsBox}>
 						<Text style={styles.textDetails}>
-							{text_truncate(item.name, 22)}
+							{text_truncate(item.name, 20)}
 						</Text>
-						<Text style={styles.tribeDetails}>{item.description}</Text>
+						<Text style={styles.tribeDetails}>Tribe : {item.tribe}</Text>
 						<View
 							style={{
 								flex: 1,
@@ -154,6 +154,7 @@ const styles = StyleSheet.create({
 	},
 	textDetails: {
 		fontFamily: "zilla-semibold",
+		textTransform: "capitalize",
 		fontSize: 22.5,
 		color: "black",
 		paddingVertical: 2,

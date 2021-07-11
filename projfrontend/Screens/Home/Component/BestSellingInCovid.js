@@ -12,7 +12,7 @@ import { Feather } from "@expo/vector-icons";
 import { Image as ExpoImage } from "react-native-expo-image-cache";
 import { truncate } from "./../../../components/Truncate";
 
-const BestSellingInCat = ({
+const BestSellingInCovid = ({
   title,
   navigation,
   categoryItems1,
@@ -49,15 +49,15 @@ const BestSellingInCat = ({
           }}
         />
         <Text style={styles.text}>
-          {language === "te"
-            ? "ఆభరణాలలో బెస్ట్ సెల్లింగ్"
+         {truncate(language === "te"
+            ? "కోవిడ్ సంబంధిత వస్తువులలో ఉత్తమంగా అమ్ముడవుతోంది"
             : language === "hi"
-            ? "ज्वैलरी में सबसे ज्यादा बिकने वाला"
+            ? "कोविड संबंधित वस्तुओं में सबसे अधिक बिकने वाला"
             : language === "ka"
-            ? "ಆಭರಣದಲ್ಲಿ ಹೆಚ್ಚು ಮಾರಾಟವಾಗಿದೆ"
+            ? "ಕೋವಿಡ್ ಸಂಬಂಧಿತ ಐಟಂಗಳಲ್ಲಿ ಹೆಚ್ಚು ಮಾರಾಟವಾಗಿದೆ"
             : language === "ta"
-            ? "நகைகளில் சிறந்த விற்பனையாகும்"
-            : "Best Selling In Jewellery"}
+            ? "கோவிட் தொடர்பான பொருட்களில் சிறந்த விற்பனையாகும்"
+            : "Best Selling In Clothing",40)}
         </Text>
       </View>
 
@@ -291,4 +291,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BestSellingInCat;
+export default BestSellingInCovid;

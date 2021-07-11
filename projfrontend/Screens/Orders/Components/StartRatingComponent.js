@@ -89,28 +89,31 @@ function StartRatingComponent({ route, navigation }) {
   };
 
   return (
-    <View style={loading !== 0 ? styles.overlay : { backgroundColor: "white" }}>
-      {loading !== 0 ? (
-        <LottieView
-          style={styles.lottie}
-          autoPlay
-          loop={false}
-          source={
-            loading === 1
-              ? require("../../../assets/animations/loader.json")
-              : loading === 2
-              ? require("../../../assets/animations/success.json")
-              : require("../../../assets/animations/error.json")
-          }
-        />
-      ) : null}
+    <View
+      style={{
+        backgroundColor: "white",
+        minHeight: Dimensions.get("screen").height,
+      }}
+    >
       <View
-        style={{
-          backgroundColor: "white",
-          minHeight: Dimensions.get("screen").height,
-        }}
+        style={loading !== 0 ? styles.overlay : { backgroundColor: "white" }}
       >
-        <BackButtonHeader />
+        {loading !== 0 ? (
+          <LottieView
+            style={styles.lottie}
+            autoPlay
+            loop={false}
+            source={
+              loading === 1
+                ? require("../../../assets/animations/loader.json")
+                : loading === 2
+                ? require("../../../assets/animations/success.json")
+                : require("../../../assets/animations/error.json")
+            }
+          />
+        ) : null}
+
+        <BackButtonHeader screenName='Orders' navigation={navigation}/>
         <View style={styles.body}>
           <Text style={styles.heading}>
             {language === "te"

@@ -36,10 +36,6 @@ export const updateQuantityInCart = (userId, productId, token, quantity) => {
 
 	cancelToken = axios.CancelToken.source();
 
-	// console.log("userID", userId);
-	// console.log("productId", productId);
-	// console.log("token", token);
-	// console.log("quantity", quantity);
 	return axios({
 		method: "put",
 		url: `${BACKEND_URL}/updateQuantityInCart/${userId}/${productId}`,
@@ -56,7 +52,7 @@ export const updateQuantityInCart = (userId, productId, token, quantity) => {
 };
 
 export const removeProductFromCart = (userId, productId, token) => {
-	console.log(BACKEND_URL)
+
 	return axios({
 		method: "delete",
 		url: `${BACKEND_URL}/removeProductFromCart/${userId}/${productId}`,
@@ -69,7 +65,7 @@ export const removeProductFromCart = (userId, productId, token) => {
 };
 
 export const toggleIsSavedForLater = (userId, productId, token) => {
-	console.log(BACKEND_URL)
+	
 	return axios({
 		method: "put",
 		url: `${BACKEND_URL}/toggleIsSavedForLater/${userId}/${productId}`,

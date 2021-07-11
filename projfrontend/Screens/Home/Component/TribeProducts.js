@@ -2,17 +2,14 @@ import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import LottieView from "lottie-react-native";
 
-import ProductList from "./ProductListingsComponents/ProductList";
-import { productsByCategoryId } from "./APICall/CategoryProductAPI";
-import BackButtonHeader from "../../components/BackButtonHeader";
+import ProductList from './../../ProductListing/ProductListingsComponents/ProductList';
+import BackButtonHeader from './../../../components/BackButtonHeader';
 
-const CategorySearchResults = ({ navigation, route }) => {
+const TribeProducts = ({route,navigation}) => {
   const [language, setLanguage] = useState("en");
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState("");
-  const [gallery, setGallery] = useState();
-  const { data} = route.params;
-
+  const { data } = route.params;
 
   return (
     <View
@@ -27,7 +24,7 @@ const CategorySearchResults = ({ navigation, route }) => {
             style={styles.lottie}
             autoPlay
             loop
-            source={require("../../assets/animations/loader.json")}
+            source={require("../../../assets/animations/loader.json")}
           />
         ) : null}
         <BackButtonHeader screenName='Home' navigation={navigation}/>
@@ -37,7 +34,6 @@ const CategorySearchResults = ({ navigation, route }) => {
           }}
         >
           <ProductList data={data} query={query} navigation={navigation} />
-          
         </View>
       </View>
     </View>
@@ -133,4 +129,4 @@ const styles = StyleSheet.create({
     overflow: "visible",
   },
 });
-export default CategorySearchResults;
+export default TribeProducts;

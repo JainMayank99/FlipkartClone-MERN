@@ -13,8 +13,9 @@ import Header from "../../components/Header";
 import CartList from "./Components/CartList";
 import { isAuthenticated } from "../Auth/AuthAPICalls/authCalls";
 import { getAllCartItemsByUserId } from "./APICall/cartAPI";
+import BackButtonHeader from "./../../components/BackButtonHeader";
 
-const Cart = ({ navigation, from }) => {
+const Cart = ({ navigation, route }) => {
   const [showCart, setShowCart] = useState(false);
   const [itemList, setItemList] = useState([]);
   const [language, setLanguage] = useState("en");
@@ -24,10 +25,10 @@ const Cart = ({ navigation, from }) => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalDiscount, setTotalDiscount] = useState(0);
   const [count, setCount] = useState(4);
+  const {screenName} = route.params;
 
   const changeLoading = (val) => {
     setLoading(val);
-    console.log(loading);
   };
 
   const getPrice = (data) => {
@@ -116,16 +117,12 @@ const Cart = ({ navigation, from }) => {
         />
       ) : null}
       <View style={{ backgroundColor: "white" }}>
-        <Header
-          language={language}
-          changeLanguage={changeLanguage}
-          navigation={navigation}
-        />
+        <BackButtonHeader screenName={screenName} navigation={navigation} />
 
         {showCart ? (
           <View
             style={{
-              marginTop: 105,
+              marginTop: 32,
               backgroundColor: "white",
             }}
           >

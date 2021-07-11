@@ -19,6 +19,7 @@ import { paymentByCash } from "./APICall/PaymentAPI";
 import { isAuthenticated } from "../Auth/AuthAPICalls/authCalls";
 import { getAllAddress } from "./../Profile/APICall/AddressAPI";
 import { truncate } from "./../../components/Truncate";
+import BackButtonHeader from "./../../components/BackButtonHeader";
 
 const PaymentSelection = ({ navigation, route }) => {
   const { itemList, totalPrice, totalDiscount, totalAmount } = route.params;
@@ -45,12 +46,14 @@ const PaymentSelection = ({ navigation, route }) => {
           res.data.defaultAddress.length === 0 &&
           res.data.addresses.length === 0
         ) {
+          navigation.navigate("AddAddress");
           setDefaultAddress("");
           setAllAddressses([]);
+          setLoading(0);
         } else {
           onChange(res.data.defaultAddress, res.data.addresses);
+          setLoading(0);
         }
-        setLoading(0);
       })
       .catch((err) => {
         console.log("get address book  error: " + err);
@@ -123,7 +126,6 @@ const PaymentSelection = ({ navigation, route }) => {
 
   return (
     <View style={loading !== 0 ? styles.overlay : null}>
-      {console.log(selectedMode)}
       {loading === 1 ? (
         <>
           <LottieView
@@ -165,10 +167,10 @@ const PaymentSelection = ({ navigation, route }) => {
           </View>
         </>
       ) : null}
-      <Header />
+      <BackButtonHeader screenName="Cart" navigation={navigation} />
       <ScrollView
         style={{
-          marginTop: 105,
+          marginTop: 32,
         }}
       >
         <View style={styles.addressHolder}>
@@ -177,27 +179,32 @@ const PaymentSelection = ({ navigation, route }) => {
             <Feather name="home" size={20} color="#FF6B3C" />
           </View>
           <View style={styles.userAddress}>
-            <Text style={styles.userInfo}>
-              {truncate(
-                defaultAddress.house +
-                  "," +
-                  defaultAddress.city +
-                  "," +
-                  defaultAddress.state +
-                  "," +
-                  defaultAddress.postalCode,
-                35
-              )}
-            </Text>
+            {defaultAddress.house !== undefined ? (
+              <Text style={styles.userInfo}>
+                {truncate(
+                  defaultAddress.house +
+                    "," +
+                    defaultAddress.city +
+                    "," +
+                    defaultAddress.state +
+                    "," +
+                    defaultAddress.postalCode,
+                  35
+                )}
+              </Text>
+            ) : null}
+
             <TouchableOpacity
               style={styles.change}
               onPress={() =>
                 navigation.navigate("SetDefaultAddressScreen", {
-                  screenName: "PaymentSelection",
+                  screenName: "Select Mode Of Payment",
                 })
               }
             >
-              <Text style={styles.changeText}>CHANGE </Text>
+              {defaultAddress.house !== undefined ? (
+                <Text style={styles.changeText}>CHANGE </Text>
+              ) : null}
             </TouchableOpacity>
           </View>
         </View>

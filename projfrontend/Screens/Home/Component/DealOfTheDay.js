@@ -210,6 +210,7 @@ const styles = StyleSheet.create({
   },
   textDiscount: {
     fontFamily: "popins-bold",
+    textTransform: "capitalize",
     fontSize: 14,
     color: "black",
   },

@@ -22,7 +22,7 @@ const ProductList = ({ data, query, navigation }) => {
 
   const onClickSortBy = (key) => {
     setSortBy(key);
-    console.log(key);
+    // console.log(key);
     data.sort((a, b) => {
       if (key === "1") {
         return b.avgRating - a.avgRating;

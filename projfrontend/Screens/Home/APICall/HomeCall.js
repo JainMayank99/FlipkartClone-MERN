@@ -40,6 +40,23 @@ export const getTopRatedProductsBasedOnCategoryId = (id) => {
         },
     });
 };
+
+export const getProductBasedOnTribe = (tribe) => {
+  
+    return axios({
+        method: 'post',
+        url: `${BACKEND_URL}/getProductBasedOnTribe`,
+        data: {
+            tribe
+        },
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+    });
+};
+
+
 export const getNewlyArrivedProduct = () => {
   
     return axios({

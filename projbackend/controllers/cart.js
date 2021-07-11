@@ -26,14 +26,14 @@ exports.addProductToCart = async (req, res) => {
 			// return res.status(400).json({
 			//     err: 'Item already exists in cart !'
 			// });
-			cartItem.Quantity++;
-			console.log(cartItem);
+			cartItem[0].Quantity++;
+			// console.log(cartItem);
 		} else {
-			cartItem = new CartSchema();
-			cartItem.user = req.profile._id;
-			cartItem.product = req.product._id;
+			cartItem[0] = new CartSchema();
+			cartItem[0].user = req.profile._id;
+			cartItem[0].product = req.product._id;
 		}
-		await cartItem.save((err, cartItem) => {
+		await cartItem[0].save((err, cartItem) => {
 			if (err) {
 				return res.status(400).json({
 					err: "NOT able to save cartItem in DB !",

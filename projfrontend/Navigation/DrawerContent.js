@@ -5,6 +5,7 @@ import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import { Feather } from "@expo/vector-icons";
 import { isAuthenticated } from "../Screens/Auth/AuthAPICalls/authCalls";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { signout } from "./../Screens/Auth/AuthAPICalls/authCalls";
 
 export function DrawerContent(props) {
   const image1 = {
@@ -13,16 +14,33 @@ export function DrawerContent(props) {
   const [language, setLanguage] = useState("en");
   const [user, setUser] = useState("");
   const [token, setToken] = useState("");
-  const [role, setRole] = useState(0)
+  const [role, setRole] = useState(0);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
 
+  const handleLogOut = () => {
+    signout();
+    setUser('')
+    setName('')
+    setPhone('')
+    setRole(0)
+  };
+  
   React.useEffect(() => {
     isAuthenticated()
       .then((res) => {
         if (res.user) {
+          setName(res.user.name)
+          setPhone(res.user.phone)
           setUser(res.user._id);
           setToken(res.token);
-          setRole(res.user.role)
-          
+          setRole(res.user.role);
+        }
+        else{
+          setUser('')
+          setName('')
+          setPhone('')
+          setRole(0)
         }
       })
       .catch((err) => {
@@ -44,8 +62,8 @@ export function DrawerContent(props) {
                   justifyContent: "center",
                 }}
               >
-                <Text style={styles.title}>Rajender Singh</Text>
-                <Text style={styles.caption}>8073734256</Text>
+                <Text style={styles.title}>{name}</Text>
+                <Text style={styles.caption}>{phone}</Text>
               </View>
             </View>
           </View>
@@ -105,9 +123,14 @@ export function DrawerContent(props) {
               icon={({ color, size }) => (
                 <Feather name="zap" size={20} color="#FF6B3C" />
               )}
-              label={() => <Text style={styles.text}>{role==1?'MY PRODUCTS':'BECOME A SELLER'}</Text>}
-              onPress={() => {
-                props.navigation.navigate("SellerProducts");
+              label={() => (
+                <Text style={styles.text}>
+                  {console.log("User Role",role)}
+                  {role === 1 ? "MY PRODUCTS" : "BECOME A SELLER"}
+                </Text>
+              )}
+              onPress={() => {role === 1 ?
+                props.navigation.navigate("SellerProducts"):props.navigation.navigate("SellerVerification");
               }}
               style={styles.text}
             />
@@ -115,13 +138,18 @@ export function DrawerContent(props) {
         </View>
       </DrawerContentScrollView>
       <Drawer.Section style={styles.bottomDrawerSection}>
+      
         <DrawerItem
           icon={({ color, size }) => (
             <Feather name="log-out" size={20} color="#FF6B3C" />
           )}
-          label={() => <Text style={styles.text}>SIGN OUT</Text>}
+          label={() => (
+            <Text style={styles.text}>
+              {user === "" ? "SIGN IN" : "SIGN OUT"}
+            </Text>
+          )}
           onPress={() => {
-            props.navigation.navigate("Orders");
+            user === "" ? props.navigation.navigate("Login") : handleLogOut();
           }}
         />
       </Drawer.Section>

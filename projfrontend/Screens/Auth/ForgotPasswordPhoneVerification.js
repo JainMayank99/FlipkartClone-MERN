@@ -16,30 +16,10 @@ import {
   FirebaseRecaptchaVerifierModal,
   FirebaseRecaptchaBanner,
 } from "expo-firebase-recaptcha";
-import * as firebase from "firebase";
-import {
-  REACT_FIREBASE_APIKEY,
-  REACT_FIREBASE_AUTHDOMAIN,
-  REACT_FIREBASE_PROJECTID,
-  REACT_FIREBASE_STORAGEBUCKET,
-  REACT_FIREBASE_MESSAGINGSENDERID,
-  REACT_FIREBASE_APPID,
-  REACT_FIREBASE_MEASUREMENTID,
-} from "@env";
+import * as firebase from 'firebase';
 
-const firebaseConfig = {
-  apiKey: REACT_FIREBASE_APIKEY,
-  authDomain: REACT_FIREBASE_AUTHDOMAIN,
-  projectId: REACT_FIREBASE_PROJECTID,
-  storageBucket: REACT_FIREBASE_STORAGEBUCKET,
-  messagingSenderId: REACT_FIREBASE_MESSAGINGSENDERID,
-  appId: REACT_FIREBASE_APPID,
-  measurementId: REACT_FIREBASE_MEASUREMENTID,
-};
 
-firebase.initializeApp(firebaseConfig);
-
-const PhoneVerificationScreen = ({ navigation }) => {
+const ForgotPasswordPhoneVerification = ({ navigation }) => {
   const recaptchaVerifier = React.useRef(null);
   const [phoneNumber, setPhoneNumber] = React.useState();
   const [verificationId, setVerificationId] = React.useState();
@@ -136,7 +116,7 @@ const PhoneVerificationScreen = ({ navigation }) => {
                 showMessage({
                   text: "Phone authentication successful 👍",
                 });
-                navigation.push("ForgotPassword", {
+                navigation.navigate("ForgotPassword", {
                   phoneNumber: phoneNumber,
                 });
               } catch (err) {
@@ -227,4 +207,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ForgotPasswordPhoneVerificationScreen;
+export default ForgotPasswordPhoneVerification;

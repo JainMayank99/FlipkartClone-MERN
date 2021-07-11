@@ -13,23 +13,44 @@ const FeaturedCategories = ({ language,navigation,category }) => {
   const width = Dimensions.get("screen").width;
   const [gallery, setgallery] = useState([
     {
-      image: require("../../../assets/main/cat1.webp"),
-      title: "Home  & Living",
-      released: "2019 ‧ Action/Sci-fi ‧ 3h 2m",
-      key: "1",
-      desc: "After Thanos, an intergalactic warlord, disintegrates half of the universe, the Avengers must reunite and assemble again to reinvigorate their trounced allies and restore balance.",
+      image: require("../../../assets/main/cat2.png"),
+      key: "60d84e49bef91815c42982df",
+      id: "0"
+
     },
     {
-      image: require("../../../assets/main/cat2.png"),
-      title: "Clothing",
-      released: "2019 ‧ Animation/Musical ‧ 1h 43m",
-      key: "2",
-      desc: "Elsa the Snow Queen has an extraordinary gift -- the power to create ice and snow. But no matter how happy she is to be surrounded by the people of Arendelle, Elsa finds herself strangely unsettled.",
+      image: require("../../../assets/main/bsj1.jpg"),
+      key: "60b1016409ad9b40444d8855",
+      id: "1"
+    },
+    {
+      image: require("../../../assets/main/spot1.webp"),
+      key: "609fc8f8d36dae0fe8386e6d",
+      id: "2"
+    },
+    {
+      image: require("../../../assets/main/deal6.webp"),
+      key: "60ae8233514d2921647c7d23",
+      id: "3"
+    },
+    {
+      image: require("../../../assets//main/mask.webp"),
+      key: "60ab96e8e6b6cf25a841486c",
+      id: "4"
+    },
+    {
+      image: require("../../../assets/main/spot4.webp"),
+      key: "60aba4ff7f4a1f404489ad56",
+      id: "5"
     },
   ]);
-  const temp  = {
-    uri: require("../../../assets/main/cat2.png"),
-  };
+
+  const getImage = (id) => {
+    const res=gallery.filter(item=>item.key===id);
+    return res[0].image;
+    }
+
+
   const image = {
     uri: require("../../../assets/catIcons/trending.png"),
   };
@@ -77,9 +98,10 @@ const FeaturedCategories = ({ language,navigation,category }) => {
                 paddingHorizontal: 8,
               }}
             >
+              {console.log(getImage(item._id))}
               <TouchableOpacity>
                 <Image
-                  source={temp.uri}
+                  source={getImage(item._id)}
                   style={{
                     width: width * 0.43366,
                     height: 220,
@@ -121,13 +143,14 @@ const styles = StyleSheet.create({
     bottom: -10,
     left: 15,
     alignItems: "center",
-    backgroundColor: "#FF6B3C",
+    backgroundColor: "#ff5d42",
     width: 140,
     borderRadius: 5,
     padding: 2,
   },
   textDiscount: {
     fontFamily: "popins-bold",
+    textTransform: "uppercase",
     fontSize: 14,
     color: "white",
   },

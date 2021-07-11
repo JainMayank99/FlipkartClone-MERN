@@ -73,3 +73,20 @@ export const updateSellerProduct = (userId,token,productId,formData) => {
 		}, 
 	});
 };
+
+export const becomeASeller = (userId,token,AddharNo) => {
+	// console.log("Update Product call count: ",userId,token,productId);
+	return axios({
+		method: "put",
+		url: `${BACKEND_URL}/becomeASeller/${userId}`,
+		data: {
+			role:1,
+			AddharNo
+		},
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+			Authorization: "Bearer " + token,
+		}, 
+	});
+};

@@ -17,27 +17,28 @@ import {
     FirebaseRecaptchaBanner,
 } from 'expo-firebase-recaptcha';
 import * as firebase from 'firebase';
-import {
-    REACT_FIREBASE_APIKEY,
-    REACT_FIREBASE_AUTHDOMAIN,
-    REACT_FIREBASE_PROJECTID,
-    REACT_FIREBASE_STORAGEBUCKET,
-    REACT_FIREBASE_MESSAGINGSENDERID,
-    REACT_FIREBASE_APPID,
-    REACT_FIREBASE_MEASUREMENTID,
-} from "@env";
+// import {
 
-const firebaseConfig = {
-    apiKey: REACT_FIREBASE_APIKEY,
-    authDomain: REACT_FIREBASE_AUTHDOMAIN,
-    projectId: REACT_FIREBASE_PROJECTID,
-    storageBucket: REACT_FIREBASE_STORAGEBUCKET,
-    messagingSenderId: REACT_FIREBASE_MESSAGINGSENDERID,
-    appId: REACT_FIREBASE_APPID,
-    measurementId: REACT_FIREBASE_MEASUREMENTID,
-};
+//     REACT_FIREBASE_APIKEY,
+//     REACT_FIREBASE_AUTHDOMAIN,
+//     REACT_FIREBASE_PROJECTID,
+//     REACT_FIREBASE_STORAGEBUCKET,
+//     REACT_FIREBASE_MESSAGINGSENDERID,
+//     REACT_FIREBASE_APPID,
+//     REACT_FIREBASE_MEASUREMENTID,
+// } from "@env";
 
-firebase.initializeApp(firebaseConfig);
+// const firebaseConfig = {
+//     apiKey: REACT_FIREBASE_APIKEY,
+//     authDomain: REACT_FIREBASE_AUTHDOMAIN,
+//     projectId: REACT_FIREBASE_PROJECTID,
+//     storageBucket: REACT_FIREBASE_STORAGEBUCKET,
+//     messagingSenderId: REACT_FIREBASE_MESSAGINGSENDERID,
+//     appId: REACT_FIREBASE_APPID,
+//     measurementId: REACT_FIREBASE_MEASUREMENTID,
+// };
+
+// firebase.initializeApp(firebaseConfig);
 
 const PhoneVerificationScreen = ({ navigation }) => {
     const recaptchaVerifier = React.useRef(null);
@@ -60,10 +61,12 @@ const PhoneVerificationScreen = ({ navigation }) => {
     return (
         <View
             style={{
-                padding: 20,
+                paddingHorizontal: 20,
                 marginVertical: 50,
                 flex: 1,
                 justifyContent: 'center',
+                backgroundColor:'white',
+                height: Dimensions.get("screen").height,
             }}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View>
@@ -144,7 +147,7 @@ const PhoneVerificationScreen = ({ navigation }) => {
                                 showMessage({
                                     text: 'Phone authentication successful 👍',
                                 });
-                                navigation.push('Register', {
+                                navigation.navigate('Register', {
                                     phoneNumber: phoneNumber,
                                 });
                             } catch (err) {

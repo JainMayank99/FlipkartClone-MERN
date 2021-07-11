@@ -11,7 +11,7 @@ import { Dimensions } from "react-native";
 import { Image as ExpoImage } from "react-native-expo-image-cache";
 import { truncate } from "./../../../components/Truncate";
 
-const NewlyArrived = ({ navigation, newItems1, newItems2 }) => {
+const NewlyArrived = ({ navigation, newItems1, newItems2,language }) => {
   const width = Dimensions.get("screen").width;
   const [gallery, setgallery] = useState([
     {
@@ -84,7 +84,17 @@ const NewlyArrived = ({ navigation, newItems1, newItems2 }) => {
             height: 24,
           }}
         />
-        <Text style={styles.text}>Newly Arrived</Text>
+        <Text style={styles.text}>
+          {language === "te"
+            ? "కొత్తగా వచ్చారు"
+            : language === "hi"
+            ? "नव आगमन"
+            : language === "ka"
+            ? "ಹೊಸದಾಗಿ ಆಗಮಿಸಿದೆ"
+            : language === "ta"
+            ? "புதிதாக வந்து சேர்ந்தார்"
+            : "Newly Arrived"}
+        </Text>
       </View>
 
       <FlatList

@@ -24,11 +24,13 @@ const SellerProducts = ({ navigation, route }) => {
     isAuthenticated()
       .then((res) => {
         if (res.user) {
+          setLoading(true);
           getSellerProducts(res.user._id, res.token)
             .then((res) => {
-              console.log(res.data);
+              // console.log(res.data);
               onChangeSellerList(res.data);
               setShowSellerList(true);
+              setLoading(false)
             })
             .catch((err) => {
               console.log("SellerList fetching error: " + err);
@@ -66,8 +68,7 @@ const SellerProducts = ({ navigation, route }) => {
         ) : null}
 
         <BackButtonHeader
-          language={language}
-          changeLanguage={changeLanguage}
+          screenName='Home'
           navigation={navigation}
         />
         <View

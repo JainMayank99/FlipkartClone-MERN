@@ -8,9 +8,9 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { Image as ExpoImage } from 'react-native-expo-image-cache';
+import { Image as ExpoImage } from "react-native-expo-image-cache";
 
-const TopRated = ({topRatedItems}) => {
+const TopRated = ({ topRatedItems, language }) => {
   const [gallery, setgallery] = useState([
     {
       image: require("../../../assets/main/bsj1.jpg"),
@@ -78,7 +78,17 @@ const TopRated = ({topRatedItems}) => {
             height: 24,
           }}
         />
-        <Text style={styles.text}>Top Rated</Text>
+        <Text style={styles.text}>
+          {language === "te"
+            ? "టాప్ రేట్"
+            : language === "hi"
+            ? "टॉप रेटेड"
+            : language === "ka"
+            ? "ಅತ್ಯುತ್ತಮವಾದ"
+            : language === "ta"
+            ? "சிறந்த மதிப்பீடு"
+            : "Top Rated"}
+        </Text>
       </View>
 
       <FlatList
@@ -147,7 +157,7 @@ const styles = StyleSheet.create({
     bottom: -10,
     left: 6.25,
     alignItems: "center",
-    backgroundColor: "#FF6B3C",
+    backgroundColor: "#ff5d42",
     width: 75.5,
     borderRadius: 5,
     padding: 2,

@@ -29,7 +29,7 @@ const ProductCarousel = ({
   user,
   token,
   loggedIn,
-  setLoading
+  setLoading,
 }) => {
   const [dataList, setDataList] = useState(data);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -43,15 +43,13 @@ const ProductCarousel = ({
 
   const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
 
-
-
   useFocusEffect(
     React.useCallback(() => {
       setDataList(data);
       if (loggedIn !== false) {
         isProductInWishlist(user, itemId, token)
           .then((res) => {
-            console.log(inWishlist)
+            console.log(inWishlist);
             if (res.data.result === true) setInWishlist(true);
             else setInWishlist(false);
           })
@@ -66,12 +64,12 @@ const ProductCarousel = ({
 
   const addItemToWishList = () => {
     if (user.length !== 0) {
-     setLoading(4)
+      setLoading(4);
       addProductToWishList(user, itemId, token)
         .then((res) => {
           setInWishlist(true);
           setTimeout(() => {
-            setLoading(0)
+            setLoading(0);
           }, 1000);
         })
         .catch((err) => {
@@ -86,12 +84,12 @@ const ProductCarousel = ({
   };
 
   const removeItemFromWishlist = () => {
-    setLoading(5)
+    setLoading(5);
     removeProductFromWishList(user, itemId, token)
       .then((res) => {
         setInWishlist(false);
         setTimeout(() => {
-          setLoading(0)
+          setLoading(0);
         }, 1000);
       })
       .catch((err) => {
@@ -102,7 +100,6 @@ const ProductCarousel = ({
   if (data && data.length) {
     return (
       <View style={styles.container}>
-        
         <StatusBar hidden />
         <View style={{ flex: 3 }}>
           <FlatList
@@ -122,15 +119,20 @@ const ProductCarousel = ({
             ref={slideRef}
           />
 
-          <View style={styles.nav}>
-            <Icon name="arrow-left" align="left" />
-          </View>
-          <TouchableOpacity
-            style={styles.navend}
+          {/* <TouchableOpacity
+            style={styles.fix}
             onPress={() => navigation.navigate("Cart")}
           >
             <Icon name="shopping-cart" align="right" />
+          </TouchableOpacity> */}
+
+          <TouchableOpacity
+            style={styles.nav}
+            onPress={() => navigation.navigate("Home")}
+          >
+            <Icon name="arrow-left" align="left" />
           </TouchableOpacity>
+
           <TouchableOpacity
             style={styles.wishlist}
             onPress={() => {
@@ -143,7 +145,6 @@ const ProductCarousel = ({
               name={inWishlist === true ? "heart" : "heart-o"}
               align="rightbottom"
             />
-			
           </TouchableOpacity>
         </View>
         <Paginator data={data} scrollX={scrollX} />
@@ -169,9 +170,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     right: 0,
-	
   },
-  navend: {
+ fix: {
     position: "absolute",
     top: 0,
     justifyContent: "flex-end",

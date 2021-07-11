@@ -8,8 +8,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Header from "../../components/Header";
 
 import { getUser } from "./APICall/ProfileAPI";
-import { isAuthenticated } from "../Auth/AuthAPICalls/authCalls";
+import { isAuthenticated, signout } from "../Auth/AuthAPICalls/authCalls";
 import { truncate } from "./../../components/Truncate";
+import BackButtonHeader from "./../../components/BackButtonHeader";
 
 const Profile = ({ navigation }) => {
   const [user, setUser] = useState("");
@@ -35,6 +36,11 @@ const Profile = ({ navigation }) => {
       });
   };
 
+  const logOff = () => {
+    signout();
+    navigation.goBack()
+  }
+
   React.useEffect(() => {
     navigation.addListener("focus", () => {
       getLanguage();
@@ -46,9 +52,12 @@ const Profile = ({ navigation }) => {
             setToken(res.token);
             fetchUser(res.user._id, res.token);
           }
+          else{
+            setUser("")
+          }
         })
         .catch((err) => {
-          console.log("Add address screen error: " + err);
+          console.log("Profile screen error: " + err);
         });
     });
   }, [navigation]);
@@ -82,213 +91,237 @@ const Profile = ({ navigation }) => {
         />
       ) : null}
       <View>
-        <Header navigation={navigation} />
-        <View style={{ padding: 16 }}>
-          <View style={styles.header}>
-            <View>
-              <Text style={styles.name}>{name}</Text>
-              <Text style={styles.mail}>
-                {language === "te"
-                  ? "పరిచయం : "
-                  : language === "hi"
-                  ? "से संपर्क करें : "
-                  : language === "ka"
-                  ? "ಸಂಪರ್ಕ : "
-                  : language === "ta"
-                  ? "தொடர்பு : "
-                  : "Contact : "}
-                {phone}
-              </Text>
-              <TouchableOpacity>
-                <Text
-                  style={styles.edit}
-                  onPress={() =>
-                    navigation.navigate("EditProfile", {
-                      screenName: "Profile",
-                    })
-                  }
-                >
+        <BackButtonHeader screenName="Home" navigation={navigation} />
+        {user !== "" ? (
+          <View style={{ paddingHorizontal: 16 }}>
+            <View style={styles.header}>
+              <View>
+                <Text style={styles.name}>{name}</Text>
+                <Text style={styles.mail}>
                   {language === "te"
-                    ? "ప్రొఫైల్‌ను సవరించండి"
+                    ? "పరిచయం : "
                     : language === "hi"
-                    ? "प्रोफ़ाइल संपादित करें"
+                    ? "से संपर्क करें : "
                     : language === "ka"
-                    ? "ಪ್ರೊಫೈಲ್ ಬದಲಿಸು"
+                    ? "ಸಂಪರ್ಕ : "
                     : language === "ta"
-                    ? "சுயவிவரத்தைத் திருத்து"
-                    : "Edit Profile"}
-                  {" >"}
+                    ? "தொடர்பு : "
+                    : "Contact : "}
+                  {phone}
+                </Text>
+                <TouchableOpacity>
+                  <Text
+                    style={styles.edit}
+                    onPress={() =>
+                      navigation.navigate("EditProfile", {
+                        screenName: "Profile",
+                      })
+                    }
+                  >
+                    {language === "te"
+                      ? "ప్రొఫైల్‌ను సవరించండి"
+                      : language === "hi"
+                      ? "प्रोफ़ाइल संपादित करें"
+                      : language === "ka"
+                      ? "ಪ್ರೊಫೈಲ್ ಬದಲಿಸು"
+                      : language === "ta"
+                      ? "சுயவிவரத்தைத் திருத்து"
+                      : "Edit Profile"}
+                    {" >"}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <Image
+                style={styles.image}
+                source={image.uri}
+                style={{
+                  marginVertical: 4,
+                  width: 100,
+                  height: 100,
+                  borderRadius: 50,
+                  resizeMode: "cover",
+                }}
+              />
+            </View>
+            <Dash
+              dashGap={-1}
+              dashLength={7.5}
+              dashThickness={1.5}
+              dashColor="#edeeef"
+              dashStyle={{ borderRadius: 100, overflow: "hidden" }}
+              style={{
+                width: "100%",
+                height: 8,
+                borderRadius: 100,
+              }}
+            />
+            <Text style={styles.tag1}>
+              {language === "te"
+                ? "వినియోగదారు వివరాలు"
+                : language === "hi"
+                ? "उपयोगकर्ता विवरण"
+                : language === "ka"
+                ? "ಬಳಕೆದಾರರ ವಿವರಗಳು"
+                : language === "ta"
+                ? "பயனர் விவரங்கள்"
+                : "User Details"}
+            </Text>
+            <View style={styles.view}>
+              <View style={styles.image}>
+                <Image
+                  source={shopping.uri}
+                  style={{
+                    width: 24,
+                    height: 24,
+                  }}
+                />
+              </View>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("Orders", { screenName: "Profile" })
+                }
+              >
+                <Text style={styles.subHeader}>
+                  {language === "te"
+                    ? "నా ఆదేశాలు"
+                    : language === "hi"
+                    ? "मेरे आदेश"
+                    : language === "ka"
+                    ? "ನನ್ನ ಆಜ್ಞೆಗಳು"
+                    : language === "ta"
+                    ? "என்னுடைய உத்தரவுகள்"
+                    : "My Orders"}
                 </Text>
               </TouchableOpacity>
             </View>
-            <Image
-              style={styles.image}
-              source={image.uri}
-              style={{
-                marginVertical: 4,
-                width: 100,
-                height: 100,
-                borderRadius: 50,
-                resizeMode: "cover",
-              }}
-            />
-          </View>
-          <Dash
-            dashGap={-1}
-            dashLength={7.5}
-            dashThickness={1.5}
-            dashColor="#edeeef"
-            dashStyle={{ borderRadius: 100, overflow: "hidden" }}
-            style={{
-              width: "100%",
-              height: 8,
-              borderRadius: 100,
-            }}
-          />
-          <Text style={styles.tag1}>
-            {language === "te"
-              ? "వినియోగదారు వివరాలు"
-              : language === "hi"
-              ? "उपयोगकर्ता विवरण"
-              : language === "ka"
-              ? "ಬಳಕೆದಾರರ ವಿವರಗಳು"
-              : language === "ta"
-              ? "பயனர் விவரங்கள்"
-              : "User Details"}
-          </Text>
-          <View style={styles.view}>
-            <View style={styles.image}>
-              <Image
-                source={shopping.uri}
-                style={{
-                  width: 24,
-                  height: 24,
-                }}
-              />
-            </View>
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("Orders", { screenName: "Profile" })
-              }
-            >
-              <Text style={styles.subHeader}>
-                {language === "te"
-                  ? "నా ఆదేశాలు"
-                  : language === "hi"
-                  ? "मेरे आदेश"
-                  : language === "ka"
-                  ? "ನನ್ನ ಆಜ್ಞೆಗಳು"
-                  : language === "ta"
-                  ? "என்னுடைய உத்தரவுகள்"
-                  : "My Orders"}
-              </Text>
-            </TouchableOpacity>
-          </View>
 
-          <View style={styles.view}>
-            <View style={styles.image}>
-              <Image
-                source={wishlist.uri}
-                style={{
-                  width: 24,
-                  height: 24,
-                }}
-              />
+            <View style={styles.view}>
+              <View style={styles.image}>
+                <Image
+                  source={wishlist.uri}
+                  style={{
+                    width: 24,
+                    height: 24,
+                  }}
+                />
+              </View>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("Wishlist", { screenName: "Profile" })
+                }
+              >
+                <Text style={styles.subHeader}>
+                  {language === "te"
+                    ? "కోరికల జాబితా"
+                    : language === "hi"
+                    ? "इच्छा-सूची"
+                    : language === "ka"
+                    ? "ಬಯಕೆಪಟ್ಟಿ"
+                    : language === "ta"
+                    ? "விருப்பப்பட்டியல்"
+                    : "Wishlist"}
+                </Text>
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("Wishlist", { screenName: "Profile" })
-              }
-            >
-              <Text style={styles.subHeader}>
-                {language === "te"
-                  ? "కోరికల జాబితా"
-                  : language === "hi"
-                  ? "इच्छा-सूची"
-                  : language === "ka"
-                  ? "ಬಯಕೆಪಟ್ಟಿ"
-                  : language === "ta"
-                  ? "விருப்பப்பட்டியல்"
-                  : "Wishlist"}
-              </Text>
-            </TouchableOpacity>
-          </View>
 
-          <View style={styles.view}>
-            <View style={styles.image}>
-              <Image
-                source={address.uri}
-                style={{
-                  width: 24,
-                  height: 24,
-                }}
-              />
+            <View style={styles.view}>
+              <View style={styles.image}>
+                <Image
+                  source={address.uri}
+                  style={{
+                    width: 24,
+                    height: 24,
+                  }}
+                />
+              </View>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("Address", { screenName: "Profile" })
+                }
+              >
+                <Text style={styles.subHeader}>
+                  {language === "te"
+                    ? "చిరునామా పుస్తకం"
+                    : language === "hi"
+                    ? "पता पुस्तिका"
+                    : language === "ka"
+                    ? "ವಿಳಾಸ ಪುಸ್ತಕ"
+                    : language === "ta"
+                    ? "முகவரி புத்தகம்"
+                    : "Address Book"}
+                </Text>
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("Address", { screenName: "Profile" })
-              }
-            >
-              <Text style={styles.subHeader}>
-                {language === "te"
-                  ? "చిరునామా పుస్తకం"
-                  : language === "hi"
-                  ? "पता पुस्तिका"
-                  : language === "ka"
-                  ? "ವಿಳಾಸ ಪುಸ್ತಕ"
-                  : language === "ta"
-                  ? "முகவரி புத்தகம்"
-                  : "Address Book"}
-              </Text>
+            <View style={styles.view1}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("ChangePassword")}
+              >
+                <Text style={styles.tag}>
+                  {language === "te"
+                    ? "పాస్వర్డ్ మార్చండి"
+                    : language === "hi"
+                    ? "पासवर्ड बदलें"
+                    : language === "ka"
+                    ? "ಗುಪ್ತಪದವನ್ನು ಬದಲಿಸಿ"
+                    : language === "ta"
+                    ? "கடவுச்சொல்லை மாற்று"
+                    : "Change Password"}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("ChangePassword")}
+              >
+                <View style={styles.image}>
+                  <Image
+                    source={settings.uri}
+                    style={{
+                      width: 25,
+                      marginRight: 8,
+                      height: 25,
+                    }}
+                  />
+                </View>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.view2}>
+              <TouchableOpacity
+                onPress={() => logOff()}
+              >
+                <Text style={styles.tag}>
+                  {language === "te"
+                    ? "లాగ్ అవుట్"
+                    : language === "hi"
+                    ? "लॉग आउट"
+                    : language === "ka"
+                    ? "ಲಾಗ್ ಔಟ್"
+                    : language === "ta"
+                    ? "வெளியேறு"
+                    : "Log Out"}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => logOff()}
+              >
+                <View style={styles.image}>
+                  <Image
+                    source={logOut.uri}
+                    style={{
+                      width: 25,
+                      marginRight: 8,
+                      height: 25,
+                    }}
+                  />
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+        ) : (
+          <View style={styles.login}>
+            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+              <Text style={styles.loginText}>Login to continue {">>"}</Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.view1}>
-            <Text style={styles.tag}>
-              {language === "te"
-                ? "పాస్వర్డ్ మార్చండి"
-                : language === "hi"
-                ? "पासवर्ड बदलें"
-                : language === "ka"
-                ? "ಗುಪ್ತಪದವನ್ನು ಬದಲಿಸಿ"
-                : language === "ta"
-                ? "கடவுச்சொல்லை மாற்று"
-                : "Change Password"}
-            </Text>
-            <View style={styles.image}>
-              <Image
-                source={settings.uri}
-                style={{
-                  width: 25,
-                  marginRight: 8,
-                  height: 25,
-                }}
-              />
-            </View>
-          </View>
-          <View style={styles.view2}>
-            <Text style={styles.tag}>
-              {language === "te"
-                ? "లాగ్ అవుట్"
-                : language === "hi"
-                ? "लॉग आउट"
-                : language === "ka"
-                ? "ಲಾಗ್ ಔಟ್"
-                : language === "ta"
-                ? "வெளியேறு"
-                : "Log Out"}
-            </Text>
-            <View style={styles.image}>
-              <Image
-                source={logOut.uri}
-                style={{
-                  width: 25,
-                  marginRight: 8,
-                  height: 25,
-                }}
-              />
-            </View>
-          </View>
-        </View>
+        )}
       </View>
     </View>
   );
@@ -309,7 +342,7 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   header: {
-    marginTop: 72,
+    marginTop: 32,
     paddingVertical: 8,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -378,6 +411,18 @@ const styles = StyleSheet.create({
     paddingVertical: 32,
     borderBottomWidth: 7.5,
     borderBottomColor: "#edeeef",
+  },
+  login: {
+    marginTop: "65%",
+    textAlign: "center",
+    zIndex: 10,
+  },
+  loginText: {
+    fontFamily: "zilla-reg",
+    fontSize: 20,
+    textAlign: "center",
+    color: "#FF6B3C",
+    zIndex: 10,
   },
 });
 

@@ -10,11 +10,8 @@ import { isAuthenticated } from "../Auth/AuthAPICalls/authCalls";
 
 import LottieView from "lottie-react-native";
 
-const PaymentScreen = ({ route }) => {
-  // console.log("Screen", route.params);
+const PaymentScreen = ({ route, navigation}) => {
   const { itemList } = route.params;
-
-  //
   const [products, setProducts] = useState([]);
   const [user, setUser] = useState("");
   const [token, setToken] = useState("");
@@ -26,8 +23,11 @@ const PaymentScreen = ({ route }) => {
   const [paymentStatus, setPaymentStatus] = useState("");
   const [loading, setLoading] = useState(0);
 
-  useEffect(() => {
-    isAuthenticated()
+  React.useEffect(() => {
+    navigation.addListener("focus", () => {
+      setLoading(0);
+      setResponse(undefined);
+      isAuthenticated()
       .then((res) => {
         if (res.user) {
           setUser(res.user._id);
@@ -42,7 +42,9 @@ const PaymentScreen = ({ route }) => {
     itemList.map((item) =>
       products.push({ quantity: item.Quantity, _id: item.product._id })
     );
-  }, []);
+    });
+  }, [navigation]);
+
 
   const cartInfo = {
     id: "5eruyt7asdas647623a5asd1612asd545423", //use uuid here uuidv1()
@@ -60,6 +62,7 @@ const PaymentScreen = ({ route }) => {
     try {
       //API CALL
       // "http://192.168.29.45:8000/api/payment",
+      console.log(BACKEND_URL)
       const stripeResponse = await axios({
         method: "post",
         url: `${BACKEND_URL}/paymentByCard/${user}`,
@@ -83,6 +86,9 @@ const PaymentScreen = ({ route }) => {
         if (paid === true) {
           setPaymentStatus("Payment Success");
           setLoading(2);
+          setTimeout(() => {
+            navigation.navigate("Home")
+          }, 2000);
           // console.log("Payment Success");
         } else {
           setPaymentStatus("Payment failed due to some issue");
@@ -90,7 +96,7 @@ const PaymentScreen = ({ route }) => {
           // console.log("Payment failed due to some issue");
         }
       } else {
-        setPaymentStatus(" Payment failed due to some issue");
+        setPaymentStatus(" Payment failed due to some issue",stripeResponse);
         setLoading(3);
         // console.log(" Payment failed due to some issue");
       }

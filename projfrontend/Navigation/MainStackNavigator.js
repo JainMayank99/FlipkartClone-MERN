@@ -51,10 +51,6 @@ const ProfileStackNavigator = () => {
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="Address" component={AddressBook} />
       <Stack.Screen name="EditProfile" component={EditProfile} />
-      {/* <Stack.Screen name="AddAddress" component={AddAddress} /> */}
-      {/* <Stack.Screen name="Profile" component={Profile} />
-        <Stack.Screen name="Profile" component={Profile} />
-        <Stack.Screen name="Profile" component={Profile} /> */}
     </Stack.Navigator>
   );
 };

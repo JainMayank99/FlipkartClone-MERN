@@ -95,7 +95,7 @@ const SelectLanguage = ({ language, changeLanguage }) => {
                                         borderRadius: 50,
                                         alignItems: 'center',
                                         justifyContent: 'center',
-                                        backgroundColor: '#FC8019',
+                                        backgroundColor: '#ff5d42',
                                     }}>
                                     <Image
                                         source={item.image}

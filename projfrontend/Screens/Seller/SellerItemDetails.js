@@ -105,7 +105,7 @@ const SellerItemDetails = ({ item, navigation, onChangeSellerList }) => {
           </View>
           <View style={styles.detailsBox}>
             <Text style={styles.textDetails}>{truncate(item.name, 20)}</Text>
-            <Text style={styles.tribeDetails}>{item.description}</Text>
+            <Text style={styles.tribeDetails}>{item.tribe}</Text>
             <View
               style={{
                 flex: 1,
@@ -134,7 +134,7 @@ const SellerItemDetails = ({ item, navigation, onChangeSellerList }) => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            updateProduct(item);
+            navigation.navigate("SellerUpdateScreen",{item:item})
           }}
         >
           <Image
@@ -208,6 +208,7 @@ const styles = StyleSheet.create({
   },
   textDetails: {
     fontFamily: "popins-bold",
+    textTransform: "capitalize",
     fontSize: 18,
     color: "black",
     paddingVertical: 2,

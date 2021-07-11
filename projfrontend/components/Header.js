@@ -39,6 +39,7 @@ const Header = ({ language, changeLanguage, navigation,showChangeLanguage}) => {
   return (
     <Screen>
       <StatusBar hidden />
+  
       {showChangeLanguage===true && <View style={styles.language}>
         <TouchableOpacity onPress={() => refRBSheet.current.open()}>
         <Image
@@ -52,10 +53,11 @@ const Header = ({ language, changeLanguage, navigation,showChangeLanguage}) => {
       </View>
 }
 
+
       <View style={styles.cart}>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("ChangePassword");
+            navigation.navigate("Cart",{screenName:'Home'});
           }}
         >
            <Image

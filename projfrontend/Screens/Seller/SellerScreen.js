@@ -28,6 +28,7 @@ import BackButtonHeader from "./../../components/BackButtonHeader";
 import { isAuthenticated } from "../Auth/AuthAPICalls/authCalls";
 import { uploadProduct } from "./SellerAPI/sellerAPI";
 import CategoryPickerItem from "./CategoryPickerItem";
+import TribePicker from "./../../components/TribePicker";
 
 const categories = [
   {
@@ -70,6 +71,7 @@ const categories = [
 export default function SellerScreen({ navigation }) {
   const [imageUris, setImageUris] = useState([]);
   const [category, setCategory] = useState(null);
+  const [tribe,setTribe] = useState(null)
   const [focusProductName, setFocusProductName] = useState(false);
   const [focusAmount, setFocusAmount] = useState(false);
   const [focusQuantity, setFocusQuantity] = useState(false);
@@ -190,6 +192,11 @@ export default function SellerScreen({ navigation }) {
     setFocusTribe(false);
   };
 
+  const onSelectTribe = (item)=> {
+    console.log(item)
+    setTribe(item)
+  }
+
   return (
     <>
       <View
@@ -211,8 +218,8 @@ export default function SellerScreen({ navigation }) {
             }
           />
         ) : null}
-        <BackButtonHeader />
-        <Screen style={styles.screen}>
+        <BackButtonHeader screenName='My Products' navigation={navigation}/>
+        <View style={styles.screen}>
           <ImageInputList
             imageUris={imageUris}
             onAddImage={handleAdd}
@@ -374,21 +381,14 @@ export default function SellerScreen({ navigation }) {
                       marginVertical: 8,
                     }}
                   >
-                    <Text style={styles.label}>Tribe</Text>
-                    <TextInput
-                      underlineColorAndroid="transparent"
-                      onFocus={onfocusTribeChange}
-                      placeholder="Enter Name Of Tribe"
-                      autoCorrect={false}
-                      style={
-                        focusTribe === false
-                          ? styles.textInput
-                          : styles.textInputName
-                      }
-                      onChangeText={formikProps.handleChange("tribe")}
-                      onBlur={onBlurTribeChange}
-                      value={formikProps.values.tribe}
-                    />
+                    <Text
+                      style={styles.label}
+                    >
+                      Tribe
+                    </Text>
+                    <TribePicker style={styles.label}
+                      selectedTribe={tribe}
+                      onSelectTribe={(item) => setTribe(item)}/>
                     <View
                       style={
                         formikProps.errors.tribe
@@ -442,7 +442,7 @@ export default function SellerScreen({ navigation }) {
               </React.Fragment>
             )}
           </Formik>
-        </Screen>
+        </View>
       </View>
     </>
   );

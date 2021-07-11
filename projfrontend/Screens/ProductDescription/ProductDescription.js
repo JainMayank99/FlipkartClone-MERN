@@ -45,7 +45,7 @@ const ProductDescScreen = ({ route, navigation }) => {
 
   const onCartButtonPressed = () => {
     if (loggedIn === false) navigation.navigate("Login");
-    else if (inCart === true) navigation.navigate("Cart");
+    else if (inCart === true) navigation.navigate("Cart",{screenName:item.name});
     else {
       setLoading(1);
       addProductToCart(user, item._id, token)

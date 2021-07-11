@@ -90,7 +90,7 @@ const CartList = ({
           <TouchableOpacity
             onPress={() => {
               navigation.navigate("PaymentSelection", {
-                itemList: itemList,
+                itemList: cartItemList,
                 totalPrice: totalPrice,
                 totalDiscount: totalDiscount,
                 totalAmount: totalPrice - totalDiscount,

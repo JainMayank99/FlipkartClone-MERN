@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     fontFamily: "popins-bold",
     fontSize: 20,
     color: "#20263e",
-    marginLeft: 3,
+    marginLeft: -8,
   },
   view: {
     fontFamily: "popins-bold",

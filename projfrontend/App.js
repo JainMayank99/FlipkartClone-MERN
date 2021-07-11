@@ -31,7 +31,6 @@ import SellerScreen from "./Screens/Seller/SellerScreen";
 import ProductRating from "./Screens/Orders/Components/ProductRating";
 import StartRatingComponent from "./Screens/Orders/Components/StartRatingComponent";
 import SellerProducts from "./Screens/Seller/SellerProducts";
-import SellerUpdateScreen from "./Screens/Seller/SellerUpdateScreen";
 import AadhaarVerificationScreen from "./Screens/Seller/AadhaarVerificationScreen";
 import SetDefaultAddress from "./Screens/Profile/SetDefaultAddress";
 import { isAuthenticated } from "./Screens/Auth/AuthAPICalls/authCalls";
@@ -39,6 +38,34 @@ import ChangePassword from "./Screens/Auth/ChangePassword";
 import ForgotPassword from './Screens/Auth/ForgotPassword';
 import SellerItems from './Screens/Seller/SellerItems';
 import CategorySearchResults from "./Screens/ProductListing/CategorySearchResults";
+import SelectTribe from './Screens/Seller/SelectTribe';
+import PopularTribes from './components/PopularTribes';
+import TribeProducts from './Screens/Home/Component/TribeProducts';
+import SellerUpdateScreen from './Screens/Seller/SellerUpdateScreen';
+import ForgotPasswordPhoneVerification from './Screens/Auth/ForgotPasswordPhoneVerification';
+
+import * as firebase from "firebase";
+import {
+  REACT_FIREBASE_APIKEY,
+  REACT_FIREBASE_AUTHDOMAIN,
+  REACT_FIREBASE_PROJECTID,
+  REACT_FIREBASE_STORAGEBUCKET,
+  REACT_FIREBASE_MESSAGINGSENDERID,
+  REACT_FIREBASE_APPID,
+  REACT_FIREBASE_MEASUREMENTID,
+} from "@env";
+
+const firebaseConfig = {
+  apiKey: REACT_FIREBASE_APIKEY,
+  authDomain: REACT_FIREBASE_AUTHDOMAIN,
+  projectId: REACT_FIREBASE_PROJECTID,
+  storageBucket: REACT_FIREBASE_STORAGEBUCKET,
+  messagingSenderId: REACT_FIREBASE_MESSAGINGSENDERID,
+  appId: REACT_FIREBASE_APPID,
+  measurementId: REACT_FIREBASE_MEASUREMENTID,
+};
+
+firebase.initializeApp(firebaseConfig);
 
 const AuthStack = createDrawerNavigator();
 // Ignore log notification by message
@@ -91,17 +118,23 @@ export default function App() {
           <AuthStack.Screen name="Cart" component={Cart} />
           <AuthStack.Screen name="AddAddress" component={AddAddress} />
           <AuthStack.Screen
-            name="AddProduct"
+            name="SellerVerification"
             component={AadhaarVerificationScreen}
           />
           <AuthStack.Screen name="Search" component={ProductListing} />
           <AuthStack.Screen name="CategorySearch" component={CategorySearchResults} />
-
+          <AuthStack.Screen
+            name="TribeSearch"
+            component={TribeProducts}
+          />
           <AuthStack.Screen
             name="ProductDescription"
             component={ProductDescScreen}
           />
           <AuthStack.Screen name="Login" component={LoginScreen} />
+          <AuthStack.Screen name="Verification" component={PhoneVerificationScreen} />
+          <AuthStack.Screen name="ForgetVerification" component={ForgotPasswordPhoneVerification} />
+          <AuthStack.Screen name="Register" component={SignUpScreen} />
           <AuthStack.Screen name="Rate" component={StartRatingComponent} />
           <AuthStack.Screen
             name="PaymentSelection"
@@ -109,6 +142,9 @@ export default function App() {
           />
           <AuthStack.Screen name="SellerScreen" component={SellerScreen} />
           <AuthStack.Screen name="SellerProducts" component={SellerProducts} />
+          <AuthStack.Screen name="SelectTribe" component={SelectTribe} />
+          <AuthStack.Screen name="SellerUpdateScreen" component={SellerUpdateScreen} />
+
           <AuthStack.Screen
             name="SetDefaultAddressScreen"
             component={SetDefaultAddress}

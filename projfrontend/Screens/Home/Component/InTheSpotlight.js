@@ -23,7 +23,7 @@ const imageChevron = {
   uri: require("../../../assets/catIcons/chevron-right.png"),
 };
 
-const InTheSpotlight = ({ navigation }) => {
+const InTheSpotlight = ({ navigation, language }) => {
   const { width, height } = Dimensions.get("window");
   const carouselRef = useRef(null);
 
@@ -83,8 +83,18 @@ const InTheSpotlight = ({ navigation }) => {
             height: 26,
           }}
         />
-        <Text style={styles.text}>In The Spotlight</Text>
-        <Text style={styles.view}>View All</Text>
+        <Text style={styles.text}>
+          {language === "te"
+            ? "స్పాట్‌లైట్‌లో"
+            : language === "hi"
+            ? "सुर्खियों में"
+            : language === "ka"
+            ? "ಸ್ಪಾಟ್‌ಲೈಟ್‌ನಲ್ಲಿ"
+            : language === "ta"
+            ? "ஸ்பாட்லைட்டில்"
+            : "In The SpotLight"}
+        </Text>
+        {/* <Text style={styles.view}>View All</Text>
         <Image
           source={imageChevron.uri}
           style={{
@@ -95,7 +105,7 @@ const InTheSpotlight = ({ navigation }) => {
             height: 20,
             bottom: 19,
           }}
-        />
+        /> */}
       </View>
       <ScrollView>
         <View style={styles.carouselContentContainer}>

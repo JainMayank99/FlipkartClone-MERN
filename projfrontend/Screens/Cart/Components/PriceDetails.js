@@ -11,7 +11,6 @@ const PriceDetails = ({
   return (
     <View>
       <View style={styles.container}>
-        {console.log("cartItemList Re")}
         <Text style={styles.heading}>
           {language === "te"
             ? "ధర వివరాలు"

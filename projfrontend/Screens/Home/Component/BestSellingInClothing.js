@@ -12,7 +12,7 @@ import { Feather } from "@expo/vector-icons";
 import { Image as ExpoImage } from "react-native-expo-image-cache";
 import { truncate } from "./../../../components/Truncate";
 
-const BestSellingInCat = ({
+const BestSellingInClothing = ({
   title,
   navigation,
   categoryItems1,
@@ -50,14 +50,14 @@ const BestSellingInCat = ({
         />
         <Text style={styles.text}>
           {language === "te"
-            ? "ఆభరణాలలో బెస్ట్ సెల్లింగ్"
+            ? "దుస్తులలో ఉత్తమంగా అమ్ముడవుతోంది"
             : language === "hi"
-            ? "ज्वैलरी में सबसे ज्यादा बिकने वाला"
+            ? "कपड़ों में सबसे ज्यादा बिकने वाला"
             : language === "ka"
-            ? "ಆಭರಣದಲ್ಲಿ ಹೆಚ್ಚು ಮಾರಾಟವಾಗಿದೆ"
+            ? "ಉಡುಪಿನಲ್ಲಿ ಹೆಚ್ಚು ಮಾರಾಟವಾಗಿದೆ"
             : language === "ta"
-            ? "நகைகளில் சிறந்த விற்பனையாகும்"
-            : "Best Selling In Jewellery"}
+            ? "ஆடைகளில் சிறந்த விற்பனையாகும்"
+            : "Best Selling In Clothing"}
         </Text>
       </View>
 
@@ -291,4 +291,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BestSellingInCat;
+export default BestSellingInClothing;

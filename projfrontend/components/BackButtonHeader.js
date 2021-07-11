@@ -3,6 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import Screen from "./Screen";
 import { StatusBar } from "react-native";
+import { truncate } from './Truncate';
 
 const BackButtonHeader = ({ screenName, navigation }) => {
   const cart = {
@@ -15,25 +16,8 @@ const BackButtonHeader = ({ screenName, navigation }) => {
     uri: require("../assets/customIcons/back.png"),
   };
   return (
-    <Screen>
+    <Screen >
       <StatusBar hidden />
-
-      {/* <View style={styles.cart}>
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate("ChangePassword");
-        }}
-      >
-         <Image
-          source={cart.uri}
-          style={{
-            width: 24,
-            height: 24,
-          }}
-        />
-      </TouchableOpacity>
-    </View> */}
-
       <View style={styles.menu}>
         <TouchableOpacity
           onPress={() => {
@@ -51,7 +35,7 @@ const BackButtonHeader = ({ screenName, navigation }) => {
                 height: 30,
               }}
             />
-            <Text style={styles.add}>{screenName}</Text>
+            <Text style={styles.add}>{truncate(screenName,30)}</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -75,11 +59,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "#20263e",
   },
-  // cart: {
-  //   position: "absolute",
-  //   top: -4,
-  //   right: 16,
-  // },
   menu: {
     position: "absolute",
     top: -12,

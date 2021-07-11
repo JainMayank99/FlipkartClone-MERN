@@ -136,7 +136,7 @@ const EditProfile = ({ navigation, route }) => {
               ? "ಪ್ರೊಫೈಲ್ ಬದಲಿಸು"
               : language === "ta"
               ? "சுயவிவரத்தைத் திருத்து"
-              : "Wishlist Is Empty"}
+              : "Edit Profile"}
           </Text>
           <Formik
             enableReinitialize={true}
@@ -270,10 +270,9 @@ const EditProfile = ({ navigation, route }) => {
 
 const styles = StyleSheet.create({
   screen: {
-    paddingTop: 72,
     paddingBottom: 8,
     paddingHorizontal: 16,
-    marginTop: 8,
+    marginTop: 32,
     backgroundColor: "white",
     height: Dimensions.get("screen").height,
   },

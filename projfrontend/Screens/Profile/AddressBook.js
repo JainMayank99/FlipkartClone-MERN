@@ -89,6 +89,12 @@ const AddressBook = ({ navigation, route }) => {
 
   return (
     <View
+        style={{
+          backgroundColor: "white",
+          height: Dimensions.get("screen").height,
+        }}
+      >
+    <View
       style={loading === true ? styles.overlay : { backgroundColor: "white" }}
     >
       {loading === true ? (
@@ -102,7 +108,7 @@ const AddressBook = ({ navigation, route }) => {
       <View
         style={{
           backgroundColor: "white",
-          height: Dimensions.get("screen").height,
+        
         }}
       >
         <BackButtonHeader screenName={screenName} navigation={navigation} />
@@ -139,7 +145,7 @@ const AddressBook = ({ navigation, route }) => {
                 <TouchableOpacity
                   onPress={() =>
                     navigation.navigate("SetDefaultAddressScreen", {
-                      screenName: "Profile",
+                      screenName: "Address Book",
                     })
                   }
                 >
@@ -266,6 +272,7 @@ const AddressBook = ({ navigation, route }) => {
           console.log()
         )}
       </View>
+    </View>
     </View>
   );
 };

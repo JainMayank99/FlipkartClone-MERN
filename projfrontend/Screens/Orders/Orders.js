@@ -7,6 +7,7 @@ import Header from "../../components/Header";
 import OrderList from "./Components/OrdersList";
 import { isAuthenticated } from "../Auth/AuthAPICalls/authCalls";
 import { getOrdersByUser } from "./APICall/OrderAPI";
+import BackButtonHeader from './../../components/BackButtonHeader';
 
 const Orders = ({ navigation }) => {
   const [language, setLanguage] = useState("en");
@@ -70,14 +71,10 @@ const Orders = ({ navigation }) => {
       ) : null}
 
       <View>
-        <Header
-          language={language}
-          changeLanguage={changeLanguage}
-          navigation={navigation}
-        />
+      <BackButtonHeader screenName='Home' navigation={navigation}/>
         <View
           style={{
-            marginTop: 105,
+            marginTop: 40,
           }}
         >{showOrders && itemList.length > 0 ? (
           <OrderList itemList={itemList} navigation={navigation} user={user} token={token} language={language}/>
@@ -138,7 +135,7 @@ const styles = StyleSheet.create({
     fontFamily: "zilla-reg",
     fontSize: 20,
     textAlign: "center",
-    color: "#FF6B3C",
+    color: "#ff5d42",
     zIndex: 10,
   },
   emptyCartAnimationHolder: {

@@ -101,6 +101,12 @@ const SetDefaultAddress = ({ navigation, route }) => {
 
   return (
     <View
+    style={{
+      backgroundColor: "white",
+      height: Dimensions.get("screen").height,
+    }}
+  >
+    <View
       style={loading === true ? styles.overlay : { backgroundColor: "white" }}
     >
       {loading === true ? (
@@ -114,7 +120,6 @@ const SetDefaultAddress = ({ navigation, route }) => {
       <View
         style={{
           backgroundColor: "white",
-          height: Dimensions.get("screen").height,
         }}
       >
         <BackButtonHeader screenName={screenName} navigation={navigation} />
@@ -176,6 +181,7 @@ const SetDefaultAddress = ({ navigation, route }) => {
           </View>
         </View>
       </View>
+    </View>
     </View>
   );
 };

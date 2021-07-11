@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   review: {
     fontFamily: "popins-med",
     fontSize: 18,
-    color: "#FF6B3C",
+    color: "#ff5d42",
     paddingTop: 16,
   },
 });

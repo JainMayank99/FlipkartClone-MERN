@@ -47,6 +47,9 @@ const LoginScreen = ({ navigation }) => {
 			.then((res) => {
 				authenticate(res.data, () => {
 					navigation.navigate("Home");
+					values.phoneNumber = ''
+					values.confirmPassword = ''
+					setLoading(0)
 				});
 			})
 			.catch((err) => {
@@ -153,7 +156,10 @@ const LoginScreen = ({ navigation }) => {
 											/>
 										</TouchableOpacity>
 									</View>
+									<TouchableOpacity onPress={()=> navigation.navigate("ForgetVerification")}>
 									<Text style={styles.forgot}>Forgot Password {" >"}</Text>
+									</TouchableOpacity>
+									
 
 									<TouchableOpacity
 										onPress={formikProps.handleSubmit}

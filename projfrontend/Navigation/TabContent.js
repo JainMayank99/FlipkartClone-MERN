@@ -199,11 +199,6 @@ const TabContent = () => (
                 borderRadius: 14,
               }}
             />
-            {/* <Feather
-              name="user"
-              size={24}
-              color={focused ? "#00ff7f" : "#FF6B3C"}
-            /> */}
             <Text
               style={{
                 color: focused ? "#00ff7f" : "#FF6B3C",
@@ -223,6 +218,7 @@ const TabContent = () => (
 
 const HomeStackScreen = ({ navigation }) => (
   <HomeStack.Navigator
+  initialRouteName="Home"
     screenOptions={{
       headerShown: false,
     }}
@@ -257,39 +253,3 @@ const styles = StyleSheet.create({
     elevation: 3.5,
   },
 });
-// const HomeStackScreen = ({navigation}) => (
-// <HomeStack.Navigator screenOptions={{
-//         headerStyle: {
-//         backgroundColor: '#009387',
-//         },
-//         headerTintColor: '#fff',
-//         headerTitleStyle: {
-//         fontWeight: 'bold'
-//         }
-//     }}>
-//         <HomeStack.Screen name="Home" component={HomeScreen} options={{
-//         title:'Overview',
-//         headerLeft: () => (
-//             <Icon.Button name="ios-menu" size={25} backgroundColor="#009387" onPress={() => navigation.openDrawer()}></Icon.Button>
-//         )
-//         }} />
-// </HomeStack.Navigator>
-// );
-
-// const DetailsStackScreen = ({navigation}) => (
-// <DetailsStack.Navigator screenOptions={{
-//         headerStyle: {
-//         backgroundColor: '#1f65ff',
-//         },
-//         headerTintColor: '#fff',
-//         headerTitleStyle: {
-//         fontWeight: 'bold'
-//         }
-//     }}>
-//         <DetailsStack.Screen name="Details" component={DetailsScreen} options={{
-//         headerLeft: () => (
-//             <Icon.Button name="ios-menu" size={25} backgroundColor="#1f65ff" onPress={() => navigation.openDrawer()}></Icon.Button>
-//         )
-//         }} />
-// </DetailsStack.Navigator>
-// );

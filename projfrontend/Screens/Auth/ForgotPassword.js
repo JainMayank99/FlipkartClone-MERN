@@ -4,6 +4,7 @@ import {
   Text,
   View,
   StyleSheet,
+  StatusBar,
   TouchableOpacity,
   ScrollView,
   KeyboardAvoidingView,
@@ -15,10 +16,9 @@ import * as yup from "yup";
 import Screen from "../../components/Screen";
 
 import LottieView from "lottie-react-native";
-import { signUpWithEmail, signUpWithoutEmail } from "./AuthAPICalls/authCalls";
+import { forgetPassword, isAuthenticated } from "./AuthAPICalls/authCalls";
 
 const validationSchema = yup.object().shape({
- 
   newPassword: yup
     .string()
     .required("Please enter your password")
@@ -39,11 +39,18 @@ const validationSchema = yup.object().shape({
 });
 
 const ForgotPassword = ({ route, navigation }) => {
- 
+  const [focusOldPassword, setFocusOldPassword] = useState(false);
   const [focusNewPassword, setFocusNewPassword] = useState(false);
   const [focusConfirmPassword, setFocusConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(0);
+  const { phoneNumber } = route.params;
 
+  const onFocusOldPasswordChange = () => {
+    setFocusOldPassword(true);
+  };
+  const onBlurOldPasswordChange = () => {
+    setFocusOldPassword(false);
+  };
   const onFocusNewPasswordChange = () => {
     setFocusNewPassword(true);
   };
@@ -57,29 +64,38 @@ const ForgotPassword = ({ route, navigation }) => {
   const onBlurConfirmPasswordChange = () => {
     setFocusConfirmPassword(false);
   };
- 
 
-//   const apicall = (values) => {
-//     const { email, userName, newPassword } = values;
-//     if (email.length == 0) {
-//       signUpWithoutEmail(phoneNumber, userName, newPassword)
-//         .then((res) => {
-//           navigation.navigate("Home");
-//         })
-//         .catch((err) => {
-//           alert(err);
-//         });
-//     } else {
-//       signUpWithEmail(phoneNumber, userName, email, newPassword)
-//         .then((res) => {
-//           navigation.navigate("Home");
-//         })
-//         .catch((err) => {
-//           alert(err);
-//         });
-//     }
-//   };
+  const apicall = (values) => {
+    const { newPassword } = values;
+    forgetPassword(phoneNumber, newPassword)
+      .then((res) => {
+        values.newPassword = "";
+        values.confirmPassword = "";
+        setLoading(2);
+        setTimeout(() => {
+          pushToLogin();
+        }, 2000);
+      })
+      .catch((err) => {
+        console.log("Error", err);
+        setLoading(3);
+        setTimeout(() => {
+          setLoading(0);
+        }, 2000);
+      });
+  };
 
+  const pushToLogin = () => {
+    navigation.navigate("Login");
+    setLoading(0);
+  };
+  React.useEffect(() => {
+    navigation.addListener("focus", () => {
+      setLoading(0);
+    });
+  }, [navigation]);
+
+  
   return (
     <View
       style={
@@ -95,147 +111,172 @@ const ForgotPassword = ({ route, navigation }) => {
           source={
             loading === 1
               ? require("../../assets/animations/loader.json")
-              : require("../../assets/animations/error.json")
+              : loading === 2
+              ? require("../../assets/animations/success.json")
+              : loading === 3
+              ? require("../../assets/animations/error.json")
+              : loading === 4
+              ? require("../../assets/animations/like.json")
+              : loading === 5
+              ? require("../../assets/animations/like.json")
+              : require("../../assets/animations/warn.json")
           }
+          speed={loading === 5 ? -1 : 1}
         />
       ) : null}
-          <Screen>
-            <KeyboardAvoidingView
-              behavior={Platform.OS == "ios" ? "padding" : "height"}
-            >
-              <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <ScrollView>
-                  <View style={styles.screen}>
-                    <Text style={styles.heading}>Create Your Password</Text>
-                    <Formik
-                      style={{ flex: 1 }}
-                      initialValues={{
-                        password: "",
-                      }}
-                      onSubmit={(values, actions) => {
-                        setLoading(true);
-                        apicall(values);
-                      }}
-                      validationSchema={validationSchema}
-                    >
-                      {(formikProps) => (
-                        <React.Fragment>
-                          
-                          <View
-                            style={{
-                              marginHorizontal: 8,
-                              marginVertical: 4,
-                            }}
-                          >
-                            <Text style={styles.label}>NEW PASSWORD</Text>
-                            <TextInput
-                              underlineColorAndroid="transparent"
-                              placeholder="Enter new password"
-                              onFocus={onFocusNewPasswordChange}
-                              autoCorrect={false}
-                              secureTextEntry={true}
-                              style={
-                                focusNewPassword === false
-                                  ? styles.textInput
-                                  : styles.textNewPassword
-                              }
-                              onChangeText={formikProps.handleChange(
-                                "newPassword"
-                              )}
-                              onBlur={onBlurNewPasswordChange}
-                            />
-                            <View
-                              style={
-                                formikProps.errors.newPassword
-                                  ? styles.redCircle
-                                  : styles.greenCircle
-                              }
-                            ></View>
-                            <ScrollView
-                              horizontal={true}
-                              showsHorizontalScrollIndicator={false}
-                            >
-                              <Text
-                                style={
-                                  formikProps.errors.newPassword
-                                    ? styles.errMsg
-                                    : null
-                                }
-                              >
-                                {formikProps.errors.newPassword}
-                              </Text>
-                            </ScrollView>
-                          </View>
-
-                          <View
-                            style={{
-                              marginHorizontal: 8,
-                              marginVertical: 4,
-                            }}
-                          >
-                            <Text style={styles.label}>CONFIRM PASSWORD</Text>
-                            <TextInput
-                              underlineColorAndroid="transparent"
-                              placeholder="Confirm new password"
-                              onFocus={onFocusConfirmPasswordChange}
-                              autoCorrect={false}
-                              secureTextEntry={true}
-                              style={
-                                focusConfirmPassword === false
-                                  ? styles.textInput
-                                  : styles.textConfirmPassword
-                              }
-                              onChangeText={formikProps.handleChange(
-                                "confirmPassword"
-                              )}
-                              onBlur={onBlurConfirmPasswordChange}
-                            />
-                            <View
-                              style={
-                                formikProps.errors.confirmPassword
-                                  ? styles.redCircle
-                                  : styles.greenCircle
-                              }
-                            ></View>
-                            <Text
-                              style={
-                                formikProps.errors.confirmPassword
-                                  ? styles.errMsg
-                                  : null
-                              }
-                            >
-                              {formikProps.errors.confirmPassword}
-                            </Text>
-                          </View>
-
-                          <TouchableOpacity
-                            onPress={formikProps.handleSubmit}
-                            style={{
-                              marginHorizontal: 8,
-                              marginVertical: 40,
-                            }}
-                          >
-                            <View
-                              style={
-                              
-                                formikProps.errors.newPassword ||
-                                formikProps.errors.confirmPassword
-                                  ? styles.buttonlight
-                                  : styles.button
-                              }
-                            >
-                              <Text style={styles.submit}>Submit</Text>
-                            </View>
-                          </TouchableOpacity>
-                        </React.Fragment>
-                      )}
-                    </Formik>
-                  </View>
-                </ScrollView>
-              </TouchableWithoutFeedback>
-            </KeyboardAvoidingView>
-          </Screen>
+      <Screen>
+        <View
+          style={{
+            justifyContent: "center",
+            backgroundColor: "white",
+            alignItems: "center",
+            maxheight: 250,
+            paddingTop: 8,
+            paddingBottom: 24,
+          }}
+        >
+          <LottieView
+            style={styles.lottie1}
+            autoPlay
+            loop={true}
+            source={require("../../assets/animations/changePassword.json")}
+          />
         </View>
+        <KeyboardAvoidingView
+          behavior={Platform.OS == "ios" ? "padding" : "height"}
+        >
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <ScrollView>
+              <View style={styles.screen}>
+                <Text style={styles.heading}>Set New Password</Text>
+                <Formik
+                  style={{ flex: 1 }}
+                  initialValues={{
+                    email: "",
+                    password: "",
+                  }}
+                  onSubmit={(values, actions) => {
+                    setLoading(true);
+                    apicall(values);
+                  }}
+                  validationSchema={validationSchema}
+                >
+                  {(formikProps) => (
+                    <React.Fragment>
+                      <View
+                        style={{
+                          marginHorizontal: 8,
+                          marginVertical: 4,
+                        }}
+                      >
+                        <Text style={styles.label}>NEW PASSWORD</Text>
+                        <TextInput
+                          value={formikProps.values.newPassword}
+                          underlineColorAndroid="transparent"
+                          placeholder="Enter new password"
+                          onFocus={onFocusNewPasswordChange}
+                          autoCorrect={false}
+                          secureTextEntry={true}
+                          style={
+                            focusNewPassword === false
+                              ? styles.textInput
+                              : styles.textNewPassword
+                          }
+                          onChangeText={formikProps.handleChange("newPassword")}
+                          onBlur={onBlurNewPasswordChange}
+                        />
+                        <View
+                          style={
+                            formikProps.errors.newPassword
+                              ? styles.redCircle
+                              : styles.greenCircle
+                          }
+                        ></View>
+                        <ScrollView
+                          horizontal={true}
+                          showsHorizontalScrollIndicator={false}
+                        >
+                          <Text
+                            style={
+                              formikProps.errors.newPassword
+                                ? styles.errMsg
+                                : null
+                            }
+                          >
+                            {formikProps.errors.newPassword}
+                          </Text>
+                        </ScrollView>
+                      </View>
+
+                      <View
+                        style={{
+                          marginHorizontal: 8,
+                          marginVertical: 4,
+                        }}
+                      >
+                        <Text style={styles.label}>CONFIRM PASSWORD</Text>
+                        <TextInput
+                          value={formikProps.values.confirmPassword}
+                          underlineColorAndroid="transparent"
+                          placeholder="Confirm new password"
+                          onFocus={onFocusConfirmPasswordChange}
+                          autoCorrect={false}
+                          secureTextEntry={true}
+                          style={
+                            focusConfirmPassword === false
+                              ? styles.textInput
+                              : styles.textConfirmPassword
+                          }
+                          onChangeText={formikProps.handleChange(
+                            "confirmPassword"
+                          )}
+                          onBlur={onBlurConfirmPasswordChange}
+                        />
+                        <View
+                          style={
+                            formikProps.errors.confirmPassword
+                              ? styles.redCircle
+                              : styles.greenCircle
+                          }
+                        ></View>
+                        <Text
+                          style={
+                            formikProps.errors.confirmPassword
+                              ? styles.errMsg
+                              : null
+                          }
+                        >
+                          {formikProps.errors.confirmPassword}
+                        </Text>
+                      </View>
+
+                      <TouchableOpacity
+                        onPress={formikProps.handleSubmit}
+                        style={{
+                          marginHorizontal: 8,
+                          marginVertical: 40,
+                        }}
+                      >
+                        <View
+                          style={
+                            formikProps.errors.newPassword ||
+                            formikProps.errors.confirmPassword
+                              ? styles.buttonlight
+                              : styles.button
+                          }
+                        >
+                          <Text style={styles.submit}>Submit</Text>
+                        </View>
+                      </TouchableOpacity>
+                    </React.Fragment>
+                  )}
+                </Formik>
+              </View>
+            </ScrollView>
+          </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
+      </Screen>
+    </View>
   );
 };
 
@@ -256,6 +297,12 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     zIndex: 10,
+  },
+  lottie1: {
+    position: "relative",
+    backgroundColor: "rgba(255,255,255,0.5)",
+    height: 250,
+    zIndex: 100,
   },
   heading: {
     fontFamily: "zilla-bold",

@@ -14,6 +14,7 @@ import Header from "../../components/Header";
 import WishListItems from "./components/WishListItems";
 import { isAuthenticated } from "../Auth/AuthAPICalls/authCalls";
 import { getAllWishListItemsByUserId } from "./APICall/WishlistAPI";
+import BackButtonHeader from './../../components/BackButtonHeader';
 
 const WishList = ({ navigation, route }) => {
   const [language, setLanguage] = useState("en");
@@ -32,9 +33,6 @@ const WishList = ({ navigation, route }) => {
     }
   };
 
-  const getLanguage = async () => {
-    setLanguage(await AsyncStorage.getItem("lang"));
-  };
   
   React.useEffect(() => {
     navigation.addListener("focus", () => {
@@ -88,14 +86,11 @@ const WishList = ({ navigation, route }) => {
         ) : null}
 
         <View>
-          <Header
-            language={language}
-            changeLanguage={changeLanguage}
-            navigation={navigation}
-          />
+        <BackButtonHeader screenName='Home' navigation={navigation}/>
+
           <View
             style={{
-              marginTop: 105,
+              marginTop: 40,
             }}
           >
             {showWishlist && itemList.length > 0 ? (
@@ -179,7 +174,7 @@ const styles = StyleSheet.create({
     top: "52.5%",
     textAlign: "center",
     zIndex: 7.5,
-    color: "#FF6B3C",
+    color: "#ff5d42",
   },
   lottie1: {
     position: "absolute",

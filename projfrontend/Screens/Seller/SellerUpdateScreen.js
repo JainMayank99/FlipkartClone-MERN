@@ -92,6 +92,7 @@ export default function SellerUpdateScreen({ navigation, route }) {
     setInitialAmount(data.price.toString());
     setInitialDiscount(data.discount.toString());
     setInitialStock(data.stock.toString());
+    setCategory({label:data.category.CategoryName.toString()})
     setImageUris([])
     setFile([])
   }
@@ -214,7 +215,6 @@ export default function SellerUpdateScreen({ navigation, route }) {
   };
 
   return (
-    <>
       <View
         style={
           loading !== 0 ? styles.overlay : { flex: 1, backgroundColor: "white" }
@@ -234,8 +234,9 @@ export default function SellerUpdateScreen({ navigation, route }) {
             }
           />
         ) : null}
-        <BackButtonHeader />
-        <Screen style={styles.screen}>
+        <BackButtonHeader screenName='My Products' navigation={navigation}/>
+        <View style={styles.screen}>
+          <Text style={styles.warn}>Please Re-upload All The Images*</Text>
           <ImageInputList
             imageUris={imageUris}
             onAddImage={handleAdd}
@@ -465,9 +466,8 @@ export default function SellerUpdateScreen({ navigation, route }) {
               </React.Fragment>
             )}
           </Formik>
-        </Screen>
+        </View>
       </View>
-    </>
   );
 }
 const styles = StyleSheet.create({
@@ -493,6 +493,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginTop: 4,
     letterSpacing: 0.75,
+  },
+  warn:{
+    fontFamily: "zilla-med",
+    fontSize: 16,
+    marginHorizontal:8,
+    marginBottom: 8,
+    color:"red"
   },
   textInput: {
     fontFamily: "zilla-reg",
