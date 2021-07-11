@@ -169,6 +169,8 @@ const styles = StyleSheet.create({
     fontFamily: "popins-reg",
     fontSize: 20,
     color: "#FF6B3C",
+    backgroundColor: "white",
+    zIndex:15
   },
   emptyCartAnimationHolder: {
     position: "relative",
