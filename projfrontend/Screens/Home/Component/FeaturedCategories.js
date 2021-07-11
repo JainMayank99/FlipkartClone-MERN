@@ -8,48 +8,61 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Dimensions } from "react-native";
+import { productsByCategoryId } from "./../../ProductListing/APICall/CategoryProductAPI";
 
-const FeaturedCategories = ({ language,navigation,category }) => {
+const FeaturedCategories = ({ language, navigation, category }) => {
   const width = Dimensions.get("screen").width;
+  const [data,setData] = useState([])
   const [gallery, setgallery] = useState([
     {
       image: require("../../../assets/main/cat2.png"),
       key: "60d84e49bef91815c42982df",
-      id: "0"
-
+      id: "0",
     },
     {
       image: require("../../../assets/main/bsj1.jpg"),
       key: "60b1016409ad9b40444d8855",
-      id: "1"
+      id: "1",
     },
     {
       image: require("../../../assets/main/spot1.webp"),
       key: "609fc8f8d36dae0fe8386e6d",
-      id: "2"
+      id: "2",
     },
     {
       image: require("../../../assets/main/deal6.webp"),
       key: "60ae8233514d2921647c7d23",
-      id: "3"
+      id: "3",
     },
     {
       image: require("../../../assets//main/mask.webp"),
       key: "60ab96e8e6b6cf25a841486c",
-      id: "4"
+      id: "4",
     },
     {
-      image: require("../../../assets/main/spot4.webp"),
+      image: require("../../../assets/main/bag1.webp"),
       key: "60aba4ff7f4a1f404489ad56",
-      id: "5"
+      id: "5",
     },
   ]);
 
   const getImage = (id) => {
-    const res=gallery.filter(item=>item.key===id);
+    const res = gallery.filter((item) => item.key === id);
     return res[0].image;
-    }
+  };
 
+  const getData = (key) => {
+    productsByCategoryId(key)
+      .then((res) => {
+        setData(res.data);
+        navigation.navigate("CategorySearch", {
+          data: res.data,
+        });
+      })
+      .catch((err) => {
+        console.log("Category Product Search Screen error", err);
+      });
+  };
 
   const image = {
     uri: require("../../../assets/catIcons/trending.png"),
@@ -73,15 +86,15 @@ const FeaturedCategories = ({ language,navigation,category }) => {
           }}
         />
         <Text style={styles.text}>
-          {language === "en"
-            ? "Featured Categories"
+          {language === "te"
+            ? "ఫీచర్ చేసిన వర్గాలు"
             : language === "hi"
             ? "विशेष रुप से प्रदर्शित श्रेणियाँ"
             : language === "ka"
             ? "ವೈಶಿಷ್ಟ್ಯಗೊಳಿಸಿದ ವರ್ಗಗಳು"
             : language === "ta"
             ? "சிறப்பு வகைகள்"
-            : "ఫీచర్ చేసిన వర్గాలు"}
+            : "Featured Categories"}
         </Text>
       </View>
       <FlatList
@@ -98,8 +111,7 @@ const FeaturedCategories = ({ language,navigation,category }) => {
                 paddingHorizontal: 8,
               }}
             >
-              {console.log(getImage(item._id))}
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => getData(item._id)}>
                 <Image
                   source={getImage(item._id)}
                   style={{
@@ -109,7 +121,7 @@ const FeaturedCategories = ({ language,navigation,category }) => {
                     resizeMode: "cover",
                   }}
                 />
-                
+
                 <View style={styles.discountBox}>
                   <Text style={styles.textDiscount}>{item.CategoryName}</Text>
                 </View>

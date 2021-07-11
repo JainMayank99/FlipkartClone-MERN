@@ -98,15 +98,15 @@ const TopPicks = ({ language, navigation }) => {
                 <View style={styles.discountBox}>
                   <Text style={styles.textDiscount}>
                     {item.discount}%
-                    {language === "en"
-                      ? "off"
+                    {language === "te"
+                      ? "తగ్గింపు"
                       : language === "hi"
                       ? "छूट"
                       : language === "ka"
                       ? "ರಿಯಾಯಿತಿ"
                       : language === "ta"
                       ? "தள்ளுபடி"
-                      : "తగ్గింపు"}
+                      : "off"}
                   </Text>
                 </View>
               </TouchableOpacity>

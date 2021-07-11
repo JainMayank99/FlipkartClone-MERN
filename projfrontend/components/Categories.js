@@ -19,21 +19,21 @@ const Categories = ({ language, navigation }) => {
     "Covid",
     "Essentials",
   ];
-  const titleHin = ["कपड़े", "आभूषण", "बैग", "घर", "कोविड", "अनिवार्य"];
+  const titleHin = ["कपड़े", "आभूषण", "सामान", "घर", "कोविड", "अनिवार्य"];
   const titleKan = [
     "ಉಡುಪು",
     "ಜ್ಯುವೆಲ್ಲರಿ",
-    "ಚೀಲಗಳು",
+    "ಪರಿಕರಗಳು",
     "ಮನೆ",
-    "ಕೋವಿಡ್",
-    "ಎಸೆನ್ಷಿಯಲ್ಸ್य",
+    "Covid",
+    "ಎಸೆನ್ಷಿಯಲ್ಸ್",
   ];
-  const titleTam = ["ஆங்கிலம்", "கன்னடம்", "தமிழ்", "தெலுங்கு"];
-  const titleTel = ["ఇంగ్లీష్", "కన్నడ", "తమిళం", "తెలుగు"];
+  const titleTam = ["ஆங்கிலம்", "கன்னடம்", "பாகங்கள்", "வீடு","Covid","அத்தியாவசியங்கள்"];
+  const titleTel = ["ఇంగ్లీష్", "కన్నడ", "ఉపకరణాలు", "హోమ్","Covid","ఎస్సెన్షియల్స్"];
 
   const checkLanguage = (language, key) => {
-    if (language === "en") {
-      return titleEng[key];
+    if (language === "te") {
+      return titleTel[key];
     } else if (language === "hi") {
       return titleHin[key];
     } else if (language === "ka") {
@@ -41,7 +41,7 @@ const Categories = ({ language, navigation }) => {
     } else if (language === "ta") {
       return titleTam[key];
     } else {
-      return titleTel[key];
+      return titleEng[key];
     }
   };
 

@@ -11,52 +11,6 @@ import { Feather } from "@expo/vector-icons";
 import { Image as ExpoImage } from "react-native-expo-image-cache";
 
 const TopRated = ({ topRatedItems, language }) => {
-  const [gallery, setgallery] = useState([
-    {
-      image: require("../../../assets/main/bsj1.jpg"),
-      rating: "4.7",
-      title: "Avengers: End Game",
-      released: "2019 ‧ Action/Sci-fi ‧ 3h 2m",
-      key: "1",
-      desc: "After Thanos, an intergalactic warlord, disintegrates half of the universe, the Avengers must reunite and assemble again to reinvigorate their trounced allies and restore balance.",
-    },
-    {
-      image: require("../../../assets/main/bsc3.jpg"),
-      title: "Frozen II",
-      released: "2019 ‧ Animation/Musical ‧ 1h 43m",
-      rating: "4.5",
-
-      key: "2",
-      desc: "Elsa the Snow Queen has an extraordinary gift -- the power to create ice and snow. But no matter how happy she is to be surrounded by the people of Arendelle, Elsa finds herself strangely unsettled.",
-    },
-    {
-      image: require("../../../assets/main/deal5.webp"),
-      title: "Alita: Battle Angel",
-      released: "2019 ‧ Action/Sci-fi ‧ 2h 2m",
-      rating: "4.2",
-
-      key: "3",
-      desc: "Alita, a battle cyborg, is revived by Ido, a doctor, who realises that she actually has the soul of a teenager. Alita then sets out to learn about her past and find her true identity.",
-    },
-    {
-      image: require("../../../assets/main/spot1.webp"),
-      title: "The Irish Man",
-      released: "2019 ‧ Crime/Drama ‧ 3h 30m",
-      rating: "4.7",
-
-      key: "4",
-      desc: "In the 1950s, truck driver Frank Sheeran gets involved with Russell Bufalino and his Pennsylvania crime family. As Sheeran climbs the ranks to become a top hit man, he also goes to work for Jimmy Hoffa.",
-    },
-    {
-      image: require("../../../assets/main/deal4.webp"),
-      title: "John Wick Chapter 3",
-      released: "2019 ‧ Action/Thriller ‧ 2h 10m",
-      key: "5",
-      rating: "5",
-
-      desc: "John Wick is declared excommunicado and a hefty bounty is set on him after he murders an international crime lord. He sets out to seek help to save himself from ruthless hitmen and bounty hunters.",
-    },
-  ]);
 
   const image = {
     uri: require("../../../assets/catIcons/star.png"),
