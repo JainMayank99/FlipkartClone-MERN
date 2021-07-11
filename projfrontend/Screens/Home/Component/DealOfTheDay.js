@@ -12,7 +12,7 @@ import {
 import { Image as ExpoImage } from "react-native-expo-image-cache";
 
 import { randomProduct } from "../APICall/HomeCall";
-import { truncate } from './../../../components/Truncate';
+import { truncate } from "./../../../components/Truncate";
 
 const DealOfTheDay = ({ language, navigation }) => {
   const width = Dimensions.get("screen").width;
@@ -138,7 +138,13 @@ const DealOfTheDay = ({ language, navigation }) => {
                 paddingHorizontal: Dimensions.get("screen").width * 0.02041,
               }}
             >
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("ProductDescription", {
+                    item,
+                  });
+                }}
+              >
                 <ExpoImage
                   style={{
                     width: width * 0.26785,
@@ -155,9 +161,11 @@ const DealOfTheDay = ({ language, navigation }) => {
                   }}
                   uri={item.image[0].url}
                 />
-                
+
                 <View style={styles.discountBox}>
-                  <Text style={styles.textDiscount}>{truncate(item.name, 12)}</Text>
+                  <Text style={styles.textDiscount}>
+                    {truncate(item.name, 12)}
+                  </Text>
                 </View>
               </TouchableOpacity>
             </View>

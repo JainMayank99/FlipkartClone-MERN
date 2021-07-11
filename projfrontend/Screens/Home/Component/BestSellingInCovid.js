@@ -49,15 +49,18 @@ const BestSellingInCovid = ({
           }}
         />
         <Text style={styles.text}>
-         {truncate(language === "te"
-            ? "కోవిడ్ సంబంధిత వస్తువులలో ఉత్తమంగా అమ్ముడవుతోంది"
-            : language === "hi"
-            ? "कोविड संबंधित वस्तुओं में सबसे अधिक बिकने वाला"
-            : language === "ka"
-            ? "ಕೋವಿಡ್ ಸಂಬಂಧಿತ ಐಟಂಗಳಲ್ಲಿ ಹೆಚ್ಚು ಮಾರಾಟವಾಗಿದೆ"
-            : language === "ta"
-            ? "கோவிட் தொடர்பான பொருட்களில் சிறந்த விற்பனையாகும்"
-            : "Best Selling In Clothing",40)}
+          {truncate(
+            language === "te"
+              ? "కోవిడ్ సంబంధిత వస్తువులలో ఉత్తమంగా అమ్ముడవుతోంది"
+              : language === "hi"
+              ? "कोविड संबंधित वस्तुओं में सबसे अधिक बिकने वाला"
+              : language === "ka"
+              ? "ಕೋವಿಡ್ ಸಂಬಂಧಿತ ಐಟಂಗಳಲ್ಲಿ ಹೆಚ್ಚು ಮಾರಾಟವಾಗಿದೆ"
+              : language === "ta"
+              ? "கோவிட் தொடர்பான பொருட்களில் சிறந்த விற்பனையாகும்"
+              : "Best Selling In Clothing",
+            40
+          )}
         </Text>
       </View>
 
@@ -158,7 +161,13 @@ const BestSellingInCovid = ({
                 paddingHorizontal: Dimensions.get("screen").width * 0.02041,
               }}
             >
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("ProductDescription", {
+                    item,
+                  });
+                }}
+              >
                 <View style={{ flex: 1, flexDirection: "row" }}>
                   <View>
                     <ExpoImage

@@ -11,7 +11,6 @@ import { Feather } from "@expo/vector-icons";
 import { Image as ExpoImage } from "react-native-expo-image-cache";
 
 const TopRated = ({ topRatedItems, language }) => {
-
   const image = {
     uri: require("../../../assets/catIcons/star.png"),
   };
@@ -59,7 +58,13 @@ const TopRated = ({ topRatedItems, language }) => {
                 paddingHorizontal: 8,
               }}
             >
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("ProductDescription", {
+                    item,
+                  });
+                }}
+              >
                 <ExpoImage
                   style={{
                     width: 87.5,

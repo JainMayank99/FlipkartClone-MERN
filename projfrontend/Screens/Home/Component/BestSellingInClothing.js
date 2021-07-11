@@ -158,7 +158,13 @@ const BestSellingInClothing = ({
                 paddingHorizontal: Dimensions.get("screen").width * 0.02041,
               }}
             >
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("ProductDescription", {
+                    item,
+                  });
+                }}
+              >
                 <View style={{ flex: 1, flexDirection: "row" }}>
                   <View>
                     <ExpoImage
