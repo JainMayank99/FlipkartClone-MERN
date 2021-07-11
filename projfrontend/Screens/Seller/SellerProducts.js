@@ -27,7 +27,6 @@ const SellerProducts = ({ navigation, route }) => {
           setLoading(true);
           getSellerProducts(res.user._id, res.token)
             .then((res) => {
-              // console.log(res.data);
               onChangeSellerList(res.data);
               setShowSellerList(true);
               setLoading(false)
@@ -76,7 +75,8 @@ const SellerProducts = ({ navigation, route }) => {
             marginTop: 16,
           }}
         >
-          {showSellerList ? (
+          {showSellerList.length===0 ?navigation.navigate('SellerScreen'):
+          showSellerList ? (
             <SellerItems
               itemList={itemList}
               navigation={navigation}

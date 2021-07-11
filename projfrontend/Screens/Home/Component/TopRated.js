@@ -10,7 +10,7 @@ import {
 import { Feather } from "@expo/vector-icons";
 import { Image as ExpoImage } from "react-native-expo-image-cache";
 
-const TopRated = ({ topRatedItems, language }) => {
+const TopRated = ({ topRatedItems, language,navigation }) => {
   const image = {
     uri: require("../../../assets/catIcons/star.png"),
   };

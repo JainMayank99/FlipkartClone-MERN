@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     padding: Dimensions.get("screen").width * 0.02041,
     paddingHorizontal: Dimensions.get("screen").width * 0.04082,
     position: "absolute",
-    top: Dimensions.get("screen").height * 0.815,
+    top: Dimensions.get("screen").height * 0.825,
     backgroundColor: "white",
     zIndex: 10,
     width: Dimensions.get("screen").width,
