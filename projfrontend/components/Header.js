@@ -115,15 +115,15 @@ const Header = ({ language, changeLanguage, navigation,showChangeLanguage}) => {
       >
         <View style={styles.bottomTab}>
           <Text style={styles.title}>
-            {language === "en"
-              ? "Select Your Language"
+            {language === "te"
+              ? "మీ భాషను ఎంచుకోండి"
               : language === "hi"
               ? "अपनी भाषा का चयन करें"
               : language === "ka"
               ? "ನಿಮ್ಮ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ"
               : language === "ta"
               ? "உங்கள் மொழியைத் தேர்ந்தெடுக்கவும்"
-              : "మీ భాషను ఎంచుకోండి"}
+              : "Select Your Language"}
           </Text>
         </View>
 

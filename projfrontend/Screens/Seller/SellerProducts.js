@@ -6,6 +6,8 @@ import Header from "../../components/Header";
 import SellerItems from "./SellerItems";
 import { getSellerProducts } from "./SellerAPI/sellerAPI";
 import { isAuthenticated } from "../Auth/AuthAPICalls/authCalls";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import BackButtonHeader from "./../../components/BackButtonHeader";
 
 const SellerProducts = ({ navigation, route }) => {
@@ -14,34 +16,41 @@ const SellerProducts = ({ navigation, route }) => {
   const [itemList, setItemList] = useState([]);
   const [showSellerList, setShowSellerList] = useState(false);
 
+  const getLanguage = async () => {
+    setLanguage(await AsyncStorage.getItem("lang"));
+  };
+
   const onChangeSellerList = (newData) => {
     if (newData != itemList) {
       setItemList(newData);
     }
   };
 
-  useEffect(() => {
-    isAuthenticated()
-      .then((res) => {
-        if (res.user) {
-          setLoading(true);
-          getSellerProducts(res.user._id, res.token)
-            .then((res) => {
-              onChangeSellerList(res.data);
-              setShowSellerList(true);
-              setLoading(false)
-            })
-            .catch((err) => {
-              console.log("SellerList fetching error: " + err);
-            });
-        } else {
-          setShowSellerList(false);
-        }
-      })
-      .catch((err) => {
-        console.log("SellerList screen error: " + err);
-      });
-  }, []);
+  React.useEffect(() => {
+    navigation.addListener("focus", () => {
+      getLanguage();
+      isAuthenticated()
+        .then((res) => {
+          if (res.user) {
+            setLoading(true);
+            getSellerProducts(res.user._id, res.token)
+              .then((res) => {
+                onChangeSellerList(res.data);
+                setShowSellerList(true);
+                setLoading(false);
+              })
+              .catch((err) => {
+                console.log("SellerList fetching error: " + err);
+              });
+          } else {
+            setShowSellerList(false);
+          }
+        })
+        .catch((err) => {
+          console.log("SellerList screen error: " + err);
+        });
+    });
+  }, [navigation]);
 
   const mainWork = (lang) => {
     setLanguage(lang);
@@ -66,21 +75,18 @@ const SellerProducts = ({ navigation, route }) => {
           />
         ) : null}
 
-        <BackButtonHeader
-          screenName='Home'
-          navigation={navigation}
-        />
+        <BackButtonHeader screenName="Home" navigation={navigation} />
         <View
           style={{
             marginTop: 16,
           }}
         >
-          {showSellerList.length===0 ?navigation.navigate('SellerScreen'):
-          showSellerList ? (
+          {showSellerList ? (
             <SellerItems
               itemList={itemList}
               navigation={navigation}
               onChangeSellerList={onChangeSellerList}
+              language={language}
             />
           ) : (
             <View style={styles.login}>

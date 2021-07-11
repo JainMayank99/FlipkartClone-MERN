@@ -218,7 +218,7 @@ export default function SellerScreen({ navigation }) {
             }
           />
         ) : null}
-        <BackButtonHeader screenName='My Products' navigation={navigation}/>
+        <BackButtonHeader screenName='Home' navigation={navigation}/>
         <View style={styles.screen}>
           <ImageInputList
             imageUris={imageUris}

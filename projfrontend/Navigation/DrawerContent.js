@@ -112,7 +112,7 @@ export function DrawerContent(props) {
               )}
               label={() => <Text style={styles.text}>MY CART</Text>}
               onPress={() => {
-                props.navigation.navigate("Cart");
+                props.navigation.navigate("Cart",{screenName:'Home'});
               }}
               style={styles.text}
             />
