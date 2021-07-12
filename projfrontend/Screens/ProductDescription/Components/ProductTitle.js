@@ -12,6 +12,7 @@ const ProductTitle = ({ name, price, discount }) => {
 				borderColor: "#edeeef",
 			}}
 		>
+			{console.log(name,price,discount)}
 			<Text style={styles.title}>{truncate(name, 30)}</Text>
 			<View style={styles.body}>
 				<Text style={styles.cost}>₹{price- (price * discount) / 100}</Text>

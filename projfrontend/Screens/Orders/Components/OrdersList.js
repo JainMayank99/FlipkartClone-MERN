@@ -35,7 +35,6 @@ const OrderList = ({ itemList, navigation, user, token, language }) => {
             : "My Orders"}
         </Text>
       </View>
-
       <FlatList
         data={itemList}
         showsHorizontalScrollIndicator={false}

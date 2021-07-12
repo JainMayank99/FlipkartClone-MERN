@@ -54,6 +54,7 @@ import {
   REACT_FIREBASE_APPID,
   REACT_FIREBASE_MEASUREMENTID,
 } from "@env";
+import OrderProductDescription from "./Screens/ProductDescription/Components/OrderProductDescription";
 
 const firebaseConfig = {
   apiKey: REACT_FIREBASE_APIKEY,
@@ -130,6 +131,10 @@ export default function App() {
           <AuthStack.Screen
             name="ProductDescription"
             component={ProductDescScreen}
+          />
+          <AuthStack.Screen
+            name="OrderProductDescription"
+            component={OrderProductDescription}
           />
           <AuthStack.Screen name="Login" component={LoginScreen} />
           <AuthStack.Screen name="Verification" component={PhoneVerificationScreen} />

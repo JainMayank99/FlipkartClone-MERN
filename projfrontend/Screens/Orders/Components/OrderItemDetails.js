@@ -35,7 +35,13 @@ const OrderItemDetails = ({ item, navigation, user, token, language }) => {
               marginLeft: Dimensions.get("screen").width * 0.02041,
             }}
           >
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("OrderProductDescription", {
+                  item:item.product,
+                });
+              }}
+            >
               <ExpoImage
                 style={{
                   width: width * 0.26785,
@@ -73,7 +79,7 @@ const OrderItemDetails = ({ item, navigation, user, token, language }) => {
                     itemId: item.product._id,
                     user: user,
                     token: token,
-                    language:language
+                    language: language,
                   });
                 }}
               >

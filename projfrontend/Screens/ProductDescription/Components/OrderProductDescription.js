@@ -11,20 +11,23 @@ import { useFocusEffect } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LottieView from "lottie-react-native";
 
-import ProductInfo from "./Components/ProductInfo";
-import ProductCarousel from "./Components/ProductCarousel";
-import ProductReturnPolicy from "./Components/ProductReturnPolicy";
-import ProductReviews from "./Components/ProductReviews";
-import ProductTitle from "./Components/ProductTitle";
-import RelatedProducts from "./Components/RelatedProducts";
-import {
-  addProductToCart,
-  getAllCartItemsByUserId,
-} from "../Cart/APICall/cartAPI";
-import { isAuthenticated } from "../Auth/AuthAPICalls/authCalls";
-import { isProductInCart } from "./APICalls/ProductReviewAPI";
+import ProductCarousel from "./ProductCarousel";
+import ProductReturnPolicy from "./ProductReturnPolicy";
+import ProductReviews from "./ProductReviews";
+import ProductTitle from "./ProductTitle";
+import RelatedProducts from "./RelatedProducts";
+// import {
+//   addProductToCart,
+//   getAllCartItemsByUserId,
+// } from "../Cart/APICall/cartAPI";
 
-const ProductDescScreen = ({ route, navigation }) => {
+import ProductInfo from "./ProductInfo";
+import { isAuthenticated } from "../../Auth/AuthAPICalls/authCalls";
+import { isProductInCart } from "../APICalls/ProductReviewAPI";
+import { addProductToCart,getAllCartItemsByUserId, } from "../../Cart/APICall/cartAPI";
+
+
+const OrderProductDescription = ({ route, navigation }) => {
   const { item } = route.params;
   const [language, setLanguage] = useState("en");
   const [loading, setLoading] = useState(0);
@@ -102,7 +105,6 @@ const ProductDescScreen = ({ route, navigation }) => {
 
   return (
     <>
-    {console.log(item)}
       <View style={loading !== 0 ? styles.overlay : null}>
         {loading !== 0 ? (
           <LottieView
@@ -111,16 +113,16 @@ const ProductDescScreen = ({ route, navigation }) => {
             loop={false}
             source={
               loading === 1
-                ? require("../../assets/animations/loader.json")
+                ? require("../../../assets/animations/loader.json")
                 : loading === 2
-                ? require("../../assets/animations/success.json")
+                ? require("../../../assets/animations/success.json")
                 : loading === 3
-                ? require("../../assets/animations/error.json")
+                ? require("../../../assets/animations/error.json")
                 : loading === 4
-                ? require("../../assets/animations/like.json")
+                ? require("../../../assets/animations/like.json")
                 : loading === 5
-                ? require("../../assets/animations/like.json")
-                : require("../../assets/animations/warn.json")
+                ? require("../../../assets/animations/like.json")
+                : require("../../../assets/animations/warn.json")
             }
             speed={loading === 5 ? -1 : 1}
           />
@@ -205,4 +207,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProductDescScreen;
+export default OrderProductDescription;

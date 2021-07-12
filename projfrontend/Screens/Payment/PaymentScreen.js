@@ -16,9 +16,7 @@ const PaymentScreen = ({ route, navigation}) => {
   const [user, setUser] = useState("");
   const [token, setToken] = useState("");
   const [phone, setPhone] = useState("");
-
   const [response, setResponse] = useState();
-
   const [makePayment, setMakePayment] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState("");
   const [loading, setLoading] = useState(0);
@@ -27,6 +25,7 @@ const PaymentScreen = ({ route, navigation}) => {
     navigation.addListener("focus", () => {
       setLoading(0);
       setResponse(undefined);
+      setPaymentStatus("")
       isAuthenticated()
       .then((res) => {
         if (res.user) {
@@ -39,9 +38,7 @@ const PaymentScreen = ({ route, navigation}) => {
         console.log("isAuthenticated error is Payment", err);
       });
 
-    itemList.map((item) =>
-      products.push({ quantity: item.Quantity, _id: item.product._id })
-    );
+   
     });
   }, [navigation]);
 
@@ -62,7 +59,9 @@ const PaymentScreen = ({ route, navigation}) => {
     try {
       //API CALL
       // "http://192.168.29.45:8000/api/payment",
-      console.log(BACKEND_URL)
+      itemList.map((item) =>
+      products.push({ quantity: item.Quantity, _id: item.product._id })
+    );
       const stripeResponse = await axios({
         method: "post",
         url: `${BACKEND_URL}/paymentByCard/${user}`,
@@ -87,6 +86,8 @@ const PaymentScreen = ({ route, navigation}) => {
           setPaymentStatus("Payment Success");
           setLoading(2);
           setTimeout(() => {
+            setLoading(0);
+            setPaymentStatus("")
             navigation.navigate("Home")
           }, 2000);
           // console.log("Payment Success");
@@ -110,8 +111,6 @@ const PaymentScreen = ({ route, navigation}) => {
     if (!makePayment) {
       return (
         <View>
-          {/* <Header /> */}
-
           <View
             style={{
               display: "flex",
