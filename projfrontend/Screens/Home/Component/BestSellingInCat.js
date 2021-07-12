@@ -107,8 +107,8 @@ const BestSellingInCat = ({
                     </View>
                   </View>
                   <View style={styles.detailsBox}>
-                    <Text style={styles.textDetails}>
-                      {truncate(item.name, 17)}
+                    <Text style={styles.textDetails} numberOfLines={1}>
+                      {item.name}
                     </Text>
                     <Text style={styles.tribeDetails}>{item.tribe}</Text>
                     <View
@@ -189,8 +189,8 @@ const BestSellingInCat = ({
                     </View>
                   </View>
                   <View style={styles.detailsBox}>
-                    <Text style={styles.textDetails}>
-                      {truncate(item.name, 17)}
+                    <Text style={styles.textDetails} numberOfLines={1}>
+                    {item.name}
                     </Text>
                     <Text style={styles.tribeDetails}>{item.tribe}</Text>
                     <View

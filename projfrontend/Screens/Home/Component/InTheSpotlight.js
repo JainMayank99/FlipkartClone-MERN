@@ -60,7 +60,7 @@ const InTheSpotlight = ({ navigation, language }) => {
             style={styles.carouselImage}
           />
           <View style={styles.discountBox}>
-            <Text style={styles.textDiscount}>{truncate(item.name, 20)}</Text>
+            <Text style={styles.textDiscount} numberOfLines={1}>{item.name}</Text>
           </View>
         </TouchableOpacity>
       </View>

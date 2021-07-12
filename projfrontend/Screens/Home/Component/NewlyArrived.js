@@ -88,8 +88,8 @@ const NewlyArrived = ({ navigation, newItems1, newItems2,language }) => {
                   uri={item.image[0].url}
                 />
                 <View style={styles.discountBox}>
-                  <Text style={styles.textDiscount}>
-                    {truncate(item.name, 12)}
+                  <Text style={styles.textDiscount} numberOfLines={1}>
+                    {item.name}
                   </Text>
                 </View>
               </TouchableOpacity>

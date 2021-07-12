@@ -143,7 +143,7 @@ const Categories = ({ language, navigation }) => {
                   }}
                 />
               </View>
-              <Text style={styles.text}>
+              <Text style={styles.text} numberOfLines={1}>
                 {checkLanguage(language, item.id)}
               </Text>
             </View>

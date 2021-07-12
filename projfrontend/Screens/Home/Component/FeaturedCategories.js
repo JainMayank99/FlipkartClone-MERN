@@ -123,7 +123,7 @@ const FeaturedCategories = ({ language, navigation, category }) => {
                 />
 
                 <View style={styles.discountBox}>
-                  <Text style={styles.textDiscount}>{item.CategoryName}</Text>
+                  <Text style={styles.textDiscount} numberOfLines={1}>{item.CategoryName}</Text>
                 </View>
               </TouchableOpacity>
             </View>
