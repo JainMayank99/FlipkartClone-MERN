@@ -62,10 +62,11 @@ exports.paymentByCard = async (req, res) => {
 		//for synchronous execution for is used
 
 		//TODO: add product stock update
+		// console.log("products", products);
 		for (let i = 0; i < products.length; i++) {
 			let product = products[i];
 			let order = new OrderSchema();
-
+			order.user = req.profile._id;
 			order.quantity = product.quantity;
 			order.product = product._id;
 			order.transactionId = uuidv4();
@@ -77,6 +78,7 @@ exports.paymentByCard = async (req, res) => {
 						error: "Error in saving order in DB!",
 					});
 				}
+				// console.log("order", order);
 				// res.status(200).json(order);
 			});
 		}
