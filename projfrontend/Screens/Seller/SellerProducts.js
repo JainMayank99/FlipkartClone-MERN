@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, Dimensions } from "react-native";
 import LottieView from "lottie-react-native";
 
 import Header from "../../components/Header";
@@ -64,7 +64,8 @@ const SellerProducts = ({ navigation, route }) => {
   };
 
   return (
-    <View style={{ backgroundColor: "white" }}>
+
+    <View style={{height:Dimensions.get("screen").height,backgroundColor: "white" }}>
       <View style={loading === true ? styles.overlay : null}>
         {loading === true ? (
           <LottieView
@@ -98,6 +99,7 @@ const SellerProducts = ({ navigation, route }) => {
         </View>
       </View>
     </View>
+
   );
 };
 

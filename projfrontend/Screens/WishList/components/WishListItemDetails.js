@@ -141,7 +141,7 @@ const WishListItemDetails = ({
           </View>
           <View style={styles.detailsBox}>
             <Text style={styles.textDetails}>{truncate(item.product.name, 20)}</Text>
-            <Text style={styles.tribeDetails}>{item.product.description}</Text>
+            <Text style={styles.tribeDetails}>{item.product.tribe}</Text>
             <View
               style={{
                 flex: 1,

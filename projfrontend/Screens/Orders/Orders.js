@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet,Text, TouchableOpacity} from "react-native";
+import { View, StyleSheet,Text, TouchableOpacity, Dimensions} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import LottieView from "lottie-react-native";
@@ -60,7 +60,8 @@ const Orders = ({ navigation }) => {
   }, [navigation]);
 
   return (
-    <View style={loading === true ? styles.overlay : null}>
+    <View style={{height:Dimensions.get("screen").height,backgroundColor: "white" }}>
+    <View style={loading === true ? styles.overlay : {backgroundColor:'white'}}>
       {loading === true ? (
         <LottieView
           style={styles.lottie}
@@ -108,6 +109,7 @@ const Orders = ({ navigation }) => {
          
         </View>
       </View>
+    </View>
     </View>
   );
 };

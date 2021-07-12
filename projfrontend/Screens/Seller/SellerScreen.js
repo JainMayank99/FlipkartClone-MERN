@@ -16,7 +16,6 @@ const validationSchema = yup.object().shape({
   amount: yup.string().required("Please enter Product Amount"),
   quantity: yup.string().required("Please enter No. of stocks"),
   discount: yup.string().required("Please enter the Discount"),
-  tribe: yup.string().required("Please enter the Tribe Name"),
   description: yup.string().required("Please enter Product Description"),
 });
 
@@ -34,37 +33,33 @@ const categories = [
   {
     name: "dress",
     label: "Clothing",
-    value: "1",
+    value: "60d84e49bef91815c42982df",
   },
-  {
-    name: "book",
-    label: "Stationery",
-    value: "1",
-  },
+  
   {
     name: "jewellery",
     label: "Jewellery",
-    value: "1",
+    value: "60b1016409ad9b40444d8855",
   },
   {
     name: "bag",
-    label: "Bags",
-    value: "1",
+    label: "Accessories",
+    value: "609fc8f8d36dae0fe8386e6d",
   },
   {
     name: "home",
     label: "Home",
-    value: "1",
+    value: "60ae8233514d2921647c7d23",
   },
   {
     name: "doctor",
     label: "Covid",
-    value: "1",
+    value: "60ab96e8e6b6cf25a841486c",
   },
   {
     name: "food",
     label: "Essentials",
-    value: "1",
+    value: "60aba4ff7f4a1f404489ad56",
   },
 ];
 
@@ -86,6 +81,7 @@ export default function SellerScreen({ navigation }) {
   React.useEffect(() => {
     navigation.addListener("focus", () => {
       setLoading(0);
+      setCategory(null)
       isAuthenticated()
         .then((res) => {
           if (res.user) {
@@ -108,17 +104,21 @@ export default function SellerScreen({ navigation }) {
       alert("Upload atleast 1 image to proceed!");
     } else if (category === null) {
       alert("Select Category of Product to proceed!");
-    } else {
+    } 
+    else if (tribe === null) {
+      alert("Select Tribe of Product to proceed!");
+    }
+    else {
       data.append("name", values.productName);
       data.append("stock", values.quantity);
       data.append("description", values.description);
       data.append("price", values.amount);
       data.append("discount", values.discount);
-      data.append("tribe", values.tribe);
-      data.append("category", values.category);
+      data.append("tribe", tribe);
+      data.append("category",category.value);
 
       setLoading(1);
-      uploadProduct(user, token, "6056e7146e98663c74f5b84a", data)
+      uploadProduct(user, token, category.value, data)
         .then((res) => {
           setLoading(2);
           (values.productName = ""),
@@ -126,7 +126,6 @@ export default function SellerScreen({ navigation }) {
             (values.quantity = ""),
             (values.description = ""),
             (values.discount = ""),
-            (values.tribe = ""),
             setImageUris([]);
           setCategory(null);
           setTimeout(() => {
@@ -245,7 +244,6 @@ export default function SellerScreen({ navigation }) {
               quantity: "",
               description: "",
               dicount: "",
-              tribe: "",
             }}
             validationSchema={validationSchema}
             onSubmit={(values, actions) => {

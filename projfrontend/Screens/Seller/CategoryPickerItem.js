@@ -18,12 +18,17 @@ function CategoryPickerItem({ icon, item, onPress }) {
         >
           <Image
             source={
-              item.name === "dress"? require("../../assets/catIcons/dress.png")
-              :item.name === "food"? require("../../assets/catIcons/food.png")
-              :item.name === "bag"? require("../../assets/catIcons/bag.png")
-              : item.name === "jewellery"? require("../../assets/catIcons/jewellery.png")
-              : item.name === "home"? require("../../assets/catIcons/home.png")
-              :  require("../../assets/catIcons/doctor.png")
+              item.name === "dress"
+                ? require("../../assets/catIcons/dress.png")
+                : item.name === "food"
+                ? require("../../assets/catIcons/food.png")
+                : item.name === "bag"
+                ? require("../../assets/catIcons/bag.png")
+                : item.name === "jewellery"
+                ? require("../../assets/catIcons/jewellery.png")
+                : item.name === "home"
+                ? require("../../assets/catIcons/home.png")
+                : require("../../assets/catIcons/doctor.png")
             }
             style={{
               height: 24,

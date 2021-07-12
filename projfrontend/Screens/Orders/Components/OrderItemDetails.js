@@ -27,7 +27,6 @@ const OrderItemDetails = ({ item, navigation, user, token, language }) => {
         borderRadius: 2,
       }}
     >
-      {console.log(language)}
       <TouchableWithoutFeedback>
         <View style={{ flex: 1, flexDirection: "row" }}>
           <View
@@ -38,7 +37,7 @@ const OrderItemDetails = ({ item, navigation, user, token, language }) => {
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate("OrderProductDescription", {
-                  item:item.product,
+                  item: item.product,
                 });
               }}
             >
@@ -60,11 +59,12 @@ const OrderItemDetails = ({ item, navigation, user, token, language }) => {
             </TouchableOpacity>
           </View>
           <View style={styles.detailsBox}>
-            <Text style={styles.delivered}>
-              {truncate(item.product.name, 20)}
+            <Text style={styles.delivered} numberOfLines={1}>
+              {item.product.name}
             </Text>
-            <Text style={styles.title}>Tribes Karnataka</Text>
-
+            <Text style={styles.title} numberOfLines={1}>
+              Quantity : {item.quantity}
+            </Text>
             <View
               style={{
                 flex: 1,
