@@ -62,8 +62,8 @@ export function DrawerContent(props) {
                   justifyContent: "center",
                 }}
               >
-                <Text style={styles.title}>{name}</Text>
-                <Text style={styles.caption}>{phone}</Text>
+                <Text style={styles.title} numberOfLines={1}>{name}</Text>
+                <Text style={styles.caption} numberOfLines={1}>{phone}</Text>
               </View>
             </View>
           </View>

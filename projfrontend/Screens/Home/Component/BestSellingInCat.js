@@ -120,7 +120,7 @@ const BestSellingInCat = ({
                     >
                       <Text style={styles.rating}>
                         <Feather name="star" size={22} style={styles.icon} />
-                        <Text>4.5</Text>
+                        <Text>{item.avgRating}</Text>
                         <Text>/5</Text>
                       </Text>
                       <Text style={styles.price}>
@@ -202,7 +202,7 @@ const BestSellingInCat = ({
                     >
                       <Text style={styles.rating}>
                         <Feather name="star" size={22} style={styles.icon} />
-                        <Text>4.5</Text>
+                        <Text>{item.avgRating}</Text>
                         <Text>/5</Text>
                       </Text>
                       <Text style={styles.price}>
