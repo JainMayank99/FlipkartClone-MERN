@@ -34,37 +34,33 @@ const categories = [
   {
     name: "dress",
     label: "Clothing",
-    value: "1",
+    value: "60d84e49bef91815c42982df",
   },
-  {
-    name: "book",
-    label: "Stationery",
-    value: "1",
-  },
+  
   {
     name: "jewellery",
     label: "Jewellery",
-    value: "1",
+    value: "60b1016409ad9b40444d8855",
   },
   {
     name: "bag",
-    label: "Bags",
-    value: "1",
+    label: "Accessories",
+    value: "609fc8f8d36dae0fe8386e6d",
   },
   {
     name: "home",
     label: "Home",
-    value: "1",
+    value: "60ae8233514d2921647c7d23",
   },
   {
     name: "doctor",
     label: "Covid",
-    value: "1",
+    value: "60ab96e8e6b6cf25a841486c",
   },
   {
     name: "food",
     label: "Essentials",
-    value: "1",
+    value: "60aba4ff7f4a1f404489ad56",
   },
 ];
 
@@ -92,8 +88,8 @@ export default function SellerUpdateScreen({ navigation, route }) {
     setInitialAmount(data.price.toString());
     setInitialDiscount(data.discount.toString());
     setInitialStock(data.stock.toString());
-    setCategory({ label: data.category.CategoryName.toString() });
-    setCategory({id: data.category._id})
+    setCategory({id: data.category._id.toString(),label: data.category.CategoryName.toString()})
+    // setCategory({ ...id,label: data.category.CategoryName.toString() });
     setTribe(data.tribe.toString());
     setImageUris([]);
     setFile([]);
@@ -133,6 +129,7 @@ export default function SellerUpdateScreen({ navigation, route }) {
     } else if (tribe === null) {
       alert("Select Tribe of Product to proceed!");
     } else {
+      console.log("Category",category)
       data.append("name", values.productName);
       data.append("stock", values.quantity);
       data.append("description", values.description);
@@ -140,7 +137,7 @@ export default function SellerUpdateScreen({ navigation, route }) {
       data.append("discount", values.discount);
       data.append("tribe", tribe);
       data.append("category", category.id);
-      console.log(data);
+      // console.log(data);
       setLoading(1);
       updateSellerProduct(user, token, item._id, data)
         .then((res) => {

@@ -92,7 +92,7 @@ function StartRatingComponent({ route, navigation }) {
     <View
       style={{
         backgroundColor: "white",
-        minHeight: Dimensions.get("screen").height,
+        height: Dimensions.get("screen").height,
       }}
     >
       <View

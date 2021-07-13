@@ -60,7 +60,7 @@ const Orders = ({ navigation }) => {
   }, [navigation]);
 
   return (
-    <View style={{height:Dimensions.get("screen").height,backgroundColor: "white" }}>
+    <View style={{height:Dimensions.get("screen").height,backgroundColor: "white",paddingBottom:64}}>
     <View style={loading === true ? styles.overlay : {backgroundColor:'white'}}>
       {loading === true ? (
         <LottieView
